@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+
+from warpseq.cli.driver import DriverCli
+DriverCli().run()
+
+
+

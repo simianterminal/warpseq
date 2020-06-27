@@ -1,0 +1,5 @@
+#!/usr/bin/python3
+
+from warpseq.cli.console import ConsoleCli
+ConsoleCli().run()
+

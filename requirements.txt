@@ -1,0 +1,3 @@
+classforge>=0.92
+rtmidi-python
+pytest
