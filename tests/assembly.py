@@ -14,7 +14,17 @@ def test_assembly():
     # this tests the construction of the datastructures that the UI uses.
     # humans won't be using this directly.
 
-    song = Song(name='A Song')
+    song = Song(
+        name='A Song',
+        devices = dict(),
+        instruments = dict(),
+        scales = dict(),
+        tracks = [],
+        scenes = [],
+        arps = dict(),
+        clips = dict(),
+        patterns = dict()
+    )
 
     d1 = Device(name='IAC Bus')
     d2 = Device(name='MIDI Interface')
@@ -48,24 +58,24 @@ def test_assembly():
     song.measure_length = 16
     song.repeat = 4
 
-    t1  = Track(name='euro1', instrument=euro1)
-    t2  = Track(name='euro2', instrument=euro2)
-    t3  = Track(name='euro3', instrument=euro3)
-    t4  = Track(name='euro4', instrument=euro4)
-    t5  = Track(name='euro5', instrument=euro5)
-    t6  = Track(name='euro6', instrument=euro6)
-    t7  = Track(name='euro7', instrument=euro7)
-    t8  = Track(name='euro8', instrument=euro8)
-    t9  = Track(name='moog',  instrument=moog)
-    t10 = Track(name='kick',  instrument=kick)
+    t1  = Track(name='euro1', instrument=euro1, clip_ids=[])
+    t2  = Track(name='euro2', instrument=euro2, clip_ids=[])
+    t3  = Track(name='euro3', instrument=euro3, clip_ids=[])
+    t4  = Track(name='euro4', instrument=euro4, clip_ids=[])
+    t5  = Track(name='euro5', instrument=euro5, clip_ids=[])
+    t6  = Track(name='euro6', instrument=euro6, clip_ids=[])
+    t7  = Track(name='euro7', instrument=euro7, clip_ids=[])
+    t8  = Track(name='euro8', instrument=euro8, clip_ids=[])
+    t9  = Track(name='moog',  instrument=moog, clip_ids=[])
+    t10 = Track(name='kick',  instrument=kick, clip_ids=[])
     song.add_tracks([t1,t2,t3,t4,t5,t6,t7,t8,t9,t10])
     song.remove_track(t8)
 
-    s1 = Scene(name='s1', repeat=2)
-    s2 = Scene(name='s2', scale=bar_scale)
-    s3 = Scene(name='s3')
-    s4 = Scene(name='s4')
-    s5 = Scene(name='s5')
+    s1 = Scene(name='s1', repeat=2, clip_ids=[])
+    s2 = Scene(name='s2', scale=bar_scale, clip_ids=[])
+    s3 = Scene(name='s3', clip_ids=[])
+    s4 = Scene(name='s4', clip_ids=[])
+    s5 = Scene(name='s5', clip_ids=[])
     song.add_scenes([ s1, s2, s3, s4, s5 ])
     song.remove_scene(s5)
 
@@ -83,29 +93,33 @@ def test_assembly():
     song.add_patterns([p1,p2,p3,p4,p5])
     song.remove_pattern(p5)
 
-    c1 = Clip(name='?', pattern=p1)
-    c2 = Clip(name='?', pattern=p1, arp=a1, repeat=None)
-    c3 = Clip(name='?', pattern=p2, scale=baz_scale)
-    c4 = Clip(name='?', pattern=p3)
-    c5 = Clip(name='?', pattern=p3, length=4, repeat=4)
-    c6 = Clip(name='?', pattern=p2, length=8, repeat=1)
+    c1 = Clip(name='c1', pattern=p1, scene_ids=[], track_ids=[])
+    c2 = Clip(name='c2', pattern=p1, arp=a1, repeat=None, scene_ids=[], track_ids=[])
+    c3 = Clip(name='c3', pattern=p2, scale=baz_scale, scene_ids=[], track_ids=[])
+    c4 = Clip(name='c4', pattern=p3, scene_ids=[], track_ids=[])
+    c5 = Clip(name='c5', pattern=p3, length=4, repeat=4, scene_ids=[], track_ids=[])
+    c6 = Clip(name='c6', pattern=p2, length=8, repeat=1, scene_ids=[], track_ids=[])
 
-    song.add_clips([c1,c2,c3,c4,c5])
+    song.add_clips([c1,c2,c3,c4,c5,c6])
     # FIXME: this should auto-name, possibly
     song.remove_clip(c6)
 
-    song.assign_clip(scene=s1, track=t1, clip=c2)
+    song.assign_clip(scene=s1, track=t1, clip=c1)
+    song.assign_clip(scene=s1, track=t2, clip=c2)
     song.assign_clip(scene=s2, track=t2, clip=c3)
     song.assign_clip(scene=s3, track=t3, clip=c4)
     song.assign_clip(scene=s4, track=t1, clip=c5)
-    song.assign_clip(scene=s1, track=t2, clip=c5)
-    song.unassign_clip(scene=s2, track=t2)
+    song.unassign_clip(scene=s2, track=t2, clip=c3)
 
 
     data = song.to_json()
-    print(data)
-
     s2 = Song.from_json(data)
     data2 = s2.to_json()
 
+    print(data2)
+
     assert data == data2
+
+if __name__=="__main__":
+    test_assembly()
+

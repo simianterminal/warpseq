@@ -1,7 +1,7 @@
 from . base import BaseObject
 from classforge import Class, Field
 
-class Scale(Class):
+class Scale(BaseObject):
 
     name = Field(type=str, required=True, nullable=False)
 
@@ -12,6 +12,7 @@ class Scale(Class):
 
     def to_dict(self):
         return dict(
+            obj_id = self.obj_id,
             name = self.name,
             root = self.root,
             octave = self.octave,
@@ -21,6 +22,7 @@ class Scale(Class):
     @classmethod
     def from_dict(cls, song, data):
         return Scale(
+            obj_id = data['obj_id'],
             name = data['name'],
             root = data['root'],
             octave = data['octave'],

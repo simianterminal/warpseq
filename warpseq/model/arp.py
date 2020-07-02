@@ -8,6 +8,7 @@ class Arp(BaseObject):
 
     def to_dict(self):
         return dict(
+            obj_id = self.obj_id,
             name = self.name,
             slots = self.slots
         )
@@ -15,6 +16,7 @@ class Arp(BaseObject):
     @classmethod
     def from_dict(cls, song, data):
         return Arp(
+            obj_id = data['obj_id'],
             name = data['name'],
             slots = data['slots']
         )

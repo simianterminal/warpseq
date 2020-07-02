@@ -14,6 +14,7 @@ class Instrument(BaseObject):
 
     def to_dict(self):
         result = dict(
+            obj_id = self.obj_id,
             name = self.name,
             channel = self.channel,
             min_octave = self.min_octave,
@@ -21,7 +22,7 @@ class Instrument(BaseObject):
             max_octave = self.max_octave
         )
         if self.device:
-            result['device'] = self.device.name
+            result['device'] = self.device.obj_id
         else:
             result['device'] = None
         return result
@@ -29,6 +30,7 @@ class Instrument(BaseObject):
     @classmethod
     def from_dict(cls, song, data):
         return Instrument(
+            obj_id = data['obj_id'],
             name = data['name'],
             channel = data['channel'],
             device = song.find_device(data['device']),

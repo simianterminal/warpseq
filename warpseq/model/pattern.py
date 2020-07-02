@@ -23,6 +23,7 @@ class Pattern(BaseObject):
 
     def to_dict(self):
         result = dict(
+            obj_id = self.obj_id,
             name = self.name,
             slots = self.slots,
             length = self.length,
@@ -33,7 +34,7 @@ class Pattern(BaseObject):
         else:
             result['arp'] = None
         if self.scale:
-            result['scale'] = scale.name
+            result['scale'] = scale.obj_id
         else:
             result['scale'] = None
         return result
@@ -41,6 +42,7 @@ class Pattern(BaseObject):
     @classmethod
     def from_dict(cls, song, data):
         return Pattern(
+            obj_id = data['obj_id'],
             name = data['name'],
             slots = data['slots'],
             length = data['length'],
