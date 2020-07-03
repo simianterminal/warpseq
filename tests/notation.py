@@ -3,6 +3,7 @@ from warpseq.model.note import note
 from warpseq.model.chord import chord
 from warpseq.notation.roman import Roman, roman
 from warpseq.notation.literal import Literal
+from warpseq.model.scale import Scale, scale
 
 class TestRoman(object):
 
@@ -32,6 +33,17 @@ class TestRoman(object):
         assert r.do("I'")  == chord(["E4","G4","C5"])
         assert r.do("I''") == chord(["G4","C5","E5"])
         assert r.do("I':power") == chord(["G4","C5"])
+
+    def test_error_handling(self):
+
+        r = Roman(scale=scale("C4 major"))
+        ok = False
+        try:
+            r.do("llama")
+        except Exception:
+            # FIXME: this should be a typed exception or it should return None
+            ok = True
+        assert ok
 
 class TestLiteral(object):
 

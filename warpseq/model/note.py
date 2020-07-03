@@ -34,11 +34,12 @@ SCALE_DEGREES_TO_STEPS = {
 class Note(BaseObject):
 
     name = Field(type=str)
-    octave = Field(type=int, default=4, choices=[0,1,2,3,4,5,6,7,8])
+    octave = Field(type=int, default=4, choices=[0,1,2,3,4,5,6,7,8,9,10,None],)
+    tie = Field(type=bool, default=False)
 
     def on_init(self):
+        self.name =  self._equivalence(self.name)
         super().on_init()
-        self.name =  self._equivalence(name)
 
     def copy(self):
         return Note(name=self.name, octave=self.octave)
@@ -94,6 +95,9 @@ class Note(BaseObject):
                 note = note.down_half_step()
                 steps = steps + 0.5
         return note
+
+    def expand_notes(self):
+        return [ self ]
 
     def _numeric_name(self):
         """
@@ -156,6 +160,8 @@ def note(st):
      if type(st) == Note:
          return st
      match = NOTE_SHORTCUT_REGEX.match(st)
+
+     print("trying to match: %s, %s" % (st, type(st)))
      if not match:
          raise Exception("cannot form note from: %s" % st)
      name = match.group(1)

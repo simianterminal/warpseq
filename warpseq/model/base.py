@@ -3,6 +3,16 @@ from classforge import Class, Field
 COUNTER = 0
 
 class BaseObject(Class):
+    pass
+
+    def one(self, alist):
+        length = len(alist)
+        if length == 0:
+            return None
+        assert length == 1
+        return alist[0]
+
+class ReferenceObject(BaseObject):
 
     obj_id = Field(type=str, nullable=False, default='0', required=False)
 
@@ -16,9 +26,3 @@ class BaseObject(Class):
             self.obj_id = self.new_object_id()
 
 
-    def one(self, alist):
-        length = len(alist)
-        if length == 0:
-            return None
-        assert length == 1
-        return alist[0]

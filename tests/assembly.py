@@ -7,6 +7,8 @@ from warpseq.model.song import Song
 from warpseq.model.scale import Scale
 from warpseq.model.track import Track
 from warpseq.model.scene import Scene
+from warpseq.model.note import Note
+
 import json
 
 def test_assembly():
@@ -46,9 +48,9 @@ def test_assembly():
 
     song.add_instruments([ euro1, euro2, euro3, euro4, euro5, euro6, euro7, euro8, moog, kick])
 
-    foo_scale = Scale(name='foo', root='C', octave=0, slots = [ 1, 2, 3, 4, 5, 6, 7, ])
-    bar_scale = Scale(name='bar', root='C', octave=0, slots = [ 1, 2, 3, 4, 5, 6, 7, ])
-    baz_scale = Scale(name='baz', root='C', octave=0, slots = [ 1, 2, 3, 4, 5, 6, 7, ])
+    foo_scale = Scale(name='foo', root=Note(name='C', octave=0), scale_type='major')
+    bar_scale = Scale(name='bar', root=Note(name='C', octave=0), scale_type='minor')
+    baz_scale = Scale(name='baz', root=Note(name='C', octave=0), scale_type='pentatonic')
 
     song.add_scales([ foo_scale, bar_scale, baz_scale ])
 
@@ -85,7 +87,7 @@ def test_assembly():
     song.add_arps([a1, a2])
     song.remove_arp(a2)
 
-    p1 = Pattern(name='p1', slots=[1,4,5,6,2,3,8,1,4])
+    p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
     p2 = Pattern(name='p2', slots=["I","IV","V","-"," ",1])
     p3 = Pattern(name='p3', slots=[1,' ',' ',' '])
     p4 = Pattern(name='p4', slots=["GRAB(1)","RAND_OFF(0.5)","+1", "IV" ])
@@ -93,12 +95,14 @@ def test_assembly():
     song.add_patterns([p1,p2,p3,p4,p5])
     song.remove_pattern(p5)
 
-    c1 = Clip(name='c1', pattern=p1)
-    c2 = Clip(name='c2', pattern=p1, arp=a1, repeat=None)
+    c1 = Clip(name='c1', pattern=p1, scale=bar_scale)
+    c2 = Clip(name='c2', pattern=p1, arp=a1, repeat=None, scale=bar_scale)
     c3 = Clip(name='c3', pattern=p2, scale=baz_scale)
     c4 = Clip(name='c4', pattern=p3)
     c5 = Clip(name='c5', pattern=p3, length=4, repeat=4)
     c6 = Clip(name='c6', pattern=p2, length=8, repeat=1)
+
+    #print("C3 scale=%s" % c3.scale)
 
     song.add_clip(scene=s1, track=t1, clip=c1)
     song.add_clip(scene=s1, track=t2, clip=c2)
@@ -108,19 +112,27 @@ def test_assembly():
     song.add_clip(scene=s2, track=t2, clip=c3)
     song.remove_clip(scene=s2, track=t2)
 
+    clip_access = song.get_clip_for_scene_and_track(scene=s1, track=t2)
+    #print("ACCESS = %s" % clip_access.scene)
+
     data = song.to_json()
     s2 = Song.from_json(data)
     data2 = s2.to_json()
 
-    notes = c3.get_notes()
-    for n in notes:
-        print(n.to_dict())
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("NOTES!!!")
+    chords = c2.get_chords(song)
+    for c in chords:
+        print(">>> %s " % c.expand_notes())
+    print("~~~~~~")
 
-    events = c3.get_events()
+
+    events = c2.get_events(song)
     for e in events:
         print(e.to_dict())
 
-    print(data2)
+    # print(data2)
+
 
 
 if __name__=="__main__":

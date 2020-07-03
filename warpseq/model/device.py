@@ -1,7 +1,7 @@
-from .base import BaseObject
+from .base import ReferenceObject
 from classforge import Class, Field
 
-class Device(BaseObject):
+class Device(ReferenceObject):
 
     name = Field(type=str, required=True)
 

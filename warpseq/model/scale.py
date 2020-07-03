@@ -1,5 +1,6 @@
-from . base import BaseObject
+from . base import ReferenceObject
 from classforge import Class, Field
+from . note import Note, note
 
 SCALE_TYPES = dict(
    major              = [ 1, 2, 3, 4, 5, 6, 7 ],
@@ -25,11 +26,11 @@ SCALE_ALIASES = dict(
    minor = 'natural_minor'
 )
 
-class Scale(BaseObject):
+class Scale(ReferenceObject):
 
     from . note import Note
 
-    name = Field(type=str, required=True, nullable=False)
+    name = Field(type=str, required=False, nullable=False)
     root = Field(type=Note, required=True, nullable=False)
     scale_type = Field(type=str, required=True, nullable=False, default=None)
 
@@ -94,3 +95,10 @@ class Scale(BaseObject):
 
     #def __repr__(self):
     #    return "Scale<%s>" % self.short_name()
+
+def scale(input):
+    """
+    Shortcut: scale(['C major') -> Scale object
+    """
+    (root, scale_type) = input.split()
+    return Scale(root=note(root), scale_type=scale_type)

@@ -11,8 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from warpseq._OLD_theory.chord import Chord
-from warpseq._OLD_theory.scale import scale
+from .. model.chord import Chord, chord
+from .. model.scale import Scale, scale
 
 CHORD_SYMBOLS = dict(
    I   = [ 1, 'major' ],
@@ -93,7 +93,7 @@ class Roman(object):
 
         # now return the built chord, of the right type, inverting if required
         base_note = self.note(scale_num)
-        chord = Chord(root=base_note, typ=typ)
+        chord = Chord(root=base_note, chord_type=typ)
         if inversion != 0:
             chord = chord.invert(amount=inversion)
         return chord

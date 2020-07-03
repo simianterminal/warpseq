@@ -11,8 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from warpseq._OLD_theory.note import note
-from warpseq._OLD_theory.chord import chord, Chord
+from .. model.note import note
+from .. model.chord import chord, Chord
 
 CHORD_SYMBOLS = dict(
     I=[1, 'major'],
@@ -55,6 +55,8 @@ class Literal(object):
         # would look like two symbols, so we need to have no whitespace
         # between them
 
+        if ' ' in sym:
+            sym = sym.replace(' ','-')
         if sym is None or sym == '-':
             # REST:
             return chord([])

@@ -1,7 +1,7 @@
-from . base import BaseObject
+from . base import ReferenceObject
 from classforge import Class, Field
 
-class Arp(BaseObject):
+class Arp(ReferenceObject):
 
     name = Field(type=str, required=True, nullable=False)
     slots = Field(type=list, default=[])
@@ -20,3 +20,7 @@ class Arp(BaseObject):
             name = data['name'],
             slots = data['slots']
         )
+
+    def process(self, notes):
+        # FIXME
+        return notes

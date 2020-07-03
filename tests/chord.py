@@ -24,8 +24,8 @@ class TestChord(object):
 
    def test_chord_types_and_shortcuts(self):
 
-       assert Chord(root=note('C4'), typ='major') == chord(['C4', 'E4', 'G4'])
-       assert Chord(root=note('C4'), typ='minor') == chord(['C4', 'Eb4', 'G4'])
+       assert Chord(root=note('C4'), chord_type='major') == chord(['C4', 'E4', 'G4'])
+       assert Chord(root=note('C4'), chord_type='minor') == chord(['C4', 'Eb4', 'G4'])
 
        assert chord('C4 major') == chord(['C4', 'E4', 'G4'])
        assert chord('C major') == chord(['C4', 'E4', 'G4'])

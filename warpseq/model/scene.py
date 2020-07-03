@@ -1,7 +1,7 @@
-from . base import BaseObject
+from . base import ReferenceObject
 from classforge import Class, Field
 
-class Scene(BaseObject):
+class Scene(ReferenceObject):
 
     from . scale import Scale
 

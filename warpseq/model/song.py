@@ -1,11 +1,11 @@
-from . base import BaseObject
+from . base import ReferenceObject
 from classforge import Class, Field
 from .scale import Scale
 import json
 
 FORMAT_VERSION = 0.1
 
-class Song(BaseObject):
+class Song(ReferenceObject):
 
     name = Field(type=str, required=True, nullable=False)
     scale = Field(type=Scale, required=False, nullable=True)
@@ -155,7 +155,14 @@ class Song(BaseObject):
         # calling code must *COPY* the clip before assigning, because a clip must be added
         # to the clip list and *ALSO* knows its scene and track.
 
+        assert scene is not None
+        assert track is not None
+        assert clip is not None
+
         previous = self.get_clip_for_scene_and_track(scene=scene, track=track)
+        if previous and clip.obj_id == previous.obj_id:
+            return
+
         if previous:
             self.remove_clip(scene=scene, track=track)
 
@@ -163,6 +170,8 @@ class Song(BaseObject):
 
         clip.track = track
         clip.scene = scene
+
+        assert clip.scene is not None
 
         track.add_clip(clip)
         scene.add_clip(clip)

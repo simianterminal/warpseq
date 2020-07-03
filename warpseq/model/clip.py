@@ -1,16 +1,19 @@
-from .base import BaseObject
+from .base import ReferenceObject
 from .pattern import Pattern
 from classforge import Class, Field
 from .arp import Arp
 from .scale import Scale
+from ..notation.smart import SmartExpression
 
-class Clip(BaseObject):
+class Clip(ReferenceObject):
 
     from . track import Track
     from . scene import Scene
 
     name = Field(type=str, required=True, nullable=False)
+
     scale = Field(type=Scale, required=False, nullable=True, default=None)
+
     pattern = Field(type=Pattern, required=False, default=None, nullable=True)
     length = Field(type=int, default=None, required=False, nullable=True)
     arp = Field(type=Arp, default=None, nullable=True)
@@ -90,15 +93,18 @@ class Clip(BaseObject):
     def actual_scale(self, song):
         assert song is not None
 
-        assert self.scene is not None
+        assert self.scene is not None, "clip scene must be defined"
 
         if self.scale:
             return self.scale
+        if self.pattern and self.pattern.scale:
+            return self.pattern.scale
         if self.scene.scale:
             return self.scene.scale
         if song.scale:
             return song.scale
-        return Exception("?")
+
+        return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
 
     def actual_arp(self, song):
 
@@ -106,6 +112,8 @@ class Clip(BaseObject):
 
         if self.arp is not None:
             return self.arp
+        if self.pattern and self.pattern.arp:
+            return arp
         if self.track.arp is not None:
             return self.arp
         raise Exception("?")
@@ -122,35 +130,33 @@ class Clip(BaseObject):
         raise Exception("?")
 
 
-    def get_notes(self, song):
+    def get_chords(self, song):
 
         scale = self.actual_scale(song)
         arp = self.actual_arp(song)
 
+        assert scale is not None
+        if self.pattern is None:
+            return []
 
-        # FIXME: move our scale logic from '_OLD_theory' into the new scale class!
-        # FIXME: port the 'note' class...
-        # FIXME: apply it here...
+        slots = self.pattern.slots
 
+        if not self.pattern:
+            return []
 
+        notation = SmartExpression(scale=scale, song=song)
 
-    #    assert song is not None
-    #    assert scale is not None
-    #    # ask the clip, then pattern, then scene, then the song...
-    #    raise NotImplementedError()
+        # expression evaluator will need to grow smarter for intra-track and humanizer fun
+        chords = [ notation.do(expression) for expression in slots ]
 
-    #def get_effective_tempo(self, scene=None, song=None):
-    #    assert song is not None
-    #    assert scale is not None
-    #    # ask the clip, then pattern, then the scene, then the song...
-    #    raise NotImplementedError()
+        if arp:
+            notes = arp.process(chords)
+
+        return chords
+
 
     def get_events(self, song):
 
-        notes = self.get_notes(song)
-
-        # FIXME ... convert to events...
-
-
-
+        chords = self.get_chords(song)
+        return chords
 

@@ -1,8 +1,8 @@
-from .base import BaseObject
+from .base import ReferenceObject
 from classforge import Class, Field
 from .device import Device
 
-class Instrument(BaseObject):
+class Instrument(ReferenceObject):
 
     name = Field(type=str, required=True, nullable=False)
     channel = Field(type=int, required=True)

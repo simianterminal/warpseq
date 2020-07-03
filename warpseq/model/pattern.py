@@ -1,4 +1,4 @@
-from .base import BaseObject
+from .base import ReferenceObject
 from classforge import Class, Field
 from .scale import Scale
 from .arp import Arp
@@ -11,7 +11,7 @@ DIRECTIONS = [
     REVERSE
 ]
 
-class Pattern(BaseObject):
+class Pattern(ReferenceObject):
 
     name = Field(required=True, nullable=False)
     slots = Field(type=list)

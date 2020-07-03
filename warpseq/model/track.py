@@ -1,8 +1,8 @@
-from . base import BaseObject
+from . base import ReferenceObject
 from classforge import Class, Field
 from . instrument import Instrument
 
-class Track(BaseObject):
+class Track(ReferenceObject):
 
     name = Field(type=str, required=True, nullable=False)
 

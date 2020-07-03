@@ -3,8 +3,7 @@ from .pattern import Pattern
 from classforge import Class, Field
 from .arp import Arp
 from .scale import Scale
-
-
+from .note import Note, note
 
 # Copyright 2016-2020, Michael DeHaan <michael@michaeldehaan.net
 
@@ -76,7 +75,7 @@ class Chord(BaseObject):
             self.root = note(root)
 
         if self.notes is not None:
-            for x in notes:
+            for x in self.notes:
                 assert type(x) == Note
         else:
             self.notes = self._chordify()
@@ -97,6 +96,8 @@ class Chord(BaseObject):
             notes.append(self.root.transpose(semitones=offset))
         return notes
 
+    def expand_notes(self):
+        return [ n for n in self.notes ]
 
     def __eq__(self, other):
         """
@@ -132,8 +133,8 @@ def chord(input):
     """
     if type(input) == list:
         notes = [ note(n) for n in input ]
-        return Chord(notes)
+        return Chord(notes=notes)
     else:
         tokens = input.split()
         assert len(tokens) == 2, "invalid chord expression: %s" % input
-        return Chord(root=note(tokens[0]), typ=tokens[1])
+        return Chord(root=note(tokens[0]), chord_type=tokens[1])
