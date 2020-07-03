@@ -25,7 +25,7 @@ SCALE_ALIASES = dict(
    minor = 'natural_minor'
 )
 
-from warpseq.theory.note import note
+from warpseq._OLD_theory.note import note
 
 class Scale(object):
 

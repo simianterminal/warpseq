@@ -1,7 +1,6 @@
 
-from warpseq.theory.note import note
-from warpseq.theory.chord import chord
-from warpseq.theory.scale import scale
+from warpseq.model.note import note
+from warpseq.model.chord import chord
 from warpseq.notation.roman import Roman, roman
 from warpseq.notation.literal import Literal
 

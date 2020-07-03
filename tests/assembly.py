@@ -88,37 +88,40 @@ def test_assembly():
     p1 = Pattern(name='p1', slots=[1,4,5,6,2,3,8,1,4])
     p2 = Pattern(name='p2', slots=["I","IV","V","-"," ",1])
     p3 = Pattern(name='p3', slots=[1,' ',' ',' '])
-    p4 = Pattern(name='p4', slots=["GRAB(1) RAND_OFF(0.5) +1", "IV" ])
+    p4 = Pattern(name='p4', slots=["GRAB(1)","RAND_OFF(0.5)","+1", "IV" ])
     p5 = Pattern(name='p5', slots=[])
     song.add_patterns([p1,p2,p3,p4,p5])
     song.remove_pattern(p5)
 
-    c1 = Clip(name='c1', pattern=p1, scene_ids=[], track_ids=[])
-    c2 = Clip(name='c2', pattern=p1, arp=a1, repeat=None, scene_ids=[], track_ids=[])
-    c3 = Clip(name='c3', pattern=p2, scale=baz_scale, scene_ids=[], track_ids=[])
-    c4 = Clip(name='c4', pattern=p3, scene_ids=[], track_ids=[])
-    c5 = Clip(name='c5', pattern=p3, length=4, repeat=4, scene_ids=[], track_ids=[])
-    c6 = Clip(name='c6', pattern=p2, length=8, repeat=1, scene_ids=[], track_ids=[])
+    c1 = Clip(name='c1', pattern=p1)
+    c2 = Clip(name='c2', pattern=p1, arp=a1, repeat=None)
+    c3 = Clip(name='c3', pattern=p2, scale=baz_scale)
+    c4 = Clip(name='c4', pattern=p3)
+    c5 = Clip(name='c5', pattern=p3, length=4, repeat=4)
+    c6 = Clip(name='c6', pattern=p2, length=8, repeat=1)
 
-    song.add_clips([c1,c2,c3,c4,c5,c6])
-    # FIXME: this should auto-name, possibly
-    song.remove_clip(c6)
-
-    song.assign_clip(scene=s1, track=t1, clip=c1)
-    song.assign_clip(scene=s1, track=t2, clip=c2)
-    song.assign_clip(scene=s2, track=t2, clip=c3)
-    song.assign_clip(scene=s3, track=t3, clip=c4)
-    song.assign_clip(scene=s4, track=t1, clip=c5)
-    song.unassign_clip(scene=s2, track=t2, clip=c3)
-
+    song.add_clip(scene=s1, track=t1, clip=c1)
+    song.add_clip(scene=s1, track=t2, clip=c2)
+    song.add_clip(scene=s2, track=t2, clip=c3)
+    song.add_clip(scene=s3, track=t3, clip=c4)
+    song.add_clip(scene=s4, track=t1, clip=c5)
+    song.add_clip(scene=s2, track=t2, clip=c3)
+    song.remove_clip(scene=s2, track=t2)
 
     data = song.to_json()
     s2 = Song.from_json(data)
     data2 = s2.to_json()
 
+    notes = c3.get_notes()
+    for n in notes:
+        print(n.to_dict())
+
+    events = c3.get_events()
+    for e in events:
+        print(e.to_dict())
+
     print(data2)
 
-    assert data == data2
 
 if __name__=="__main__":
     test_assembly()

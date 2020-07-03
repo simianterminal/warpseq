@@ -11,8 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from warpseq.theory.chord import Chord
-from warpseq.theory.scale import scale
+from warpseq._OLD_theory.chord import Chord
+from warpseq._OLD_theory.scale import scale
 
 CHORD_SYMBOLS = dict(
    I   = [ 1, 'major' ],

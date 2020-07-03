@@ -1,3 +1,11 @@
+from .base import BaseObject
+from .pattern import Pattern
+from classforge import Class, Field
+from .arp import Arp
+from .scale import Scale
+
+
+
 # Copyright 2016-2020, Michael DeHaan <michael@michaeldehaan.net
 
 # there's no intervals.py yet for fancy names, so this is represented in terms of semitones
@@ -32,43 +40,45 @@ CHORD_TYPES = dict(
    mM7 = [ 3, 7, 11 ]
 )
 
-from warpseq.theory.note import note, Note
+from . note import note, Note
 
-class Chord(object):
+class Chord(BaseObject):
 
-    def __init__(self, notes=None, root=None, typ=None):
 
-        """
-        Constructs a chord, in different ways:
-        notes = [ note('C4'), note('E4'), note('G4') ]
-        chord = Chord(notes=notes)
-        OR:
-        chord = Chord(root=note('C4'), type='major')
-        OR:
-        chord = Chord(root='C4', type='major')
-        """
+    notes = Field(type=list, required=False, nullable=True)
+    root = Field(type=Note, required=False, nullable=True)
+    chord_type = Field(type=str, required=False, choices=CHORD_TYPES, default=None, nullable=True)
 
-        self.notes = []
 
-        if notes and root:
-            raise Exception("notes= and root= are mutually exclusive")
-        if notes is None and root is None:
-            raise Exception("specify either notes= or root=")
-        if root and typ is None:
-            raise Exception("typ= is required when using root=")
-        if typ and typ not in CHORD_TYPES:
-            raise Exception("unknown chord type: %s, expecting one of: %s" % (typ, CHORD_TYPES))
-        if isinstance(root, str):
-            root = note(root)
+    """
+    Constructs a chord, in different ways:
+    notes = [ note('C4'), note('E4'), note('G4') ]
+    chord = Chord(notes=notes)
+    OR:
+    chord = Chord(root=note('C4'), chord_type='major')
+    OR:
+    chord = Chord(root='C4', chord_type='major')
+    """
 
-        if notes is not None:
+
+    def on_init(self):
+
+
+        if self.notes and self.root:
+            raise Exception("notes and root are mutually exclusive")
+        if self.notes is None and self.root is None:
+            raise Exception("specify either notes or root")
+
+        if self.root and self.chord_type is None:
+            raise Exception("chord_type is required when using root=")
+
+        if isinstance(self.root, str):
+            self.root = note(root)
+
+        if self.notes is not None:
             for x in notes:
                 assert type(x) == Note
-            self.notes = notes
-
         else:
-            self.typ = typ
-            self.root = root
             self.notes = self._chordify()
 
     def copy(self):
@@ -80,20 +90,13 @@ class Chord(object):
         Internal method.
         Once self.root is set to a note, and self.typ is a chord type, like 'major', return the notes in the chord.
         """
-        offsets = CHORD_TYPES[self.typ]
+        offsets = CHORD_TYPES[self.chord_type]
         notes = []
         notes.append(self.root)
         for offset in offsets:
             notes.append(self.root.transpose(semitones=offset))
         return notes
 
-    def __repr__(self):
-        """
-        A chord prints like:
-        Chord<C4,E4,G4>
-        """
-        note_list = ",".join([ n.short_name() for n in sorted(self.notes) ])
-        return "Chord<%s>" % note_list
 
     def __eq__(self, other):
         """
@@ -103,8 +106,8 @@ class Chord(object):
 
     def transpose(self, steps=None, semitones=None, octaves=None):
         """
-	    Transposing a chord is returns a new chord with all of the notes transposed.
-	    """
+        Transposing a chord is returns a new chord with all of the notes transposed.
+        """
         notes = [ note.transpose(steps=steps, octaves=octaves, semitones=None) for note in self.notes ]
         return Chord(notes=notes)
 

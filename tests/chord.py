@@ -1,7 +1,7 @@
 
 
-from warpseq.theory.note import note
-from warpseq.theory.chord import Chord, chord
+from warpseq.model.note import Note, note
+from warpseq.model.chord import Chord, chord
 
 class TestChord(object):
 

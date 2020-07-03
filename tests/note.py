@@ -11,7 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from warpseq.theory.note import Note, NOTES, note
+from warpseq.model.note import Note, NOTES, note
 
 class TestNote(object):
 

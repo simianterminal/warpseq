@@ -150,24 +150,45 @@ class Song(BaseObject):
         index = "%s/%s" % (scene.obj_id, track.obj_id)
         return index
 
-    def assign_clip(self, scene=None, track=None, clip=None):
+    def add_clip(self, scene=None, track=None, clip=None):
+
+        # calling code must *COPY* the clip before assigning, because a clip must be added
+        # to the clip list and *ALSO* knows its scene and track.
+
         previous = self.get_clip_for_scene_and_track(scene=scene, track=track)
         if previous:
-            self.unassign_clip(scene=scene, track=track, clip=clip)
-        clip.add_track(track)
-        clip.add_scene(scene)
+            self.remove_clip(scene=scene, track=track)
+
+        self.clips[str(clip.obj_id)] = clip
+
+        clip.track = track
+        clip.scene = scene
+
         track.add_clip(clip)
         scene.add_clip(clip)
+
         return clip
 
-    def unassign_clip(self, scene=None, track=None, clip=None):
+    def remove_clip(self, scene=None, track=None):
+
+        # removing a clip returns a clip object that can be used with *assign* to add the
+        # clip back.
+
         assert scene is not None
         assert track is not None
-        assert clip is not None
+
+        clip = self.get_clip_for_scene_and_track(scene=scene, track=track)
+        if clip is None:
+            return None
+
         track.remove_clip(clip)
         scene.remove_clip(clip)
-        clip.remove_track(track)
-        clip.remove_scene(scene)
+
+        clip.track = None
+        clip.scene = None
+
+        del self.clips[clip.obj_id]
+
         return clip
 
     def get_clip_for_scene_and_track(self, scene=None, track=None):
@@ -179,22 +200,6 @@ class Song(BaseObject):
             if track.has_clip(clip):
                 results.append(clip)
         return self.one(results)
-
-    def add_clips(self, clips):
-        for x in clips:
-            self.clips[str(x.obj_id)] = x
-
-    # FIXME: methods like has_clip/ has_track, not this low level
-
-    def remove_clip(self, clip):
-        scenes = clip.scenes(self)
-        tracks = clip.tracks(self)
-        for s in scenes:
-            scenes.remove_clip(c)
-        for t in tracks:
-            t.remove_clip(t)
-
-
 
     def add_devices(self, devices):
         for x in devices:
