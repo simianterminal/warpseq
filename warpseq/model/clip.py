@@ -4,6 +4,7 @@ from classforge import Class, Field
 from .arp import Arp
 from .scale import Scale
 from ..notation.smart import SmartExpression
+from ..notation.ties import evaluate_ties
 
 class Clip(ReferenceObject):
 
@@ -15,7 +16,12 @@ class Clip(ReferenceObject):
     scale = Field(type=Scale, required=False, nullable=True, default=None)
 
     pattern = Field(type=Pattern, required=False, default=None, nullable=True)
+
+    # number of notes before repeat/loop
     length = Field(type=int, default=None, required=False, nullable=True)
+
+    slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
+
     arp = Field(type=Arp, default=None, nullable=True)
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
@@ -36,6 +42,7 @@ class Clip(ReferenceObject):
             length = self.length,
             tempo = self.tempo,
             repeat = self.repeat,
+            slot_length = self.slot_length,
         )
         if self.pattern:
             result['pattern'] = self.pattern.obj_id
@@ -73,6 +80,8 @@ class Clip(ReferenceObject):
             repeat = self.repeat,
             track_ids = [],
             scene_ids = [],
+            slot_length = self.slot_length,
+
         )
 
     @classmethod
@@ -87,7 +96,8 @@ class Clip(ReferenceObject):
             tempo = data['tempo'],
             repeat = data['repeat'],
             track = song.find_track(data['track']),
-            scene = song.find_scene(data['scene'])
+            scene = song.find_scene(data['scene']),
+            slot_length = data['slot_length']
         )
 
     def actual_scale(self, song):
@@ -124,13 +134,24 @@ class Clip(ReferenceObject):
             return self.tempo
         if self.scene.tempo is not None:
             return self.scene.tempo
-        if self.song.tempo is not None:
-            return self.song.tempo
+        if song.tempo is not None:
+            return song.tempo
 
         raise Exception("?")
 
+    def get_slot_duration(self, song):
+        # how long is a slot in each clip?
 
-    def get_chords(self, song):
+        tempo = self.actual_tempo(song)
+        quarter_notes_per_second = tempo / 60
+        sixteenth_note_speed = quarter_notes_per_second * (1/4)
+        slot_length = self.slot_length
+        slot_duration = (slot_length / 16) * sixteenth_note_speed
+        return slot_duration
+
+    def get_notes(self, song):
+
+        slot_duration = self.get_slot_duration(song)
 
         scale = self.actual_scale(song)
         arp = self.actual_arp(song)
@@ -144,19 +165,27 @@ class Clip(ReferenceObject):
         if not self.pattern:
             return []
 
-        notation = SmartExpression(scale=scale, song=song)
+        notation = SmartExpression(scale=scale, song=song, clip=self)
 
         # expression evaluator will need to grow smarter for intra-track and humanizer fun
-        chords = [ notation.do(expression) for expression in slots ]
+        # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
+        notes = [ notation.do(self, expression) for expression in slots ]
+
+
+
+        notes = evaluate_ties(notes)
+
+        t_start = 0.0
+        for slot in notes:
+            for note in slot:
+                note.start_time = t_start
+                note.end_time = t_start + note.length
+            t_start = t_start + slot_duration
 
         if arp:
-            notes = arp.process(chords)
+            notes = arp.process(song, notes)
 
-        return chords
+        return notes
 
 
-    def get_events(self, song):
-
-        chords = self.get_chords(song)
-        return chords
 

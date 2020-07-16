@@ -121,15 +121,11 @@ def test_assembly():
 
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("NOTES!!!")
-    chords = c2.get_chords(song)
-    for c in chords:
-        print(">>> %s " % c.expand_notes())
+    notes = c2.get_notes(song)
+    for n in notes:
+        print(">>> %s " % n)
     print("~~~~~~")
 
-
-    events = c2.get_events(song)
-    for e in events:
-        print(e.to_dict())
 
     # print(data2)
 

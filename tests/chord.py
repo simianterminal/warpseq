@@ -13,10 +13,8 @@ class TestChord(object):
        assert chord1.notes[0] == note('C4')
        assert chord1.notes[1] == note('E4')
        assert chord1.notes[2] == note('G4')
-       assert str(chord1) == 'Chord<C4,E4,G4>'
 
        chord2 = chord(['G4','C4','E4'])
-       assert str(chord2) == 'Chord<C4,E4,G4>'
        assert chord1 == chord2
 
        assert chord(['C4','E4','G4']) != chord(['C4'])

@@ -1,7 +1,7 @@
 
 import importlib
 
-def loop_around(alist):
+def roller(alist):
     """
     Returns a generator that keeps looping around a pattern
     """

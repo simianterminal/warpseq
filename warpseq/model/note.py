@@ -36,6 +36,9 @@ class Note(BaseObject):
     name = Field(type=str)
     octave = Field(type=int, default=4, choices=[0,1,2,3,4,5,6,7,8,9,10,None],)
     tie = Field(type=bool, default=False)
+    length = Field(type=float, default=None)
+    start_time = Field(type=float, default=None)
+    end_time = Field(type=float, default=None)
 
     def on_init(self):
         self.name =  self._equivalence(self.name)
@@ -119,8 +122,8 @@ class Note(BaseObject):
         number = self._numeric_name()
         name = UP_HALF_STEP[number]
         if self.name == 'B':
-            return Note(name=name, octave=self.octave + 1)
-        return Note(name=name, octave=self.octave)
+            return Note(name=name, octave=self.octave + 1, length=self.length)
+        return Note(name=name, octave=self.octave, length=self.length)
 
     def down_half_step(self):
         """
@@ -129,8 +132,8 @@ class Note(BaseObject):
         number = self._numeric_name()
         name = DOWN_HALF_STEP[number]
         if self.name == 'C':
-            return Note(name=name, octave=self.octave - 1)
-        return Note(name=name, octave=self.octave)
+            return Note(name=name, octave=self.octave - 1, length=self.length)
+        return Note(name=name, octave=self.octave, length=self.length)
 
     def __eq__(self, other):
         """
@@ -151,7 +154,7 @@ class Note(BaseObject):
          return "%s%s" % (self.name, self.octave)
 
     def __repr__(self):
-         return "Note<%s%s>" % (self.name, self.octave)
+         return "Note<%s%s,d=%s>" % (self.name, self.octave, self.length)
 
 def note(st):
      """
@@ -169,5 +172,5 @@ def note(st):
      if octave == '' or octave is None:
         octave = 4
      octave = int(octave)
-     return Note(name=name, octave=octave)
+     return Note(name=name, octave=octave, length=None)
 
