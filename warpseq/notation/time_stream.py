@@ -74,8 +74,6 @@ def notes_to_events(note_list): #, resolution=NOTE_RESOLUTION):
 
         #storage = buckets.get(stop_index, [])
 
-        print("~~~~ YES ADDING OFF EVENT ~~~")
-
         event = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP)
         events.append(event)
 

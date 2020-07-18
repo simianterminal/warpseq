@@ -159,7 +159,7 @@ class RealtimeEngine(BaseObject):
         if event.type == NOTE_ON:
             velocity = 100
             note_number = self._note_number(event)
-            print("NN ON=%s" % note_number)
+            #print("NN ON=%s" % note_number)
             self.count_on = self.count_on + 1
             result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
             self._send_message(result)
@@ -167,13 +167,13 @@ class RealtimeEngine(BaseObject):
         elif event.type == NOTE_OFF:
             velocity = 100
             note_number = self._note_number(event)
-            print("NN OFF=%s" % note_number)
+            #print("NN OFF=%s" % note_number)
             self.count_off = self.count_off + 1
 
             result = [ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity]
             self._send_message(result)
 
-        print("ON/OFF: %s/%s" % (self.count_on, self.count_off))
+        #print("ON/OFF: %s/%s" % (self.count_on, self.count_off))
 
 
     def note_advance(self, milliseconds):
