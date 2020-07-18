@@ -19,5 +19,6 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[
         "classforge>=0.92",
+        "python-rtmidi"
     ]
 )
