@@ -29,6 +29,11 @@ class SmartExpression(Class):
 
         # TODO: this needs more magic here to support intra-track expressions and so on.
 
+        sym = str(sym)
+        sym = sym.strip()
+        if sym == "":
+            return []
+
         if sym == "-":
             return [ Note(tie=True, name=None, octave=None) ]
 
@@ -55,7 +60,7 @@ class SmartExpression(Class):
                 pass
 
         if not notes:
-            raise Exception("evaluation failed: %s" %  sym)
+            raise Exception("evaluation failed: (%s)" %  sym)
 
 
         for note in notes:

@@ -9,6 +9,7 @@ from warpseq.model.track import Track
 from warpseq.model.scene import Scene
 from warpseq.model.note import Note
 from warpseq.playback.engine.log_engine import LogEngine
+from warpseq.playback.multi_player import MultiPlayer
 
 import json
 
@@ -132,10 +133,21 @@ def test_assembly():
     for e in events:
         print(e)
 
-    player = c2.get_player(song, LogEngine)
+    #player = c2.get_player(song, LogEngine)
+    #for x in range(0,10):
+    #    print(player.advance(milliseconds=50))
 
-    for x in range(0,10):
-        print(player.advance(milliseconds=50))
+    multi_player = MultiPlayer(song=song, engine_class=LogEngine)
+    multi_player.add_clip(c1)
+    multi_player.add_clip(c4)
+
+    for x in range(0, 10):
+       multi_player.advance(milliseconds=50)
+
+    multi_player.remove_clip(c1)
+
+    multi_player.advance(milliseconds=50)
+    multi_player.advance(milliseconds=50)
 
     raise Exception("STOP")
 

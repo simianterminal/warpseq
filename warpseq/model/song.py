@@ -176,6 +176,9 @@ class Song(ReferenceObject):
         track.add_clip(clip)
         scene.add_clip(clip)
 
+        assert clip.track is not None
+        assert clip.scene is not None
+
         return clip
 
     def remove_clip(self, scene=None, track=None):

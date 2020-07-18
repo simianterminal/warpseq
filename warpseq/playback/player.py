@@ -1,5 +1,6 @@
 from .. model.base import BaseObject
 from classforge import Field
+from .. model.event import Event, NOTE_ON, NOTE_OFF
 
 TIME_INTERVAL = 10
 
@@ -19,6 +20,8 @@ class Player(BaseObject):
 
     def advance(self, milliseconds=TIME_INTERVAL):
 
+
+
         self.time_index += milliseconds
 
         while True:
@@ -33,13 +36,17 @@ class Player(BaseObject):
             else:
                 break
 
+        if self.time_index >= self.clip_length_in_ms:
+            self.start()
+
 
     def stop(self):
 
         # make sure we play all the stop events
         for event in self.left_to_play:
-            if event.type == Event.NOTE_OFF:
-                self.engine.play(x)
+            if event.type == NOTE_OFF:
+                self.engine.play(event)
+        self.left_to_play = []
 
 
     def start(self):

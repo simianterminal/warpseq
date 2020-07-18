@@ -14,7 +14,7 @@ def evaluate_ties(note_list):
     for n in note_list:
         if len(n) == 0:
             results.append([])
-        if n[0].tie:
+        elif n[0].tie:
             if previous_notes is not None:
                 for p in previous_notes:
                     p.length = n[0].length

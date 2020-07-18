@@ -1,0 +1,40 @@
+NOTES
+=====
+
+TODO
+
+
+* RESET when past end of clip in player code
+* allow +1/-1 transpose and O+1, O-1 etc as modifiers, this happens after Roman/Literal code (maybe inside of smart, doing a split?)
+* work on the multi-player concept, construct with list of clips, methods to add and remove clip objects, consider starting on boundaries (replace clip? Does this go in player class?)
+  ** construct with clip_list, song ... how does clip change occur?  Implement a stop to all methods?  Maybe have a flag like "stop_after_done"  ... needs a "replace_clip(clip1, clip2) probably?
+  ** keep track of player objects for each clip name to make this work out?
+
+
+* wire up realtime code and test it, how is the timing?
+* complete a basic arpeggiator
+
+* UI mockups (cursus interface)
+** Instrument
+** Pattern Edit
+** Arp Edit
+** Scene Edit
+** Track Edit
+** Scale select or just edit - probably not user extensible at first
+** Grid (Clips)
+** Clear Grid
+** Save/Load
+
+template files are regular files with just instrument definitions or ... maybe more
+
+
+* how does communication work?  CLI sends whole structures to message bus, message bus plays? Or just multi-thread and serialize?  (perhaps easier for consumers, maybe easier to conceptualize)
+* how do we show the user what pattern symbols are invalid?
+* documentation on how to use (rockchisel)
+
+* more sophisticated arps
+* intra-track symbols
+
+delete play_head class
+
+* demo vids / songs / tracks

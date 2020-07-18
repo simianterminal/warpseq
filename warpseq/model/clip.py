@@ -125,9 +125,7 @@ class Clip(ReferenceObject):
             return self.arp
         if self.pattern and self.pattern.arp:
             return arp
-        if self.track.arp is not None:
-            return self.arp
-        raise Exception("?")
+        return None
 
     def actual_tempo(self, song):
 
