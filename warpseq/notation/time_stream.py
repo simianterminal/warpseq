@@ -1,4 +1,8 @@
-NOTE_RESOLUTION = .02
+#NOTE_RESOLUTION = .02
+
+# a small gap between notes that ensures the off notes fire before the on notes
+NOTE_GAP = 0.01
+
 
 from .. model.event import Event, NOTE_ON, NOTE_OFF
 
@@ -69,10 +73,18 @@ def notes_to_events(note_list): #, resolution=NOTE_RESOLUTION):
         #buckets[start_index] = storage
 
         #storage = buckets.get(stop_index, [])
-        event = Event(type=NOTE_OFF, note=note, time=note.end_time)
+
+        print("~~~~ YES ADDING OFF EVENT ~~~")
+
+        event = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP)
         events.append(event)
 
     def sorter(evt):
+
+
+        if event.type == NOTE_OFF:
+            return event.time - 0.0001
+
         return evt.time
 
     events.sort(key=sorter)

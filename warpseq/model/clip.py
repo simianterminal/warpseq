@@ -164,7 +164,6 @@ class Clip(ReferenceObject):
 
         slot_duration = snd * slot_ratio
 
-
         return slot_duration
 
     def get_clip_duration(self, song):
@@ -201,16 +200,13 @@ class Clip(ReferenceObject):
         # "-" means extend the previous note length
         notes = evaluate_ties(notes)
 
-        #print("WHOLE NOTE LENGTH=%s" % sixteenth * 16)
-        #print("SLOT DURATION=%s" % slot_duration)
-        #raise Exception("STOP")
 
         # set the start and end times for each note
         t_start = 0.0
         for slot in notes:
             for note in slot:
-                note.start_time = t_start
-                note.end_time = t_start + note.length
+                note.start_time = round(t_start)
+                note.end_time = round(t_start + note.length)
             t_start = t_start + slot_duration
 
 

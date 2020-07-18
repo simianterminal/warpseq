@@ -4,6 +4,9 @@ from .. model.event import Event, NOTE_ON, NOTE_OFF
 
 TIME_INTERVAL = 10
 
+
+# FIXME: this whole player logic might be rather off and will need some debugging
+
 class Player(BaseObject):
 
     # input
@@ -21,6 +24,8 @@ class Player(BaseObject):
     def advance(self, milliseconds=TIME_INTERVAL):
 
 
+        self.engine.note_time_index(self.time_index)
+        self.engine.note_advance(milliseconds)
 
         self.time_index += milliseconds
 

@@ -18,4 +18,4 @@ class Event(BaseObject):
     # TODO: grab channel from *TRACK*
 
     def __repr__(self):
-        return "Event<Note=%s, type=%s>" % (self.note, self.type)
+        return "Event<Note=%s, type=%s, time=%s>" % (self.note, self.type, self.time)

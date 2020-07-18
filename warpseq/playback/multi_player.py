@@ -3,6 +3,7 @@
 from .. model.base import BaseObject
 from classforge import Field
 from . player import TIME_INTERVAL
+import time
 
 # FIXME: any higher level code that allows renaming of a clip will have to call remove_clip and then add_clip
 # or this implementation will get confused when trying to stop that clip.
@@ -12,6 +13,7 @@ class MultiPlayer(BaseObject):
     # input
     song = Field()
     engine_class = Field()
+    sleep_enabled = Field(type=bool, default=True)
 
     # state
     clips = Field(type=list)
@@ -34,6 +36,9 @@ class MultiPlayer(BaseObject):
     def advance(self, milliseconds=TIME_INTERVAL):
         for (n, p) in self.players.items():
             p.advance(milliseconds=milliseconds)
+
+        if self.sleep_enabled:
+            time.sleep(milliseconds / 1000.0)
 
     def add_clip(self, clip):
 

@@ -64,7 +64,7 @@ class SmartExpression(Class):
 
 
         for note in notes:
-            note.length = slot_duration
+            note.length = round(slot_duration)
 
         self._previous = notes
 

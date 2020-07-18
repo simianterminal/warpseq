@@ -36,9 +36,9 @@ class Note(BaseObject):
     name = Field(type=str)
     octave = Field(type=int, default=4, choices=[0,1,2,3,4,5,6,7,8,9,10,None],)
     tie = Field(type=bool, default=False)
-    length = Field(type=float, default=None)
-    start_time = Field(type=float, default=None)
-    end_time = Field(type=float, default=None)
+    length = Field(type=int, default=None)
+    start_time = Field(type=int, default=None)
+    end_time = Field(type=int, default=None)
 
     def on_init(self):
         self.name =  self._equivalence(self.name)

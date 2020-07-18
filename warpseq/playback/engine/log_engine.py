@@ -16,4 +16,11 @@ class LogEngine(BaseObject):
         pass
 
     def play(self, event):
-        print(event)
+        print("player plays event (%s) on track (%s)" % (event, self.track.name))
+
+    def note_advance(self, milliseconds):
+        #print("player notes advance of (%s) for track (%s)" % (milliseconds, self.track.name))
+        pass
+
+    def note_time_index(self, time_index):
+        print("player notes time index of (%s) for track (%s)" % (time_index, self.track.name))
