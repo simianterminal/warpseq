@@ -52,9 +52,9 @@ def test_assembly():
 
     song.add_instruments([ euro1, euro2, euro3, euro4, euro5, euro6, euro7, euro8, moog, kick])
 
-    foo_scale = Scale(name='foo', root=Note(name='C', octave=0), scale_type='major')
-    bar_scale = Scale(name='bar', root=Note(name='C', octave=0), scale_type='minor')
-    baz_scale = Scale(name='baz', root=Note(name='C', octave=0), scale_type='pentatonic')
+    foo_scale = Scale(name='foo', root=Note(name='C', octave=3), scale_type='major')
+    bar_scale = Scale(name='bar', root=Note(name='C', octave=3), scale_type='minor')
+    baz_scale = Scale(name='baz', root=Note(name='C', octave=3), scale_type='pentatonic')
 
     song.add_scales([ foo_scale, bar_scale, baz_scale ])
 
@@ -91,7 +91,10 @@ def test_assembly():
     song.add_arps([a1, a2])
     song.remove_arp(a2)
 
-    p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
+    #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
+    p1 = Pattern(name='p1', slots=["1","2","3","4","5","6","7"," "," ", " ", " ", " "])
+
+
     p2 = Pattern(name='p2', slots=["I","IV","V","-"," ",1])
     p3 = Pattern(name='p3', slots=[1,' ',' ',' '])
     p4 = Pattern(name='p4', slots=["GRAB(1)","RAND_OFF(0.5)","+1", "IV" ])

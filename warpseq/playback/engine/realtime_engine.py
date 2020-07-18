@@ -105,6 +105,9 @@ class RealtimeEngine(BaseObject):
     instrument = Field()
     midi_port = Field()
 
+    count_on = Field(default=0)
+    count_off = Field(default=0)
+
     # informational/state
     time_index = Field(type=int)
 
@@ -137,6 +140,10 @@ class RealtimeEngine(BaseObject):
         pass
 
     def _note_number(self, event):
+
+        #event.note = event.note.transpose(octaves=self.instrument.base_octave)
+        # FIXME: do we need to test here that the note is within the range of min_octave and max_octave ?
+
         return event.note.note_number()
 
     def _send_message(self, msg):
@@ -145,17 +152,28 @@ class RealtimeEngine(BaseObject):
 
     def play(self, event):
 
+        # octave shifts are from the instrument!
+        # min_octave = 0, base_octave = 3, max_octave = 8
+
+
         if event.type == NOTE_ON:
             velocity = 100
             note_number = self._note_number(event)
+            print("NN ON=%s" % note_number)
+            self.count_on = self.count_on + 1
             result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
             self._send_message(result)
 
         elif event.type == NOTE_OFF:
             velocity = 100
             note_number = self._note_number(event)
+            print("NN OFF=%s" % note_number)
+            self.count_off = self.count_off + 1
+
             result = [ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity]
             self._send_message(result)
+
+        print("ON/OFF: %s/%s" % (self.count_on, self.count_off))
 
 
     def note_advance(self, milliseconds):
