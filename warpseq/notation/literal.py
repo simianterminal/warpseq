@@ -79,7 +79,7 @@ class Literal(object):
         if note_or_chord is None:
             return []
         elif type(note_or_chord) == Chord:
-            return note_or_chord.notes
+            return [ n.copy() for n in note_or_chord.notes ]
         else:
             return [note_or_chord]
 

@@ -21,21 +21,32 @@ class Player(BaseObject):
     def on_init(self):
         self.start()
 
+    def queue_size(self):
+        return len(self.left_to_play)
+
     def advance(self, milliseconds=TIME_INTERVAL):
 
+        print("TIME INDEX=%s, REMAINING_QUEUE_SIZE=%s" % (self.time_index, len(self.left_to_play)))
+
+
+
+        self.time_index += milliseconds
 
         self.engine.note_time_index(self.time_index)
         self.engine.note_advance(milliseconds)
-
-        self.time_index += milliseconds
 
         while True:
 
             if len(self.left_to_play):
                 first = self.left_to_play[-1]
+
+                #print("FT=%s" % first.time)
+
                 if first.time < self.time_index:
+                    print("t1=%s < t2=%s" % (first.time, self.time_index))
                     self.engine.play(first)
-                    self.left_to_play.pop()
+                    discard = self.left_to_play.pop()
+                    #print("DISCARDED 1: %s" % discard)
                 else:
                     break
             else:

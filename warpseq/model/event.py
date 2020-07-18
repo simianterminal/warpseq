@@ -2,8 +2,8 @@ import copy
 from classforge import Field
 from .base import BaseObject
 
-NOTE_ON = 0
-NOTE_OFF = 1
+NOTE_ON = 1
+NOTE_OFF = 0
 
 class Event(BaseObject):
 

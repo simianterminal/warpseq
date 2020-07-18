@@ -31,7 +31,9 @@ class MultiPlayer(BaseObject):
 
     def stop(self):
         for (n, p) in self.players.items():
-            c.stop()
+            p.stop()
+
+            assert p.queue_size() == 0
 
     def advance(self, milliseconds=TIME_INTERVAL):
         for (n, p) in self.players.items():

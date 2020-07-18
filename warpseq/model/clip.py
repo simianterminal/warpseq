@@ -143,7 +143,7 @@ class Clip(ReferenceObject):
         tempo = float(self.actual_tempo(song))
         tempo_ratio = (120 / self.actual_tempo(song))
         snd = tempo_ratio * 125
-        print("SND=%s" % snd)
+        # print("SND=%s" % snd)
         return snd
 
     def slot_duration(self, song):
@@ -160,7 +160,7 @@ class Clip(ReferenceObject):
         snd = self.sixteenth_note_duration(song)
         slot_ratio = self.slot_length / (1/16.0)
 
-        print("SLOT RATIO = %s" % slot_ratio)
+        # print("SLOT RATIO = %s" % slot_ratio)
 
         slot_duration = snd * slot_ratio
 
@@ -175,7 +175,7 @@ class Clip(ReferenceObject):
         sixteenth = self.sixteenth_note_duration(song)
         slot_duration = self.slot_duration(song)
 
-        print("SD milliseconds=%s" % slot_duration)
+        # print("SD milliseconds=%s" % slot_duration)
 
 
         scale = self.actual_scale(song)
@@ -202,17 +202,24 @@ class Clip(ReferenceObject):
 
 
         # set the start and end times for each note
+
+
+        # FIXME: it appears the notes aren't copies ... somewhere
+
         t_start = 0.0
         for slot in notes:
             for note in slot:
                 note.start_time = round(t_start)
                 note.end_time = round(t_start + note.length)
             t_start = t_start + slot_duration
+            # print("t_start=%s" % t_start)
 
 
         if arp:
             notes = arp.process(song, notes)
 
+
+        # print("THE QUEUE=%s" % notes)
 
         return notes
 

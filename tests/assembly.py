@@ -139,15 +139,16 @@ def test_assembly():
 
     multi_player = MultiPlayer(song=song, engine_class=LogEngine)
     multi_player.add_clip(c1)
-    multi_player.add_clip(c4)
+    #multi_player.add_clip(c4)
 
-    for x in range(0, 10):
+    for x in range(0, 20):
        multi_player.advance(milliseconds=50)
 
-    multi_player.remove_clip(c1)
+    #multi_player.remove_clip(c1)
 
-    multi_player.advance(milliseconds=50)
-    multi_player.advance(milliseconds=50)
+    #multi_player.advance(milliseconds=50)
+    #multi_player.advance(milliseconds=50)
+    multi_player.stop()
 
     raise Exception("STOP")
 

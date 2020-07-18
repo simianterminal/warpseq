@@ -4,6 +4,8 @@ from classforge import Class, Field
 from functools import total_ordering
 import re
 
+CTR = 0
+
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
 
 # ours
@@ -40,12 +42,21 @@ class Note(BaseObject):
     start_time = Field(type=int, default=None)
     end_time = Field(type=int, default=None)
 
+    # debugging non-unique notes
+    ctr = Field(type=int)
+
     def on_init(self):
+
         self.name =  self._equivalence(self.name)
         super().on_init()
 
+        # FIXME: remove this
+        global CTR
+        CTR += 1
+        self.ctr = CTR
+
     def copy(self):
-        return Note(name=self.name, octave=self.octave)
+        return Note(name=self.name, octave=self.octave, tie=self.tie, length=self.length, start_time=self.start_time, end_time=self.end_time)
 
     def _equivalence(self, name):
         """
@@ -154,7 +165,8 @@ class Note(BaseObject):
          return "%s%s" % (self.name, self.octave)
 
     def __repr__(self):
-         return "Note<%s%s,d=%s,s=%s,e=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time)
+         # FIXME: simplify and remove CTR
+         return "Note<%s%s,d=%s,s=%s,e=%s,CTR=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time, self.ctr)
 
 def note(st):
      """
