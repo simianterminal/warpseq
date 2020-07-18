@@ -4,7 +4,7 @@ from classforge import Class, Field
 from functools import total_ordering
 import re
 
-NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)(\d*)")
+NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
 
 # ours
 from .. utils.utils import roll_left, roll_right
@@ -154,7 +154,7 @@ class Note(BaseObject):
          return "%s%s" % (self.name, self.octave)
 
     def __repr__(self):
-         return "Note<%s%s,d=%s>" % (self.name, self.octave, self.length)
+         return "Note<%s%s,d=%s,s=%s,e=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time)
 
 def note(st):
      """

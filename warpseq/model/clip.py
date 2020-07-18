@@ -4,7 +4,8 @@ from classforge import Class, Field
 from .arp import Arp
 from .scale import Scale
 from ..notation.smart import SmartExpression
-from ..notation.ties import evaluate_ties
+from ..notation.time_stream import evaluate_ties, notes_to_events
+from ..playback.player import Player
 
 class Clip(ReferenceObject):
 
@@ -18,7 +19,7 @@ class Clip(ReferenceObject):
     pattern = Field(type=Pattern, required=False, default=None, nullable=True)
 
     # number of notes before repeat/loop
-    length = Field(type=int, default=None, required=False, nullable=True)
+    length = Field(type=int, default=16, required=False, nullable=False)
 
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
 
@@ -139,19 +140,46 @@ class Clip(ReferenceObject):
 
         raise Exception("?")
 
-    def get_slot_duration(self, song):
-        # how long is a slot in each clip?
+    def sixteenth_note_duration(self, song):
 
-        tempo = self.actual_tempo(song)
-        quarter_notes_per_second = tempo / 60
-        sixteenth_note_speed = quarter_notes_per_second * (1/4)
-        slot_length = self.slot_length
-        slot_duration = (slot_length / 16) * sixteenth_note_speed
+        tempo = float(self.actual_tempo(song))
+        tempo_ratio = (120 / self.actual_tempo(song))
+        snd = tempo_ratio * 125
+        print("SND=%s" % snd)
+        return snd
+
+    def slot_duration(self, song):
+
+        # 1/16 note at 120 bpm is 125 ms
+
+        # self.slot_length is the note size of each slot
+        # self.length is the number of slots
+        # the product is the number of whole notes in each clip
+
+        #whole_notes = self.slot_length * self.length
+        #print("WHOLE NOTES=%s" % whole_notes)
+
+        snd = self.sixteenth_note_duration(song)
+        slot_ratio = self.slot_length / (1/16.0)
+
+        print("SLOT RATIO = %s" % slot_ratio)
+
+        slot_duration = snd * slot_ratio
+
+
         return slot_duration
+
+    def get_clip_duration(self, song):
+        return self.slot_duration(song) * self.length
 
     def get_notes(self, song):
 
-        slot_duration = self.get_slot_duration(song)
+        # how long is each slot in MS?
+        sixteenth = self.sixteenth_note_duration(song)
+        slot_duration = self.slot_duration(song)
+
+        print("SD milliseconds=%s" % slot_duration)
+
 
         scale = self.actual_scale(song)
         arp = self.actual_arp(song)
@@ -165,16 +193,21 @@ class Clip(ReferenceObject):
         if not self.pattern:
             return []
 
+        # convert expressions into arrays of notes
         notation = SmartExpression(scale=scale, song=song, clip=self)
 
         # expression evaluator will need to grow smarter for intra-track and humanizer fun
         # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
         notes = [ notation.do(self, expression) for expression in slots ]
 
-
-
+        # "-" means extend the previous note length
         notes = evaluate_ties(notes)
 
+        #print("WHOLE NOTE LENGTH=%s" % sixteenth * 16)
+        #print("SLOT DURATION=%s" % slot_duration)
+        #raise Exception("STOP")
+
+        # set the start and end times for each note
         t_start = 0.0
         for slot in notes:
             for note in slot:
@@ -182,10 +215,29 @@ class Clip(ReferenceObject):
                 note.end_time = t_start + note.length
             t_start = t_start + slot_duration
 
+
         if arp:
             notes = arp.process(song, notes)
 
+
         return notes
 
+    def get_events(self, song):
+        notes = self.get_notes(song)
+        events = notes_to_events(notes)
+        return events
+
+    def get_player(self, song, engine_class):
+
+        events = self.get_events(song)
+        t_len = self.get_clip_duration(song)
+
+        player = Player(
+            events=events,
+            engine=engine_class(song=song, track=self.track),
+            clip_length_in_ms=t_len,
+        )
+
+        return player
 
 

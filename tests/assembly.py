@@ -8,6 +8,7 @@ from warpseq.model.scale import Scale
 from warpseq.model.track import Track
 from warpseq.model.scene import Scene
 from warpseq.model.note import Note
+from warpseq.playback.engine.log_engine import LogEngine
 
 import json
 
@@ -119,13 +120,24 @@ def test_assembly():
     s2 = Song.from_json(data)
     data2 = s2.to_json()
 
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print("NOTES!!!")
-    notes = c2.get_notes(song)
-    for n in notes:
-        print(">>> %s " % n)
-    print("~~~~~~")
+    #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    #print("NOTES!!!")
+    #notes = c2.get_notes(song)
+    #for n in notes:
+    #    print(">>> %s " % n)
+    #print("~~~~~~")
 
+
+    events = c2.get_events(song)
+    for e in events:
+        print(e)
+
+    player = c2.get_player(song, LogEngine)
+
+    for x in range(0,10):
+        print(player.advance(milliseconds=50))
+
+    raise Exception("STOP")
 
     # print(data2)
 

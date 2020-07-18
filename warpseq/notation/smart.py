@@ -36,8 +36,8 @@ class SmartExpression(Class):
 
         notes = None
 
-
-        slot_duration = clip.get_slot_duration(self.song)
+        # FIXME: this is called a lot, can we pass it in?
+        slot_duration = clip.slot_duration(self.song)
 
         try:
             notes = self._roman.do_notes(sym)
