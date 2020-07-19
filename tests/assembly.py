@@ -117,8 +117,6 @@ def test_assembly():
     c5 = Clip(name='c5', pattern=p3, arp=a1, length=4, repeat=4) # FIXME: arp isn't implemented, length needs testing
     c6 = Clip(name='c6', pattern=p2, length=8, repeat=1)
 
-    #print("C3 scale=%s" % c3.scale)
-
     song.add_clip(scene=s1, track=t1, clip=c1)
     song.add_clip(scene=s1, track=t2, clip=c2)
     song.add_clip(scene=s2, track=t2, clip=c3)
@@ -127,40 +125,25 @@ def test_assembly():
     song.add_clip(scene=s2, track=t2, clip=c3)
     song.remove_clip(scene=s2, track=t2)
 
+    # this might be used by the UI
     clip_access = song.get_clip_for_scene_and_track(scene=s1, track=t2)
-    #print("ACCESS = %s" % clip_access.scene)
 
     data = song.to_json()
     s2 = Song.from_json(data)
     data2 = s2.to_json()
 
-    #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    #print("NOTES!!!")
-    #notes = c2.get_notes(song)
-    #for n in notes:
-    #    print(">>> %s " % n)
-    #print("~~~~~~")
-
-
     events = c2.get_events(song)
     for e in events:
         print(e)
-
-    #player = c2.get_player(song, LogEngine)
-    #for x in range(0,10):
-    #    print(player.advance(milliseconds=50))
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
     multi_player.add_clip(c1)
     multi_player.add_clip(c2)
 
-
-
-    for x in range(0, 400):
+    for x in range(0, 4000):
        multi_player.advance(milliseconds=2)
 
-    #multi_player.remove_clip(c1)
-
+    # multi_player.remove_clip(c1)
 
     multi_player.stop()
 

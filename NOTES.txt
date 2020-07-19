@@ -5,14 +5,8 @@ TODO
 
 
 * RESET when past end of clip in player code
-* allow +1/-1 transpose and O+1, O-1 etc as modifiers, this happens after Roman/Literal code (maybe inside of smart, doing a split?)
-* work on the multi-player concept, construct with list of clips, methods to add and remove clip objects, consider starting on boundaries (replace clip? Does this go in player class?)
-  ** construct with clip_list, song ... how does clip change occur?  Implement a stop to all methods?  Maybe have a flag like "stop_after_done"  ... needs a "replace_clip(clip1, clip2) probably?
-  ** keep track of player objects for each clip name to make this work out?
-
-
-* wire up realtime code and test it, how is the timing?
-* complete a basic arpeggiator
+* multi-player testing for clip advance
+* expand expressions to allow for more, like intra-track grab (ModExpression class)
 
 * UI mockups (cursus interface)
 ** Instrument
@@ -25,16 +19,23 @@ TODO
 ** Clear Grid
 ** Save/Load
 
-template files are regular files with just instrument definitions or ... maybe more
-
-
 * how does communication work?  CLI sends whole structures to message bus, message bus plays? Or just multi-thread and serialize?  (perhaps easier for consumers, maybe easier to conceptualize)
 * how do we show the user what pattern symbols are invalid?
-* documentation on how to use (rockchisel)
+* move to using more custom exception types
+* more documentation on how to use (rockchisel) - started a bit, doesn't need a lot
+* intra-track expressions
 
-* more sophisticated arps
-* intra-track symbols
 
-delete play_head class
+verify/fix some little things:
+scene repeat is not implemented
+track mute is  not implemented
+scene auto advance is not implemented
+scene measure length is not used
+pattern has a length setting but clip length setting should be honored to cut the pattern short
+
+is pattern overriding scale implemented?
+is pattern overriding tempo implemented?
+what’s the resolution order and do the docs match?
+
 
 * demo vids / songs / tracks

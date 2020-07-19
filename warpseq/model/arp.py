@@ -47,7 +47,7 @@ class Arp(ReferenceObject):
 
         divide = self.divide
         new_note_list = []
-        print("ARP INPUT: %s" % note_list)
+        #print("ARP INPUT: %s" % note_list)
 
         # FIXME: we might want to have an option that resets the arp for arps not of the same length as divide
         # but right now, leaving this as is.
@@ -56,7 +56,7 @@ class Arp(ReferenceObject):
 
         for notes in note_list:
 
-            print("ARP PROCESSING STEP: %s" % notes)
+            # print("ARP PROCESSING STEP: %s" % notes)
 
             new_notes = []
 
@@ -66,7 +66,7 @@ class Arp(ReferenceObject):
 
             old_delta = notes[0].end_time - notes[0].start_time
             new_delta = round(old_delta / divide)
-            print("NEW_DELTA=%s" % new_delta)
+            #print("NEW_DELTA=%s" % new_delta)
 
             assert new_delta > 0
 
@@ -89,7 +89,7 @@ class Arp(ReferenceObject):
 
                 final_note = mod_expr.do(which_note, scale, which_slot)
                 if final_note is None:
-                    print("MOD EXPRESSION SILENCED: %s" % which_slot)
+                    # print("MOD EXPRESSION SILENCED: %s" % which_slot)
                     continue
 
 
@@ -108,7 +108,7 @@ class Arp(ReferenceObject):
                 assert final_note.end_time is not None
 
                 new_note_list.append([final_note])
-                print("ARP PRODUCED: %s" % final_note)
+                # print("ARP PRODUCED: %s" % final_note)
 
 
         # generate an iterator that rolls around the slots
