@@ -36,6 +36,7 @@ def test_assembly():
     d2 = Device(name='MIDI Interface')
     d3 = Device(name='Internal')
     d4 = Device(name='Junk')
+
     song.add_devices([ d1, d2, d3, d4 ])
     song.remove_device(d4)
 
@@ -86,14 +87,14 @@ def test_assembly():
     song.remove_scene(s5)
 
     # FIXME: is this the right data model here?
-    a1 = Arp(name='a1', slots=["+1","-1","x","O+1"], divide=5)
+    a1 = Arp(name='a1', slots=["+2","-1","x","O+1"], divide=5)
     a2 = Arp(name='a2', slots=[1,0,1])
     song.add_arps([a1, a2])
     song.remove_arp(a2)
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
     #p1 = Pattern(name='p1', slots=["1","2","3","4","5","6","7"," "," ", " ", " ", " "])
-    p1 = Pattern(name='p1', slots=["1", "", "" ,"",
+    p1 = Pattern(name='p1', slots=["T=melody", "", "" ,"",
                                    "1" ,"", "", "",
                                    "1", "", "", "",
                                    "1", "", "", ""])
@@ -103,9 +104,9 @@ def test_assembly():
                                    "", "", "1", "",
                                    "", "", "1", ""])
 
-    p2 = Pattern(name='p2', slots=["I","IV","V","-"," ",1])
+    p2 = Pattern(name='p2', slots=["I;O+1","IV","V","-"," ",1])
     p3 = Pattern(name='p3', slots=[1,' ',' ',' '])
-    p4 = Pattern(name='p4', slots=["GRAB(1)","RAND_OFF(0.5)","+1", "IV" ])
+    p4 = Pattern(name='p4', slots=["1"])
     p5 = Pattern(name='p5', slots=[])
     song.add_patterns([p1,p2,p3,p4,p5,p6])
     song.remove_pattern(p5)

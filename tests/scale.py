@@ -11,9 +11,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from warpseq._OLD_theory.note import note
-from warpseq._OLD_theory.chord import chord
-from warpseq._OLD_theory.scale import Scale, scale
+#from warpseq._OLD_theory.note import note
+#from warpseq._OLD_theory.chord import chord
+#from warpseq._OLD_theory.scale import Scale, scale
+
+OLD = """
 
 class TestScale(object):
 
@@ -53,3 +55,4 @@ class TestScale(object):
        self._scale_test(length=7, expression='D4 natural_minor', expected='D4 E4 F4 G4 A4 Bb4 C5')
        self._scale_test(length=7, expression='A4 natural_minor', expected='A4 B4 C5 D5 E5 F5 G5')
        self._scale_test(length=7, expression='A4 major', expected='A4 B4 Db5 D5 E5 Gb5 Ab5')
+"""

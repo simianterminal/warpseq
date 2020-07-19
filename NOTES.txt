@@ -1,14 +1,15 @@
 NOTES
 =====
 
-TODO
+BACKEND
+=======
 
-
-* RESET when past end of clip in player code
-* multi-player testing for clip advance
+* test changing clips
+* make sure there's a short cut method for clicking play on a scene that plays all the clips
 * expand expressions to allow for more, like intra-track grab (ModExpression class)
+* increase error handling in expressions using custom exception types
 
-* UI mockups (cursus interface)
+* UI mockups
 ** Instrument
 ** Pattern Edit
 ** Arp Edit
@@ -19,23 +20,29 @@ TODO
 ** Clear Grid
 ** Save/Load
 
-* how does communication work?  CLI sends whole structures to message bus, message bus plays? Or just multi-thread and serialize?  (perhaps easier for consumers, maybe easier to conceptualize)
-* how do we show the user what pattern symbols are invalid?
-* move to using more custom exception types
-* more documentation on how to use (rockchisel) - started a bit, doesn't need a lot
-* intra-track expressions
+* flask server and backend thread with opcodes (each opcode takes JSON):
 
+** opcodes for flask: LIST/ADD/EDIT/REMOVE for each
+** SONG/{LIST,ADD,EDIT,REMOVE}, DEVICE, INSTRUMENT, SCALE, CLIP, PATTERN, ARP, TRACK
+** DESCRIBE_GRID -- returns a lot of stuff to prevent too many extra calls
+** PLAYER/PLAY_CLIPS
+** PLAYER/STOP_CLIPS
+** PLAYER/START_SCENE
+** PLAYER/STOP
+** FILE/LOAD filename.json
+** FILE/SAVE filename.json
 
-verify/fix some little things:
-scene repeat is not implemented
-track mute is  not implemented
-scene auto advance is not implemented
-scene measure length is not used
-pattern has a length setting but clip length setting should be honored to cut the pattern short
+** how do we show the user what pattern symbols are invalid? -- need a method for validating patterns??
+** more documentation in rockchisel - can wait until done, maybe move some to inline help?
 
-is pattern overriding scale implemented?
-is pattern overriding tempo implemented?
-what’s the resolution order and do the docs match?
+* verify/fix some little things:
+** scene repeat is not implemented
+** track mute is  not implemented
+** scene auto advance is not implemented
+** scene measure length is not used
+** pattern has a length setting but clip length setting should be honored to cut the pattern short
 
+** is pattern overriding scale implemented?
+** is pattern overriding tempo implemented?
 
 * demo vids / songs / tracks
