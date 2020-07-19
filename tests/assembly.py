@@ -94,7 +94,7 @@ def test_assembly():
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
     #p1 = Pattern(name='p1', slots=["1","2","3","4","5","6","7"," "," ", " ", " ", " "])
-    p1 = Pattern(name='p1', slots=["T=melody", "", "" ,"",
+    p1 = Pattern(name='p1', slots=["1", "", "" ,"",
                                    "1" ,"", "", "",
                                    "1", "", "", "",
                                    "1", "", "", ""])

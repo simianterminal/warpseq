@@ -34,7 +34,7 @@ SCALE_DEGREES_TO_STEPS = {
 class Note(BaseObject):
 
     name = Field(type=str)
-    octave = Field(type=int, default=4, choices=[0,1,2,3,4,5,6,7,8,9,10,None],)
+    octave = Field(type=int, default=4, nullable=True)
     tie = Field(type=bool, default=False)
     length = Field(type=int, default=None)
     start_time = Field(type=int, default=None)
@@ -69,6 +69,8 @@ class Note(BaseObject):
 
     def scale_transpose(self, scale, steps):
 
+        print("SELF=%s" % self)
+
         index = 0
         found = False
         for note in scale.generate(length=60):
@@ -81,13 +83,14 @@ class Note(BaseObject):
             raise Exception("unexpected scale_transpose error (1)")
 
         new_index = index + steps
+        print("new index=%s" % new_index)
 
         find_index = 0
         for note in scale.generate(length=60):
             if find_index == new_index:
                 print("scale transposed to: %s" % note)
                 return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
-            find_index = index + 1
+            find_index = find_index + 1
 
         raise Exception("unexpected scale transpose error (2)")
 
