@@ -69,8 +69,6 @@ class Note(BaseObject):
 
     def scale_transpose(self, scale, steps):
 
-        print("SELF=%s" % self)
-
         index = 0
         found = False
         for note in scale.generate(length=60):
@@ -83,12 +81,10 @@ class Note(BaseObject):
             raise Exception("unexpected scale_transpose error (1)")
 
         new_index = index + steps
-        print("new index=%s" % new_index)
 
         find_index = 0
         for note in scale.generate(length=60):
             if find_index == new_index:
-                print("scale transposed to: %s" % note)
                 return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
             find_index = find_index + 1
 

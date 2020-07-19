@@ -83,7 +83,7 @@ class Arp(ReferenceObject):
                 which_note.end_time = start_time + new_delta
                 which_note.length = new_delta
 
-                print("WN=%s/%s/%s" % (which_note.start_time, which_note.end_time, which_note.length))
+                #print("WN=%s/%s/%s" % (which_note.start_time, which_note.end_time, which_note.length))
 
                 which_slot = next(slot_modifications)
 

@@ -218,9 +218,10 @@ class Clip(ReferenceObject):
         if arp:
             notes = arp.process(song, scale, notes)
 
-            print("ARP RESULTS: %s" % notes)
+            #print("ARP RESULTS: %s" % notes)
         else:
-            print("NO ARP")
+            # print("NO ARP")
+            pass
 
         # print("THE QUEUE=%s" % notes)
 
