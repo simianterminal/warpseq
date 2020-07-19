@@ -19,6 +19,7 @@ class Player(BaseObject):
     time_index = Field(type=int, default=0, nullable=False)
 
     def on_init(self):
+
         self.start()
 
     def queue_size(self):

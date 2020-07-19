@@ -66,6 +66,32 @@ class Note(BaseObject):
         """
         return SCALE_DEGREES_TO_STEPS[str(input)]
 
+
+    def scale_transpose(self, scale, steps):
+
+        index = 0
+        found = False
+        for note in scale.generate(length=60):
+            if self.name == note.name and self.octave == note.octave:
+                found = True
+                break
+            index = index + 1
+
+        if not found:
+            raise Exception("unexpected scale_transpose error (1)")
+
+        new_index = index + steps
+
+        find_index = 0
+        for note in scale.generate(length=60):
+            if find_index == new_index:
+                print("scale transposed to: %s" % note)
+                return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
+            find_index = index + 1
+
+        raise Exception("unexpected scale transpose error (2)")
+
+
     def transpose(self, steps=0, semitones=0, degrees=None, octaves=0):
         """
         Returns a note a given number of steps or octaves or (other things) higher.
@@ -123,8 +149,8 @@ class Note(BaseObject):
         number = self._numeric_name()
         name = UP_HALF_STEP[number]
         if self.name == 'B':
-            return Note(name=name, octave=self.octave + 1, length=self.length)
-        return Note(name=name, octave=self.octave, length=self.length)
+            return Note(name=name, octave=self.octave + 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
+        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
 
     def down_half_step(self):
         """
@@ -133,8 +159,8 @@ class Note(BaseObject):
         number = self._numeric_name()
         name = DOWN_HALF_STEP[number]
         if self.name == 'C':
-            return Note(name=name, octave=self.octave - 1, length=self.length)
-        return Note(name=name, octave=self.octave, length=self.length)
+            return Note(name=name, octave=self.octave - 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
+        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
 
     def __eq__(self, other):
         """

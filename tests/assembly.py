@@ -86,7 +86,7 @@ def test_assembly():
     song.remove_scene(s5)
 
     # FIXME: is this the right data model here?
-    a1 = Arp(name='a1', slots=["1","-1","-","0"])
+    a1 = Arp(name='a1', slots=["+1","-1","x","O+1"], divide=5)
     a2 = Arp(name='a2', slots=[1,0,1])
     song.add_arps([a1, a2])
     song.remove_arp(a2)
@@ -111,7 +111,7 @@ def test_assembly():
     song.remove_pattern(p5)
 
     c1 = Clip(name='c1', pattern=p1, scale=bar_scale)
-    c2 = Clip(name='c2', pattern=p6, scale=bar_scale)
+    c2 = Clip(name='c2', pattern=p6, scale=bar_scale, arp=a1)
     c3 = Clip(name='c3', pattern=p2, scale=baz_scale, repeat=None) # FIXME: repeat isn't implemented
     c4 = Clip(name='c4', pattern=p3)
     c5 = Clip(name='c5', pattern=p3, arp=a1, length=4, repeat=4) # FIXME: arp isn't implemented, length needs testing
@@ -156,7 +156,7 @@ def test_assembly():
 
 
 
-    for x in range(0, 10000):
+    for x in range(0, 400):
        multi_player.advance(milliseconds=2)
 
     #multi_player.remove_clip(c1)
@@ -164,6 +164,7 @@ def test_assembly():
 
     multi_player.stop()
 
+    raise Exception("SHOW ERRORS!")
 
     # print(data2)
 

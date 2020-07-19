@@ -13,7 +13,7 @@ def evaluate_ties(note_list):
     results = []
     previous_notes = None
 
-    # print("NL:%s" % note_list)
+    print("NL:%s" % note_list)
 
     for n in note_list:
         if len(n) == 0:

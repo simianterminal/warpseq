@@ -1,5 +1,6 @@
 from . literal import Literal
 from . roman  import Roman
+from . mod import ModExpression
 from .. model.note import Note
 from classforge import Class, Field
 
@@ -18,32 +19,39 @@ class SmartExpression(Class):
     _previous = Field()
     _roman = Field()
     _literal = Field()
+    _mod = Field()
 
     def on_init(self):
         self._roman = Roman(self.scale)
         self._literal = Literal()
-
-
+        self._mod = ModExpression()
 
     def do(self, clip, sym):
 
         # TODO: this needs more magic here to support intra-track expressions and so on.
 
+        # ensure the input is a string - this is mostly only a concern in test code
         sym = str(sym)
         sym = sym.strip()
-        if sym == "":
+
+        # we can write notes like 3;O+2;# -- third scale note, up two octaves, then sharp
+        mod_expressions = ""
+        if ";" in sym:
+            (sym, mod_expressions) = sym.split(";", 1)
+
+        # an empty string or an x means no notes
+        if sym == "" or sym == "x":
             return []
 
+        # a hyphen means to tie the previous notes
         if sym == "-":
             return [ Note(tie=True, name=None, octave=None) ]
 
-        sym = str(sym)
-
+        # ready to figure out what notes we are going to return for this expression
         notes = None
 
-        # FIXME: this is called a lot, can we pass it in?
-        slot_duration = clip.slot_duration(self.song)
 
+        # first try roman numeral notation (chords are roman, scale notes are arabic)
         try:
             notes = self._roman.do_notes(sym)
             #print("S2: %s" % notes)
@@ -51,6 +59,7 @@ class SmartExpression(Class):
             #traceback.print_exc()
             pass
 
+        # if roman numerals failed, try literals like C4 or C4major
         if not notes:
             try:
                 notes = self._literal.do_notes(sym)
@@ -59,13 +68,27 @@ class SmartExpression(Class):
                 #traceback.print_exc()
                 pass
 
+        # if neither of the above worked, we have to give up
+        # FIXME: custom exception types
         if not notes:
             raise Exception("evaluation failed: (%s)" %  sym)
 
-
+        # assign a length to all the notes based on the clip settings
+        # this may be modified later by the arp selection (if set)
+        slot_duration = clip.slot_duration(self.song)
         for note in notes:
             note.length = round(slot_duration)
 
-        self._previous = notes
+        # if the note was trailed by any mod expressions, apply them to all notes
+        # to be returned
+        new_notes = []
+        for note in notes:
+            new_note = note.copy()
+            expressions = mod_expressions.split(";")
+            for expr in expressions:
+                new_note = self._mod.do(new_note, self.scale, expr)
+            new_notes.append(new_note)
 
-        return notes
+        self._previous = new_notes
+
+        return new_notes
