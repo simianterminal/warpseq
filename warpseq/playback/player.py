@@ -10,16 +10,22 @@ TIME_INTERVAL = 10
 class Player(BaseObject):
 
     # input
-    events = Field(type=list, required=True, nullable=False)
-    clip_length_in_ms = Field(type=int, required=True, nullable=False)
-    engine = Field(required=True, nullable=False)
+    clip   = Field(required=True, nullable=False)
+    song   = Field(required=True, nullable=False)
+    engine = Field(required=False, nullable=False)
 
     # state
     left_to_play = Field(type=list, nullable=False)
     time_index = Field(type=int, default=0, nullable=False)
 
+    # calculated
+    clip_length_in_ms = Field(type=int, required=False, nullable=False)
+    events = Field(type=list, required=False, nullable=False)
+
     def on_init(self):
 
+        self.clip_length_in_ms = self.clip.get_clip_duration(self.song)
+        self.events = self.clip.get_events(self.song)
         self.start()
 
     def queue_size(self):

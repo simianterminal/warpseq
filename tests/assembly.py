@@ -64,7 +64,7 @@ def test_assembly():
     song.measure_length = 16
     song.repeat = 4
 
-    t1  = Track(name='euro1', instrument=euro1, clip_ids=[], muted=True)
+    t1  = Track(name='euro1', instrument=euro1, clip_ids=[], muted=False)
     t2  = Track(name='euro2', instrument=euro2, clip_ids=[])
     t3  = Track(name='euro3', instrument=euro3, clip_ids=[])
     t4  = Track(name='euro4', instrument=euro4, clip_ids=[])

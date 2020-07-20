@@ -236,14 +236,13 @@ class Clip(ReferenceObject):
 
     def get_player(self, song, engine_class):
 
-        events = self.get_events(song)
-        t_len = self.get_clip_duration(song)
+
         scale = self.actual_scale(song)
 
         player = Player(
-            events=events,
+            clip=self,
+            song=song,
             engine=engine_class(song=song, track=self.track, scale=scale, clip=self),
-            clip_length_in_ms=t_len,
         )
 
         return player
