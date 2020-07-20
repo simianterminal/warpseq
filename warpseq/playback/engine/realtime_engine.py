@@ -173,7 +173,7 @@ class RealtimeEngine(BaseObject):
                 print("PROCESSING DEFERRED EXPR: %s" % expr)
                 event.note = self.mod_expressions.do(event.note, self.scale, self.track, expr)
 
-        if event.type == NOTE_ON:
+        if event.type == NOTE_ON and not self.track.muted:
             velocity = 100
             note_number = self._note_number(event)
             #print("NN ON=%s" % note_number)
