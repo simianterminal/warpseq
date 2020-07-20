@@ -19,7 +19,7 @@ class Clip(ReferenceObject):
     pattern = Field(type=Pattern, required=False, default=None, nullable=True)
 
     # number of notes before repeat/loop
-    length = Field(type=int, default=16, required=False, nullable=False)
+    length = Field(type=int, default=16, required=False, nullable=True)
 
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
 
@@ -172,6 +172,10 @@ class Clip(ReferenceObject):
         return slot_duration
 
     def get_clip_duration(self, song):
+
+        if self.length is None:
+            self.length = self.pattern.length
+
         return self.slot_duration(song) * self.length
 
     def get_notes(self, song):
@@ -213,6 +217,10 @@ class Clip(ReferenceObject):
             t_start = t_start + slot_duration
             # print("t_start=%s" % t_start)
 
+        # if the length of the pattern (or the clip) is shorter than the symbols provided, trim the pattern
+        # to just contain the first part
+        if self.length and self.length < len(notes):
+            notes = notes[0:self.length]
 
         if arp:
             notes = arp.process(song, scale, self.track, notes)
@@ -225,6 +233,7 @@ class Clip(ReferenceObject):
     def get_events(self, song):
         notes = self.get_notes(song)
         events = notes_to_events(notes)
+
         return events
 
     def get_player(self, song, engine_class):

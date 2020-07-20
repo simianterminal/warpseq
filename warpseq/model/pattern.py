@@ -15,11 +15,16 @@ class Pattern(ReferenceObject):
 
     name = Field(required=True, nullable=False)
     slots = Field(type=list)
-    length = Field(type=int, default=16)
+    length = Field(type=int, default=None, nullable=True)
 
     arp = Field(type=Arp, default=None, nullable=True)
     tempo = Field(type=int, default=None, nullable=True)
     scale = Field(type=Scale, default=None, nullable=True)
+
+    def on_init(self):
+        super().on_init()
+        if self.length is None:
+            self.length = len(self.slots)
 
     def to_dict(self):
         result = dict(

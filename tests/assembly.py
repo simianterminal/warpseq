@@ -104,18 +104,18 @@ def test_assembly():
                                    "1;T=euro1", "1;T=euro1", "1;T=euro1", "1;T=euro1"])
 
     p2 = Pattern(name='p2', slots=["I;O+1","IV","V","-"," ",1])
-    p3 = Pattern(name='p3', slots=[ '5;O+4', '4;O+4', '3;O+4', '2;O+4', '1;O+4' ])
+    p3 = Pattern(name='p3', slots=[ '5;', '4;O+4', '3;O+4', '2;O+4', '1;O+4' ])
     p4 = Pattern(name='p4', slots=["1"])
     p5 = Pattern(name='p5', slots=[])
     song.add_patterns([p1,p2,p3,p4,p5,p6])
     song.remove_pattern(p5)
 
-    c1 = Clip(name='c1', pattern=p1, scale=bar_scale, repeat=None, next_clip='c5')
+    c1 = Clip(name='c1', pattern=p1, scale=bar_scale, repeat=2, next_clip='c5')
     c2 = Clip(name='c2', pattern=p6, scale=bar_scale, arp=a1, repeat=1)
     c3 = Clip(name='c3', pattern=p2, scale=baz_scale, repeat=None) # FIXME: repeat isn't implemented
-    c4 = Clip(name='c4', pattern=p3)
+    c4 = Clip(name='c4', pattern=p3, length=5)
     # FIXME: make sure length is implemented
-    c5 = Clip(name='c5', pattern=p3, length=4, repeat=4) # FIXME: arp isn't implemented, length needs testing
+    c5 = Clip(name='c5', pattern=p3, length=2, repeat=4) # FIXME: arp isn't implemented, length needs testing
     c6 = Clip(name='c6', pattern=p2, length=8, repeat=1)
 
     song.add_clip(scene=s1, track=t1, clip=c1)
