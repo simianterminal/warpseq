@@ -42,12 +42,11 @@ class Note(BaseObject):
     flags = Field(type=dict, default=None, required=False)
 
     def on_init(self):
-
         self.name =  self._equivalence(self.name)
-        self.flags = {}
-        self.flags['deferred'] = False
-        self.flags['deferred_expressions'] = []
-
+        if self.flags is None:
+            self.flags = {}
+            self.flags['deferred'] = False
+            self.flags['deferred_expressions'] = []
         super().on_init()
 
     def copy(self):
@@ -57,7 +56,7 @@ class Note(BaseObject):
                     length=self.length,
                     start_time=self.start_time,
                     end_time=self.end_time,
-                    flags=self.flags)
+                    flags=self.flags.copy())
 
     def _equivalence(self, name):
         """

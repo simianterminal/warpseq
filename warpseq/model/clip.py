@@ -200,7 +200,9 @@ class Clip(ReferenceObject):
         # "-" means extend the previous note length
         notes = evaluate_ties(notes)
 
-
+        for n in notes:
+            for i in n:
+                print("F-->%s" % i.flags)
         # set the start and end times for each note
 
 

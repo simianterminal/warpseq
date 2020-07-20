@@ -86,22 +86,22 @@ def test_assembly():
     song.remove_scene(s5)
 
     # FIXME: is this the right data model here?
-    a1 = Arp(name='a1', slots=["+2","-1","x","O+1"], divide=5)
+    a1 = Arp(name='a1', slots=["+2","-1","x","O+1","O+2"], divide=3)
     a2 = Arp(name='a2', slots=[1,0,1])
     song.add_arps([a1, a2])
     song.remove_arp(a2)
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
     #p1 = Pattern(name='p1', slots=["1","2","3","4","5","6","7"," "," ", " ", " ", " "])
-    p1 = Pattern(name='p1', slots=["1", "2", "3" ,"4",
+    p1 = Pattern(name='p1', slots=["1;O+1", "2;O+1", "3;O+1" ,"4;O+1",
                                    "1" ,"2", "3", "4",
-                                   "1;T=euro2", "2", "3", "4",
+                                   "1", "2", "3", "4",
                                    "1", "2", "3", "4"])
 
-    p6 = Pattern(name='p6', slots=["", "", "1;T=euro1" ,"",
-                                   "" ,"", "1", "",
-                                   "", "", "1;T=euro1;O+1", "",
-                                   "", "", "1", ""])
+    p6 = Pattern(name='p6', slots=["1;T=euro1", "1;T=euro1", "1;T=euro1" ,"1;T=euro1",
+                                   "1;T=euro1" , "1;T=euro1", "1;T=euro1", "1;T=euro1",
+                                   "1;T=euro1", "1;T=euro1", "1;T=euro1", "1;T=euro1",
+                                   "1;T=euro1", "1;T=euro1", "1;T=euro1", "1;T=euro1"])
 
     p2 = Pattern(name='p2', slots=["I;O+1","IV","V","-"," ",1])
     p3 = Pattern(name='p3', slots=[1,' ',' ',' '])

@@ -56,6 +56,8 @@ class Arp(ReferenceObject):
 
         for notes in note_list:
 
+            debug_defer = False
+
             # print("ARP PROCESSING STEP: %s" % notes)
 
             new_notes = []
@@ -63,6 +65,12 @@ class Arp(ReferenceObject):
             if len(notes) == 0:
                 new_note_list.append(new_notes)
                 continue
+
+            if notes[0].flags['deferred']:
+                debug_defer = True
+                for m in notes:
+                    print("OF THIS SET: %s" % m.flags)
+                # raise Exception("SUCCESS!")
 
             old_delta = notes[0].end_time - notes[0].start_time
             new_delta = round(old_delta / divide)
@@ -76,7 +84,18 @@ class Arp(ReferenceObject):
 
             for divisions in range(0, divide):
 
-                which_note = next(roll_notes).copy()
+                which_note = next(roll_notes)\
+
+                print("A1: %s" % which_note.flags)
+                print(type(which_note))
+                which_note = which_note.copy()
+                print("A2: %s" % which_note.flags)
+
+                if debug_defer:
+                    print("ALF1: %s" % which_note.flags['deferred'])
+                    assert which_note.flags['deferred']
+
+                print("COPIED FLAGS: %s" % which_note.flags)
 
                 # FIXME: these might not be set yet
                 which_note.start_time = start_time
@@ -92,6 +111,9 @@ class Arp(ReferenceObject):
                     # print("MOD EXPRESSION SILENCED: %s" % which_slot)
                     continue
 
+                if debug_defer:
+                    print("ALF2")
+                    assert final_note.flags['deferred'] == True
 
 
                 # FIXME: while not possible now, in the future mod_expressions could return a chord
