@@ -23,6 +23,8 @@ class Clip(ReferenceObject):
 
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
 
+    next_clip = Field(required=False, nullable=True)
+
     arp = Field(type=Arp, default=None, nullable=True)
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
@@ -44,6 +46,7 @@ class Clip(ReferenceObject):
             tempo = self.tempo,
             repeat = self.repeat,
             slot_length = self.slot_length,
+            next_clip = self.next_clip,
         )
         if self.pattern:
             result['pattern'] = self.pattern.obj_id
@@ -82,6 +85,7 @@ class Clip(ReferenceObject):
             track_ids = [],
             scene_ids = [],
             slot_length = self.slot_length,
+            next_clip = self.next_clip
 
         )
 
@@ -98,7 +102,8 @@ class Clip(ReferenceObject):
             repeat = data['repeat'],
             track = song.find_track(data['track']),
             scene = song.find_scene(data['scene']),
-            slot_length = data['slot_length']
+            slot_length = data['slot_length'],
+            next_clip = data['next_clip']
         )
 
     def actual_scale(self, song):
@@ -200,14 +205,6 @@ class Clip(ReferenceObject):
         # "-" means extend the previous note length
         notes = evaluate_ties(notes)
 
-        for n in notes:
-            for i in n:
-                print("F-->%s" % i.flags)
-        # set the start and end times for each note
-
-
-        # FIXME: it appears the notes aren't copies ... somewhere
-
         t_start = 0.0
         for slot in notes:
             for note in slot:
@@ -219,13 +216,9 @@ class Clip(ReferenceObject):
 
         if arp:
             notes = arp.process(song, scale, self.track, notes)
-
-            #print("ARP RESULTS: %s" % notes)
         else:
-            # print("NO ARP")
             pass
 
-        # print("THE QUEUE=%s" % notes)
 
         return notes
 

@@ -4,10 +4,9 @@ NOTES
 BACKEND
 =======
 
-* test changing clips
 * make sure there's a short cut method for clicking play on a scene that plays all the clips
-* expand expressions to allow for more, like intra-track grab (ModExpression class)
 * increase error handling in expressions using custom exception types
+* make a Ctrl-C hook that stops all notes
 
 * UI mockups
 ** Instrument
@@ -19,6 +18,8 @@ BACKEND
 ** Grid (Clips)
 ** Clear Grid
 ** Save/Load
+
+** text file version idea (or just use JSON and make CLI?)
 
 * flask server and backend thread with opcodes (each opcode takes JSON):
 

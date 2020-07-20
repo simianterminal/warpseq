@@ -40,7 +40,12 @@ class MultiPlayer(BaseObject):
 
     def advance(self, milliseconds=TIME_INTERVAL):
 
-        for (n, p) in self.players.items():
+        my_players = [ p for p in self.players.values() ]
+
+        if len(my_players) == 0:
+            return
+
+        for p in my_players:
             p.advance(milliseconds=milliseconds)
 
         x = time.perf_counter() + (milliseconds/1000.0)
@@ -64,6 +69,7 @@ class MultiPlayer(BaseObject):
             player = clip.get_player(self.song, self.engine_class)
             self.players[clip.name] = player
 
+            player._multiplayer = self
             player.start()
 
     def remove_clip(self, clip):

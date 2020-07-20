@@ -57,6 +57,12 @@ class Song(ReferenceObject):
     def find_clip(self, obj_id):
         return self.clips.get(str(obj_id), None)
 
+    def find_clip_by_name(self, name):
+        for (k,v) in self.clips.items():
+            if v.name == name:
+                return v
+        return None
+
     def find_arp(self, obj_id):
         return self.arps.get(str(obj_id), None)
 

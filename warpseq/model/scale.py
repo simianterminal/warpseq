@@ -60,8 +60,8 @@ class Scale(ReferenceObject):
         """
         Allows traversal of a scale in a forward direction.
         Example:
-        for note in scale.generate(length=2):
-           print note
+        for note in scale.generate(length=7):
+           print(note)
         """
 
         assert length is not None

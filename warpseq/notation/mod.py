@@ -46,14 +46,11 @@ class ModExpression(object):
 
                 if expr.startswith("T="):
 
-                    print("** PROCESSING TRACK GRAB (%s)" % track.name)
-
                     (_, how) = expr.split("T=")
                     playing = get_first_playing_note(how)
                     if playing is None:
-                        print("TEMPORARY DEBUG: NO NOTE TO GRAB")
+                        pass
                     else:
-                        print("TEMPORARY DEBUG: SUCCESS, GRAB: %s" % playing)
                         input_note.octave = playing.octave
                         input_note.name = playing.name
 

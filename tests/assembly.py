@@ -59,7 +59,7 @@ def test_assembly():
     song.add_scales([ foo_scale, bar_scale, baz_scale ])
 
     song.scale = foo_scale
-    song.tempo = 120
+    song.tempo = 240
     song.auto_advance = True
     song.measure_length = 16
     song.repeat = 4
@@ -104,17 +104,18 @@ def test_assembly():
                                    "1;T=euro1", "1;T=euro1", "1;T=euro1", "1;T=euro1"])
 
     p2 = Pattern(name='p2', slots=["I;O+1","IV","V","-"," ",1])
-    p3 = Pattern(name='p3', slots=[1,' ',' ',' '])
+    p3 = Pattern(name='p3', slots=[ '5;O+4', '4;O+4', '3;O+4', '2;O+4', '1;O+4' ])
     p4 = Pattern(name='p4', slots=["1"])
     p5 = Pattern(name='p5', slots=[])
     song.add_patterns([p1,p2,p3,p4,p5,p6])
     song.remove_pattern(p5)
 
-    c1 = Clip(name='c1', pattern=p1, scale=bar_scale)
-    c2 = Clip(name='c2', pattern=p6, scale=bar_scale, arp=a1)
+    c1 = Clip(name='c1', pattern=p1, scale=bar_scale, repeat=None, next_clip='c5')
+    c2 = Clip(name='c2', pattern=p6, scale=bar_scale, arp=a1, repeat=1)
     c3 = Clip(name='c3', pattern=p2, scale=baz_scale, repeat=None) # FIXME: repeat isn't implemented
     c4 = Clip(name='c4', pattern=p3)
-    c5 = Clip(name='c5', pattern=p3, arp=a1, length=4, repeat=4) # FIXME: arp isn't implemented, length needs testing
+    # FIXME: make sure length is implemented
+    c5 = Clip(name='c5', pattern=p3, length=4, repeat=4) # FIXME: arp isn't implemented, length needs testing
     c6 = Clip(name='c6', pattern=p2, length=8, repeat=1)
 
     song.add_clip(scene=s1, track=t1, clip=c1)
@@ -133,14 +134,14 @@ def test_assembly():
     data2 = s2.to_json()
 
     events = c2.get_events(song)
-    for e in events:
-        print(e)
+    #for e in events:
+    #    print(e)
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
     multi_player.add_clip(c1)
     multi_player.add_clip(c2)
 
-    for x in range(0, 4000):
+    for x in range(0, 12000):
        multi_player.advance(milliseconds=2)
 
     # multi_player.remove_clip(c1)
