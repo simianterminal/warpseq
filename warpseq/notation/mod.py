@@ -4,29 +4,60 @@ Copyright 2020, Michael DeHaan <michael@michaeldehaan.net>
 
 # from .. model.note import note
 # from .. model.chord import chord, Chord
+from .. model.registers import get_first_playing_note
 
 # A mod expression can follow a note, like "C4;O+2" or is used in an arpeggiator "O+2
 
 class ModExpression(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, defer=False):
+        self.defer = defer
 
     # FIXME: this needs a lot more error handling and evolution
 
-    def do(self, note, scale, expression):
+    def do(self, note, scale, track, expressions):
 
-        expression = str(expression)
-        expressions = expression.split(";")
+
+        if type(expressions) != list:
+            expressions = str(expressions)
+            expressions = expressions.split(";")
 
         input_note = note.copy()
 
+        if not self.defer:
+
+            # decide if we need to recompute the note again at play time because it includes intra-track events
+
+            has_deferred = False
+            for expr in expressions:
+                # if has a deferred expression
+                # FIXME: this should include a full list of intra-track event prefixes here, and not be hard coded
+                if expr.startswith("T="):
+                    has_deferred = True
+                    break
+
+            if has_deferred:
+                input_note.flags['deferred'] = True
+                input_note.flags['deferred_expressions'] = expressions
+
         for expr in expressions:
 
-            # FIXME: might want a way to +1/-1 scale notes eventually after we do track grabs.  Right now
-            # mod expressions can only do absolutes
+            if self.defer:
 
-            # FIXME: yes we need this!
+                if expr.startswith("T="):
+
+                    print("** PROCESSING TRACK GRAB (%s)" % track.name)
+
+                    (_, how) = expr.split("T=")
+                    playing = get_first_playing_note(how)
+                    if playing is None:
+                        print("TEMPORARY DEBUG: NO NOTE TO GRAB")
+                    else:
+                        print("TEMPORARY DEBUG: SUCCESS, GRAB: %s" % playing)
+                        input_note.octave = playing.octave
+                        input_note.name = playing.name
+
+            # all remaining events here
 
             if expr.startswith("O+"):
                 # octave up: O+2

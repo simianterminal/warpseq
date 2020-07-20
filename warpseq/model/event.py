@@ -12,6 +12,7 @@ class Event(BaseObject):
     type = Field(type=int, required=True, choices=[NOTE_ON, NOTE_OFF])
     note = Field(type=Note, required=True, nullable=False)
     time = Field(type=float, required=True, nullable=False)
+    on_event = Field(required=False, default=None, nullable=True)
 
     # TODO: add velocity to note
     # TODO: CC flags as dict?

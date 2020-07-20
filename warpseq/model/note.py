@@ -39,14 +39,25 @@ class Note(BaseObject):
     length = Field(type=int, default=None)
     start_time = Field(type=int, default=None)
     end_time = Field(type=int, default=None)
+    flags = Field(type=dict, default=None, required=False)
 
     def on_init(self):
 
         self.name =  self._equivalence(self.name)
+        self.flags = {}
+        self.flags['deferred'] = False
+        self.flags['deferred_expressions'] = []
+
         super().on_init()
 
     def copy(self):
-        return Note(name=self.name, octave=self.octave, tie=self.tie, length=self.length, start_time=self.start_time, end_time=self.end_time)
+        return Note(name=self.name,
+                    octave=self.octave,
+                    tie=self.tie,
+                    length=self.length,
+                    start_time=self.start_time,
+                    end_time=self.end_time,
+                    flags=self.flags)
 
     def _equivalence(self, name):
         """
@@ -85,7 +96,7 @@ class Note(BaseObject):
         find_index = 0
         for note in scale.generate(length=60):
             if find_index == new_index:
-                return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
+                return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
             find_index = find_index + 1
 
         raise Exception("unexpected scale transpose error (2)")
@@ -148,8 +159,8 @@ class Note(BaseObject):
         number = self._numeric_name()
         name = UP_HALF_STEP[number]
         if self.name == 'B':
-            return Note(name=name, octave=self.octave + 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
-        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
+            return Note(name=name, octave=self.octave + 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
+        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
 
     def down_half_step(self):
         """
@@ -158,8 +169,8 @@ class Note(BaseObject):
         number = self._numeric_name()
         name = DOWN_HALF_STEP[number]
         if self.name == 'C':
-            return Note(name=name, octave=self.octave - 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
-        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie)
+            return Note(name=name, octave=self.octave - 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
+        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
 
     def __eq__(self, other):
         """

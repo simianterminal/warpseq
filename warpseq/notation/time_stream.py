@@ -66,24 +66,24 @@ def notes_to_events(note_list): #, resolution=NOTE_RESOLUTION):
 
         #storage = buckets.get(start_index, [])
 
-        event = Event(type=NOTE_ON, note=note, time=note.start_time)
-        events.append(event)
+        event1 = Event(type=NOTE_ON, note=note, time=note.start_time)
+        events.append(event1)
 
         #storage.append(event)
         #buckets[start_index] = storage
 
         #storage = buckets.get(stop_index, [])
 
-        event = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP)
-        events.append(event)
+        event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, on_event=event1)
+        events.append(event2)
 
-    def sorter(evt):
+    def sorter(event):
 
 
         if event.type == NOTE_OFF:
             return event.time - 0.0001
 
-        return evt.time
+        return event.time
 
     events.sort(key=sorter)
 

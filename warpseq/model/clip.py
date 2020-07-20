@@ -191,7 +191,7 @@ class Clip(ReferenceObject):
             return []
 
         # convert expressions into arrays of notes
-        notation = SmartExpression(scale=scale, song=song, clip=self)
+        notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track)
 
         # expression evaluator will need to grow smarter for intra-track and humanizer fun
         # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
@@ -216,7 +216,7 @@ class Clip(ReferenceObject):
 
 
         if arp:
-            notes = arp.process(song, scale, notes)
+            notes = arp.process(song, scale, self.track, notes)
 
             #print("ARP RESULTS: %s" % notes)
         else:
@@ -236,10 +236,11 @@ class Clip(ReferenceObject):
 
         events = self.get_events(song)
         t_len = self.get_clip_duration(song)
+        scale = self.actual_scale(song)
 
         player = Player(
             events=events,
-            engine=engine_class(song=song, track=self.track),
+            engine=engine_class(song=song, track=self.track, scale=scale, clip=self),
             clip_length_in_ms=t_len,
         )
 

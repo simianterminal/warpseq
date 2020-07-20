@@ -67,7 +67,8 @@ from warpseq.model.event import NOTE_ON, NOTE_OFF
 # open Apple Audio MIDI setup if you have a Mac.
 # https://pypi.python.org/pypi/rtmidi-python
 import rtmidi as rtmidi
-
+from warpseq.model.registers import register_playing_note, unregister_playing_note
+from  ... notation.mod import ModExpression
 
 #TIME_INTERVAL = 10
 
@@ -89,14 +90,20 @@ MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
 MIDI_NOTE_ON = 0x90
 
+# FIXME: implement MIDI CCs, pass through velocity info from note objects
+
 class RealtimeEngine(BaseObject):
 
     from ... model.song import Song
     from ... model.track import Track
+    from ... model.clip import Clip
+    from ... model.scale import Scale
 
     # input
     song = Field(type=Song,  required=True, nullable=False)
+    scale = Field(type=Scale, required=True, nullable=False)
     track = Field(type=Track, required=True, nullable=False)
+    clip = Field(type=Clip, required=True, nullable=False)
 
     # calculated
     channel = Field(type=int)
@@ -104,6 +111,7 @@ class RealtimeEngine(BaseObject):
     midi_out = Field()
     instrument = Field()
     midi_port = Field()
+    mod_expressions = Field()
 
     count_on = Field(default=0)
     count_off = Field(default=0)
@@ -116,6 +124,9 @@ class RealtimeEngine(BaseObject):
         self.instrument = self.track.instrument
         self.channel = self.instrument.channel
         self.device = self.instrument.device
+
+        self.mod_expressions = ModExpression(defer=True)
+
 
         self.midi_out = rtmidi.MidiOut()
 
@@ -155,21 +166,30 @@ class RealtimeEngine(BaseObject):
         # octave shifts are from the instrument!
         # min_octave = 0, base_octave = 3, max_octave = 8
 
+        if event.type == NOTE_ON and event.note.flags['deferred'] == True:
+            print("*** PROCESSING DEFERRED FLAGS ***")
+            exprs = event.note.flags['deferred_expressions']
+            for expr in exprs:
+                print("PROCESSING DEFERRED EXPR: %s" % expr)
+                event.note = self.mod_expressions.do(event.note, self.scale, self.track, expr)
 
         if event.type == NOTE_ON:
             velocity = 100
             note_number = self._note_number(event)
             #print("NN ON=%s" % note_number)
             self.count_on = self.count_on + 1
+            #print("REGISTERING: %s")
+            register_playing_note(self.track, event.note)
             result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
             self._send_message(result)
 
         elif event.type == NOTE_OFF:
             velocity = 100
-            note_number = self._note_number(event)
+            note_number = self._note_number(event.on_event)
             #print("NN OFF=%s" % note_number)
             self.count_off = self.count_off + 1
 
+            unregister_playing_note(self.track, event.on_event.note)
             result = [ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity]
             self._send_message(result)
 

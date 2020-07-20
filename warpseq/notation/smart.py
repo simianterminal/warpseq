@@ -15,6 +15,7 @@ class SmartExpression(Class):
     scale = Field(type=str, required=True, nullable=False)
     song = Field(required=True, nullable=False)
     clip = Field(required=True, nullable=False)
+    track = Field(required=True, nullable=False)
 
     _previous = Field()
     _roman = Field()
@@ -24,7 +25,7 @@ class SmartExpression(Class):
     def on_init(self):
         self._roman = Roman(self.scale)
         self._literal = Literal()
-        self._mod = ModExpression()
+        self._mod = ModExpression(defer=False)
 
     def do(self, clip, sym):
 
@@ -86,7 +87,7 @@ class SmartExpression(Class):
             new_note = note.copy()
             expressions = mod_expressions.split(";")
             for expr in expressions:
-                new_note = self._mod.do(new_note, self.scale, expr)
+                new_note = self._mod.do(new_note, self.scale, self.track, expr)
             new_notes.append(new_note)
 
         self._previous = new_notes

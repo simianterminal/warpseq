@@ -8,7 +8,6 @@ from warpseq.model.scale import Scale
 from warpseq.model.track import Track
 from warpseq.model.scene import Scene
 from warpseq.model.note import Note
-from warpseq.playback.engine.log_engine import LogEngine
 from warpseq.playback.engine.realtime_engine import RealtimeEngine
 from warpseq.playback.multi_player import MultiPlayer
 
@@ -94,14 +93,14 @@ def test_assembly():
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
     #p1 = Pattern(name='p1', slots=["1","2","3","4","5","6","7"," "," ", " ", " ", " "])
-    p1 = Pattern(name='p1', slots=["1", "", "" ,"",
-                                   "1" ,"", "", "",
-                                   "1", "", "", "",
-                                   "1", "", "", ""])
+    p1 = Pattern(name='p1', slots=["1", "2", "3" ,"4",
+                                   "1" ,"2", "3", "4",
+                                   "1;T=euro2", "2", "3", "4",
+                                   "1", "2", "3", "4"])
 
-    p6 = Pattern(name='p6', slots=["", "", "1" ,"",
+    p6 = Pattern(name='p6', slots=["", "", "1;T=euro1" ,"",
                                    "" ,"", "1", "",
-                                   "", "", "1", "",
+                                   "", "", "1;T=euro1;O+1", "",
                                    "", "", "1", ""])
 
     p2 = Pattern(name='p2', slots=["I;O+1","IV","V","-"," ",1])
@@ -148,7 +147,7 @@ def test_assembly():
 
     multi_player.stop()
 
-    raise Exception("SHOW ERRORS!")
-
     # print(data2)
 
+if __name__ == "__main__":
+    test_assembly()

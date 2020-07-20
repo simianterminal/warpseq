@@ -45,6 +45,7 @@ class Player(BaseObject):
 
                 if first.time < self.time_index:
                     #print("t1=%s < t2=%s" % (first.time, self.time_index))
+
                     self.engine.play(first)
                     discard = self.left_to_play.pop()
                     #print("DISCARDED 1: %s" % discard)

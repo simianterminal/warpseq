@@ -32,7 +32,7 @@ class Arp(ReferenceObject):
         )
 
 
-    def process(self, song, scale, note_list):
+    def process(self, song, scale, track, note_list):
 
         mod_expr = ModExpression()
 
@@ -87,7 +87,7 @@ class Arp(ReferenceObject):
 
                 which_slot = next(slot_modifications)
 
-                final_note = mod_expr.do(which_note, scale, which_slot)
+                final_note = mod_expr.do(which_note, scale, track, which_slot)
                 if final_note is None:
                     # print("MOD EXPRESSION SILENCED: %s" % which_slot)
                     continue
