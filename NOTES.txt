@@ -7,6 +7,8 @@ BACKEND
 * make sure there's a short cut method for clicking play on a scene that plays all the clips
 * increase error handling in expressions using custom exception types
 * make a Ctrl-C hook that stops all notes
+* make sure note velocity is noticed by the player class
+* make the notes support CCs - eventually we may want to interpolate them, but not an immediate need
 
 * UI mockups
 ** Instrument
@@ -19,31 +21,28 @@ BACKEND
 ** Clear Grid
 ** Save/Load
 
-** text file version idea (or just use JSON and make CLI?)
+** text file version idea (or just use JSON and make CLI after all)
 
-* flask server and backend thread with opcodes (each opcode takes JSON):
+* GUI interface idea: flask server and backend thread with opcodes (each opcode takes JSON):
 
 ** opcodes for flask: LIST/ADD/EDIT/REMOVE for each
-** SONG/{LIST,ADD,EDIT,REMOVE}, DEVICE, INSTRUMENT, SCALE, CLIP, PATTERN, ARP, TRACK
-** DESCRIBE_GRID -- returns a lot of stuff to prevent too many extra calls
-** PLAYER/PLAY_CLIPS
-** PLAYER/STOP_CLIPS
+** SONG/{LIST,ADD,EDIT,REMOVE}, same for DEVICE, INSTRUMENT, SCALE, CLIP, PATTERN, ARP, TRACK
+** PLAYER/PLAY_CLIPS(list)
+** PLAYER/STOP_CLIPS(list)
 ** PLAYER/START_SCENE
 ** PLAYER/STOP
-** FILE/LOAD filename.json
-** FILE/SAVE filename.json
+** SONG/LOAD filename.json
+** SONG/SAVE filename.json
 
 ** how do we show the user what pattern symbols are invalid? -- need a method for validating patterns??
-** more documentation in rockchisel - can wait until done, maybe move some to inline help?
+
+** more documentation in rockchisel - get a basic homepage going, maybe move some to inline help?
+
+** start free patreon posts
 
 * verify/fix some little things:
-** scene repeat is not implemented
-** track mute is  not implemented
-** scene auto advance is not implemented
-** scene measure length is not used
-** pattern has a length setting but clip length setting should be honored to cut the pattern short
 
-** is pattern overriding scale implemented?
-** is pattern overriding tempo implemented?
+** is pattern overriding the scale (if not set on the clip) implemented?
+** is pattern overriding tempo (if not set on the clip) implemented?
 
 * demo vids / songs / tracks
