@@ -23,8 +23,6 @@ class Pattern(ReferenceObject):
 
     def on_init(self):
         super().on_init()
-        if self.length is None:
-            self.length = len(self.slots)
 
     def to_dict(self):
         result = dict(

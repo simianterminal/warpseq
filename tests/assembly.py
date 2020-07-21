@@ -100,7 +100,10 @@ def test_assembly():
 
     # FIXME: there seems to be an events calculation lag!
 
+    # FIXME: pattern length seems ignored or overridden
+
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), length=4, tempo=120)
+    chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
     kick = Pattern(name='kick',   slots="1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _".split())
@@ -112,9 +115,9 @@ def test_assembly():
 
     c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=1, next_clip='c_down') # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=1, next_clip='c_chords') # arp=a1, repeat=1)
-    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, repeat=1) # repeat=None) # FIXME: repeat isn't implemented
-    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4, next_clip='c_up')
-    c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=4)
+    c_chords = Clip(name='c_chords', pattern=chords2, scale=baz_scale, repeat=1) # repeat=None) # FIXME: repeat isn't implemented
+    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=1, next_clip='c_up')
+    c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=1)
 
     song.add_clip(scene=s1, track=t1, clip=c_up)
     song.add_clip(scene=s2, track=t1, clip=c_down)

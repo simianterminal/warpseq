@@ -19,7 +19,7 @@ class Clip(ReferenceObject):
     pattern = Field(type=Pattern, required=False, default=None, nullable=True)
 
     # number of notes before repeat/loop
-    length = Field(type=int, default=16, required=False, nullable=True)
+    length = Field(type=int, default=None, required=False, nullable=True)
 
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
 
@@ -178,7 +178,16 @@ class Clip(ReferenceObject):
         if self.length is None:
             self.length = self.pattern.length
 
-        return self.slot_duration(song) * self.length
+        return self.slot_duration(song) * self.actual_length()
+
+    def actual_length(self):
+
+        if self.length:
+            return self.length
+        elif self.pattern.length:
+            return self.pattern.length
+        else:
+            return len(self.pattern.slots)
 
     def get_notes(self, song):
 
@@ -203,6 +212,12 @@ class Clip(ReferenceObject):
 
         # convert expressions into arrays of notes
         notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track)
+
+
+        use_length = self.actual_length()
+
+        if use_length < len(slots):
+            slots = slots[0:use_length]
 
         # expression evaluator will need to grow smarter for intra-track and humanizer fun
         # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
