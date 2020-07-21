@@ -34,7 +34,7 @@ class Arp(ReferenceObject):
 
     def process(self, song, scale, track, note_list):
 
-        mod_expr = ModExpression()
+        mod_expr = ModExpression(defer=False)
 
         # notes is like: [n1, n2, n3], [n4], [], [n5, n6]
         # for each slot, we divide it by _divide_

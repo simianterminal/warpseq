@@ -59,7 +59,7 @@ def test_assembly():
     song.add_scales([ foo_scale, bar_scale, baz_scale ])
 
     song.scale = foo_scale
-    song.tempo = 120
+    song.tempo = 240
     song.auto_advance = True
     song.measure_length = 16
     song.repeat = 4
@@ -92,8 +92,9 @@ def test_assembly():
     a2 = Arp(name='a2', slots=[1,1,1], divide=4)
     a3 = Arp(name='octave_hop', slots="O+1 .".split(), divide=1)
     a4 = Arp(name='capture', slots=["T=euro1"], divide=1)
+    a5 = Arp(name='silence', slots=["p=0.05;x"], divide=1)
 
-    song.add_arps([a1, a2, a3, a4])
+    song.add_arps([a1, a2, a3, a4, a5])
     #song.remove_arp(a2)
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
@@ -118,9 +119,9 @@ def test_assembly():
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
     kick = Pattern(name='kick',   slots="1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _".split())
     snare = Pattern(name='snare', slots="_ _ 1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _".split())
+    occasionally_silent = Pattern(name='silent', slots='1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _'.split())
 
-
-    song.add_patterns([up,down,chords,snare,kick])
+    song.add_patterns([up,down,chords,snare,kick, occasionally_silent])
 
 
     c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=1, next_clip='c_down', arps=[a3]) # repeat=2, next_clip='c5', length=4)
@@ -131,7 +132,7 @@ def test_assembly():
 
     c_mixed = Clip(name='c_mixed', pattern=mixed, scale=baz_scale, repeat=3)
     c_capture = Clip(name='c_capture', pattern=capture, scale=baz_scale)
-
+    c_silent = Clip(name='c_silent', pattern=occasionally_silent, scale=baz_scale, arps=[a5], repeat=8)
 
     song.add_clip(scene=s1, track=t1, clip=c_up)
     song.add_clip(scene=s2, track=t1, clip=c_down)
@@ -139,6 +140,7 @@ def test_assembly():
     song.add_clip(scene=s4, track=t1, clip=c_kick)
     song.add_clip(scene=s5, track=t1, clip=c_mixed)
     song.add_clip(scene=s6, track=t2, clip=c_capture)
+    song.add_clip(scene=s6, track=t1, clip=c_silent)
 
     song.add_clip(scene=s5, track=t2, clip=c_snare)
     # song.remove_clip(scene=s2, track=t2)
@@ -148,8 +150,9 @@ def test_assembly():
     data2 = s2.to_json()
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
-    multi_player.add_clip(c_chords)
+    #multi_player.add_clip(c_chords)
     #multi_player.add_clip(c_capture)
+    multi_player.add_clip(c_silent)
 
     for x in range(0, 16000):
        multi_player.advance(milliseconds=2)

@@ -82,7 +82,10 @@ class Player(BaseObject):
             #print("time=%s >= %s" % (self.time_index, self.clip_length_in_ms))
             if self._still_on_this_clip():
                 #print("it is decided to stay on this clip (%s)" % (self.clip.name))
+                # recompute events so randomness can change
+                self.events = self.clip.get_events(self.song)
                 self.start()
+
             else:
                 #print("it is decided to stop this clip (%s)" % (self.clip.name))
                 self.stop()

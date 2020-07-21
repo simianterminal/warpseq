@@ -5,6 +5,7 @@ Copyright 2020, Michael DeHaan <michael@michaeldehaan.net>
 # from .. model.note import note
 # from .. model.chord import chord, Chord
 from .. model.registers import get_first_playing_note
+import random
 
 # A mod expression can follow a note, like "C4;O+2" or is used in an arpeggiator "O+2
 
@@ -40,7 +41,15 @@ class ModExpression(object):
                 input_note.flags['deferred'] = True
                 input_note.flags['deferred_expressions'] = expressions
 
+        execute_next = True
+
+        random.seed()
+
         for expr in expressions:
+
+            if not execute_next:
+                execute_next = True
+                continue
 
             if self.defer:
 
@@ -106,8 +115,20 @@ class ModExpression(object):
                 # flat
                 input_note = input_note.transpose(semitones=-1)
 
+            elif expr.startswith("p="):
+                (_, how) = expr.split("p=")
+                how = float(how)
+                rn = random.random()
+                if rn > how:
+                    execute_next = False
 
-            elif expr in [ 'x', '_' ]:
-                return None
+            elif expr in [ '_', 'x', '0' ]:
+                input_note = None
+
+            elif expr in [ ".", "1" ]:
+                pass
+
+            else:
+                raise Exception("don't know how to process expr: %s" % expr)
 
         return input_note
