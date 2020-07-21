@@ -17,7 +17,7 @@ class Pattern(ReferenceObject):
     slots = Field(type=list)
     length = Field(type=int, default=None, nullable=True)
 
-    arp = Field(type=Arp, default=None, nullable=True)
+    arps = Field(type=list, default=None, nullable=True)
     tempo = Field(type=int, default=None, nullable=True)
     scale = Field(type=Scale, default=None, nullable=True)
 
@@ -32,10 +32,10 @@ class Pattern(ReferenceObject):
             length = self.length,
             tempo = self.tempo
         )
-        if self.arp:
-            result['arp'] = arp.name
+        if self.arps:
+            result['arps'] = [ arp.obj_id for x in self.arps ]
         else:
-            result['arp'] = None
+            result['arps'] = []
         if self.scale:
             result['scale'] = scale.obj_id
         else:
@@ -49,7 +49,7 @@ class Pattern(ReferenceObject):
             name = data['name'],
             slots = data['slots'],
             length = data['length'],
-            arp = song.find_arp(data['arp']),
+            arps = [ song.find_arp(x) for x in data['arps'] ],
             tempo = data['tempo'],
             scale = song.find_scale(data['scale'])
         )

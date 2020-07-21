@@ -82,14 +82,18 @@ class SmartExpression(Class):
 
         # if the note was trailed by any mod expressions, apply them to all notes
         # to be returned
-        new_notes = []
-        for note in notes:
-            new_note = note.copy()
-            expressions = mod_expressions.split(";")
-            for expr in expressions:
-                new_note = self._mod.do(new_note, self.scale, self.track, expr)
-            new_notes.append(new_note)
 
-        self._previous = new_notes
+        # FIXME: I don't think we need this, we can have lists of arps!
+        #new_notes = []
+        #for note in notes:
+        #    new_note = note.copy()
+        #    expressions = mod_expressions.split(";")
+        #    for expr in expressions:
+        #        new_note = self._mod.do(new_note, self.scale, self.track, expr)
+        #    new_notes.append(new_note)
 
-        return new_notes
+        #self._previous = new_notes
+        self._previous = [ n for n in notes ]
+
+        #return new_notes
+        return notes

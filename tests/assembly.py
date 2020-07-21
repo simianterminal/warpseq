@@ -88,10 +88,13 @@ def test_assembly():
     song.remove_scene(s5)
 
     # FIXME: is this the right data model here?
-    a1 = Arp(name='a1', slots=["O+2","O-1","0","O+1","O+2"], divide=3)
+    a1 = Arp(name='a1', slots=["O+2","O-1","0","O+1","O+2"], divide=5)
     a2 = Arp(name='a2', slots=[1,1,1], divide=4)
-    song.add_arps([a1, a2])
-    song.remove_arp(a2)
+    a3 = Arp(name='octave_hop', slots="O+1 .".split(), divide=1)
+    a4 = Arp(name='capture', slots=["T=euro1"], divide=1)
+
+    song.add_arps([a1, a2, a3, a4])
+    #song.remove_arp(a2)
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
     #p1 = Pattern(name='p1', slots=["1","2","3","4","5","6","7"," "," ", " ", " ", " "])
@@ -105,8 +108,9 @@ def test_assembly():
     # FIXME: pattern length seems ignored or overridden
 
 
-    mixed = Pattern(name='mixed', slots="I;O+1 1 II 2;O-1 i;+1 1;O+1 ii 2;S+4 3;O+1 III 3;# iii;b 4 IV 5;O+1 V 5 v 6;b VII;# 6 vii".split())
-    capture = Pattern(name='capture', slots=("1;T=euro1 - - - " * 4).split())
+    mixed = Pattern(name='mixed', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16".split())
+
+    capture = Pattern(name='capture', arps=[a4], slots=("1" * 16).split())
 
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), tempo=120)
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
@@ -119,9 +123,9 @@ def test_assembly():
     song.add_patterns([up,down,chords,snare,kick])
 
 
-    c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=1, next_clip='c_down') # repeat=2, next_clip='c5', length=4)
+    c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=1, next_clip='c_down', arps=[a3]) # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=1, next_clip='c_chords') # arp=a1, repeat=1)
-    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arp=a2, repeat=4) # FIXME: repeat isn't implemented
+    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arps=[a1,a1], repeat=4) # FIXME: repeat isn't implemented
     c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=1, next_clip='c_up')
     c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=1)
 

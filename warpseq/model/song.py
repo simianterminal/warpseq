@@ -64,7 +64,10 @@ class Song(ReferenceObject):
         return None
 
     def find_arp(self, obj_id):
-        return self.arps.get(str(obj_id), None)
+        print("trying to find arp: %s" % obj_id)
+        x = self.arps.get(str(obj_id), None)
+        assert x is not None
+        return x
 
     def find_pattern(self, obj_id):
         return self.patterns.get(str(obj_id), None)

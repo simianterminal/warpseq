@@ -25,7 +25,7 @@ class Clip(ReferenceObject):
 
     next_clip = Field(required=False, nullable=True)
 
-    arp = Field(type=Arp, default=None, nullable=True)
+    arps = Field(type=list, default=None, nullable=False)
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
 
@@ -52,10 +52,12 @@ class Clip(ReferenceObject):
             result['pattern'] = self.pattern.obj_id
         else:
             result['pattern'] = None
-        if self.arp:
-            result['arp'] = self.arp.obj_id
+        if self.arps:
+            #print("arps: %s" % self.arps)
+            result['arps'] = [ x.obj_id for x in self.arps ]
+            print("saving: %s" % result['arps'])
         else:
-            result['arp'] = None
+            result['arps'] = []
         if self.scale:
             result['scale'] = self.scale.obj_id
         else:
@@ -79,7 +81,7 @@ class Clip(ReferenceObject):
             name = self.name,
             pattern = self.pattern,
             length = self.length,
-            arp = self.arp,
+            arps = [ x for x in self.arps ],
             tempo = self.tempo,
             repeat = self.repeat,
             track_ids = [],
@@ -97,7 +99,7 @@ class Clip(ReferenceObject):
             scale = song.find_scale(data['scale']),
             pattern = song.find_pattern(data['pattern']),
             length = data['length'],
-            arp = song.find_arp(data['arp']),
+            arps = [ song.find_arp(x) for x in data['arps'] ],
             tempo = data['tempo'],
             repeat = data['repeat'],
             track = song.find_track(data['track']),
@@ -122,15 +124,15 @@ class Clip(ReferenceObject):
 
         return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
 
-    def actual_arp(self, song):
+    def actual_arps(self, song):
 
         assert self.track is not None
 
-        if self.arp is not None:
-            return self.arp
-        if self.pattern and self.pattern.arp:
-            return arp
-        return None
+        if self.arps is not None:
+            return self.arps
+        if self.pattern and self.pattern.arps:
+            return self.pattern.arps
+        return []
 
     def actual_tempo(self, song):
 
@@ -199,7 +201,7 @@ class Clip(ReferenceObject):
 
 
         scale = self.actual_scale(song)
-        arp = self.actual_arp(song)
+        arps = self.actual_arps(song)
 
         assert scale is not None
         if self.pattern is None:
@@ -239,11 +241,8 @@ class Clip(ReferenceObject):
         if self.length and self.length < len(notes):
             notes = notes[0:self.length]
 
-        if arp:
+        for arp in arps:
             notes = arp.process(song, scale, self.track, notes)
-        else:
-            pass
-
 
         return notes
 
