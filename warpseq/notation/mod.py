@@ -66,6 +66,7 @@ class ModExpression(object):
                     else:
                         input_note.octave = playing.octave
                         input_note.name = playing.name
+                    continue
 
 
             # ---------------------------------------------------------------------------------------------------------
@@ -126,6 +127,10 @@ class ModExpression(object):
                 input_note = None
 
             elif expr in [ ".", "1" ]:
+                pass
+
+            elif expr.startswith("T="):
+                # pass ... deferred for now!
                 pass
 
             else:

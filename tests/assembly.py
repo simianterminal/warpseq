@@ -91,7 +91,7 @@ def test_assembly():
     a1 = Arp(name='a1', slots=["O+2","O-1","0","O+1","O+2"], divide=5)
     a2 = Arp(name='a2', slots=[1,1,1], divide=4)
     a3 = Arp(name='octave_hop', slots="O+1 .".split(), divide=1)
-    a4 = Arp(name='capture', slots=["T=euro1"], divide=1)
+    a4 = Arp(name='capture', slots=["T=euro1;O-2"], divide=1)
     a5 = Arp(name='silence', slots=["p=0.05;x"], divide=1)
 
     song.add_arps([a1, a2, a3, a4, a5])
@@ -110,9 +110,7 @@ def test_assembly():
 
 
     mixed = Pattern(name='mixed', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16".split())
-
-    capture = Pattern(name='capture', arps=[a4], slots=("1" * 16).split())
-
+    capture = Pattern(name='capture', arps=[a4], slots=("1 0 0 0" * 4).split(), tempo=30)
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), tempo=120)
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
@@ -137,7 +135,7 @@ def test_assembly():
     song.add_clip(scene=s1, track=t1, clip=c_up)
     song.add_clip(scene=s2, track=t1, clip=c_down)
     song.add_clip(scene=s3, track=t1, clip=c_chords)
-    song.add_clip(scene=s4, track=t1, clip=c_kick)
+    song.add_clip(scene=s4, track=t2, clip=c_kick)
     song.add_clip(scene=s5, track=t1, clip=c_mixed)
     song.add_clip(scene=s6, track=t2, clip=c_capture)
     song.add_clip(scene=s6, track=t1, clip=c_silent)
@@ -150,9 +148,10 @@ def test_assembly():
     data2 = s2.to_json()
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
-    #multi_player.add_clip(c_chords)
+    multi_player.add_clip(c_chords)
     #multi_player.add_clip(c_capture)
-    multi_player.add_clip(c_silent)
+    multi_player.add_clip(c_kick)
+
 
     for x in range(0, 16000):
        multi_player.advance(milliseconds=2)

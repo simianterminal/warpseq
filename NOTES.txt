@@ -7,7 +7,6 @@ BACKEND
 
 
 * new mod expressions:
-* p=75 ... next mod expression has only a 75 percent chance of applying
 * v=120 ... set velocity to 120 ... this should be sticky for following notes?
 * vh=10 ... humanize the velocity (increment) by 0 to 10 points
 * v=50,120 ... pick a value for the velocity between 50 and 120
