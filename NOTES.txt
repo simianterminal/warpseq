@@ -4,6 +4,9 @@ NOTES
 BACKEND
 =======
 
+* cleanup various code hacks
+* cleanup mod expressions ?
+
 * make sure there's a short cut method for clicking play on a scene that plays all the clips
 * increase error handling in expressions using custom exception types
 * make a Ctrl-C hook that stops all notes

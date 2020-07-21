@@ -44,7 +44,11 @@ class ModExpression(object):
 
             if self.defer:
 
+                # ------------------------------------------------------------------------------------------------------
+                # ALL INTRA-TRACK EXPRESSIONS HERE
+
                 if expr.startswith("T="):
+                    # note grab: T=euro1
 
                     (_, how) = expr.split("T=")
                     playing = get_first_playing_note(how)
@@ -54,7 +58,9 @@ class ModExpression(object):
                         input_note.octave = playing.octave
                         input_note.name = playing.name
 
-            # all remaining events here
+
+            # ---------------------------------------------------------------------------------------------------------
+            # ALL STANDARD EXPRESSIONS HERE
 
             if expr.startswith("O+"):
                 # octave up: O+2
@@ -93,13 +99,15 @@ class ModExpression(object):
                 input_note = input_note.transpose(steps=-how)
 
             elif expr == "#":
+                # sharp
                 input_note = input_note.transpose(semitones=1)
 
             elif expr == "b":
-                input_note = input_note.tranpose(semitones=-1)
+                # flat
+                input_note = input_note.transpose(semitones=-1)
 
 
-            elif expr == 'x':
+            elif expr in [ 'x', '_' ]:
                 return None
 
         return input_note

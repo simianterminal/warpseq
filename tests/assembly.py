@@ -88,8 +88,8 @@ def test_assembly():
     song.remove_scene(s5)
 
     # FIXME: is this the right data model here?
-    a1 = Arp(name='a1', slots=["+2","-1","x","O+1","O+2"], divide=3)
-    a2 = Arp(name='a2', slots=[1,0,1])
+    a1 = Arp(name='a1', slots=["O+2","O-1","0","O+1","O+2"], divide=3)
+    a2 = Arp(name='a2', slots=[1,1,1], divide=4)
     song.add_arps([a1, a2])
     song.remove_arp(a2)
 
@@ -105,10 +105,10 @@ def test_assembly():
     # FIXME: pattern length seems ignored or overridden
 
 
-    mixed = Pattern(name='mixed', slots="I 1 II 2 i 1 ii 2 3 III 3 iii 4 IV 5 V 5 v 6 VII 6 vii".split())
+    mixed = Pattern(name='mixed', slots="I;O+1 1 II 2;O-1 i;+1 1;O+1 ii 2;S+4 3;O+1 III 3;# iii;b 4 IV 5;O+1 V 5 v 6;b VII;# 6 vii".split())
     capture = Pattern(name='capture', slots=("1;T=euro1 - - - " * 4).split())
 
-    chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), length=4, tempo=120)
+    chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), tempo=120)
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
@@ -121,12 +121,12 @@ def test_assembly():
 
     c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=1, next_clip='c_down') # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=1, next_clip='c_chords') # arp=a1, repeat=1)
-    c_chords = Clip(name='c_chords', pattern=chords2, scale=baz_scale, repeat=1) # repeat=None) # FIXME: repeat isn't implemented
+    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arp=a2, repeat=4) # FIXME: repeat isn't implemented
     c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=1, next_clip='c_up')
     c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=1)
 
     c_mixed = Clip(name='c_mixed', pattern=mixed, scale=baz_scale, repeat=3)
-    c_capture = Clip(name='c_capture', pattern=capture, scale=baz_scale, repeat=3)
+    c_capture = Clip(name='c_capture', pattern=capture, scale=baz_scale)
 
 
     song.add_clip(scene=s1, track=t1, clip=c_up)
@@ -144,8 +144,8 @@ def test_assembly():
     data2 = s2.to_json()
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
-    multi_player.add_clip(c_mixed)
-    multi_player.add_clip(c_capture)
+    multi_player.add_clip(c_chords)
+    #multi_player.add_clip(c_capture)
 
     for x in range(0, 16000):
        multi_player.advance(milliseconds=2)
