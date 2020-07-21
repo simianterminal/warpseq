@@ -4,14 +4,27 @@ NOTES
 BACKEND
 =======
 
-* cleanup various code hacks
-* cleanup mod expressions ?
 
+
+* new mod expressions:
+* p=75 ... next mod expression has only a 75 percent chance of applying
+* v=120 ... set velocity to 120 ... this should be sticky for following notes?
+* vh=10 ... humanize the velocity (increment) by 0 to 10 points
+* v=50,120 ... pick a value for the velocity between 50 and 120
+* cc0=50 ... set MIDI cc0 on the track to 50
+* cc0=50,75 ... pick a value for MIDI cc0 between 50 and 75
+
+* make sure note velocity is noticed by the player class
+* make the notes support CCs - eventually we may want to interpolate them, but not an immediate need
+
+* build the "friendly" high level API and port the test/assembly.py example to it.
+  use arrays, not strings, for lists of expressions.
+
+* cleanup various code hacks
 * make sure there's a short cut method for clicking play on a scene that plays all the clips
 * increase error handling in expressions using custom exception types
 * make a Ctrl-C hook that stops all notes
-* make sure note velocity is noticed by the player class
-* make the notes support CCs - eventually we may want to interpolate them, but not an immediate need
+
 
 * UI mockups
 ** Instrument
