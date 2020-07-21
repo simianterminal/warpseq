@@ -59,7 +59,7 @@ def test_assembly():
     song.add_scales([ foo_scale, bar_scale, baz_scale ])
 
     song.scale = foo_scale
-    song.tempo = 240
+    song.tempo = 120
     song.auto_advance = True
     song.measure_length = 16
     song.repeat = 4
@@ -98,54 +98,42 @@ def test_assembly():
     #                               "1", "2", "3", "4",
     #                               "1", "2", "3", "4"])
 
-    p1 = Pattern(name='p1', slots=["I", "V", "V", "vii"])
+    # FIXME: there seems to be an events calculation lag!
 
-    p6 = Pattern(name='p6', slots=["1;T=euro1", "1;T=euro1", "1;T=euro1" ,"1;T=euro1",
-                                   "1;T=euro1" , "1;T=euro1", "1;T=euro1", "1;T=euro1",
-                                   "1;T=euro1", "1;T=euro1", "1;T=euro1", "1;T=euro1",
-                                   "IV", "V", "I", "IV"])
+    chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), length=4, tempo=120)
+    up = Pattern(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
+    down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
+    kick = Pattern(name='kick',   slots="1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _".split())
+    snare = Pattern(name='snare', slots="_ _ 1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _".split())
 
-    p2 = Pattern(name='p2', slots=["I;O+1","IV","V","-"," ",1])
-    p3 = Pattern(name='p3', slots=[ '5;', '4;O+4', '3;O+4', '2;O+4', '1;O+4' ])
-    p4 = Pattern(name='p4', slots=["1"])
-    p5 = Pattern(name='p5', slots=[])
-    song.add_patterns([p1,p2,p3,p4,p5,p6])
-    song.remove_pattern(p5)
 
-    c1 = Clip(name='c1', pattern=p1, scale=bar_scale, repeat=2, next_clip='c5', length=4)
-    c2 = Clip(name='c2', pattern=p6, scale=bar_scale, arp=a1, repeat=1)
-    c3 = Clip(name='c3', pattern=p2, scale=baz_scale, repeat=None) # FIXME: repeat isn't implemented
-    c4 = Clip(name='c4', pattern=p3, length=5)
-    # FIXME: make sure length is implemented
-    c5 = Clip(name='c5', pattern=p3, length=2, repeat=4) # FIXME: arp isn't implemented, length needs testing
-    c6 = Clip(name='c6', pattern=p2, length=8, repeat=1)
+    song.add_patterns([up,down,chords,snare,kick])
 
-    song.add_clip(scene=s1, track=t1, clip=c1)
-    song.add_clip(scene=s1, track=t2, clip=c2)
-    song.add_clip(scene=s2, track=t2, clip=c3)
-    song.add_clip(scene=s3, track=t3, clip=c4)
-    song.add_clip(scene=s4, track=t1, clip=c5)
-    song.add_clip(scene=s2, track=t2, clip=c3)
-    song.remove_clip(scene=s2, track=t2)
 
-    # this might be used by the UI
-    clip_access = song.get_clip_for_scene_and_track(scene=s1, track=t2)
+    c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=1, next_clip='c_down') # repeat=2, next_clip='c5', length=4)
+    c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=1, next_clip='c_chords') # arp=a1, repeat=1)
+    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, repeat=1) # repeat=None) # FIXME: repeat isn't implemented
+    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4, next_clip='c_up')
+    c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=4)
+
+    song.add_clip(scene=s1, track=t1, clip=c_up)
+    song.add_clip(scene=s2, track=t1, clip=c_down)
+    song.add_clip(scene=s3, track=t1, clip=c_chords)
+    song.add_clip(scene=s4, track=t1, clip=c_kick)
+
+    song.add_clip(scene=s5, track=t2, clip=c_snare)
+    # song.remove_clip(scene=s2, track=t2)
 
     data = song.to_json()
     s2 = Song.from_json(data)
     data2 = s2.to_json()
 
-    events = c2.get_events(song)
-    #for e in events:
-    #    print(e)
-
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
-    multi_player.add_clip(c1)
-    multi_player.add_clip(c2)
+    multi_player.add_clip(c_kick)
+    multi_player.add_clip(c_snare)
 
-    for x in range(0, 12000):
+    for x in range(0, 16000):
        multi_player.advance(milliseconds=2)
-
     # multi_player.remove_clip(c1)
 
     multi_player.stop()

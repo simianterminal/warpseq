@@ -136,6 +136,8 @@ class Clip(ReferenceObject):
 
         if self.tempo is not None:
             return self.tempo
+        if self.pattern.tempo is not None:
+            return self.pattern.tempo
         if self.scene.tempo is not None:
             return self.scene.tempo
         if song.tempo is not None:

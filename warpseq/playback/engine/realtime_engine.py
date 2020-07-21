@@ -166,12 +166,12 @@ class RealtimeEngine(BaseObject):
         # octave shifts are from the instrument!
         # min_octave = 0, base_octave = 3, max_octave = 8
 
-        if event.type == NOTE_ON and event.note.flags['deferred'] == True:
-            #print("*** PROCESSING DEFERRED FLAGS ***")
-            exprs = event.note.flags['deferred_expressions']
-            for expr in exprs:
-                #print("PROCESSING DEFERRED EXPR: %s" % expr)
-                event.note = self.mod_expressions.do(event.note, self.scale, self.track, expr)
+        #if event.type == NOTE_ON and event.note.flags['deferred'] == True:
+        #    #print("*** PROCESSING DEFERRED FLAGS ***")
+        #    exprs = event.note.flags['deferred_expressions']
+        #    for expr in exprs:
+        #        #print("PROCESSING DEFERRED EXPR: %s" % expr)
+        #        event.note = self.mod_expressions.do(event.note, self.scale, self.track, expr)
 
         if event.type == NOTE_ON:
             velocity = 100

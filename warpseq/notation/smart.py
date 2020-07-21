@@ -40,8 +40,8 @@ class SmartExpression(Class):
         if ";" in sym:
             (sym, mod_expressions) = sym.split(";", 1)
 
-        # an empty string or an x means no notes
-        if sym == "" or sym == "x":
+        # an empty string or an _ means no notes
+        if sym == "" or sym == "_":
             return []
 
         # a hyphen means to tie the previous notes
