@@ -93,15 +93,17 @@ def test_assembly():
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
     #p1 = Pattern(name='p1', slots=["1","2","3","4","5","6","7"," "," ", " ", " ", " "])
-    p1 = Pattern(name='p1', slots=["1;O+1", "2;O+1", "3;O+1" ,"4;O+1",
-                                   "1" ,"2", "3", "4",
-                                   "1", "2", "3", "4",
-                                   "1", "2", "3", "4"])
+    #p1 = Pattern(name='p1', slots=["1;O+1", "2;O+1", "3;O+1" ,"4;O+1",
+    #                               "1" ,"2", "3", "4",
+    #                               "1", "2", "3", "4",
+    #                               "1", "2", "3", "4"])
+
+    p1 = Pattern(name='p1', slots=["I", "V", "V", "vii"])
 
     p6 = Pattern(name='p6', slots=["1;T=euro1", "1;T=euro1", "1;T=euro1" ,"1;T=euro1",
                                    "1;T=euro1" , "1;T=euro1", "1;T=euro1", "1;T=euro1",
                                    "1;T=euro1", "1;T=euro1", "1;T=euro1", "1;T=euro1",
-                                   "1;T=euro1", "1;T=euro1", "1;T=euro1", "1;T=euro1"])
+                                   "IV", "V", "I", "IV"])
 
     p2 = Pattern(name='p2', slots=["I;O+1","IV","V","-"," ",1])
     p3 = Pattern(name='p3', slots=[ '5;', '4;O+4', '3;O+4', '2;O+4', '1;O+4' ])
@@ -110,7 +112,7 @@ def test_assembly():
     song.add_patterns([p1,p2,p3,p4,p5,p6])
     song.remove_pattern(p5)
 
-    c1 = Clip(name='c1', pattern=p1, scale=bar_scale, repeat=2, next_clip='c5')
+    c1 = Clip(name='c1', pattern=p1, scale=bar_scale, repeat=2, next_clip='c5', length=4)
     c2 = Clip(name='c2', pattern=p6, scale=bar_scale, arp=a1, repeat=1)
     c3 = Clip(name='c3', pattern=p2, scale=baz_scale, repeat=None) # FIXME: repeat isn't implemented
     c4 = Clip(name='c4', pattern=p3, length=5)

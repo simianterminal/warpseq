@@ -81,14 +81,16 @@ class Note(BaseObject):
 
         index = 0
         found = False
+        snn = self.note_number()
         for note in scale.generate(length=60):
-            if self.name == note.name and self.octave == note.octave:
+            nn = note.note_number()
+            if nn > snn:
                 found = True
                 break
             index = index + 1
 
         if not found:
-            raise Exception("unexpected scale_transpose error (1)")
+            raise Exception("unexpected scale_transpose error (1): note not in scale: (%s, %s, %s)" % (scale.name, note.name, note.octave))
 
         new_index = index + steps
 
