@@ -82,6 +82,8 @@ def test_assembly():
     s3 = Scene(name='s3', clip_ids=[])
     s4 = Scene(name='s4', clip_ids=[])
     s5 = Scene(name='s5', clip_ids=[])
+    s6 = Scene(name='s6', clip_ids=[])
+
     song.add_scenes([ s1, s2, s3, s4, s5 ])
     song.remove_scene(s5)
 
@@ -102,6 +104,10 @@ def test_assembly():
 
     # FIXME: pattern length seems ignored or overridden
 
+
+    mixed = Pattern(name='mixed', slots="I 1 II 2 i 1 ii 2 3 III 3 iii 4 IV 5 V 5 v 6 VII 6 vii".split())
+    capture = Pattern(name='capture', slots=("1;T=euro1 - - - " * 4).split())
+
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), length=4, tempo=120)
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
@@ -119,10 +125,16 @@ def test_assembly():
     c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=1, next_clip='c_up')
     c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=1)
 
+    c_mixed = Clip(name='c_mixed', pattern=mixed, scale=baz_scale, repeat=3)
+    c_capture = Clip(name='c_capture', pattern=capture, scale=baz_scale, repeat=3)
+
+
     song.add_clip(scene=s1, track=t1, clip=c_up)
     song.add_clip(scene=s2, track=t1, clip=c_down)
     song.add_clip(scene=s3, track=t1, clip=c_chords)
     song.add_clip(scene=s4, track=t1, clip=c_kick)
+    song.add_clip(scene=s5, track=t1, clip=c_mixed)
+    song.add_clip(scene=s6, track=t2, clip=c_capture)
 
     song.add_clip(scene=s5, track=t2, clip=c_snare)
     # song.remove_clip(scene=s2, track=t2)
@@ -132,8 +144,8 @@ def test_assembly():
     data2 = s2.to_json()
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
-    multi_player.add_clip(c_kick)
-    multi_player.add_clip(c_snare)
+    multi_player.add_clip(c_mixed)
+    multi_player.add_clip(c_capture)
 
     for x in range(0, 16000):
        multi_player.advance(milliseconds=2)
