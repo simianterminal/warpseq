@@ -13,6 +13,8 @@ BACKEND
 * v=50,120 ... pick a value for the velocity between 50 and 120
 * cc0=50 ... set MIDI cc0 on the track to 50
 * cc0=50,75 ... pick a value for MIDI cc0 between 50 and 75
+* 4;c=major ... turn something into a chord. Useful with note grabs (T=track1;c=major)
+* is it possible to add an event that ends the pattern? Normally I'd want to adjust the length, but might be nice with probabilities
 
 * make sure note velocity is noticed by the player class
 * make the notes support CCs - eventually we may want to interpolate them, but not an immediate need
