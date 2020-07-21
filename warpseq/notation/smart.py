@@ -84,16 +84,15 @@ class SmartExpression(Class):
         # to be returned
 
         # FIXME: I don't think we need this, we can have lists of arps!
-        #new_notes = []
-        #for note in notes:
-        #    new_note = note.copy()
-        #    expressions = mod_expressions.split(";")
-        #    for expr in expressions:
-        #        new_note = self._mod.do(new_note, self.scale, self.track, expr)
-        #    new_notes.append(new_note)
+        new_notes = []
+        for note in notes:
+            new_note = note.copy()
+            expressions = mod_expressions.split(";")
+            for expr in expressions:
+                if expr:
+                    new_note = self._mod.do(new_note, self.scale, self.track, expr)
+            new_notes.append(new_note)
 
-        #self._previous = new_notes
-        self._previous = [ n for n in notes ]
+        self._previous = new_notes
 
-        #return new_notes
-        return notes
+        return new_notes

@@ -89,7 +89,7 @@ def test_assembly():
 
     # FIXME: is this the right data model here?
     a1 = Arp(name='a1', slots=["O+2","O-1","0","O+1","O+2"], divide=5)
-    a2 = Arp(name='a2', slots=[1,1,1], divide=4)
+    a2 = Arp(name='a2', slots=[1,1,1], divide=6)
     a3 = Arp(name='octave_hop', slots="O+1 .".split(), divide=1)
     a4 = Arp(name='capture', slots=["T=euro1;O-2"], divide=1)
     a5 = Arp(name='silence', slots=["p=0.05;x"], divide=1)
@@ -113,7 +113,7 @@ def test_assembly():
     capture = Pattern(name='capture', arps=[a4], slots=("1 0 0 0" * 4).split(), tempo=30)
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), tempo=120)
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
-    up = Pattern(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
+    up = Pattern(name='up', slots="1;O+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
     kick = Pattern(name='kick',   slots="1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _".split())
     snare = Pattern(name='snare', slots="_ _ 1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _".split())
@@ -122,23 +122,28 @@ def test_assembly():
     song.add_patterns([up,down,chords,snare,kick, occasionally_silent])
 
 
-    c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=1, next_clip='c_down', arps=[a3]) # repeat=2, next_clip='c5', length=4)
-    c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=1, next_clip='c_chords') # arp=a1, repeat=1)
-    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arps=[a1,a1], repeat=4) # FIXME: repeat isn't implemented
-    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=1, next_clip='c_up')
-    c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=1)
+    c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
+    c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=4) # arp=a1, repeat=1)
+    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arps=[a2], repeat=4) # FIXME: repeat isn't implemented
+    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4, next_clip='c_up')
+    c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=4, next_clip='c_down')
 
     c_mixed = Clip(name='c_mixed', pattern=mixed, scale=baz_scale, repeat=3)
     c_capture = Clip(name='c_capture', pattern=capture, scale=baz_scale)
     c_silent = Clip(name='c_silent', pattern=occasionally_silent, scale=baz_scale, arps=[a5], repeat=8)
 
-    song.add_clip(scene=s1, track=t1, clip=c_up)
-    song.add_clip(scene=s2, track=t1, clip=c_down)
+    song.add_clip(scene=s1, track=t1, clip=c_kick)
+    song.add_clip(scene=s1, track=t2, clip=c_snare)
+    song.add_clip(scene=s2, track=t1, clip=c_up)
+    song.add_clip(scene=s2, track=t2, clip=c_down)
+
+
+    #song.add_clip(scene=s2, track=t1, clip=c_down)
     song.add_clip(scene=s3, track=t1, clip=c_chords)
-    song.add_clip(scene=s4, track=t2, clip=c_kick)
-    song.add_clip(scene=s5, track=t1, clip=c_mixed)
-    song.add_clip(scene=s6, track=t2, clip=c_capture)
-    song.add_clip(scene=s6, track=t1, clip=c_silent)
+    #song.add_clip(scene=s4, track=t2, clip=c_kick)
+    #song.add_clip(scene=s5, track=t1, clip=c_mixed)
+    #song.add_clip(scene=s6, track=t2, clip=c_capture)
+    #song.add_clip(scene=s6, track=t1, clip=c_silent)
 
     song.add_clip(scene=s5, track=t2, clip=c_snare)
     # song.remove_clip(scene=s2, track=t2)
@@ -148,8 +153,8 @@ def test_assembly():
     data2 = s2.to_json()
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
-    multi_player.add_clip(c_chords)
-    #multi_player.add_clip(c_capture)
+    #multi_player.add_clip(c_chords)
+    multi_player.add_clip(c_snare)
     multi_player.add_clip(c_kick)
 
 
