@@ -66,6 +66,10 @@ class Note(BaseObject):
         n1.flags['cc'] = self.flags['cc'].copy()
         return n1
 
+    def chordify(self, chord_type):
+        from . chord import Chord
+        return Chord(root=self.copy(), chord_type=chord_type)
+
     def _equivalence(self, name):
         """
         Normalize note names on input, C# -> Db, etc

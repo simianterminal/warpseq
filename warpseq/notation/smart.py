@@ -21,11 +21,13 @@ class SmartExpression(Class):
     _roman = Field()
     _literal = Field()
     _mod = Field()
+    _slot_duration = Field()
 
     def on_init(self):
         self._roman = Roman(self.scale)
         self._literal = Literal()
         self._mod = ModExpression(defer=False)
+        self._slot_duration = self.clip.slot_duration(self.song)
 
     def do(self, clip, sym):
 
@@ -46,7 +48,8 @@ class SmartExpression(Class):
 
         # a hyphen means to tie the previous notes
         if sym == "-":
-            return [ Note(tie=True, name=None, octave=None) ]
+            print("APPLYING TIE: %s" % int(self._slot_duration))
+            return [ Note(tie=True, name=None, octave=None, length=int(self._slot_duration)) ]
 
         # ready to figure out what notes we are going to return for this expression
         notes = None

@@ -80,6 +80,9 @@ class Chord(BaseObject):
         else:
             self.notes = self._chordify()
 
+    def chordify(self, chord_type):
+        return Chord(root=self.notes[0].copy(), chord_type=chord_type)
+
     def copy(self):
         notes = [ n.copy() for n in self.notes ]
         return Chord(notes=notes)
@@ -87,8 +90,13 @@ class Chord(BaseObject):
     def with_velocity(self, velocity):
         c1 = self.copy()
         for n in c1.notes:
-            c1.velocity = velocity
+            n.velocity = velocity
         return c1
+
+    def with_cc(self, channel, num):
+        ch = self.copy()
+        ch.notes = [ x.with_cc(channel, num) for x in ch.notes ]
+        return ch
 
     def _chordify(self):
         """

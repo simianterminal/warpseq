@@ -134,6 +134,11 @@ class ModExpression(object):
                     how = int(how)
                 input_note = input_note.with_velocity(how)
 
+            elif expr.startswith("ch="):
+                (_, how) = expr.split("ch=", 1)
+                input_note = input_note.chordify(how)
+
+
             elif expr.startswith("cc") and "=" in expr:
                 (_, rest) = expr.split("cc", 1)
                 (number, how) = rest.split("=", 1)
@@ -146,7 +151,7 @@ class ModExpression(object):
                     how = int(how)
                     #print("apply2: %s" % how)
 
-                input_note.with_cc(number, how)
+                input_note = input_note.with_cc(number, how)
 
 
             elif expr in [ '_', 'x', '0' ]:
@@ -161,5 +166,7 @@ class ModExpression(object):
 
             else:
                 raise Exception("don't know how to process expr: %s" % expr)
+
+        print("MOD EXPR RETURNS: %s" % input_note)
 
         return input_note

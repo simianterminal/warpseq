@@ -4,7 +4,7 @@ from classforge import Class, Field
 from .arp import Arp
 from .scale import Scale
 from ..notation.smart import SmartExpression
-from ..notation.time_stream import evaluate_ties, notes_to_events
+from ..notation.time_stream import evaluate_ties, chord_list_to_notes, notes_to_events
 from ..playback.player import Player
 
 class Clip(ReferenceObject):
@@ -223,6 +223,8 @@ class Clip(ReferenceObject):
         # expression evaluator will need to grow smarter for intra-track and humanizer fun
         # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
         notes = [ notation.do(self, expression) for expression in slots ]
+
+        notes = chord_list_to_notes(notes)
 
         # "-" means extend the previous note length
         notes = evaluate_ties(notes)

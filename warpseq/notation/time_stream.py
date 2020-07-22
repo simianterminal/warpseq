@@ -5,6 +5,8 @@ NOTE_GAP = 0.01
 
 
 from .. model.event import Event, NOTE_ON, NOTE_OFF
+from .. model.chord import Chord
+from .. model.note import Note
 
 def evaluate_ties(note_list):
 
@@ -13,23 +15,59 @@ def evaluate_ties(note_list):
     results = []
     previous_notes = None
 
-    # print("NL:%s" % note_list)
+    print("NL:%s" % note_list)
+
 
     for n in note_list:
+        is_tie = False
+
         if len(n) == 0:
             results.append([])
         elif n[0].tie:
+            is_tie = True
+
             if previous_notes is not None:
-                for p in previous_notes:
-                    p.length = n[0].length
+                for m in previous_notes:
+                    m.length = m.length + n[0].length
             else:
                 results.append([])
         else:
             results.append(n)
+
+        if not is_tie:
+            previous_notes = n
+
     return results
 
 def round_partial(value, resolution):
     return round(value / resolution) * resolution
+
+def chord_list_to_notes(old_list):
+
+    results = []
+    for x in old_list:
+
+        bucket = []
+
+        #print("CLN: %s" % x)
+
+        if type(x) == Chord:
+            bucket = x.notes
+
+        elif type(x) == list:
+
+            for value in x:
+                if type(value) == Chord:
+                    bucket.extend(value.notes)
+                else:
+                    bucket.append(value)
+
+        elif type(x) == Note:
+            bucket.append(x)
+
+        results.append(bucket)
+
+    return results
 
 def flatten(old_list):
 
