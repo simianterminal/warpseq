@@ -117,7 +117,7 @@ def test_assembly():
     up = Pattern(name='up', slots="1;O+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
     kick = Pattern(name='kick',   slots="1;v=50 _ _ _ 1;v=75 _ _ _ 1;v=100 _ _ _ 1;v=128 _ _ _".split())
-    snare = Pattern(name='snare', slots="_ _ 1;v=50,75 _ _ _ 1;v=50,75 _ _ _ 1;v=50,75 _ _ _ 1;v=50,75 _".split())
+    snare = Pattern(name='snare', slots="_ _ 1;v=50,75;cc1=10 _ _ _ 1;v=50,75;cc1=50 _ _ _ 1;v=50,75;cc1=100 _ _ _ 1;v=50,75;cc1=125 _".split())
     occasionally_silent = Pattern(name='silent', slots='1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _'.split())
 
     song.add_patterns([up,down,chords,snare,kick, occasionally_silent])

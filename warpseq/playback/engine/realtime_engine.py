@@ -74,20 +74,28 @@ from  ... notation.mod import ModExpression
 
 MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
+
 MIDI_NOTE_ON = 0x90
 # 1001cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
+
 MIDI_POLYPHONIC_PRESSURE = AFTERTOUCH = 0xA0
 # 1010cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
+
 MIDI_CONTROLLER_CHANGE = 0xB0 # see Channel Mode Messages!!!
 # 1011cccc 0ccccccc 0vvvvvvv (channel, controller, value)
+
 MIDI_PROGRAM_CHANGE = 0xC0
 # 1100cccc 0ppppppp (channel, program)
+
 MIDI_CHANNEL_PRESSURE = 0xD0
 # 1101cccc 0ppppppp (channel, pressure)
+
 MIDI_PITCH_BEND = 0xE0
 # 1110cccc 0vvvvvvv 0wwwwwww (channel, value-lo, value-hi)
+
 MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
+
 MIDI_NOTE_ON = 0x90
 
 # FIXME: implement MIDI CCs, pass through velocity info from note objects
@@ -161,6 +169,15 @@ class RealtimeEngine(BaseObject):
 
         return (event.note.note_number(), velocity)
 
+    def channel_message(self, command, *data, ch=None):
+        """Send a MIDI channel mode message."""
+        command = (command & 0xf0) | ((ch if ch else self.channel) - 1 & 0xf)
+        msg = [command] + [value & 0x7f for value in data]
+        self.midi_out.send_message(msg)
+
+    def _control_change(self, cc, value):
+        self.channel_message(MIDI_CONTROLLER_CHANGE, cc, value)
+
     def _send_message(self, msg):
         self.midi_out.send_message(msg)
 
@@ -185,8 +202,16 @@ class RealtimeEngine(BaseObject):
             #print("REGISTERING: %s")
             register_playing_note(self.track, event.note)
             if not self.track.muted:
+
+                for (channel, value) in event.note.flags['cc'].items():
+                    # usually there won't be any
+                    channel = int(channel)
+                    self._control_change(channel, value)
+
                 result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
                 self._send_message(result)
+
+
 
         elif event.type == NOTE_OFF:
             (note_number, velocity) = self._note_data(event.on_event)

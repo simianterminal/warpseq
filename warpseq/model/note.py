@@ -48,17 +48,23 @@ class Note(BaseObject):
             self.flags = {}
             self.flags['deferred'] = False
             self.flags['deferred_expressions'] = []
+            self.flags['cc'] = dict()
         super().on_init()
 
     def copy(self):
-        return Note(name=self.name,
+        n1 = Note(name=self.name,
                     octave=self.octave,
                     tie=self.tie,
                     length=self.length,
                     start_time=self.start_time,
                     end_time=self.end_time,
                     velocity=self.velocity,
-                    flags=self.flags.copy())
+                    flags={})
+
+        n1.flags['deferred'] = self.flags['deferred']
+        n1.flags['deferred_expressions'] = self.flags['deferred_expressions'].copy()
+        n1.flags['cc'] = self.flags['cc'].copy()
+        return n1
 
     def _equivalence(self, name):
         """
@@ -107,6 +113,11 @@ class Note(BaseObject):
     def with_velocity(self, velocity):
         n1 = self.copy()
         n1.velocity = velocity
+        return n1
+
+    def with_cc(self, channel, value):
+        n1 = self.copy()
+        self.flags["cc"][str(channel)] = value
         return n1
 
     def transpose(self, steps=0, semitones=0, degrees=None, octaves=0):

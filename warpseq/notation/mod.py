@@ -83,27 +83,29 @@ class ModExpression(object):
                 how = int(how)
                 input_note = input_note.transpose(octaves=-how)
 
+            # FIXME: consider S+/- for scale transpose and +1/-1 be octaves, but also any number of + and - be octaves
+
             elif expr.startswith("+"):
                 # steps up: +1
-                (_, how) = expr.split("+")
+                (_, how) = expr.split("+", 1)
                 how = int(how)
                 input_note = input_note.scale_transpose(scale, how)
 
             elif expr.startswith("-"):
                 # steps down: -1
-                (_, how) = expr.split("-")
+                (_, how) = expr.split("-", 1)
                 how = int(how)
                 input_note = input_note.scale_transpose(scale, how)
 
             elif expr.startswith("S+"):
                 # steps up: +1
-                (_, how) = expr.split("S+")
+                (_, how) = expr.split("S+", 1)
                 how = int(how)
                 input_note = input_note.transpose(steps=how)
 
             elif expr.startswith("S-"):
                 # steps down: -1
-                (_, how) = expr.split("S-")
+                (_, how) = expr.split("S-", 1)
                 how = int(how)
                 input_note = input_note.transpose(steps=-how)
 
@@ -116,14 +118,14 @@ class ModExpression(object):
                 input_note = input_note.transpose(semitones=-1)
 
             elif expr.startswith("p="):
-                (_, how) = expr.split("p=")
+                (_, how) = expr.split("p=", 1)
                 how = float(how)
                 rn = random.random()
                 if rn > how:
                     execute_next = False
 
             elif expr.startswith("v="):
-                (_, how) = expr.split("v=")
+                (_, how) = expr.split("v=", 1)
                 # FIXME: add more helper methods / DRY
                 if "," in how:
                     tokens = how.split(",", 1)
@@ -131,6 +133,21 @@ class ModExpression(object):
                 else:
                     how = int(how)
                 input_note = input_note.with_velocity(how)
+
+            elif expr.startswith("cc") and "=" in expr:
+                (_, rest) = expr.split("cc", 1)
+                (number, how) = rest.split("=", 1)
+                #print("num=%s" % number)
+                if "," in how:
+                    tokens = how.split(",", 1)
+                    how = int(random.randrange(int(tokens[0]),int(tokens[1])))
+                    #print("apply: %s" % how)
+                else:
+                    how = int(how)
+                    #print("apply2: %s" % how)
+
+                input_note.with_cc(number, how)
+
 
             elif expr in [ '_', 'x', '0' ]:
                 input_note = None
