@@ -40,6 +40,7 @@ class Note(BaseObject):
     start_time = Field(type=int, default=None)
     end_time = Field(type=int, default=None)
     flags = Field(type=dict, default=None, required=False)
+    velocity = Field(type=int, default=None, required=False)
 
     def on_init(self):
         self.name =  self._equivalence(self.name)
@@ -56,6 +57,7 @@ class Note(BaseObject):
                     length=self.length,
                     start_time=self.start_time,
                     end_time=self.end_time,
+                    velocity=self.velocity,
                     flags=self.flags.copy())
 
     def _equivalence(self, name):
@@ -102,6 +104,10 @@ class Note(BaseObject):
 
         raise Exception("unexpected scale transpose error (2)")
 
+    def with_velocity(self, velocity):
+        n1 = self.copy()
+        n1.velocity = velocity
+        return n1
 
     def transpose(self, steps=0, semitones=0, degrees=None, octaves=0):
         """

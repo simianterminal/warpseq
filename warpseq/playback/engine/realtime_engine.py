@@ -150,12 +150,16 @@ class RealtimeEngine(BaseObject):
         self.time_index = 0
         pass
 
-    def _note_number(self, event):
+    def _note_data(self, event):
 
         #event.note = event.note.transpose(octaves=self.instrument.base_octave)
         # FIXME: do we need to test here that the note is within the range of min_octave and max_octave ?
 
-        return event.note.note_number()
+        velocity = event.note.velocity
+        if velocity is None:
+            velocity = self.track.instrument.default_velocity
+
+        return (event.note.note_number(), velocity)
 
     def _send_message(self, msg):
         self.midi_out.send_message(msg)
@@ -174,8 +178,8 @@ class RealtimeEngine(BaseObject):
         #        event.note = self.mod_expressions.do(event.note, self.scale, self.track, expr)
 
         if event.type == NOTE_ON:
-            velocity = 100
-            note_number = self._note_number(event)
+            (note_number, velocity) = self._note_data(event)
+
             #print("NN ON=%s" % note_number)
             self.count_on = self.count_on + 1
             #print("REGISTERING: %s")
@@ -185,8 +189,7 @@ class RealtimeEngine(BaseObject):
                 self._send_message(result)
 
         elif event.type == NOTE_OFF:
-            velocity = 100
-            note_number = self._note_number(event.on_event)
+            (note_number, velocity) = self._note_data(event.on_event)
             #print("NN OFF=%s" % note_number)
             self.count_off = self.count_off + 1
 

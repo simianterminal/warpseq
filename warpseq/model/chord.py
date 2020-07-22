@@ -84,6 +84,12 @@ class Chord(BaseObject):
         notes = [ n.copy() for n in self.notes ]
         return Chord(notes=notes)
 
+    def with_velocity(self, velocity):
+        c1 = self.copy()
+        for n in c1.notes:
+            c1.velocity = velocity
+        return c1
+
     def _chordify(self):
         """
         Internal method.

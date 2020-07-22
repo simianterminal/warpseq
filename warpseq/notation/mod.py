@@ -18,7 +18,6 @@ class ModExpression(object):
 
     def do(self, note, scale, track, expressions):
 
-
         if type(expressions) != list:
             expressions = str(expressions)
             expressions = expressions.split(";")
@@ -122,6 +121,16 @@ class ModExpression(object):
                 rn = random.random()
                 if rn > how:
                     execute_next = False
+
+            elif expr.startswith("v="):
+                (_, how) = expr.split("v=")
+                # FIXME: add more helper methods / DRY
+                if "," in how:
+                    tokens = how.split(",", 1)
+                    how = int(random.randrange(int(tokens[0]),int(tokens[1])))
+                else:
+                    how = int(how)
+                input_note = input_note.with_velocity(how)
 
             elif expr in [ '_', 'x', '0' ]:
                 input_note = None

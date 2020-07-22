@@ -11,6 +11,7 @@ class Instrument(ReferenceObject):
     min_octave = Field(type=int, required=False, default=0, nullable=False)
     base_octave = Field(type=int, required=True, default=3, nullable=False)
     max_octave = Field(type=int, required=True, default=8, nullable=False)
+    default_velocity = Field(type=int, required=False, default=120, nullable=False)
 
     def to_dict(self):
         result = dict(
@@ -19,7 +20,8 @@ class Instrument(ReferenceObject):
             channel = self.channel,
             min_octave = self.min_octave,
             base_octave = self.base_octave,
-            max_octave = self.max_octave
+            max_octave = self.max_octave,
+            default_velocity = self.default_velocity
         )
         if self.device:
             result['device'] = self.device.obj_id
@@ -36,5 +38,6 @@ class Instrument(ReferenceObject):
             device = song.find_device(data['device']),
             min_octave = data['min_octave'],
             base_octave = data['base_octave'],
-            max_octave = data['max_octave']
+            max_octave = data['max_octave'],
+            default_velocity = data['default_velocity']
         )
