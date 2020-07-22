@@ -167,6 +167,4 @@ class ModExpression(object):
             else:
                 raise Exception("don't know how to process expr: %s" % expr)
 
-        print("MOD EXPR RETURNS: %s" % input_note)
-
         return input_note

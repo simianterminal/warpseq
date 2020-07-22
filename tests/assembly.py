@@ -11,6 +11,8 @@ from warpseq.model.note import Note
 from warpseq.playback.engine.realtime_engine import RealtimeEngine
 from warpseq.playback.multi_player import MultiPlayer
 
+# fair warning: this is NOT meant to be musically listenable but is more a testbed for trying out various patterns
+# and testing them through MIDI recording / audio
 
 import json
 
@@ -126,7 +128,7 @@ def test_assembly():
     c_up = Clip(name='c_up', pattern=up, scale=akebono_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=4) # arp=a1, repeat=1)
     c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arps=[a2], repeat=4) # FIXME: repeat isn't implemented
-    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4) #, next_clip='c_up')
+    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4, next_clip='c_up')
     c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=4, next_clip='c_down')
 
     c_mixed = Clip(name='c_mixed', pattern=mixed, scale=baz_scale, repeat=3)
@@ -155,7 +157,7 @@ def test_assembly():
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
     #multi_player.add_clip(c_chords)
-    #multi_player.add_clip(c_snare)
+    multi_player.add_clip(c_snare)
     multi_player.add_clip(c_kick)
 
 
