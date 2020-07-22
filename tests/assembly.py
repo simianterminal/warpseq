@@ -53,14 +53,15 @@ def test_assembly():
     song.add_instruments([ euro1, euro2, euro3, euro4, euro5, euro6, euro7, euro8, moog, kick])
 
     foo_scale = Scale(name='foo', root=Note(name='C', octave=3), scale_type='major')
-    bar_scale = Scale(name='bar', root=Note(name='C', octave=3), scale_type='minor')
-    baz_scale = Scale(name='baz', root=Note(name='C', octave=3), scale_type='pentatonic')
+    bar_scale = Scale(name='bar', root=Note(name='C', octave=3), scale_type='pentatonic')
+    baz_scale = Scale(name='baz', root=Note(name='C', octave=3), scale_type='natural_minor')
+    akebono_scale   = Scale(name='akebono', root=Note(name='C', octave=3), slots=['1', '2', 'b3', '5', '6'])
 
     song.add_scales([ foo_scale, bar_scale, baz_scale ])
 
     song.scale = foo_scale
     song.tempo = 240
-    song.auto_advance = True
+    # song.auto_advance = True
     song.measure_length = 16
     song.repeat = 4
 
@@ -88,7 +89,7 @@ def test_assembly():
     song.remove_scene(s5)
 
     # FIXME: is this the right data model here?
-    a1 = Arp(name='a1', slots=["O+2","O-1","0","O+1","O+2"], divide=5)
+    a1 = Arp(name='a1', slots=["O+2","O-1","1","O+1","O+2"], divide=5)
     a2 = Arp(name='a2', slots=[1,1,1], divide=6)
     a3 = Arp(name='octave_hop', slots="O+1 .".split(), divide=1)
     a4 = Arp(name='capture', slots=["T=euro1;O-2"], divide=1)
@@ -122,7 +123,7 @@ def test_assembly():
     song.add_patterns([up,down,chords,snare,kick, occasionally_silent])
 
 
-    c_up = Clip(name='c_up', pattern=up, scale=bar_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
+    c_up = Clip(name='c_up', pattern=up, scale=akebono_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=4) # arp=a1, repeat=1)
     c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arps=[a2], repeat=4) # FIXME: repeat isn't implemented
     c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4, next_clip='c_up')

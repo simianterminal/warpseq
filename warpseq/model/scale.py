@@ -21,6 +21,9 @@ SCALE_TYPES = dict(
    phyrigian          = [ 1, 'b2', 'b3', 4, 5, 'b6', 'b7' ],
 )
 
+SCALE_TYPE_NAMES = [ k for k in SCALE_TYPES.keys() ]
+SCALE_TYPE_NAMES.append(None)
+
 SCALE_ALIASES = dict(
    aeolian = 'natural_minor',
    ionian = 'major',
@@ -33,7 +36,8 @@ class Scale(ReferenceObject):
 
     name = Field(type=str, required=False, nullable=False)
     root = Field(type=Note, required=True, nullable=False)
-    scale_type = Field(type=str, required=True, nullable=False, default=None)
+    scale_type = Field(type=str, required=False, nullable=True, default=None, choices=SCALE_TYPE_NAMES)
+    slots = Field(type=list, required=False, nullable=True, default=None)
 
     # slots = Field(type=list, required=True, nullable=False)
 
@@ -43,6 +47,7 @@ class Scale(ReferenceObject):
             name = self.name,
             root = [ self.root.name, self.root.octave ],
             scale_type = self.scale_type,
+            slots = self.slots
         )
 
     @classmethod
@@ -52,8 +57,7 @@ class Scale(ReferenceObject):
             name = data['name'],
             root = Note(name=data['root'][0], octave=data['root'][1]),
             scale_type = data['scale_type'],
-
-            #slots = data['slots']
+            slots = data['slots']
         )
 
 
@@ -67,8 +71,12 @@ class Scale(ReferenceObject):
 
         assert length is not None
 
-        scale_type = SCALE_ALIASES.get(self.scale_type, self.scale_type)
-        scale_data = SCALE_TYPES[scale_type][:]
+        scale_data = self.slots
+
+
+        if not scale_data:
+            scale_type = SCALE_ALIASES.get(self.scale_type, self.scale_type)
+            scale_data = SCALE_TYPES[scale_type][:]
 
         octave_shift = 0
         index = 0
