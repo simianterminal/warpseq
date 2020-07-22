@@ -19,6 +19,7 @@ SCALE_TYPES = dict(
    minor_pentatonic   = [ 1, 'b3', 4, 5, 'b7' ],
    mixolydian         = [ 1, 2, 3, 4, 5, 6, 'b7' ],
    phyrigian          = [ 1, 'b2', 'b3', 4, 5, 'b6', 'b7' ],
+   akebono            = [ 1, 2, 'b3', 5, 6 ]
 )
 
 SCALE_TYPE_NAMES = [ k for k in SCALE_TYPES.keys() ]

@@ -55,7 +55,6 @@ class Clip(ReferenceObject):
         if self.arps:
             #print("arps: %s" % self.arps)
             result['arps'] = [ x.obj_id for x in self.arps ]
-            print("saving: %s" % result['arps'])
         else:
             result['arps'] = []
         if self.scale:
