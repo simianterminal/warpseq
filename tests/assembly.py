@@ -116,7 +116,7 @@ def test_assembly():
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots="1;O+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
-    kick = Pattern(name='kick',   slots="1;ch=major;v=50 - - - - - - - - 1;v=100 _ _ _ 1;v=128 _ _ _".split())
+    kick = Pattern(name='kick',   slots="1 - 2 - 3 - 4 - 5 6 7 8".split())#"1;ch=major;v=50 - - - - - - - - 7;v=100 _ _ _ 7;v=128 _ _ _".split())
     snare = Pattern(name='snare', slots="_ _ 1;v=50,75;cc1=10 _ _ _ 1;ch=major;v=50,75;cc1=50 _ _ _ 1;ch=minor;v=50,75;cc1=100 _ _ _ 1;ch=sus4;v=50,75;cc1=125 _".split())
     occasionally_silent = Pattern(name='silent', slots='1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _'.split())
 
@@ -126,7 +126,7 @@ def test_assembly():
     c_up = Clip(name='c_up', pattern=up, scale=akebono_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=4) # arp=a1, repeat=1)
     c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arps=[a2], repeat=4) # FIXME: repeat isn't implemented
-    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4, next_clip='c_up')
+    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4) #, next_clip='c_up')
     c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=4, next_clip='c_down')
 
     c_mixed = Clip(name='c_mixed', pattern=mixed, scale=baz_scale, repeat=3)
@@ -155,7 +155,7 @@ def test_assembly():
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
     #multi_player.add_clip(c_chords)
-    multi_player.add_clip(c_snare)
+    #multi_player.add_clip(c_snare)
     multi_player.add_clip(c_kick)
 
 

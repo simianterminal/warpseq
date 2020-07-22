@@ -201,6 +201,7 @@ class RealtimeEngine(BaseObject):
             self.count_on = self.count_on + 1
             #print("REGISTERING: %s")
             register_playing_note(self.track, event.note)
+            #print("PLAY: %s" % event.note)
             if not self.track.muted:
 
                 for (channel, value) in event.note.flags['cc'].items():

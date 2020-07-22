@@ -214,7 +214,7 @@ class Note(BaseObject):
 
     def __repr__(self):
          # FIXME: simplify and remove CTR
-         return "Note<%s%s,d=%s,s=%s,e=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time)
+         return "Note<%s%s,LEN=%s,s=%s,e=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time)
 
 def note(st):
      """

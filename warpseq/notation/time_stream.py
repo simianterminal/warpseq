@@ -15,7 +15,7 @@ def evaluate_ties(note_list):
     results = []
     previous_notes = None
 
-    print("NL:%s" % note_list)
+    #print("NL:%s" % note_list)
 
 
     for n in note_list:
@@ -30,7 +30,8 @@ def evaluate_ties(note_list):
                 for m in previous_notes:
                     m.length = m.length + n[0].length
             else:
-                results.append([])
+                continue
+            results.append([])
         else:
             results.append(n)
 

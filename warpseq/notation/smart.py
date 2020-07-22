@@ -48,7 +48,7 @@ class SmartExpression(Class):
 
         # a hyphen means to tie the previous notes
         if sym == "-":
-            print("APPLYING TIE: %s" % int(self._slot_duration))
+            #print("APPLYING TIE: %s" % int(self._slot_duration))
             return [ Note(tie=True, name=None, octave=None, length=int(self._slot_duration)) ]
 
         # ready to figure out what notes we are going to return for this expression
