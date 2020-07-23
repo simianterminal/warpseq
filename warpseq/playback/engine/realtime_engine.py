@@ -193,18 +193,22 @@ class RealtimeEngine(BaseObject):
         #        #print("PROCESSING DEFERRED EXPR: %s" % expr)
         #        event.note = self.mod_expressions.do(event.note, self.scale, self.track, expr)
 
+        if not event.note:
+            return
+
         if event.type == NOTE_ON:
             (note_number, velocity) = self._note_data(event)
 
             #print("NN ON=%s" % note_number)
             self.count_on = self.count_on + 1
             #print("REGISTERING: %s")
+
             register_playing_note(self.track, event.note)
             #print("PLAY: %s" % event.note)
             if not self.track.muted:
 
                 for (channel, value) in event.note.flags['cc'].items():
-                    # usually there won't be any
+                   # usually there won't be any
                     channel = int(channel)
                     self._control_change(channel, value)
 

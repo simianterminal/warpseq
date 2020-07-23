@@ -7,6 +7,7 @@ from ..notation.smart import SmartExpression
 from ..notation.time_stream import evaluate_ties, evaluate_shifts, chord_list_to_notes, notes_to_events
 from ..playback.player import Player
 from .. utils import utils
+import time
 
 class Clip(ReferenceObject):
 
@@ -208,6 +209,9 @@ class Clip(ReferenceObject):
 
     def get_notes(self, song):
 
+        #print("E1: %s" % time.time())
+        c1 = time.time()
+
         # how long is each slot in MS?
 
 
@@ -244,8 +248,8 @@ class Clip(ReferenceObject):
             octave_shift = next(octave_shifts) + pattern.octave_shift
             degree_shift = next(degree_shifts)
 
-            print("degree shift: %s" % degree_shift)
-            print("octave shift: %s" % octave_shift)
+            #print("degree shift: %s" % degree_shift)
+            #print("octave shift: %s" % octave_shift)
 
             sixteenth = self.sixteenth_note_duration(song, pattern)
             slot_duration = self.slot_duration(song, pattern)
@@ -253,7 +257,7 @@ class Clip(ReferenceObject):
             # print("SD milliseconds=%s" % slot_duration)
 
             scale = self.get_actual_scale(song, pattern, scale_roller)
-            print("using scale: %s" % scale.name)
+            #print("using scale: %s" % scale.name)
 
             if arp_roller:
                 arp = next(arp_roller)
@@ -299,6 +303,9 @@ class Clip(ReferenceObject):
                 notes = arp.process(song, scale, self.track, notes)
 
             all_notes.extend(notes)
+
+        c2 = time.time()
+        print(c2-c1)
 
         return all_notes
 

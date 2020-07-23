@@ -24,11 +24,6 @@ class Song(ReferenceObject):
     patterns = Field(type=dict, required=False, nullable=False)
 
     auto_advance = Field(type=bool, default=False, nullable=True)
-    # measure_length = Field(type=int, default=15, nullable=True)
-
-
-    # REMOVE: JUNK
-    # repeat = Field(type=int, default=None, nullable=True)
 
     def find_device(self, obj_id):
         return self.devices.get(obj_id, None)
@@ -151,11 +146,14 @@ class Song(ReferenceObject):
             if x.obj_id == scene.obj_id:
                 found = True
                 index = i
+                break
 
         index = index + 1
 
         if index >= len(self.scenes):
             return None
+
+        # FIXME: what if not found, is this possible?
 
         return self.scenes[index]
 

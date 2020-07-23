@@ -135,6 +135,8 @@ class Note(BaseObject):
         You can combine all of them at the same time if you really want (why?), in which case they are additive.
         """
 
+        # FIXME: this is too slow and creates way too many objects!
+
         if degrees is not None:
             degrees = str(degrees)
             degree_steps = self._scale_degrees_to_steps(degrees)
@@ -173,6 +175,11 @@ class Note(BaseObject):
         """
         What order is this note on the keyboard?
         """
+
+        # FIXME: when does this happen?
+        if self.name is None:
+            return None
+
         nn = NOTES.index(self.name) + (12 * self.octave)
         return nn
 

@@ -65,7 +65,7 @@ class MultiPlayer(BaseObject):
 
     def add_clip(self, clip):
 
-        print("playing clip: %s" % clip.name)
+        #print("playing clip: %s" % clip.name)
 
         # starts a clip playing, including stopping any already on the same track
 

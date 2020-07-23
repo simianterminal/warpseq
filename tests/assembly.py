@@ -161,7 +161,8 @@ def test_assembly():
     multi_player.play_scene(s1)
 
     for x in range(0, 16000):
-       multi_player.advance(milliseconds=1)
+
+       multi_player.advance(milliseconds=2)
     # multi_player.remove_clip(c1) # FIXME: rename to stop_clip ?
     multi_player.stop()
 
