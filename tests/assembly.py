@@ -96,8 +96,10 @@ def test_assembly():
     a3 = Arp(name='octave_hop', slots="O+1 .".split(), divide=1)
     a4 = Arp(name='capture', slots=["T=euro1;O-2"], divide=1)
     a5 = Arp(name='silence', slots=["p=0.05;x"], divide=1)
+    a6 = Arp(name='a1', slots=["1","2","3","4","5"], divide=5)
 
-    song.add_arps([a1, a2, a3, a4, a5])
+
+    song.add_arps([a1, a2, a3, a4, a5, a6])
     #song.remove_arp(a2)
 
     #p1 = Pattern(name='p1', slots=["I","V", "Eb4 dim", "-", 1, "-", 4,5,6,2,3,8,1,4])
@@ -114,7 +116,7 @@ def test_assembly():
 
     mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", "2", 3, "V", [ "V", "V;O+1"]], tempo=30)
 
-    capture = Pattern(name='capture', arps=[a4], slots=("1 0 0 0" * 4).split(), tempo=30)
+    capture = Pattern(name='capture', slots=("1;T=euro1 0 0 0" * 4).split(), tempo=30)
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), tempo=120)
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots="1;O+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
@@ -132,7 +134,7 @@ def test_assembly():
     c_kick = Clip(name='c_kick', patterns=[kick], scale=baz_scale, repeat=4, next_clip='c_up')
     c_snare = Clip(name='c_snare', patterns=[snare], scale=baz_scale, repeat=4, next_clip='c_down')
 
-    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scale=baz_scale, repeat=3)
+    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scale=baz_scale, repeat=3) # arps=[a1,a2], 
     c_capture = Clip(name='c_capture', patterns=[capture], scale=baz_scale)
     c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scale=baz_scale, arps=[a5], repeat=8)
 

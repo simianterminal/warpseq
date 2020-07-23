@@ -6,6 +6,7 @@ from .scale import Scale
 from ..notation.smart import SmartExpression
 from ..notation.time_stream import evaluate_ties, chord_list_to_notes, notes_to_events
 from ..playback.player import Player
+from .. utils import utils
 
 class Clip(ReferenceObject):
 
@@ -123,16 +124,6 @@ class Clip(ReferenceObject):
 
         return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
 
-    def actual_arps(self, song, pattern):
-
-        assert self.track is not None
-
-        if self.arps is not None:
-            return self.arps
-        if pattern and pattern.arps:
-            return pattern.arps
-        return []
-
     def actual_tempo(self, song, pattern):
 
         if self.tempo is not None:
@@ -212,6 +203,12 @@ class Clip(ReferenceObject):
 
         t_start = 0.0
 
+        arp_roller = None
+        arp = None
+
+        if self.arps:
+            arp_roller = utils.roller(self.arps)
+
         for pattern in self.patterns:
 
             sixteenth = self.sixteenth_note_duration(song, pattern)
@@ -220,7 +217,9 @@ class Clip(ReferenceObject):
             # print("SD milliseconds=%s" % slot_duration)
 
             scale = self.actual_scale(song, pattern)
-            arps = self.actual_arps(song, pattern)
+
+            if arp_roller:
+                arp = next(arp_roller)
 
             assert scale is not None
 
@@ -258,7 +257,7 @@ class Clip(ReferenceObject):
             if self.length and self.length < len(notes):
                 notes = notes[0:self.length]
 
-            for arp in arps:
+            if arp:
                 notes = arp.process(song, scale, self.track, notes)
 
             all_notes.extend(notes)
