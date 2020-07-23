@@ -26,6 +26,7 @@ class Clip(ReferenceObject):
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
     octave_shifts = Field(type=list, default=None, required=False, nullable=True)
     degree_shifts = Field(type=list, default=None, required=False, nullable=True)
+    scale_note_shifts = Field(type=list, default=None, required=False, nullable=True)
 
     next_clip = Field(required=False, nullable=True)
 
@@ -56,7 +57,10 @@ class Clip(ReferenceObject):
             repeat = self.repeat,
             slot_length = self.slot_length,
             next_clip = self.next_clip,
-            auto_scene_advance = self.auto_scene_advance
+            auto_scene_advance = self.auto_scene_advance,
+            degree_shifts = self.degree_shifts,
+            scale_note_shifts = self.scale_note_shifts,
+            octave_shifts = self.octave_shifts
         )
         if self.patterns:
             result['patterns'] = [ x.obj_id for x in self.patterns ]
@@ -99,7 +103,10 @@ class Clip(ReferenceObject):
             slot_length = self.slot_length,
             next_clip = self.next_clip,
             auto_scene_advance = self.auto_scene_advance,
-            scales = [ x for x in self.scales ]
+            scales = [ x for x in self.scales ],
+            degree_shifts = self.degree_shifts,
+            octave_shifts = self.octave_shifts,
+            scale_note_shifts = self.scale_note_shifts
 
         )
 
@@ -118,7 +125,10 @@ class Clip(ReferenceObject):
             scene = song.find_scene(data['scene']),
             slot_length = data['slot_length'],
             next_clip = data['next_clip'],
-            auto_scene_advance = data['auto_scene_advance']
+            auto_scene_advance = data['auto_scene_advance'],
+            degree_shifts = data['degree_shifts'],
+            scale_note_shifts = data['scale_note_shifts'],
+            octave_shifts = data['octave_shifts']
         )
 
     def get_actual_scale(self, song, pattern, roller):
@@ -233,9 +243,14 @@ class Clip(ReferenceObject):
         if octave_shifts is None:
             octave_shifts = [ 0 ]
 
+        scale_note_shifts = self.scale_note_shifts
+        if scale_note_shifts is None:
+            scale_note_shifts = [ 0 ]
+
         degree_shifts = utils.roller(degree_shifts)
         octave_shifts = utils.roller(octave_shifts)
         scale_roller = utils.roller(self.scales)
+        scale_note_roller = utils.roller(scale_note_shifts)
 
 
         arp = None
@@ -243,15 +258,21 @@ class Clip(ReferenceObject):
         if self.arps:
             arp_roller = utils.roller(self.arps)
 
+        pat_index = 0
+
         for pattern in self.patterns:
 
-            octave_shift = next(octave_shifts) + pattern.octave_shift
+
+            pat_index = pat_index + 1
+
+            no = next(octave_shifts)
+
+
+            octave_shift = no + pattern.octave_shift + self.track.instrument.base_octave
             degree_shift = next(degree_shifts)
+            scale_shift = next(scale_note_roller)
 
-            #print("degree shift: %s" % degree_shift)
-            #print("octave shift: %s" % octave_shift)
-
-            sixteenth = self.sixteenth_note_duration(song, pattern)
+            #sixteenth = self.sixteenth_note_duration(song, pattern)
             slot_duration = self.slot_duration(song, pattern)
 
             # print("SD milliseconds=%s" % slot_duration)
@@ -279,13 +300,14 @@ class Clip(ReferenceObject):
 
             # expression evaluator will need to grow smarter for intra-track and humanizer fun
             # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
+
             notes = [ notation.do(self, expression) for expression in slots ]
+
 
             notes = chord_list_to_notes(notes)
 
-
             notes = evaluate_ties(notes)
-            notes = evaluate_shifts(notes, octave_shift, degree_shift)
+            notes = evaluate_shifts(notes, octave_shift, degree_shift, scale, scale_shift)
 
             for slot in notes:
                 for note in slot:
@@ -305,13 +327,19 @@ class Clip(ReferenceObject):
             all_notes.extend(notes)
 
         c2 = time.time()
+        print(c2 - c1)
 
         return all_notes
 
 
     def get_events(self, song):
         notes = self.get_notes(song)
-        events = notes_to_events(notes)
+        #print("(notes)")
+        #print(notes)
+        events = notes_to_events(self, notes)
+
+        #print("(get events)")
+        #print(events)
 
         return events
 

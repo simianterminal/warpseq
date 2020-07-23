@@ -74,6 +74,7 @@ class SmartExpression(Class):
         # first try roman numeral notation (chords are roman, scale notes are arabic)
         try:
             notes = self._roman.do_notes(sym)
+            #print("roman(%s) => %s" % (sym, notes))
             #print("S2: %s" % notes)
         except Exception:
             #traceback.print_exc()
@@ -83,6 +84,7 @@ class SmartExpression(Class):
         if not notes:
             try:
                 notes = self._literal.do_notes(sym)
+                #print("lit")
                 #print("S1: %s" % notes)
             except Exception:
                 #traceback.print_exc()

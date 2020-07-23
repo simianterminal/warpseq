@@ -9,6 +9,7 @@ BACKEND
 * build the "friendly" high level API and port the test/assembly.py example to it.
   use arrays, not strings, for lists of expressions in those API examples.  
 * Make sure ints are recognized by Literal class
+* scale code should generate a cached table so that scale_transpose in Note can be more efficient
 * cleanup various code
 * make sure there's a short cut method for clicking play on a scene that plays all the clips
 * increase error handling in expressions using custom exception types
@@ -57,3 +58,6 @@ BACKEND
 ** is pattern overriding tempo (if not set on the clip) implemented?
 
 * demo vids / songs / tracks
+
+* test slot_length (really this is the same as tempo, isn't it? -- do we need to expose it?)
+* methods to indicate a note should be of longer duration without ties, like maybe "1;/" to double and "1;\" to shorten by half? or something anyway

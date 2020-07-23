@@ -94,10 +94,13 @@ class Note(BaseObject):
 
     def scale_transpose(self, scale, steps):
 
+        # FIXME: it would probably be a nice performance increase if the scale generates a CACHED copy of itself on creation and then
+        # .generate() walks over that cached copy.
+
         index = 0
         found = False
         snn = self.note_number()
-        for note in scale.generate(length=60):
+        for note in scale.generate(length=145):
             nn = note.note_number()
             if nn > snn:
                 found = True
@@ -110,7 +113,7 @@ class Note(BaseObject):
         new_index = index + steps
 
         find_index = 0
-        for note in scale.generate(length=60):
+        for note in scale.generate(length=145):
             if find_index == new_index:
                 return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
             find_index = find_index + 1
@@ -181,26 +184,6 @@ class Note(BaseObject):
 
         nn = NOTES.index(self.name) + (12 * self.octave)
         return nn
-
-    def up_half_step(self):
-        """
-        What note is a half step up from this one?
-        """
-        number = self._numeric_name()
-        name = UP_HALF_STEP[number]
-        if self.name == 'B':
-            return Note(name=name, octave=self.octave + 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
-        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
-
-    def down_half_step(self):
-        """
-        What note is a half step down from this one?
-        """
-        number = self._numeric_name()
-        name = DOWN_HALF_STEP[number]
-        if self.name == 'C':
-            return Note(name=name, octave=self.octave - 1, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
-        return Note(name=name, octave=self.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
 
     def __eq__(self, other):
         """

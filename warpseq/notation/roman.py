@@ -47,7 +47,7 @@ class Roman(object):
         assert scale is not None
         self.scale = scale
 
-        self._note_buffer = [ n for n in self.scale.generate(length=20) ]
+        self._note_buffer = [ n for n in self.scale.generate(length=40) ]
 
     def chord(self, sym):
         """
@@ -101,7 +101,8 @@ class Roman(object):
 
     def note(self, sym):
         position = int(sym) - 1
-        return self._note_buffer[position].copy()
+        rc = self._note_buffer[position].copy()
+        return rc
 
     def do(self, sym):
         """

@@ -50,25 +50,25 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # INSTRUMENTS
 
-    euro1 = Instrument(device=d1, name='eurorack1', channel=1, min_octave=0, base_octave=3, max_octave=8)
-    euro2 = Instrument(device=d1, name='eurorack2', channel=2, min_octave=0, base_octave=3, max_octave=8)
-    euro3 = Instrument(device=d1, name='eurorack3', channel=3, min_octave=0, base_octave=3, max_octave=8)
-    euro4 = Instrument(device=d1, name='eurorack4', channel=4, min_octave=0, base_octave=3, max_octave=8)
-    euro5 = Instrument(device=d1, name='eurorack5', channel=5, min_octave=0, base_octave=3, max_octave=8)
-    euro6 = Instrument(device=d1, name='eurorack6', channel=6, min_octave=0, base_octave=3, max_octave=8)
-    euro7 = Instrument(device=d1, name='eurorack7', channel=7, min_octave=0, base_octave=3, max_octave=8)
-    euro8 = Instrument(device=d1, name='eurorack8', channel=8, min_octave=0, base_octave=3, max_octave=8)
+    euro1 = Instrument(device=d1, name='eurorack1', channel=1, min_octave=0, base_octave=4, max_octave=8)
+    euro2 = Instrument(device=d1, name='eurorack2', channel=2, min_octave=0, base_octave=4, max_octave=8)
+    euro3 = Instrument(device=d1, name='eurorack3', channel=3, min_octave=0, base_octave=4, max_octave=8)
+    euro4 = Instrument(device=d1, name='eurorack4', channel=4, min_octave=0, base_octave=4, max_octave=8)
+    euro5 = Instrument(device=d1, name='eurorack5', channel=5, min_octave=0, base_octave=4, max_octave=8)
+    euro6 = Instrument(device=d1, name='eurorack6', channel=6, min_octave=0, base_octave=4, max_octave=8)
+    euro7 = Instrument(device=d1, name='eurorack7', channel=7, min_octave=0, base_octave=4, max_octave=8)
+    euro8 = Instrument(device=d1, name='eurorack8', channel=8, min_octave=0, base_octave=4, max_octave=8)
     moog  = Instrument(device=d2, name='moog', channel=9, min_octave=2, base_octave=4, max_octave=8)
-    kick  = Instrument(device=d3, name='kick', channel=1, min_octave=0, base_octave=3, max_octave=8)
+    kick  = Instrument(device=d3, name='kick', channel=1, min_octave=0, base_octave=4, max_octave=8)
     song.add_instruments([ euro1, euro2, euro3, euro4, euro5, euro6, euro7, euro8, moog, kick])
 
     # ------------------------------------------------------------------------------------------------------------------
     # SCALES
 
-    foo_scale = Scale(name='foo', root=Note(name='C', octave=3), scale_type='major')
-    bar_scale = Scale(name='bar', root=Note(name='C', octave=3), scale_type='pentatonic')
-    baz_scale = Scale(name='c4-major', root=Note(name='C', octave=4), scale_type='major')
-    akebono_scale   = Scale(name='c3-akebono', root=Note(name='C', octave=3), slots=['1', '2', 'b3', '5', '6'])
+    foo_scale = Scale(name='foo', root=Note(name='C', octave=0), scale_type='major')
+    bar_scale = Scale(name='bar', root=Note(name='C', octave=0), scale_type='pentatonic')
+    baz_scale = Scale(name='c4-major', root=Note(name='C', octave=0), scale_type='major')
+    akebono_scale   = Scale(name='c3-akebono', root=Note(name='C', octave=0), slots=['1', '2', 'b3', '5', '6'])
     song.add_scales([ foo_scale, bar_scale, baz_scale, akebono_scale ])
     song.scale = foo_scale
 
@@ -103,7 +103,7 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # ARPS
 
-    a1 = Arp(name='a1', slots=["O+2","O-1","1","O+1","O+2"], divide=5)
+    a1 = Arp(name='a1', slots=["O+2","1","1","O+1","O+2"], divide=5)
     a2 = Arp(name='a2', slots=[1,1,1], divide=6)
     a3 = Arp(name='octave_hop', slots="O+1 .".split(), divide=1)
     a4 = Arp(name='capture', slots=["T=euro1;O-2"], divide=1)
@@ -115,7 +115,7 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # PATTERNS
 
-    mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", "2", 3, "V", [ "V", "V;O+1"]], tempo=30)
+    mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", 2, 3, "V", [ "V", "V;O+1"]], tempo=120)
 
     #capture = Pattern(name='capture', slots=("1;T=euro1 0 0 0" * 4).split(), tempo=30)
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), tempo=120)
@@ -136,7 +136,7 @@ def test_assembly():
     #c_chords = Clip(name='c_chords', patterns=[chords], scales=[baz_scale], arps=[a2], repeat=4) # FIXME: repeat isn't implemented
     c_kick = Clip(name='c_kick', patterns=[kick], scales=[baz_scale], repeat=4, auto_scene_advance=True)
     c_snare = Clip(name='c_snare', patterns=[snare], scales=[baz_scale], repeat=4) # next_clip='c_down')
-    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scales=[baz_scale, baz_scale], repeat=3) #degree_shifts=[0, 5 ], octave_shifts=[1,0], repeat=3) # arps=[a1,a2],
+    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scales=[baz_scale, baz_scale], octave_shifts=[1,2], degree_shifts=[0], scale_note_shifts=[0], repeat=3)
     #c_capture = Clip(name='c_capture', patterns=[capture], scales=[baz_scale])
     #c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scales=[baz_scale], arps=[a5], repeat=8)
 
@@ -151,8 +151,8 @@ def test_assembly():
     # SAVE/LOAD
 
     data = song.to_json()
-    s2 = Song.from_json(data)
-    data2 = s2.to_json()
+    song2 = Song.from_json(data)
+    data2 = song2.to_json()
 
     # ------------------------------------------------------------------------------------------------------------------
     # PLAYBACK

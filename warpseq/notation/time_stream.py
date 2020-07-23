@@ -40,20 +40,19 @@ def evaluate_ties(note_list):
 
     return results
 
-def evaluate_shifts(note_list, octave_shift, degree_shift):
-    if octave_shift == 0 and degree_shift == 0:
+def evaluate_shifts(note_list, octave_shift, degree_shift, scale, scale_shift):
+    if octave_shift == 0 and degree_shift == 0 and scale_shift == 0:
         return note_list
-
-    # [[n1], [n1,n2,n3]]
-
     results = []
     for chord in note_list:
         chord_items = []
         for note in chord:
-            chord_items.append(note.transpose(octaves=octave_shift, degrees=degree_shift))
+            if octave_shift or scale_shift:
+                note = note.transpose(octaves=octave_shift, degrees=degree_shift)
+            if scale_shift:
+                note = note.scale_transpose(scale, scale_shift)
+            chord_items.append(note)
         results.append(chord_items)
-
-
     return results
 
 def round_partial(value, resolution):
@@ -97,7 +96,7 @@ def flatten(old_list):
             results.append(y)
     return results
 
-def notes_to_events(note_list): #, resolution=NOTE_RESOLUTION):
+def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
 
     # takes a note list like
     # [[n1, n2, n3], [n4, n5]]
@@ -121,7 +120,15 @@ def notes_to_events(note_list): #, resolution=NOTE_RESOLUTION):
 
         #storage = buckets.get(start_index, [])
 
+
+
         event1 = Event(type=NOTE_ON, note=note, time=note.start_time)
+
+        if event1.note.octave > clip.track.instrument.max_octave:
+            event1.note.octave = clip.track.instrument.max_octave
+        if event1.note.octave < clip.track.instrument.min_octave:
+            event1.note.octave = clip.track.instrument.min_octave
+
         events.append(event1)
 
         #storage.append(event)

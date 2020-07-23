@@ -39,6 +39,7 @@ class Scale(ReferenceObject):
     root = Field(type=Note, required=True, nullable=False)
     scale_type = Field(type=str, required=False, nullable=True, default=None, choices=SCALE_TYPE_NAMES)
     slots = Field(type=list, required=False, nullable=True, default=None)
+    _cached = Field(type=list, required=False)
 
     # slots = Field(type=list, required=True, nullable=False)
 
@@ -63,6 +64,32 @@ class Scale(ReferenceObject):
 
 
     def generate(self, length=None):
+
+        if self._cached is None:
+            self._generate(length=145)
+
+        index = 0
+
+
+        result = []
+        while (index < length):
+            try:
+
+                result.append(self._cached[index])
+            except IndexError:
+                #print("SCALE NOTES=%s" % result)
+                return result
+            #yield self._cached[index]
+            index = index + 1
+        #print("SCALE NOTES=%s" % result)
+        return result
+
+
+    def _generate(self, length=None):
+
+
+
+
         """
         Allows traversal of a scale in a forward direction.
         Example:
@@ -70,10 +97,11 @@ class Scale(ReferenceObject):
            print(note)
         """
 
+
         assert length is not None
 
         scale_data = self.slots
-
+        root = self.root.copy()
 
         if not scale_data:
             scale_type = SCALE_ALIASES.get(self.scale_type, self.scale_type)
@@ -81,13 +109,23 @@ class Scale(ReferenceObject):
 
         octave_shift = 0
         index = 0
+
+        self._cached = []
+
         while (length is None or length > 0):
 
             if index == len(scale_data):
                index = 0
                octave_shift = octave_shift + 1
-            result = self.root.transpose(degrees=scale_data[index], octaves=octave_shift)
-            yield(result)
+
+            try:
+                result = self.root.transpose(degrees=scale_data[index], octaves=octave_shift)
+            except IndexError:
+                return
+
+            self._cached.append(result) # yield(result)
+
+
             index = index + 1
             if length is not None:
                 length = length - 1

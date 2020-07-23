@@ -204,7 +204,7 @@ class RealtimeEngine(BaseObject):
             #print("REGISTERING: %s")
 
             register_playing_note(self.track, event.note)
-            #print("PLAY: %s" % event.note)
+
             if not self.track.muted:
 
                 for (channel, value) in event.note.flags['cc'].items():
@@ -214,6 +214,8 @@ class RealtimeEngine(BaseObject):
 
                 result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
                 self._send_message(result)
+
+                # print("PLAY: %s" % event.note)
 
 
 
