@@ -15,6 +15,7 @@ UP_HALF_STEP   = roll_left(NOTES)
 DOWN_HALF_STEP = roll_right(NOTES)
 
 SCALE_DEGREES_TO_STEPS = {
+   '0'  : 0, # people may enter this meaning "do nothing", but really it is 1.
    '1'  : 0, # C (if C major)
    'b2' : 0.5,
    '2'  : 1, # D
@@ -135,6 +136,7 @@ class Note(BaseObject):
         """
 
         if degrees is not None:
+            degrees = str(degrees)
             degree_steps = self._scale_degrees_to_steps(degrees)
         else:
             degree_steps = 0

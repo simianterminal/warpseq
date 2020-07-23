@@ -84,9 +84,6 @@ class Song(ReferenceObject):
             OBJ_COUNTER = COUNTER,
             name = self.name,
             tempo = self.tempo,
-            auto_advance = self.auto_advance,
-            measure_length = self.measure_length,
-            repeat = self.repeat,
             devices = { str(k) :  v.to_dict() for (k,v) in self.devices.items() },
             instruments = { str(k) : v.to_dict() for (k, v) in self.instruments.items()},
             scales = { str(k) :  v.to_dict() for (k, v) in self.scales.items()},
@@ -142,9 +139,6 @@ class Song(ReferenceObject):
 
         song.scale = song.find_scale(data['scale'])
         song.tempo = data['tempo']
-        song.auto_advance = data['auto_advance']
-        song.measure_length = data['measure_length']
-        song.repeat = data['repeat']
 
         return song
 

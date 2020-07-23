@@ -24,6 +24,7 @@ class Clip(ReferenceObject):
 
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
     octave_shifts = Field(type=list, default=None, required=False, nullable=True)
+    degree_shifts = Field(type=list, default=None, required=False, nullable=True)
 
     next_clip = Field(required=False, nullable=True)
 
@@ -216,14 +217,21 @@ class Clip(ReferenceObject):
 
         arp_roller = None
 
+        scales = self.scales
+        if scales is None:
+            scales = [ None ]
+
+        degree_shifts = self.degree_shifts
+        if degree_shifts is None:
+            degree_shifts = [ 0 ]
+
         octave_shifts = self.octave_shifts
         if octave_shifts is None:
             octave_shifts = [ 0 ]
-        octave_shifts = utils.roller(octave_shifts)
 
-        scale_roller = None
-        if self.scales:
-            scale_roller = utils.roller(self.scales)
+        degree_shifts = utils.roller(degree_shifts)
+        octave_shifts = utils.roller(octave_shifts)
+        scale_roller = utils.roller(self.scales)
 
 
         arp = None
@@ -234,6 +242,9 @@ class Clip(ReferenceObject):
         for pattern in self.patterns:
 
             octave_shift = next(octave_shifts) + pattern.octave_shift
+            degree_shift = next(degree_shifts)
+
+            print("degree shift: %s" % degree_shift)
             print("octave shift: %s" % octave_shift)
 
             sixteenth = self.sixteenth_note_duration(song, pattern)
@@ -270,7 +281,7 @@ class Clip(ReferenceObject):
 
 
             notes = evaluate_ties(notes)
-            notes = evaluate_shifts(notes, octave_shift)
+            notes = evaluate_shifts(notes, octave_shift, degree_shift)
 
             for slot in notes:
                 for note in slot:
