@@ -56,13 +56,13 @@ def test_assembly():
 
     foo_scale = Scale(name='foo', root=Note(name='C', octave=3), scale_type='major')
     bar_scale = Scale(name='bar', root=Note(name='C', octave=3), scale_type='pentatonic')
-    baz_scale = Scale(name='baz', root=Note(name='C', octave=3), scale_type='natural_minor')
-    akebono_scale   = Scale(name='akebono', root=Note(name='C', octave=3), slots=['1', '2', 'b3', '5', '6'])
+    baz_scale = Scale(name='c3-natural-minor', root=Note(name='C', octave=3), scale_type='natural_minor')
+    akebono_scale   = Scale(name='c3-akebono', root=Note(name='C', octave=3), slots=['1', '2', 'b3', '5', '6'])
 
-    song.add_scales([ foo_scale, bar_scale, baz_scale ])
+    song.add_scales([ foo_scale, bar_scale, baz_scale, akebono_scale ])
 
     song.scale = foo_scale
-    song.tempo = 240
+    song.tempo = 120
     # song.auto_advance = True
     song.measure_length = 16
     song.repeat = 4
@@ -121,37 +121,40 @@ def test_assembly():
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots="1;O+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15".split(), tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
-    kick = Pattern(name='kick',   slots="1 - 2 - 3 - 4 - 5 6 7 8".split())#"1;ch=major;v=50 - - - - - - - - 7;v=100 _ _ _ 7;v=128 _ _ _".split())
-    snare = Pattern(name='snare', slots="_ _ 1;v=50,75;cc1=10 _ _ _ 1;ch=major;v=50,75;cc1=50 _ _ _ 1;ch=minor;v=50,75;cc1=100 _ _ _ 1;ch=sus4;v=50,75;cc1=125 _".split())
+    kick = Pattern(name='kick',   slots="1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _".split())#"1;ch=major;v=50 - - - - - - - - 7;v=100 _ _ _ 7;v=128 _ _ _".split())
+    #snare = Pattern(name='snare', slots="_ _ 1;v=50,75;cc1=10 _ _ _ 1;ch=major;v=50,75;cc1=50 _ _ _ 1;ch=minor;v=50,75;cc1=100 _ _ _ 1;ch=sus4;v=50,75;cc1=125 _".split())
+    snare = Pattern(name='snare', octave_shift=1, slots="_ _ 1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _".split())
+
     occasionally_silent = Pattern(name='silent', slots='1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _'.split())
 
     song.add_patterns([up,down,chords,snare,kick, occasionally_silent, mixed])
 
 
-    c_up = Clip(name='c_up', patterns=[up], scale=akebono_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
-    c_down = Clip(name='c_down', patterns=[down], scale=bar_scale, repeat=4) # arp=a1, repeat=1)
-    c_chords = Clip(name='c_chords', patterns=[chords], scale=baz_scale, arps=[a2], repeat=4) # FIXME: repeat isn't implemented
-    c_kick = Clip(name='c_kick', patterns=[kick], scale=baz_scale, repeat=4, next_clip='c_up')
-    c_snare = Clip(name='c_snare', patterns=[snare], scale=baz_scale, repeat=4, next_clip='c_down')
+    c_up = Clip(name='c_up', patterns=[up], scales=[akebono_scale], repeat=4, arps=[a3]) # next_clip='c_chords') # repeat=2, next_clip='c5', length=4)
+    c_down = Clip(name='c_down', patterns=[down], scales=[bar_scale], repeat=4) # arp=a1, repeat=1)
+    #c_chords = Clip(name='c_chords', patterns=[chords], scales=[baz_scale], arps=[a2], repeat=4) # FIXME: repeat isn't implemented
+    c_kick = Clip(name='c_kick', patterns=[kick], scales=[baz_scale], repeat=4, auto_scene_advance=True)
+    c_snare = Clip(name='c_snare', patterns=[snare], scales=[baz_scale], repeat=4) # next_clip='c_down')
 
-    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scale=baz_scale, repeat=3) # arps=[a1,a2], 
-    c_capture = Clip(name='c_capture', patterns=[capture], scale=baz_scale)
-    c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scale=baz_scale, arps=[a5], repeat=8)
+    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scales=[baz_scale, akebono_scale], octave_shifts=[1,0], repeat=3) # arps=[a1,a2],
+    #c_capture = Clip(name='c_capture', patterns=[capture], scales=[baz_scale])
+    #c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scales=[baz_scale], arps=[a5], repeat=8)
 
     song.add_clip(scene=s1, track=t1, clip=c_kick)
     song.add_clip(scene=s1, track=t2, clip=c_snare)
-    song.add_clip(scene=s2, track=t1, clip=c_up)
-    song.add_clip(scene=s2, track=t2, clip=c_down)
+
+    song.add_clip(scene=s2, track=t1, clip=c_mixed)
+    song.add_clip(scene=s3, track=t1, clip=c_up)
 
 
     #song.add_clip(scene=s2, track=t1, clip=c_down)
-    song.add_clip(scene=s3, track=t1, clip=c_chords)
-    song.add_clip(scene=s4, track=t2, clip=c_mixed)
+    song.add_clip(scene=s3, track=t2, clip=c_down)
+    #song.add_clip(scene=s4, track=t2, clip=c_mixed)
     #song.add_clip(scene=s5, track=t1, clip=c_mixed)
     #song.add_clip(scene=s6, track=t2, clip=c_capture)
     #song.add_clip(scene=s6, track=t1, clip=c_silent)
 
-    song.add_clip(scene=s5, track=t2, clip=c_snare)
+    #song.add_clip(scene=s5, track=t2, clip=c_snare)
     # song.remove_clip(scene=s2, track=t2)
 
     data = song.to_json()
@@ -166,7 +169,9 @@ def test_assembly():
     # testing c_mixed to see if it plays three patterns in order and then see if it can jump to the next
     # AFTERWARDS, implement scene advance from my 8.5x11 notes!
 
-    multi_player.add_clip(c_mixed)
+    #multi_player.add_clip(c_mixed)
+    multi_player.play_scene(s1)
+
 
 
     for x in range(0, 16000):

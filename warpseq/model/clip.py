@@ -4,7 +4,7 @@ from classforge import Class, Field
 from .arp import Arp
 from .scale import Scale
 from ..notation.smart import SmartExpression
-from ..notation.time_stream import evaluate_ties, chord_list_to_notes, notes_to_events
+from ..notation.time_stream import evaluate_ties, evaluate_shifts, chord_list_to_notes, notes_to_events
 from ..playback.player import Player
 from .. utils import utils
 
@@ -15,7 +15,7 @@ class Clip(ReferenceObject):
 
     name = Field(type=str, required=True, nullable=False)
 
-    scale = Field(type=Scale, required=False, nullable=True, default=None)
+    scales = Field(type=list, required=False, nullable=True, default=None)
 
     patterns = Field(type=list, required=True, nullable=False)
 
@@ -23,12 +23,15 @@ class Clip(ReferenceObject):
     length = Field(type=int, default=None, required=False, nullable=True)
 
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
+    octave_shifts = Field(type=list, default=None, required=False, nullable=True)
 
     next_clip = Field(required=False, nullable=True)
 
     arps = Field(type=list, default=None, nullable=False)
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
+
+    auto_scene_advance = Field(type=bool, default=False, nullable=False)
 
     track = Field(type=Track, default=None, required=False, nullable=True)
     scene = Field(type=Scene, default=None, required=False, nullable=True)
@@ -40,6 +43,9 @@ class Clip(ReferenceObject):
         return [ song.find_track(x) for x in self.track_ids ]
 
     def to_dict(self):
+
+        print(self.name)
+        #print("SCALES=%s" % self.scales)
         result = dict(
             obj_id = self.obj_id,
             name = self.name,
@@ -48,6 +54,7 @@ class Clip(ReferenceObject):
             repeat = self.repeat,
             slot_length = self.slot_length,
             next_clip = self.next_clip,
+            auto_scene_advance = self.auto_scene_advance
         )
         if self.patterns:
             result['patterns'] = [ x.obj_id for x in self.patterns ]
@@ -58,10 +65,10 @@ class Clip(ReferenceObject):
             result['arps'] = [ x.obj_id for x in self.arps ]
         else:
             result['arps'] = []
-        if self.scale:
-            result['scale'] = self.scale.obj_id
+        if self.scales:
+            result['scales'] = [x.obj_id for x in self.scales ]
         else:
-            result['scale'] = None
+            result['scales'] = []
         if self.track:
             result['track'] = self.track.obj_id
         else:
@@ -73,6 +80,7 @@ class Clip(ReferenceObject):
         return result
 
     def copy(self):
+        # this might not be  used
 
         new_id = self.new_object_id()
 
@@ -87,7 +95,9 @@ class Clip(ReferenceObject):
             track_ids = [],
             scene_ids = [],
             slot_length = self.slot_length,
-            next_clip = self.next_clip
+            next_clip = self.next_clip,
+            auto_scene_advance = self.auto_scene_advance,
+            scales = [ x for x in self.scales ]
 
         )
 
@@ -96,7 +106,7 @@ class Clip(ReferenceObject):
         return Clip(
             obj_id = data['obj_id'],
             name = data['name'],
-            scale = song.find_scale(data['scale']),
+            scales = [ song.find_scale(x) for x in data['scales'] ],
             patterns = [ song.find_pattern(x) for x in data['patterns'] ],
             length = data['length'],
             arps = [ song.find_arp(x) for x in data['arps'] ],
@@ -105,20 +115,21 @@ class Clip(ReferenceObject):
             track = song.find_track(data['track']),
             scene = song.find_scene(data['scene']),
             slot_length = data['slot_length'],
-            next_clip = data['next_clip']
+            next_clip = data['next_clip'],
+            auto_scene_advance = data['auto_scene_advance']
         )
 
-    def actual_scale(self, song, pattern):
-        assert song is not None
+    def get_actual_scale(self, song, pattern, roller):
 
-        assert self.scene is not None, "clip scene must be defined"
+        if roller:
+            return next(roller)
 
-        if self.scale:
-            return self.scale
         if pattern and pattern.scale:
-            return self.pattern.scale
+            return pattern.scale
+
         if self.scene.scale:
             return self.scene.scale
+
         if song.scale:
             return song.scale
 
@@ -204,6 +215,17 @@ class Clip(ReferenceObject):
         t_start = 0.0
 
         arp_roller = None
+
+        octave_shifts = self.octave_shifts
+        if octave_shifts is None:
+            octave_shifts = [ 0 ]
+        octave_shifts = utils.roller(octave_shifts)
+
+        scale_roller = None
+        if self.scales:
+            scale_roller = utils.roller(self.scales)
+
+
         arp = None
 
         if self.arps:
@@ -211,12 +233,16 @@ class Clip(ReferenceObject):
 
         for pattern in self.patterns:
 
+            octave_shift = next(octave_shifts) + pattern.octave_shift
+            print("octave shift: %s" % octave_shift)
+
             sixteenth = self.sixteenth_note_duration(song, pattern)
             slot_duration = self.slot_duration(song, pattern)
 
             # print("SD milliseconds=%s" % slot_duration)
 
-            scale = self.actual_scale(song, pattern)
+            scale = self.get_actual_scale(song, pattern, scale_roller)
+            print("using scale: %s" % scale.name)
 
             if arp_roller:
                 arp = next(arp_roller)
@@ -242,8 +268,9 @@ class Clip(ReferenceObject):
 
             notes = chord_list_to_notes(notes)
 
-            # "-" means extend the previous note length
+
             notes = evaluate_ties(notes)
+            notes = evaluate_shifts(notes, octave_shift)
 
             for slot in notes:
                 for note in slot:
@@ -276,8 +303,6 @@ class Clip(ReferenceObject):
 
         # the player needs the scale so it can process mod events in track grabs
         # we need to fix this so instead the note knows the scale.
-
-        scale = self.actual_scale(song, None)
 
         player = Player(
             clip=self,

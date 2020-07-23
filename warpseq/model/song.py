@@ -145,6 +145,26 @@ class Song(ReferenceObject):
 
         return song
 
+    def next_scene(self, scene):
+
+        found = False
+        index = None
+
+        for (i,x) in enumerate(self.scenes):
+            if x.obj_id == scene.obj_id:
+                found = True
+                index = i
+
+        index = index + 1
+
+        if index >= len(self.scenes):
+            return None
+
+        return self.scenes[index]
+
+
+
+
     @classmethod
     def from_json(cls, data):
         data = json.loads(data)
@@ -210,6 +230,9 @@ class Song(ReferenceObject):
         del self.clips[clip.obj_id]
 
         return clip
+
+    def get_clips_for_scene(self, scene=None):
+        return scene.clips()
 
     def get_clip_for_scene_and_track(self, scene=None, track=None):
         assert scene is not None

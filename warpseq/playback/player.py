@@ -89,9 +89,16 @@ class Player(BaseObject):
             else:
                 #print("it is decided to stop this clip (%s)" % (self.clip.name))
                 self.stop()
+                print("ended clip: %s" % self.clip.name)
                 self._multiplayer.remove_clip(self.clip)
 
-                if self.clip.next_clip is not None:
+                if self.clip.auto_scene_advance:
+                    new_scene = self.song.next_scene(self.clip.scene)
+                    print("scene advance to: %s" % new_scene)
+                    self._multiplayer.play_scene(new_scene)
+
+                elif self.clip.next_clip is not None:
+                    print("clip advance: %s" % self.clip.next_clip)
                     #print("Adding a new clip (%s) after (%s)" % (self.clip.next_clip, self.clip.name))
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
                     self._multiplayer.add_clip(new_clip)

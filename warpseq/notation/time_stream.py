@@ -40,6 +40,20 @@ def evaluate_ties(note_list):
 
     return results
 
+def evaluate_shifts(note_list, octave_shift):
+    if octave_shift == 0:
+        return note_list
+
+    # [[n1], [n1,n2,n3]]
+
+    results = []
+    for chord in note_list:
+        chord_items = []
+        for note in chord:
+            chord_items.append(note.transpose(octaves=octave_shift))
+        results.append(chord_items)
+    return results
+
 def round_partial(value, resolution):
     return round(value / resolution) * resolution
 

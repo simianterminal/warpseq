@@ -26,6 +26,10 @@ class Scene(ReferenceObject):
             assert clip.obj_id is not None
             self.clip_ids.append(clip.obj_id)
 
+    def has_clip(self, clip):
+        assert clip is not None
+        return clip.obj_id in self.clip_ids
+
     def remove_clip(self, clip):
         assert clip is not None
         self.clip_ids = [ c for c in self.clip_ids if c != clip.obj_id ]

@@ -37,6 +37,8 @@ class MultiPlayer(BaseObject):
             p.stop()
 
             assert p.queue_size() == 0
+        self.clips = []
+        self.players = {}
 
     def advance(self, milliseconds=TIME_INTERVAL):
 
@@ -52,7 +54,18 @@ class MultiPlayer(BaseObject):
         while time.perf_counter() < x:
             pass
 
+    def play_scene(self, scene):
+
+        self.stop()
+
+        clips = scene.clips(self.song)
+        for c in clips:
+            self.add_clip(c)
+
+
     def add_clip(self, clip):
+
+        print("playing clip: %s" % clip.name)
 
         # starts a clip playing, including stopping any already on the same track
 
@@ -76,8 +89,13 @@ class MultiPlayer(BaseObject):
 
         # stops a playing clip
 
+        if clip.name not in self.players:
+            return
+
         player = self.players[clip.name]
         player.stop()
+
+        # it's possible this was already removed?
         del self.players[clip.name]
 
         self.clips = [ c for c in self.clips if c.name != clip.name ]
