@@ -112,7 +112,8 @@ def test_assembly():
     # FIXME: pattern length seems ignored or overridden
 
 
-    mixed = Pattern(name='mixed', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16".split())
+    mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", "2", 3, "V", [ "V", "V;O+1"]], tempo=30)
+
     capture = Pattern(name='capture', arps=[a4], slots=("1 0 0 0" * 4).split(), tempo=30)
     chords = Pattern(name='chords', slots="I _ _ _ _ IV _ _ _ _ V _ _ _ _ VI _ _ _ _".split(), tempo=120)
     chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
@@ -122,7 +123,7 @@ def test_assembly():
     snare = Pattern(name='snare', slots="_ _ 1;v=50,75;cc1=10 _ _ _ 1;ch=major;v=50,75;cc1=50 _ _ _ 1;ch=minor;v=50,75;cc1=100 _ _ _ 1;ch=sus4;v=50,75;cc1=125 _".split())
     occasionally_silent = Pattern(name='silent', slots='1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _'.split())
 
-    song.add_patterns([up,down,chords,snare,kick, occasionally_silent])
+    song.add_patterns([up,down,chords,snare,kick, occasionally_silent, mixed])
 
 
     c_up = Clip(name='c_up', patterns=[up], scale=akebono_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
@@ -131,7 +132,7 @@ def test_assembly():
     c_kick = Clip(name='c_kick', patterns=[kick], scale=baz_scale, repeat=4, next_clip='c_up')
     c_snare = Clip(name='c_snare', patterns=[snare], scale=baz_scale, repeat=4, next_clip='c_down')
 
-    c_mixed = Clip(name='c_mixed', patterns=[up, down], scale=baz_scale, repeat=3)
+    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scale=baz_scale, repeat=3)
     c_capture = Clip(name='c_capture', patterns=[capture], scale=baz_scale)
     c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scale=baz_scale, arps=[a5], repeat=8)
 

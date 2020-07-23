@@ -32,6 +32,21 @@ class SmartExpression(Class):
 
     def do(self, clip, sym):
 
+        items = None
+        if type(sym) == list:
+            items = sym
+        else:
+            items = [ sym ]
+
+        all_notes = []
+
+        for x in items:
+            all_notes.extend(self._do_single(clip, x))
+
+        return all_notes
+
+    def _do_single(self, clip, sym):
+
         # TODO: this needs more magic here to support intra-track expressions and so on.
 
         # ensure the input is a string - this is mostly only a concern in test code
