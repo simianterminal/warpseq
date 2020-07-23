@@ -6,19 +6,19 @@ BACKEND
 
 
 
-* new mod expression idea:
-* 4;c=major ... turn a non-chorded note into a chord or change a chord type. Useful with note grabs (T=track1;p=0.5;c=major)
-
-* make sure note velocity is noticed by the player class
-* make the notes support CCs - eventually we may want to interpolate them, but not an immediate need
-
 * build the "friendly" high level API and port the test/assembly.py example to it.
-  use arrays, not strings, for lists of expressions.
-
-* cleanup various code hacks
+  use arrays, not strings, for lists of expressions in those API examples.  
+* Make sure ints are recognized by Literal class
+* cleanup various code
 * make sure there's a short cut method for clicking play on a scene that plays all the clips
 * increase error handling in expressions using custom exception types
 * make a Ctrl-C hook that stops all notes
+
+* scene advance - a clip should have a flag that indicates completion advances the scene (default False)
+  a scene should have a flag to *disable* clip scene advance (default False)
+* a clip should contain a LIST of patterns, not just one
+
+* demo script at launch should ask user to input their MIDI device name from a list
 
 
 * UI mockups
