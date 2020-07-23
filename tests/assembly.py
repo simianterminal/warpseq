@@ -67,7 +67,7 @@ def test_assembly():
 
     foo_scale = Scale(name='foo', root=Note(name='C', octave=3), scale_type='major')
     bar_scale = Scale(name='bar', root=Note(name='C', octave=3), scale_type='pentatonic')
-    baz_scale = Scale(name='c3-natural-minor', root=Note(name='C', octave=3), scale_type='natural_minor')
+    baz_scale = Scale(name='c4-major', root=Note(name='C', octave=4), scale_type='major')
     akebono_scale   = Scale(name='c3-akebono', root=Note(name='C', octave=3), slots=['1', '2', 'b3', '5', '6'])
     song.add_scales([ foo_scale, bar_scale, baz_scale, akebono_scale ])
     song.scale = foo_scale
@@ -136,15 +136,16 @@ def test_assembly():
     #c_chords = Clip(name='c_chords', patterns=[chords], scales=[baz_scale], arps=[a2], repeat=4) # FIXME: repeat isn't implemented
     c_kick = Clip(name='c_kick', patterns=[kick], scales=[baz_scale], repeat=4, auto_scene_advance=True)
     c_snare = Clip(name='c_snare', patterns=[snare], scales=[baz_scale], repeat=4) # next_clip='c_down')
-    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scales=[baz_scale, akebono_scale], degree_shifts=[0, 5 ], octave_shifts=[1,0], repeat=3) # arps=[a1,a2],
+    c_mixed = Clip(name='c_mixed', patterns=[mixed, up, down], scales=[baz_scale, baz_scale], repeat=3) #degree_shifts=[0, 5 ], octave_shifts=[1,0], repeat=3) # arps=[a1,a2],
     #c_capture = Clip(name='c_capture', patterns=[capture], scales=[baz_scale])
     #c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scales=[baz_scale], arps=[a5], repeat=8)
+
 
     song.add_clip(scene=s1, track=t1, clip=c_kick)
     song.add_clip(scene=s1, track=t2, clip=c_snare)
     song.add_clip(scene=s2, track=t1, clip=c_mixed)
     song.add_clip(scene=s3, track=t1, clip=c_up)
-    song.add_clip(scene=s3, track=t2, clip=c_down)
+    song.add_clip(scene=s4, track=t2, clip=c_down)
 
     # ------------------------------------------------------------------------------------------------------------------
     # SAVE/LOAD

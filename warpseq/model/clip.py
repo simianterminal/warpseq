@@ -305,7 +305,6 @@ class Clip(ReferenceObject):
             all_notes.extend(notes)
 
         c2 = time.time()
-        print(c2-c1)
 
         return all_notes
 

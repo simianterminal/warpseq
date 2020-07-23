@@ -1,6 +1,8 @@
 from . base import BaseObject
 from classforge import Class, Field
 
+from . import note_table
+
 from functools import total_ordering
 import re
 
@@ -125,6 +127,9 @@ class Note(BaseObject):
         self.flags["cc"][str(channel)] = value
         return n1
 
+    def offset(self, semitones):
+        return note_table.offset(self, semitones)
+
     def transpose(self, steps=0, semitones=0, degrees=None, octaves=0):
         """
         Returns a note a given number of steps or octaves or (other things) higher.
@@ -151,16 +156,10 @@ class Note(BaseObject):
 
         steps = steps + (octaves * 6) + (semitones * 0.5) + degree_steps
 
-        note = self
-        if steps > 0:
-            while steps > 0:
-                note = note.up_half_step()
-                steps = steps - 0.5
+        if steps:
+            return self.offset(steps)
         else:
-            while steps < 0:
-                note = note.down_half_step()
-                steps = steps + 0.5
-        return note
+            return self
 
     def expand_notes(self):
         return [ self ]
@@ -233,7 +232,7 @@ def note(st):
          return st
      match = NOTE_SHORTCUT_REGEX.match(st)
 
-     print("trying to match: %s, %s" % (st, type(st)))
+     #print("trying to match: %s, %s" % (st, type(st)))
      if not match:
          raise Exception("cannot form note from: %s" % st)
      name = match.group(1)
