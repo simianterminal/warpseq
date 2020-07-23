@@ -125,15 +125,15 @@ def test_assembly():
     song.add_patterns([up,down,chords,snare,kick, occasionally_silent])
 
 
-    c_up = Clip(name='c_up', pattern=up, scale=akebono_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
-    c_down = Clip(name='c_down', pattern=down, scale=bar_scale, repeat=4) # arp=a1, repeat=1)
-    c_chords = Clip(name='c_chords', pattern=chords, scale=baz_scale, arps=[a2], repeat=4) # FIXME: repeat isn't implemented
-    c_kick = Clip(name='c_kick', pattern=kick, scale=baz_scale, repeat=4, next_clip='c_up')
-    c_snare = Clip(name='c_snare', pattern=snare, scale=baz_scale, repeat=4, next_clip='c_down')
+    c_up = Clip(name='c_up', patterns=[up], scale=akebono_scale, repeat=4, next_clip='c_chords', arps=[a3]) # repeat=2, next_clip='c5', length=4)
+    c_down = Clip(name='c_down', patterns=[down], scale=bar_scale, repeat=4) # arp=a1, repeat=1)
+    c_chords = Clip(name='c_chords', patterns=[chords], scale=baz_scale, arps=[a2], repeat=4) # FIXME: repeat isn't implemented
+    c_kick = Clip(name='c_kick', patterns=[kick], scale=baz_scale, repeat=4, next_clip='c_up')
+    c_snare = Clip(name='c_snare', patterns=[snare], scale=baz_scale, repeat=4, next_clip='c_down')
 
-    c_mixed = Clip(name='c_mixed', pattern=mixed, scale=baz_scale, repeat=3)
-    c_capture = Clip(name='c_capture', pattern=capture, scale=baz_scale)
-    c_silent = Clip(name='c_silent', pattern=occasionally_silent, scale=baz_scale, arps=[a5], repeat=8)
+    c_mixed = Clip(name='c_mixed', patterns=[up, down], scale=baz_scale, repeat=3)
+    c_capture = Clip(name='c_capture', patterns=[capture], scale=baz_scale)
+    c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scale=baz_scale, arps=[a5], repeat=8)
 
     song.add_clip(scene=s1, track=t1, clip=c_kick)
     song.add_clip(scene=s1, track=t2, clip=c_snare)
@@ -143,7 +143,7 @@ def test_assembly():
 
     #song.add_clip(scene=s2, track=t1, clip=c_down)
     song.add_clip(scene=s3, track=t1, clip=c_chords)
-    #song.add_clip(scene=s4, track=t2, clip=c_kick)
+    song.add_clip(scene=s4, track=t2, clip=c_mixed)
     #song.add_clip(scene=s5, track=t1, clip=c_mixed)
     #song.add_clip(scene=s6, track=t2, clip=c_capture)
     #song.add_clip(scene=s6, track=t1, clip=c_silent)
@@ -157,8 +157,13 @@ def test_assembly():
 
     multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine) #engine_class=LogEngine)
     #multi_player.add_clip(c_chords)
-    multi_player.add_clip(c_snare)
-    multi_player.add_clip(c_kick)
+    #multi_player.add_clip(c_snare)
+
+    # BOOKMARK!
+    # testing c_mixed to see if it plays three patterns in order and then see if it can jump to the next
+    # AFTERWARDS, implement scene advance from my 8.5x11 notes!
+
+    multi_player.add_clip(c_mixed)
 
 
     for x in range(0, 16000):

@@ -109,7 +109,6 @@ class RealtimeEngine(BaseObject):
 
     # input
     song = Field(type=Song,  required=True, nullable=False)
-    scale = Field(type=Scale, required=True, nullable=False)
     track = Field(type=Track, required=True, nullable=False)
     clip = Field(type=Clip, required=True, nullable=False)
 

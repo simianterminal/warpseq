@@ -16,6 +16,7 @@ class SmartExpression(Class):
     song = Field(required=True, nullable=False)
     clip = Field(required=True, nullable=False)
     track = Field(required=True, nullable=False)
+    pattern = Field(required=True, nullable=False)
 
     _previous = Field()
     _roman = Field()
@@ -27,7 +28,7 @@ class SmartExpression(Class):
         self._roman = Roman(self.scale)
         self._literal = Literal()
         self._mod = ModExpression(defer=False)
-        self._slot_duration = self.clip.slot_duration(self.song)
+        self._slot_duration = self.clip.slot_duration(self.song, self.pattern)
 
     def do(self, clip, sym):
 
