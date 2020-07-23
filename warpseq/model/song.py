@@ -24,8 +24,11 @@ class Song(ReferenceObject):
     patterns = Field(type=dict, required=False, nullable=False)
 
     auto_advance = Field(type=bool, default=False, nullable=True)
-    measure_length = Field(type=int, default=15, nullable=True)
-    repeat = Field(type=int, default=None, nullable=True)
+    # measure_length = Field(type=int, default=15, nullable=True)
+
+
+    # REMOVE: JUNK
+    # repeat = Field(type=int, default=None, nullable=True)
 
     def find_device(self, obj_id):
         return self.devices.get(obj_id, None)
