@@ -89,10 +89,11 @@ def process_expr(parser, input, expr, deferred=False):
 
     #print("process_expr: %s" % expr)
 
-    if expr in [ "_", 'x', '0', 0]:
+
+    if expr in [ "_", 'x']:
         #print("> silence")
         return silence(input)
-    elif expr in ["." , "1", 1]:
+    elif expr in ["." , "0", ]:
         #print("> pass")
         return input
     elif expr == "#":
@@ -113,9 +114,21 @@ def process_expr(parser, input, expr, deferred=False):
         tokens = expr.split("+=",1)
         #print("+> %s" % tokens[0])
         return perform(parser, input, operations, tokens[0], tokens[1])
+    elif "+" in expr:
+        # DUPLICATE CODE
+        operations = table['increments']
+        tokens = expr.split("+",1)
+        #print("+> %s" % tokens[0])
+        return perform(parser, input, operations, tokens[0], tokens[1])
     elif "-=" in expr:
         operations = table['decrements']
         tokens = expr.split('-=',1)
+        #print("-> %s" % tokens[0])
+        return perform(parser, input, operations, tokens[0], tokens[1])
+    elif "-" in expr:
+        # FIXME: duplicate code
+        operations = table['decrements']
+        tokens = expr.split('-',1)
         #print("-> %s" % tokens[0])
         return perform(parser, input, operations, tokens[0], tokens[1])
     elif "=" in expr:

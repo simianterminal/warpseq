@@ -106,12 +106,12 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # ARPS
 
-    a1 = Arp(name='a1', slots=["O+2","1","1","O+=1","O+=2"], divide=5)
-    a2 = Arp(name='a2', slots=[1,1,1], divide=6)
+    a1 = Arp(name='a1', slots=[0,0,"S+1","O+2","O+1"], divide=5)
+    a2 = Arp(name='a2', slots=[0,0,0], divide=6)
     a3 = Arp(name='octave_hop', slots="O+=1 .".split(), divide=1)
     a4 = Arp(name='capture', slots=["T=euro1;O-=2"], divide=1)
     a5 = Arp(name='silence', slots=["p=0.05;x"], divide=1)
-    a6 = Arp(name='a1', slots=["1","2","3","4","5"], divide=5)
+    a6 = Arp(name='a1', slots=["S+1","S+2","S+3","S+4","S+5"], divide=5)
     song.add_arps([a1, a2, a3, a4, a5, a6])
 
 
@@ -125,7 +125,7 @@ def test_assembly():
     expr_test = Pattern(name='expr_test', slots=('1;p=0.6;x ' * 16).split())
     grab_test1 = Pattern(name='grab_test_1', slots=['1','2','3','4','5','6','7'])
     grab_test2 = Pattern(name='grab_test_2', slots=['1;T=euro1', '-', '-', '-', '-', '-', '-', '-'])
-    short_test = Pattern(name='short_test', slots=['IV','-','-'])
+    short_test = Pattern(name='short_test', slots=['1','1','1'])
 
     mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", 2, 3, "V", [ "V", "V;O+=1"]], tempo=120)
 
@@ -152,7 +152,7 @@ def test_assembly():
     #c_capture = Clip(name='c_capture', patterns=[capture], scales=[baz_scale])
     #c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scales=[baz_scale], arps=[a5], repeat=8)
     c_expr_test = Clip(name='c_expr_test', patterns=[expr_test], scales=[baz_scale], repeat=2, tempo=120)
-    c_short_test = Clip(name='c_short_test', patterns=[short_test], repeat=6, tempo=150)
+    c_short_test = Clip(name='c_short_test', patterns=[short_test], arps=[a1], repeat=6, tempo=150)
 
     # FIXME: it shoudl be ok if the clip scale is None
 

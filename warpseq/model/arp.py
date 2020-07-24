@@ -87,6 +87,9 @@ class Arp(ReferenceObject):
 
                 which_slot = next(slot_modifications)
 
+                # FIXME: there's a good chance probability events might not work here because of how
+                # 'next' is handled?  VERIFY
+
                 final_note = mod_expr.do(which_note, scale, track, which_slot)
                 if final_note is None:
                     # print("MOD EXPRESSION SILENCED: %s" % which_slot)
