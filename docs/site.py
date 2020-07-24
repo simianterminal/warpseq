@@ -24,7 +24,7 @@ site = Builder(
 			},
 			"Community": {
 				"License": "license",
-				"Insiders": "insiders",
+				"Club": "club",
 				"Contributing": "contributing",
 			}
 	}

@@ -1,37 +1,35 @@
 <h1>Concepts</h1>
 
-The Warp Sequencer is based on concepts commonly used in DAW environments and electronic composition, but they are different
-in Warp, so reading through is strongly suggested.
+The <B>Warp</B> Sequencer is based on concepts commonly used in DAW environments, synth hardware, and electronic composition,
+but they are slightly different in Warp, so reading through is strongly suggested.
 
 If this documentation seems confusing, we recommend looking at the {{ doc('api') }} examples or trying out the GUI instead
-(once it exists).
-
-In general, trial an error, coupled with a basic understanding of DAWs and other music hardware, should make the program
-more understandable.
+(once it exists -- this may help things click better. In general, trial and error is a great way to learn!
 
 <h3>Song</h3>
 
 <ul>
-<li>Each warpseq file is called a song</li>
-<li>A song must define a default tempo, though this may be overriden at many layers</li>
-<li>A song may define a default scale, though this may also be overriden at many layers</li>
-<li>If the scale isn't defined anywhere, a C Chromatic scale is used.</li>
+<li>Each Warp file is called a song</li>
+<li>A song must define a default tempo, though this may be overriden in a Scene or Clip</li>
+<li>A song may define a default scale, though this may also be overriden in a Scene or Clip</li>
 </ul>
 
 <h3>Device</h3>
 
 <ul>
 <li>A device is any computer operating system visible MIDI Device, such as a USB MIDI interface or the IAC Audio Bus.</li>
-<li>Some sort of MIDI Device is required to use Warp.</li>
+<li>Some sort of MIDI Device - physical or virtual - is required to use Warp.</li>
+<li>If you don't own any hardware synths, this is not a problem, Warp can also talk to software synths.</li>
 <li>In OS X, creating an IAC Bus (see {{ doc('installation') }} will allow Warpseq to talk to software synths.</li>
-<li>Warpseq is targetted just as much at hardware synths as software synths, and can target multiple devices at once.</li>
+<li>Warp is targetted just as much at hardware synths as software synths, and can speak to multiple devices and instruments at once.</li>
 </ul>
 
 <h3>Instrument</h3>
 
 <ul>
-<li>An instrument is the combination of a MIDI Device and a Channel number</li>
-<li>An instrument has a minimum and maximum octave, outside of which notes will not play (NOTE: not implemented yet)</li>
+<li>An instrument is the named combination of a MIDI Device and a Channel number</li>
+<li>An instrument has a minimum and maximum octave, outside of which notes will not play</li>
+<li>An instrument has a base octave, which is added to the default note in any scale.  Transpositions may occur below this value.</li>
 </ul>
 
 <h3>Track</h3>
@@ -44,11 +42,9 @@ more understandable.
 <h3>Scale</h3>
 
 <ul>
-<li>A scale represents a named musical scale, having a scale type, and starting from any note and octave.
-<li>Warpseq ships with many pre-defined MIDI scales
-<li>Users may also define their own scales
-<li>Starting a scale at a lower octave allows for more note flexibility but may be inconvient in data entry</li>
-<li>Use of octave_shift parameters on a Pattern or Clip may be helpful to select the right audio range for a pattern.</li>
+<li>A scale represents a named musical scale, having a scale type (aka "mode"), and starting from a certain note.</li>
+<li>Warp ships with many pre-defined MIDI scales</li>
+<li>Users may also define their own scales</li>
 </li>
 
 <h3>Tempo</h3>
@@ -64,22 +60,23 @@ more understandable.
 <li>Patterns include strings like "1", "IV", or "C4sus4" or even "C4sus4;O+1;cc0=50".</li>
 <li>See {{ doc('expressions') }} for how to write expressions</li>
 <li>Patterns can include velocity and MIDI CC information.
-<li>A pattern may define an octave_shift to be applied to the current Scale
+<li>A pattern may define an octave_shift to be applied to the current Scale, which applies after the base octave of the instrument.
 <li>A pattern may define a Tempo to override the tempo of the Scene or Song.
 <li>A pattern may define a Scale to override the scale of the Scene or Song.
 </ul>
 
-<h3>Arpeggiators</h3>
+<h3>Arpeggiators (Arps)</h3>
 
 <ul>
-<li>Arps are themselves patterns that run across patterns to slice them up and modify them, using looped expressions.</li>
-<li>Arps in Warpseq are generally much more powerful and abstract than arpeggiators you may be familiar with.</li>
-<li>Arps in Warpseq can be used to create chords from notes without requiring chord input</li>
+<li>Classically, arpeggiators are used in synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
+<li>In Warp, arps can also run against individual notes, and even turn notes *back* into chords</li>.
+<li>Arps are just special patterns that run across patterns to slice them up and modify them, using looped expressions.</li>
 <li>An arp with a divide time of 1 applies each step to one note, and only modifies the notes, rather than creating more.</li>
 <li>An arp with a divide time of 4 will divide each note into four parts, applying up to 4 different modifications to each fragment</li>
 <li>An arp can contain more slots than the divide time, allowing for arps that do not line up exactly with the notes they modify</li>
 <li>Arps can also include velocity and MIDI CC information.
 <li>Arps may also define octave_slots, which apply octave shifts.  This list of octave slots may be of a different length than the pattern slots.</li>
+<li>An arp can also silence notes in a pattern, effectively stuttering the input and high speed.</li>
 </li>
 
 <h3>Scene</h3>
@@ -91,28 +88,21 @@ more understandable.
 <li>A scene may be set to auto_advance, in which case any of the clips therein flagged as such will advance the scene to the next scene when finished.</li>
 </ul>
 
-<h3>Track</h3>
-
-<ul>
-<li>A track is a set of clips that should all message the same Instrument.</li>
-<li>A track may be muted.</li>
-<li>Multiple tracks may contact the same instrument.</li>
-</ul>
-
 <h3>Clip</h3>
 
 <ul>
-<li>A clip is a reference to a list of patterns that can be manually triggered to play.</li>
+<li>A clip primarily contains a list of patterns that can be manually triggered to play in sequence</li>
 <li>A clip belongs to a Scene (horizontally) and a track (Vertically).</li>
+<li>Playing a clip will stop any other clips that are playing in the same track.</li>
 <li>A clip may have one or more scales.  These scales are used for each pattern, but the list of scales may be of a different length from the list of patterns.</li>
 <li>A clip may have one or more octave_shifts and scale degree_shifts.  These are used in rotation just as scales are, above.</li>
-<li>A clip may have one or more arpeggiators.  These are used in rotation just as the scales are, above.</li>
+<li>A clip may have one or more arps.  These are used in rotation just as the scales are, above.</li>
 <li>A clip may be set to repeat indefinitely (it will end if the scene ends), or for a finite number of times.</li>
 <li>A clip may trigger another clip when it completes</li>
 <li>A clip may be programmed to advance the scene when the clip completes. This is off by default.</li>
 <li>A clip may override the tempo on a scene or song.</li>
-<li>A clip may have a length. If set, patterns will wrap early at this point.</li>
-<li>A clip may set a slot_length, which defines the type of note in the current tempo. The default is 0.0625 - sixteenth notes</li>
+<li>A clip may have a length. If set, patterns will wrap early at this point, rather than using all of the pattern symbols.</li>
+<li>A clip may set a slot_length, which defines the type of note in the current tempo. The default is 0.0625 - sixteenth notes.  This may be ignored in favor of just using tempo.</li>
 </ul>
 
 
