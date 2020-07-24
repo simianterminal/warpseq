@@ -89,7 +89,6 @@ def expr_cc_down(parser, input, how, extra_info):
 
 def expr_cc_set(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    print(">>>>> WITH CC=%s" % how)
     return input.with_cc(extra_info, how)
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -97,17 +96,18 @@ def expr_cc_set(parser, input, how, extra_info):
 
 def expr_variable_up(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    set_variable(extra_info, _get_variable(extra_info) + how)
+    set_variable(extra_info, get_variable(extra_info) + how)
     return input
 
 def expr_variable_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    set_variable(extra_info, _get_variable(extra_info) - how)
+    set_variable(extra_info, get_variable(extra_info) - how)
     return input
 
 def expr_variable_set(parser, input, how, extra_info):
-    how = evaluate_params(how, want_int=True)
+    how = evaluate_params(how, want_string=True)
     set_variable(extra_info, how)
+    print("setting %s to %s" % (extra_info, how))
     return input
 
 # ----------------------------------------------------------------------------------------------------------------------

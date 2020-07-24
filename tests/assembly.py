@@ -126,6 +126,7 @@ def test_assembly():
     grab_test1 = Pattern(name='grab_test_1', slots=['1','2','3','4','5','6','7'])
     grab_test2 = Pattern(name='grab_test_2', slots=['1;T=euro1', '-', '-', '-', '-', '-', '-', '-'])
     short_test = Pattern(name='short_test', slots=['1','1','1'])
+    var_test   = Pattern(name='var_test', slots=['1;$x=20,80', '1;cc0=$x', '1;cc1=$x', '1;cc2=$x'])
 
     mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", 2, 3, "V", [ "V", "V;O+=1"]], tempo=120)
 
@@ -138,7 +139,7 @@ def test_assembly():
     #"1;ch=major;v=50 - - - - - - - - 7;v=100 _ _ _ 7;v=128 _ _ _".split())
     snare = Pattern(name='snare', octave_shift=1, slots="_ _ 1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _".split())
     #occasionally_silent = Pattern(name='silent', slots='1 _ _ _ 1 _ _ _ 1 _ _ _ 1 _ _ _'.split())
-    song.add_patterns([up,down,chords,snare,kick, mixed, expr_test, grab_test1, grab_test2, short_test])
+    song.add_patterns([up,down,chords,snare,kick, mixed, expr_test, grab_test1, grab_test2, short_test, var_test])
 
     # ------------------------------------------------------------------------------------------------------------------
     # CLIPS
@@ -153,6 +154,7 @@ def test_assembly():
     #c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scales=[baz_scale], arps=[a5], repeat=8)
     c_expr_test = Clip(name='c_expr_test', patterns=[expr_test], scales=[baz_scale], repeat=2, tempo=120)
     c_short_test = Clip(name='c_short_test', patterns=[short_test], arps=[a1], repeat=6, tempo=150)
+    c_var_test = Clip(name='c_var_test', patterns=[var_test], repeat=6)
 
     # FIXME: it shoudl be ok if the clip scale is None
 
@@ -167,7 +169,7 @@ def test_assembly():
     #song.add_clip(scene=s5, track=t1, clip=c_grab_test1)
     #song.add_clip(scene=s5, track=t2, clip=c_grab_test2)
     #song.add_clip(scene=s6, track=t1, clip=c_expr_test)
-    song.add_clip(scene=s6, track=t1, clip=c_short_test)
+    song.add_clip(scene=s6, track=t1, clip=c_var_test)
 
     # ------------------------------------------------------------------------------------------------------------------
     # SAVE/LOAD

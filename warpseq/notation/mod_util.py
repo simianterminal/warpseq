@@ -42,6 +42,9 @@ def evaluate_params(how, want_int=False, want_string=False):
     else:
         #print("--")
         result = how
+        if is_variable(result):
+            result = get_variable(result)
+
 
 
     if want_int:
@@ -53,17 +56,20 @@ def evaluate_params(how, want_int=False, want_string=False):
 def is_variable(what):
     return what.startswith("$")
 
-def get_variable(what, value):
-    return what.replace("$","")
+def get_variable(what):
+    name = what.replace("$","")
+    return VARIABLES[name]
 
 def set_variable(what, value):
     global VARIABLES
     VARIABLES[what] = value
 
+# FIXME: are these used
 def increment_variable(what, value):
     global VARIABLES
     VARIABLES[what] = VARIABLES[what] + value
 
+# FIXME: ditto
 def decrement_variable(what, value):
     global VARIABLES
     VARIABLES[what] = VARIABLES[what] - value

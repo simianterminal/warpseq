@@ -30,7 +30,7 @@ ASSIGNMENTS = {
     "v"  : expr_velocity_set,
     "cc" : expr_cc_set,
     "ch" : expr_chord_set,
-    "$"  : expr_variable_up,
+    "$"  : expr_variable_set,
     "p"  : expr_probability_set,
     "t"  : expr_ignore
 }
@@ -134,7 +134,6 @@ def process_expr(parser, input, expr, deferred=False):
     elif "=" in expr:
         operations = table['assignments']
         tokens = expr.split("=",1)
-        #print("=> %s" % tokens[0])
         return perform(parser, input, operations, tokens[0], tokens[1])
 
     else:
