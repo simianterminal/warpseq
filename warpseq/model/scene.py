@@ -8,9 +8,7 @@ class Scene(ReferenceObject):
     name = Field(type=str, required=True, nullable=False)
     tempo = Field(type=int, default=None, nullable=True)
     scale = Field(type=Scale, default=None, nullable=True)
-
     auto_advance = Field(type=bool, default=True, nullable=False)
-
     clip_ids = Field(type=list, required=True, nullable=False)
 
     def clips(self, song):
@@ -38,7 +36,6 @@ class Scene(ReferenceObject):
             name = self.name,
             tempo = self.tempo,
             auto_advance = self.auto_advance,
-            #measure_length = self.measure_length,
             clip_ids = self.clip_ids,
         )
         if self.scale:
@@ -55,6 +52,5 @@ class Scene(ReferenceObject):
             tempo = data['tempo'],
             scale = song.find_scale(data['scale']),
             auto_advance = data['auto_advance'],
-            #measure_length = data['measure_length'],
             clip_ids = data['clip_ids']
         )

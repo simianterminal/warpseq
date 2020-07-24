@@ -14,9 +14,5 @@ class Event(BaseObject):
     time = Field(type=float, required=True, nullable=False)
     on_event = Field(required=False, default=None, nullable=True)
 
-    # TODO: add velocity to note
-    # TODO: CC flags as dict?
-    # TODO: grab channel from *TRACK*
-
     def __repr__(self):
         return "Event<Note=%s, type=%s, time=%s>" % (self.note, self.type, self.time)

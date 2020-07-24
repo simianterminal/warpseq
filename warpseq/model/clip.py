@@ -15,27 +15,19 @@ class Clip(ReferenceObject):
     from . scene import Scene
 
     name = Field(type=str, required=True, nullable=False)
-
     scales = Field(type=list, required=False, nullable=True, default=None)
-
     patterns = Field(type=list, required=True, nullable=False)
-
     # number of notes before repeat/loop
     length = Field(type=int, default=None, required=False, nullable=True)
-
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
     octave_shifts = Field(type=list, default=None, required=False, nullable=True)
     degree_shifts = Field(type=list, default=None, required=False, nullable=True)
     scale_note_shifts = Field(type=list, default=None, required=False, nullable=True)
-
     next_clip = Field(required=False, nullable=True)
-
     arps = Field(type=list, default=None, nullable=False)
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
-
     auto_scene_advance = Field(type=bool, default=False, nullable=False)
-
     track = Field(type=Track, default=None, required=False, nullable=True)
     scene = Field(type=Scene, default=None, required=False, nullable=True)
 
@@ -47,8 +39,6 @@ class Clip(ReferenceObject):
 
     def to_dict(self):
 
-        print(self.name)
-        #print("SCALES=%s" % self.scales)
         result = dict(
             obj_id = self.obj_id,
             name = self.name,
@@ -67,7 +57,6 @@ class Clip(ReferenceObject):
         else:
             result['patterns'] = []
         if self.arps:
-            #print("arps: %s" % self.arps)
             result['arps'] = [ x.obj_id for x in self.arps ]
         else:
             result['arps'] = []
@@ -86,10 +75,9 @@ class Clip(ReferenceObject):
         return result
 
     def copy(self):
-        # this might not be  used
+        # FIXME: this might not be  used? if so, remove  (and elsewhere!)
 
         new_id = self.new_object_id()
-
         return Clip(
             obj_id = new_id,
             name = self.name,
@@ -135,16 +123,12 @@ class Clip(ReferenceObject):
 
         if roller:
             return next(roller)
-
         if pattern and pattern.scale:
             return pattern.scale
-
         if self.scene.scale:
             return self.scene.scale
-
         if song.scale:
             return song.scale
-
         return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
 
     def actual_tempo(self, song, pattern):
@@ -161,41 +145,28 @@ class Clip(ReferenceObject):
         raise Exception("?")
 
     def sixteenth_note_duration(self, song, pattern):
-
-        tempo = float(self.actual_tempo(song, pattern))
         tempo_ratio = (120 / self.actual_tempo(song, pattern))
-        snd = tempo_ratio * 125
-        # print("SND=%s" % snd)
-        return snd
+        return tempo_ratio * 125
 
     def slot_duration(self, song, pattern=None):
 
         patterns = self.patterns
         if pattern is not None:
             patterns = [ pattern ]
-
-
         total_duration = 0
 
         for pat in patterns:
-
             snd = self.sixteenth_note_duration(song, pat)
             slot_ratio = self.slot_length / (1/16.0)
             slot_duration = snd * slot_ratio
-
             total_duration = total_duration + slot_duration
-
         return total_duration
 
     def get_clip_duration(self, song):
 
         total = 0
-
-
-
         for pattern in self.patterns:
             total = total + self.slot_duration(song, pattern) * self.actual_length(pattern)
-
         return total
 
 
@@ -219,10 +190,9 @@ class Clip(ReferenceObject):
 
     def get_notes(self, song):
 
-        #print("E1: %s" % time.time())
-        c1 = time.time()
+        # FIXME: this is long, clean it up.
 
-        # how long is each slot in MS?
+        c1 = time.time()
 
 
         all_notes = []
@@ -230,10 +200,6 @@ class Clip(ReferenceObject):
         t_start = 0.0
 
         arp_roller = None
-
-        scales = self.scales
-        if scales is None:
-            scales = [ None ]
 
         degree_shifts = self.degree_shifts
         if degree_shifts is None:
@@ -266,33 +232,18 @@ class Clip(ReferenceObject):
 
         for pattern in self.patterns:
 
-
             pat_index = pat_index + 1
-
             no = next(octave_shifts)
-
-
             octave_shift = no + pattern.octave_shift + self.track.instrument.base_octave
             degree_shift = next(degree_shifts)
             scale_shift = next(scale_note_roller)
-
-            #sixteenth = self.sixteenth_note_duration(song, pattern)
             slot_duration = self.slot_duration(song, pattern)
-
-            # print("SD milliseconds=%s" % slot_duration)
-
             scale = self.get_actual_scale(song, pattern, scale_roller)
-            #print("using scale: %s" % scale.name)
 
             if arp_roller:
                 arp = next(arp_roller)
 
-            assert scale is not None
-
             slots = pattern.slots
-
-            if not pattern:
-                continue
 
             # convert expressions into arrays of notes
             notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
@@ -302,23 +253,12 @@ class Clip(ReferenceObject):
             if use_length < len(slots):
                 slots = slots[0:use_length]
 
-            #print("SLOTS=%s" % slots)
-
             # expression evaluator will need to grow smarter for intra-track and humanizer fun
             # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
 
             notes = [ notation.do(self, expression) for expression in slots ]
-
-            #print("RAW NOTES = %s" % notes)
             notes = chord_list_to_notes(notes)
-
-            #print("CLIP:%s" % self.name)
-            #print("NL1=%s" % notes)
-
             notes = evaluate_ties(notes)
-
-            #print("NL2=%s" % notes)
-
             notes = evaluate_shifts(notes, octave_shift, degree_shift, scale, scale_shift)
 
             for slot in notes:
@@ -326,19 +266,17 @@ class Clip(ReferenceObject):
                     note.start_time = round(t_start)
                     note.end_time = round(t_start + note.length)
                 t_start = t_start + slot_duration
-                # print("t_start=%s" % t_start)
 
             # if the length of the pattern (or the clip) is shorter than the symbols provided, trim the pattern
             # to just contain the first part
             if self.length and self.length < len(notes):
                 notes = notes[0:self.length]
-
             if arp:
                 notes = arp.process(song, scale, self.track, notes)
-
             all_notes.extend(notes)
 
         c2 = time.time()
+        # temporary debug to make sure pattern computation is efficient and doesn't cause audible gaps
         print(c2 - c1)
 
         return all_notes
@@ -346,17 +284,10 @@ class Clip(ReferenceObject):
 
     def get_events(self, song):
         notes = self.get_notes(song)
-        #print("(notes)")
-        #print(notes)
         events = notes_to_events(self, notes)
-
-        #print("(get events)")
-        #print(events)
-
         return events
 
     def get_player(self, song, engine_class):
-
 
         # the player needs the scale so it can process mod events in track grabs
         # we need to fix this so instead the note knows the scale.

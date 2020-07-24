@@ -74,26 +74,17 @@ class Scale(ReferenceObject):
 
         index = 0
 
-
         result = []
         while (index < length):
             try:
-
                 result.append(self._cached[index])
             except IndexError:
-                #print("SCALE NOTES=%s" % result)
                 return result
-            #yield self._cached[index]
             index = index + 1
-        #print("SCALE NOTES=%s" % result)
         return result
 
 
     def _generate(self, length=None):
-
-
-
-
         """
         Allows traversal of a scale in a forward direction.
         Example:
@@ -105,7 +96,6 @@ class Scale(ReferenceObject):
         assert length is not None
 
         scale_data = self.slots
-        root = self.root.copy()
 
         if not scale_data:
             scale_type = SCALE_ALIASES.get(self.scale_type, self.scale_type)
@@ -127,26 +117,11 @@ class Scale(ReferenceObject):
             except IndexError:
                 return
 
-            self._cached.append(result) # yield(result)
-
+            self._cached.append(result)
 
             index = index + 1
             if length is not None:
                 length = length - 1
-
-    #def __eq__(self, other):
-    #    """
-    #    Scales are equal if they are the ... same scale
-    #    """
-    #    if other is None:
-    #        return False
-    #    return self.root == other.root and self.scale_type == other.scale_type
-
-    #def short_name(self):
-    #    return "%s %s" % (self.root.short_name(), self.scale_type)
-
-    #def __repr__(self):
-    #    return "Scale<%s>" % self.short_name()
 
 def scale(input):
     """

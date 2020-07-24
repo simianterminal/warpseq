@@ -3,7 +3,6 @@ from classforge import Class, Field
 COUNTER = 0
 
 class BaseObject(Class):
-    pass
 
     def one(self, alist):
         length = len(alist)

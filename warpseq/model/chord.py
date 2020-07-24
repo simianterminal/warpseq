@@ -1,3 +1,5 @@
+# Copyright 2016-2020, Michael DeHaan <michael@michaeldehaan.net>
+
 from .base import BaseObject
 from .pattern import Pattern
 from classforge import Class, Field
@@ -5,9 +7,6 @@ from .arp import Arp
 from .scale import Scale
 from .note import Note, note
 
-# Copyright 2016-2020, Michael DeHaan <michael@michaeldehaan.net
-
-# there's no intervals.py yet for fancy names, so this is represented in terms of semitones
 # https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 # minor 2nd - 2 semitones
 # minor 3rd - 3 semitones
@@ -41,15 +40,11 @@ CHORD_TYPES = dict(
 
 CHORD_TYPE_KEYS = [x for x in CHORD_TYPES.keys()]
 
-from . note import note, Note
-
 class Chord(BaseObject):
-
 
     notes = Field(type=list, required=False, nullable=True)
     root = Field(type=Note, required=False, nullable=True)
     chord_type = Field(type=str, required=False, choices=CHORD_TYPE_KEYS, default=None, nullable=True)
-
 
     """
     Constructs a chord, in different ways:
@@ -60,7 +55,6 @@ class Chord(BaseObject):
     OR:
     chord = Chord(root='C4', chord_type='major')
     """
-
 
     def on_init(self):
 
@@ -98,14 +92,11 @@ class Chord(BaseObject):
     def adjust_velocity(self, mod):
         ch = self.copy()
         ch.notes = [ x.adjust_velocity(mod) for x in ch.notes ]
-
         return ch
 
     def with_cc(self, channel, num):
         ch = self.copy()
         ch.notes = [ x.with_cc(channel, num) for x in ch.notes ]
-        print("!!!!!!!!!!!!! CHORD WITH CC CALLED")
-        print("ch.notes=%s" % ch.notes)
         return ch
 
     def with_octave(self, octave):

@@ -15,14 +15,11 @@ class Song(ReferenceObject):
     devices = Field(type=dict, required=False, nullable=False)
     instruments = Field(type=dict, required=False, nullable=False)
     scales = Field(type=dict, required=False, nullable=False)
-
     scenes = Field(type=list, required=False, nullable=False)
     tracks = Field(type=list, required=False, nullable=False)
-
     clips = Field(type=dict, required=False, nullable=False)
     arps = Field(type=dict, required=False, nullable=False)
     patterns = Field(type=dict, required=False, nullable=False)
-
     auto_advance = Field(type=bool, default=False, nullable=True)
 
     def find_device(self, obj_id):
@@ -70,9 +67,7 @@ class Song(ReferenceObject):
         return self.patterns.get(str(obj_id), None)
 
     def to_dict(self):
-
         from . base import COUNTER
-
         result = dict(
             obj_id = self.obj_id,
             FORMAT_VERSION = FORMAT_VERSION,
@@ -139,12 +134,10 @@ class Song(ReferenceObject):
 
     def next_scene(self, scene):
 
-        found = False
         index = None
 
         for (i,x) in enumerate(self.scenes):
             if x.obj_id == scene.obj_id:
-                found = True
                 index = i
                 break
 
@@ -152,8 +145,6 @@ class Song(ReferenceObject):
 
         if index >= len(self.scenes):
             return None
-
-        # FIXME: what if not found, is this possible?
 
         return self.scenes[index]
 
@@ -164,8 +155,6 @@ class Song(ReferenceObject):
     def from_json(cls, data):
         data = json.loads(data)
         return Song.from_dict(data)
-
-    # the grid should probably be a class?
 
     def _get_clip_index(self, scene=None, track=None):
         assert scene is not None

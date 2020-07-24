@@ -15,7 +15,6 @@ def register_playing_note(track, note):
 
     track = _name(track)
 
-
     global PLAYING_BY_TRACK, LAST_BY_TRACK
 
     item = PLAYING_BY_TRACK.get(track, None)
@@ -31,7 +30,6 @@ def unregister_playing_note(track, note):
 
     track = _name(track)
 
-
     global PLAYING_BY_TRACK, LAST_BY_TRACK
 
     item = PLAYING_BY_TRACK.get(track, None)
@@ -45,7 +43,6 @@ def get_first_playing_note(track):
     track = _name(track)
 
     global LAST_BY_TRACK
-    print("LAST_BY_TRACK: %s" % LAST_BY_TRACK)
 
     rc = LAST_BY_TRACK.get(track, None)
     return rc

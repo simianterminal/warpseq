@@ -65,7 +65,6 @@ class Note(BaseObject):
                     end_time=self.end_time,
                     velocity=self.velocity,
                     flags={})
-
         n1.flags['deferred'] = self.flags['deferred']
         n1.flags['deferred_expressions'] = self.flags['deferred_expressions'].copy()
         n1.flags['cc'] = self.flags['cc'].copy()
@@ -153,8 +152,7 @@ class Note(BaseObject):
         degrees - scale degrees, to keep scale definition somewhat music literate.  "3" is a third, "b3" is a flat third, "3#" is an augmented third, etc.
         You can combine all of them at the same time if you really want (why?), in which case they are additive.
         """
-
-        # FIXME: this is too slow and creates way too many objects!
+        # FIXME: implement without offset to not need the note_table, then delete the note_table
 
         if degrees is not None:
             degrees = str(degrees)
@@ -188,11 +186,9 @@ class Note(BaseObject):
         """
         What order is this note on the keyboard?
         """
-
-        # FIXME: when does this happen?
+        # FIXME: when does this happen? ties maybe? does it still happen?
         if self.name is None:
             return None
-
         nn = NOTES.index(self.name) + (12 * self.octave)
         return nn
 
@@ -225,8 +221,6 @@ def note(st):
      if type(st) == Note:
          return st
      match = NOTE_SHORTCUT_REGEX.match(st)
-
-     #print("trying to match: %s, %s" % (st, type(st)))
      if not match:
          raise Exception("cannot form note from: %s" % st)
      name = match.group(1)
