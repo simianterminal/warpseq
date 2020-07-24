@@ -1,2 +1,39 @@
-Installation Hello
+<h1>Installation Hello</h1>
+
+<h2>Requirements</h2>
+
+First install python3 and git if you do not already have it.  On a Mac, we recommend getting Python3 from homebrew:
+
+{{ begin_code(language='bash') }}
+brew install python3
+brew install git
+{{ end_code() }}
+
+<h2>Checkout</h2>
+
+Now clone the project into a directory:
+
+{{ begin_code(language='bash') }}
+git clone git clone https://laserllama@bitbucket.org/laserllama/warpseq.git
+{{ end_code() }}
+
+<h2>Libraries</h2>
+
+Now install the dependencies:
+
+{{ begin_code(language='bash') }}
+pip3 install -f requirements.txt
+{{ end_code() }}
+
+<h2>Ready?</h2>
+
+We are ready to go.  At the current state of development, only the python API is available.  The UI is coming soon.
+To try out Warpseq from the API, run one of the examples:
+
+{{ begin_code(language='bash') }}
+python3 tests/api.py
+{{ end_code() }}
+
+Except this won't probably work, because you need to select your MIDI interface.  Hack the example for now
+where you see "Device" to match the name of a device you have.  FIXME: this instruction will change.
 

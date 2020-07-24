@@ -1,0 +1,290 @@
+<h1>Expressions</h1>
+
+<p>
+In Warpseq, when we define notes or chords in a pattern, we can simply type in symbols for the notes and chords, or we can also
+use more complex expressions.
+</p>
+
+<p>
+For instance, expressions can involve randomness and other musical features, to prevent our (usually electronic)
+music to fall into ruts. Or we can set things like MIDI CCs or velocity values.
+</p>
+
+<p>
+The goal of Warp is for any user to easily express high-level compositional intent, and that includes variation, such as subtle note changes
+on certain steps as commonly found in acid or minimal techno OR insane arpeggiated chord sequences only a robotic Mozart could pull off.
+To achieve this, we need tools -- a language -- for expressing this.
+</p>
+
+<p>
+Expressions are used not only in describing what notes play, they are also used in arpeggiators -- essentially the tools that take
+basic patterns and make them shred mercilessly -- or at least, sound a lot more musical.
+</p>
+
+<p>
+Most importantly, all of these systems work in the concept of the current scale, so they always stay musical, and also allow for
+key changes and variations without manual transcription.  It is still possible to express sharps and flats outside the scale (aka "blue notes"), something
+that is usually not possible in classical DAWS with "force to scale" features.
+</p>
+
+<p>
+We don't want to overwhelm anyone, but there is a lot  here. If this is confusing, we recommend looking at some of the example songs that come with Warp, and things should make a lot
+more sense in context.  You can then think of this more as a reference manual and come back to it as needed, or when you feel like learning
+more features.
+</p>
+
+<p>
+Ready to go down the rabbit hole? Here we go.
+</p>
+
+<h2>The Basics</h2>
+
+Each pattern in Warpseq is not just a set of notes in a list, but a flexible expression.
+
+<h3>Arabic Numbers Are Relative Notes</h3>
+
+<p>
+Think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is:
+
+{{ begin_code() }}C4
+D4
+E4
+F4
+G4
+A4
+B4
+C4
+{{ end_code() }}
+
+<p>
+That, as simple as it is, is a TOTALLY VALID pattern in Warpseq.  You can program notes in like that if you want.
+</p>
+
+<p>
+You can access black keys as well, with either sharps or flats:
+</p>
+
+{{ begin_code() }}
+Eb4
+C#4
+{{ end_code() }}
+
+<p>
+However, that hard coding of notes is easier written in terms of scale degrees - and that will allow the notes to change
+if the scale changes. In Warp, this can be expressed by a simple numeral sequence:
+</p>
+
+{{ begin_code() }} 1
+2
+3
+4
+5
+6
+7
+8
+{{ end_code() }}
+
+This means that we can define a pattern (see {{ doc('concepts') }}) and then the pattern can be then applied
+to any scale we want. Most other sequencer programs and DAWs do not natively understand scales, but instead
+"force" notes to the nearest scale note.  This means multiple note entries might map to the same note, or it may be unclear
+if something rounds up or down.  Of greater concern, in these force-to-scale systems, the ability to use accidentals is lost.
+
+<h3>Roman Numeral Chords</h3>
+
+For utmost simplicity, chords can be expressed as Roman numerals:
+
+{{ begin_code() }}
+I
+IV
+V
+{{ end_code() }}
+
+This notation is commonly used to denote chord progressions.  It's nice because it doesn't care what scale you are in.
+
+Lowercase roman numerals represent minor chords:
+
+{{ begin_code() }}
+i
+iv
+v
+{{ end_code() }}
+
+More advanced types can be represented using their base notes and chord type:
+
+{{ begin_code() }}
+1;ch=sus4
+2;ch=major
+4;ch=power
+{{ end_code() }}
+
+This is a bit of a spoiler as this refers to "Mod Expressions", covered immediately below.
+
+For reference the built-in chord types you can use this way are:
+
+<ul>
+<li>minor</li>
+<li>major</li>
+<li>dim</li>
+<li>aug</li>
+<li>sus4</li>
+<li>sus2</li>
+<li>fourth</li>
+<li>power</li>
+<li>fifth</li>
+<li>M6</li>
+<li>m6</li>
+<li>dom7</li>
+<li>M7</li>
+<li>m7</li>
+<li>aug7</li>
+<li>dim7</li>
+<li>mM7</li>
+</ul>
+
+<h2>Silence (Gaps)</h2>
+
+The symbol "_" or "x" (or an empty line in the UI!) represents a slot in a pattern where nothing should play.
+
+{{ begin_code() }}1
+2
+3
+_
+1
+2
+3
+{{ end_code() }}
+
+
+<h2>Ties</h2>
+
+A hyphen in a step extends the note out for an additional note duration, Here we have some longer chords held for
+four notes each and then part of a scale:
+
+{{ begin_code() }}IV
+-
+-
+-
+iii
+-
+-
+-
+1
+2
+3
+4
+5
+{{ end_code() }}
+
+Since all notes in a pattern are by default the same length, longer notes are created by using ties.  The system does
+not allow for playing broken chords (arpeggiators exist however!), but if you desire the ability to play broken
+chords, you can have multiple tracks target the same instrument, and that is an easy way to accomplish this.
+
+<h2>Ties</h2>
+
+<h2>Mod Expressions</h2>
+
+As an advanced feature, any expression may be followed by a semicolon and one or more modifiers, seperated by semicolons.
+
+<h3>Octave Shifts</h3>
+
+A basic example shows some octave offsets.  Assuming the scale was C major and the base octave was 4...
+
+{{ begin_code() }}1;O+1
+1;O-2
+2;O=4
+{{ end_code() }}
+
+... the above set of patterns would produce a C5, a C2, and D4.
+
+<h3>Velocity Controls</h3>
+
+velocity can be adjusted in one of many ways.
+
+{{ begin_code() }}1;v=100
+2;v+10
+3;v-10
+{{ end_code() }}
+
+Velocity takes a value between 0 and 100, and does not always map to  volume - it depends on your instrument.
+The latter two examples might be interesting in arpeggiators. See the "Randomness" section below for more tricks involving
+MIDI velocity.
+
+<h3>MIDI CC Controls</h3>
+
+MIDI CCs can be used to add interesting variations.
+
+{{ begin_code() }}1;cc1=20
+4;
+10;cc1=80
+{{ end_code() }}
+
+In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
+MIDI CCs are sticky. See the "Randomness" section below for more tricks involving MIDI CCs.
+
+<h3>Degree Shifts</h3>
+
+Making a note go up or down a scale interval works as follows:
+
+{{ begin_code() }}1;+5
+1;-b3
+{{ end_code() }}
+
+<h3>Flats and Sharps</h3>
+
+Accidentals outside the scale are easy to access:
+
+{{ begin_code() }}1
+2
+3;b
+4;
+5;#
+6;
+7
+{{ end_code() }}
+
+Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.
+
+<h3>Scale Shifts</h3>
+
+scale shifts can jump a note up or down in the current scale:
+
+{{ begin_code() }}1;S+2
+4;S-2
+{{ end_code() }}
+
+This may seem pointless, because we could have just said "3" or "2" here, but these can be used in powerful ways inside
+of arpeggiators.
+
+<h3>Probability Events</h3>
+
+A probability event can be assigned so that the next event has only a partial chance of firing.
+
+{{ begin_code() }}1;p=0.5;O+2
+{{ end_code() }}
+
+In the above example, the note will jump an octave only half of the times the pattern plays.
+
+<h3>Silence Events</h3>
+
+Silences are most useful with probabilities.
+
+{{ begin_code() }}1;p=0.5;x
+{{ end_code() }}
+
+In the above example, the event will not play half of the time
+
+<h3>Chordification</h3>
+
+While chords can be explicitly entered, chords can also be created from mod expressions in patterns or in arpeggiators.
+See the "Randomness" section below for more tricks involving chords.
+
+{{ begin_code() }}1;ch=power
+4;ch=major
+3;ch=sus4
+{{ end_code() }}
+
+
+
+
+
+

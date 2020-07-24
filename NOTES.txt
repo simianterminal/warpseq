@@ -4,58 +4,22 @@ NOTES
 BACKEND
 =======
 
-standardize mod exprs
+* more rockchisel docs (see docs/)
 
-O=4
-O=4,5,6
-O=4-6
-O+=4
-O+=0,1,2
-O-=0,1,2 (ETC)
-
-REGISTERS
-
-start with $
-
-$X=2
-$X+=2
-$X-=2
-
-O=4-$X   (4 THRU X)
-O=4,$X   (octave is 4 or $X)
-
-
-
-
+* we should change the mod expression delimiter to whitespace.
 
 * build the "friendly" high level API and port the test/assembly.py example to it.
-  use arrays, not strings, for lists of expressions in those API examples.  
-* Make sure ints are recognized by Literal class
-* scale code should generate a cached table so that scale_transpose in Note can be more efficient
-* cleanup various code
-* make sure there's a short cut method for clicking play on a scene that plays all the clips
-* increase error handling in expressions using custom exception types
-* make a Ctrl-C hook that stops all notes
+  use arrays, not strings, for lists of expressions in those API examples.
 
-* scene advance - a clip should have a flag that indicates completion advances the scene (default False)
-  a scene should have a flag to *disable* clip scene advance (default False)
-* a clip should contain a LIST of patterns, not just one
+* cleanup various code
+
+* increase error handling in expressions using custom exception types
+
+* make a Ctrl-C hook that stops all notes
 
 * demo script at launch should ask user to input their MIDI device name from a list
 
-
-* UI mockups
-** Instrument
-** Pattern Edit
-** Arp Edit
-** Scene Edit
-** Track Edit
-** Scale select or just edit - probably not user extensible at first
-** Grid (Clips)
-** Clear Grid
-** Save/Load
-
-** text file version idea (or just use JSON and make CLI after all)
+* UI planning and support service
 
 * GUI interface idea: flask server and backend thread with opcodes (each opcode takes JSON):
 
@@ -70,18 +34,10 @@ O=4,$X   (octave is 4 or $X)
 
 ** how do we show the user what pattern symbols are invalid? -- need a method for validating patterns??
 
-** more documentation in rockchisel - get a basic homepage going, maybe move some to inline help?
-
 ** start free patreon posts
-
-* verify/fix some little things:
-
-** is pattern overriding the scale (if not set on the clip) implemented?
-** is pattern overriding tempo (if not set on the clip) implemented?
 
 * demo vids / songs / tracks
 
 * test slot_length (really this is the same as tempo, isn't it? -- do we need to expose it?)
-* methods to indicate a note should be of longer duration without ties, like maybe "1;/" to double and "1;\" to shorten by half? or something anyway
 
-* the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc.
+* nice to have: the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc.

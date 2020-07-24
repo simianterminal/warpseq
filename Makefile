@@ -1,3 +1,5 @@
+manual:
+	(cd docs; python3 site.py)
 deps:
 	pip3 install -r requirements.txt
 pyflakes:
