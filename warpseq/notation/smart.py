@@ -49,14 +49,21 @@ class SmartExpression(Class):
 
         # TODO: this needs more magic here to support intra-track expressions and so on.
 
+        #print("****************************************************************************************")
+        #print("****************************************************************************************")
+        #print("****************************************************************************************")
+
         # ensure the input is a string - this is mostly only a concern in test code
         sym = str(sym)
         sym = sym.strip()
+        #print("SYM=(%s)" % sym)
 
         # we can write notes like 3;O+2;# -- third scale note, up two octaves, then sharp
-        mod_expressions = ""
+        mod_expressions = None
         if ";" in sym:
             (sym, mod_expressions) = sym.split(";", 1)
+
+        #print("mod_expressions=%s" % mod_expressions)
 
         # an empty string or an _ means no notes
         if sym == "" or sym == "_":
@@ -74,8 +81,6 @@ class SmartExpression(Class):
         # first try roman numeral notation (chords are roman, scale notes are arabic)
         try:
             notes = self._roman.do_notes(sym)
-            #print("roman(%s) => %s" % (sym, notes))
-            #print("S2: %s" % notes)
         except Exception:
             #traceback.print_exc()
             pass
@@ -84,8 +89,6 @@ class SmartExpression(Class):
         if not notes:
             try:
                 notes = self._literal.do_notes(sym)
-                #print("lit")
-                #print("S1: %s" % notes)
             except Exception:
                 #traceback.print_exc()
                 pass
@@ -104,14 +107,18 @@ class SmartExpression(Class):
         # if the note was trailed by any mod expressions, apply them to all notes
         # to be returned
 
-        # FIXME: I don't think we need this, we can have lists of arps!
         new_notes = []
         for note in notes:
             new_note = note.copy()
-            expressions = mod_expressions.split(";")
-            for expr in expressions:
-                if expr:
-                    new_note = self._mod.do(new_note, self.scale, self.track, expr)
+
+            if mod_expressions is not None:
+
+                expressions = mod_expressions.split(";")
+
+                #print("OLD NOTE=%s" % new_note)
+                #print("EXPRESSIONS=", expressions)
+                new_note = self._mod.do(new_note, self.scale, self.track, expressions)
+                #print("NEW NOTE=%s" % new_note)
             new_notes.append(new_note)
 
         self._previous = new_notes

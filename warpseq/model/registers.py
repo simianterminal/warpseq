@@ -45,6 +45,7 @@ def get_first_playing_note(track):
     track = _name(track)
 
     global LAST_BY_TRACK
+    print("LAST_BY_TRACK: %s" % LAST_BY_TRACK)
 
     rc = LAST_BY_TRACK.get(track, None)
     return rc

@@ -298,15 +298,23 @@ class Clip(ReferenceObject):
             if use_length < len(slots):
                 slots = slots[0:use_length]
 
+            #print("SLOTS=%s" % slots)
+
             # expression evaluator will need to grow smarter for intra-track and humanizer fun
             # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
 
             notes = [ notation.do(self, expression) for expression in slots ]
 
-
+            #print("RAW NOTES = %s" % notes)
             notes = chord_list_to_notes(notes)
 
+            #print("CLIP:%s" % self.name)
+            #print("NL1=%s" % notes)
+
             notes = evaluate_ties(notes)
+
+            #print("NL2=%s" % notes)
+
             notes = evaluate_shifts(notes, octave_shift, degree_shift, scale, scale_shift)
 
             for slot in notes:

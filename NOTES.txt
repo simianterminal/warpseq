@@ -4,6 +4,28 @@ NOTES
 BACKEND
 =======
 
+standardize mod exprs
+
+O=4
+O=4,5,6
+O=4-6
+O+=4
+O+=0,1,2
+O-=0,1,2 (ETC)
+
+REGISTERS
+
+start with $
+
+$X=2
+$X+=2
+$X-=2
+
+O=4-$X   (4 THRU X)
+O=4,$X   (octave is 4 or $X)
+
+
+
 
 
 * build the "friendly" high level API and port the test/assembly.py example to it.
@@ -61,3 +83,5 @@ BACKEND
 
 * test slot_length (really this is the same as tempo, isn't it? -- do we need to expose it?)
 * methods to indicate a note should be of longer duration without ties, like maybe "1;/" to double and "1;\" to shorten by half? or something anyway
+
+* the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc.

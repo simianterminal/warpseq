@@ -1,3 +1,4 @@
+
 NOTE_TABLE = [
     ['C',0], ['Db',0], ['D',0], ['Eb',0], ['E',0], ['F',0], ['Gb',0], ['G',0], ['Ab',0], ['A',0], ['Bb',0], ['B',0],
     ['C',1], ['Db',1], ['D',1], ['Eb',1], ['E',1], ['F',1], ['Gb',1], ['G',1], ['Ab',1], ['A',1], ['Bb',1], ['B',1],
@@ -16,6 +17,9 @@ NOTE_TABLE = [
 
 def offset(note, semitones):
 
+    # FIXME: this implementation is **TEMPORARY** and should be changed to allow infinite negative and positive octaves.
+    # if we do this, we can also remove the OCTAVE_BIAS hack in the scale implementation. (Search for OCTAVE_BIAS across all files)
+
     if semitones == 0:
         return note
     steps = 2 * semitones
@@ -28,3 +32,4 @@ def offset(note, semitones):
     n1.name = lookup[0]
     n1.octave = lookup[1]
     return n1
+

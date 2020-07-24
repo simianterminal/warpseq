@@ -131,10 +131,7 @@ class RealtimeEngine(BaseObject):
         self.instrument = self.track.instrument
         self.channel = self.instrument.channel
         self.device = self.instrument.device
-
         self.mod_expressions = ModExpression(defer=True)
-
-
         self.midi_out = rtmidi.MidiOut()
 
         ports = self.midi_out.get_ports()
@@ -186,35 +183,36 @@ class RealtimeEngine(BaseObject):
         # octave shifts are from the instrument!
         # min_octave = 0, base_octave = 3, max_octave = 8
 
-        #if event.type == NOTE_ON and event.note.flags['deferred'] == True:
-        #    #print("*** PROCESSING DEFERRED FLAGS ***")
-        #    exprs = event.note.flags['deferred_expressions']
-        #    for expr in exprs:
-        #        #print("PROCESSING DEFERRED EXPR: %s" % expr)
-        #        event.note = self.mod_expressions.do(event.note, self.scale, self.track, expr)
+        if event.type == NOTE_ON and event.note.flags['deferred'] == True:
+            #print("*** PROCESSING DEFERRED FLAGS ***")
+            exprs = event.note.flags['deferred_expressions']
+            for expr in exprs:
+                #print("PROCESSING DEFERRED EXPR: %s" % expr)
+                event.note = self.mod_expressions.do(event.note, event.note.from_scale, self.track, expr)
 
         if not event.note:
             return
 
         if event.type == NOTE_ON:
             (note_number, velocity) = self._note_data(event)
-
-            #print("NN ON=%s" % note_number)
             self.count_on = self.count_on + 1
-            #print("REGISTERING: %s")
-
+            #if self.track.name != 'euro2':
+            #    raise Exception(">>>>>>>>> RPN = %s, %s" % (self.track.name, event.note))
             register_playing_note(self.track, event.note)
 
             if not self.track.muted:
 
+                #print(event.note.flags['cc'])
+
                 for (channel, value) in event.note.flags['cc'].items():
                    # usually there won't be any
                     channel = int(channel)
+                    #print("CC%s=%s" % (channel, value))
                     self._control_change(channel, value)
 
                 result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
+                #print("PLAY: %s/%s" % (event.note, velocity))
                 self._send_message(result)
-
                 # print("PLAY: %s" % event.note)
 
 
@@ -229,10 +227,6 @@ class RealtimeEngine(BaseObject):
             self._send_message(result)
 
         #print("ON/OFF: %s/%s" % (self.count_on, self.count_off))
-
-
-    def note_advance(self, milliseconds):
-        pass
 
     def note_time_index(self, time_index):
         self.time_index = time_index

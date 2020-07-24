@@ -39,6 +39,8 @@ CHORD_TYPES = dict(
    mM7 = [ 3, 7, 11 ]
 )
 
+CHORD_TYPE_KEYS = [x for x in CHORD_TYPES.keys()]
+
 from . note import note, Note
 
 class Chord(BaseObject):
@@ -46,7 +48,7 @@ class Chord(BaseObject):
 
     notes = Field(type=list, required=False, nullable=True)
     root = Field(type=Note, required=False, nullable=True)
-    chord_type = Field(type=str, required=False, choices=CHORD_TYPES, default=None, nullable=True)
+    chord_type = Field(type=str, required=False, choices=CHORD_TYPE_KEYS, default=None, nullable=True)
 
 
     """
@@ -93,10 +95,24 @@ class Chord(BaseObject):
             n.velocity = velocity
         return c1
 
+    def adjust_velocity(self, mod):
+        ch = self.copy()
+        ch.notes = [ x.adjust_velocity(mod) for x in ch.notes ]
+
+        return ch
+
     def with_cc(self, channel, num):
         ch = self.copy()
         ch.notes = [ x.with_cc(channel, num) for x in ch.notes ]
+        print("!!!!!!!!!!!!! CHORD WITH CC CALLED")
+        print("ch.notes=%s" % ch.notes)
         return ch
+
+    def with_octave(self, octave):
+        c1 = self.copy()
+        for n in c1.notes:
+            n.octave = octave
+        return c1
 
     def _chordify(self):
         """

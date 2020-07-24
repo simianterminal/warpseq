@@ -6,6 +6,7 @@ from . import note_table
 from functools import total_ordering
 import re
 
+DEFAULT_VELOCITY = 120
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
 
 # ours
@@ -43,7 +44,8 @@ class Note(BaseObject):
     start_time = Field(type=int, default=None)
     end_time = Field(type=int, default=None)
     flags = Field(type=dict, default=None, required=False)
-    velocity = Field(type=int, default=None, required=False)
+    velocity = Field(type=int, default=DEFAULT_VELOCITY, required=False)
+    from_scale = Field(default=None)
 
     def on_init(self):
         self.name =  self._equivalence(self.name)
@@ -94,9 +96,6 @@ class Note(BaseObject):
 
     def scale_transpose(self, scale, steps):
 
-        # FIXME: it would probably be a nice performance increase if the scale generates a CACHED copy of itself on creation and then
-        # .generate() walks over that cached copy.
-
         index = 0
         found = False
         snn = self.note_number()
@@ -125,9 +124,21 @@ class Note(BaseObject):
         n1.velocity = velocity
         return n1
 
+    def adjust_velocity(self, mod):
+        n1 = self.copy()
+        if n1.velocity is None:
+            n1.velocity = 120 # FIXME: use a constant
+        n1.velocity = n1.velocity + mod
+        return n1
+
+    def with_octave(self, octave):
+        n1 = self.copy()
+        n1.octave = octave
+        return n1
+
     def with_cc(self, channel, value):
         n1 = self.copy()
-        self.flags["cc"][str(channel)] = value
+        n1.flags["cc"][str(channel)] = value
         return n1
 
     def offset(self, semitones):
@@ -205,7 +216,7 @@ class Note(BaseObject):
 
     def __repr__(self):
          # FIXME: simplify and remove CTR
-         return "Note<%s%s,LEN=%s,s=%s,e=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time)
+         return "Note<%s%s,LEN=%s,s=%s,e=%s,cc=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time, self.flags['cc'])
 
 def note(st):
      """
