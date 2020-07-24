@@ -74,10 +74,15 @@ class Player(BaseObject):
 
                 if self.clip.auto_scene_advance:
                     new_scene = self.song.next_scene(self.clip.scene)
-                    self._multiplayer.play_scene(new_scene)
+                    if new_scene:
+                        print("auto advancing scene to: %s" % new_scene.name)
+                        self._multiplayer.play_scene(new_scene)
+                    else:
+                        print("no scene to advance to")
 
                 elif self.clip.next_clip is not None:
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
+                    print("auto advancing clip to: %s" % new_clip.name)
                     self._multiplayer.add_clip(new_clip)
 
 

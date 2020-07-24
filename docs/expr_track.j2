@@ -11,10 +11,10 @@ This allows for powerful harmonization.  Imagine, if you will, a muted track 1 c
 2
 3
 4
-1;O+1
+1 O+1
 2
 4
-1;O+2
+1 O+2
 1
 3
 {{ end_code() }}
@@ -23,11 +23,11 @@ Another track can play harmonized chords - even at a different tempo, that will 
 was listening to another player:
 
 {{ begin_code() }}
-1;T=melodyTrack;ch=major
+1 T=melodyTrack ch=major
 -
 -
 -
-1;T=melodyTrack;ch=minor
+1 T=melodyTrack ch=minor
 -
 -
 -
@@ -37,16 +37,16 @@ was listening to another player:
 That's a short pattern.  Now we can add a baseline, which takes the melody track and drops down a few octaves.
 
 {{ begin_code() }}
-1;T=melodyTrack
+1 T=melodyTrack
 {{ end_code() }}
 
 The bass pattern can be zero length, because we want to apply an arp pattern to it, that might look like this:
 
 {{ begin_code() }}
-1;T=melodyTrack;O-1
-1;T=melodyTrack;O-1;S+1
-1;T=melodyTrack;O-1;S+2
-1;T=melodyTrack;O-1;S+3
+1 T=melodyTrack O-1
+1 T=melodyTrack O-1 S+1
+1 T=melodyTrack O-1 S+2
+1 T=melodyTrack O-1 S+3
 {{ end_code() }}
 
 The arp plays the first note the melody track is playing, then three successive notes going up 1, 2, and then 3 scale
@@ -57,5 +57,5 @@ song (if desired), and do not need to be rewritten when varying the melody track
 
 As such, we can make an entire song out of considerably LESS clips than in some other systems, by reusing patterns like this.
 
-
+NOTE: (BUG) Currently the parser will not work if the targetted track names contains spaces.
 

@@ -54,14 +54,13 @@ class SmartExpression(Class):
         #print("****************************************************************************************")
 
         # ensure the input is a string - this is mostly only a concern in test code
+
         sym = str(sym)
         sym = sym.strip()
-        #print("SYM=(%s)" % sym)
 
-        # we can write notes like 3;O+2;# -- third scale note, up two octaves, then sharp
-        mod_expressions = None
-        if ";" in sym:
-            (sym, mod_expressions) = sym.split(";", 1)
+        tokens = sym.split()
+        sym = tokens[0]
+        mod_expressions = tokens[1:]
 
         #print("mod_expressions=%s" % mod_expressions)
 
@@ -113,11 +112,11 @@ class SmartExpression(Class):
 
             if mod_expressions is not None:
 
-                expressions = mod_expressions.split(";")
+                #expressions = mod_expressions.split(";")
 
                 #print("OLD NOTE=%s" % new_note)
                 #print("EXPRESSIONS=", expressions)
-                new_note = self._mod.do(new_note, self.scale, self.track, expressions)
+                new_note = self._mod.do(new_note, self.scale, self.track, mod_expressions)
                 #print("NEW NOTE=%s" % new_note)
             new_notes.append(new_note)
 

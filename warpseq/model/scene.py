@@ -9,7 +9,7 @@ class Scene(ReferenceObject):
     tempo = Field(type=int, default=None, nullable=True)
     scale = Field(type=Scale, default=None, nullable=True)
 
-    auto_advance = Field(type=bool, default=None, nullable=True)
+    auto_advance = Field(type=bool, default=True, nullable=False)
 
     clip_ids = Field(type=list, required=True, nullable=False)
 

@@ -24,7 +24,7 @@ class ModExpression(object):
 
         if type(expressions) != list:
             expressions = str(expressions)
-            expressions = expressions.split(";")
+            expressions = expressions.split()
         #print(">>> EXPRESSION LIST:", expressions)
 
         input_note = note.copy()

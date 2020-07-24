@@ -112,9 +112,9 @@ v
 More advanced types can be represented using their base notes and chord type:
 
 {{ begin_code() }}
-1;ch=sus4
-2;ch=major
-4;ch=power
+1 ch=sus4
+2 ch=major
+4 ch=power
 {{ end_code() }}
 
 This is a bit of a spoiler as this refers to "Mod Expressions", covered immediately below.
@@ -189,9 +189,9 @@ As an advanced feature, any expression may be followed by a semicolon and one or
 
 A basic example shows some octave offsets.  Assuming the scale was C major and the base octave was 4...
 
-{{ begin_code() }}1;O+1
-1;O-2
-2;O=4
+{{ begin_code() }}1 O+1
+1 O-2
+2 O=4
 {{ end_code() }}
 
 ... the above set of patterns would produce a C5, a C2, and D4.
@@ -200,9 +200,9 @@ A basic example shows some octave offsets.  Assuming the scale was C major and t
 
 velocity can be adjusted in one of many ways.
 
-{{ begin_code() }}1;v=100
-2;v+10
-3;v-10
+{{ begin_code() }}1 v=100
+2 v+10
+3 v-10
 {{ end_code() }}
 
 Velocity takes a value between 0 and 100, and does not always map to  volume - it depends on your instrument.
@@ -213,9 +213,9 @@ MIDI velocity.
 
 MIDI CCs can be used to add interesting variations.
 
-{{ begin_code() }}1;cc1=20
-4;
-10;cc1=80
+{{ begin_code() }}1 cc1=20
+4
+10 cc1=80
 {{ end_code() }}
 
 In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
@@ -225,9 +225,11 @@ MIDI CCs are sticky. See the "Randomness" section below for more tricks involvin
 
 Making a note go up or down a scale interval works as follows:
 
-{{ begin_code() }}1;+5
-1;-b3
+{{ begin_code() }}1 +5
+1 -b3
 {{ end_code() }}
+
+The above example shows a perfect fifth and a flat third.
 
 <h3>Flats and Sharps</h3>
 
@@ -235,10 +237,10 @@ Accidentals outside the scale are easy to access:
 
 {{ begin_code() }}1
 2
-3;b
-4;
-5;#
-6;
+3 b
+4
+5 #
+6
 7
 {{ end_code() }}
 
@@ -248,8 +250,8 @@ Note that sometimes the accidentals will still be inside the scale.  It depends 
 
 scale shifts can jump a note up or down in the current scale:
 
-{{ begin_code() }}1;S+2
-4;S-2
+{{ begin_code() }}1 S+2
+4 S-2
 {{ end_code() }}
 
 This may seem pointless, because we could have just said "3" or "2" here, but these can be used in powerful ways inside
@@ -259,7 +261,7 @@ of arpeggiators.
 
 A probability event can be assigned so that the next event has only a partial chance of firing.
 
-{{ begin_code() }}1;p=0.5;O+2
+{{ begin_code() }}1 p=0.5;O+2
 {{ end_code() }}
 
 In the above example, the note will jump an octave only half of the times the pattern plays.
@@ -268,7 +270,7 @@ In the above example, the note will jump an octave only half of the times the pa
 
 Silences are most useful with probabilities.
 
-{{ begin_code() }}1;p=0.5;x
+{{ begin_code() }}1 p=0.5;x
 {{ end_code() }}
 
 In the above example, the event will not play half of the time
@@ -278,9 +280,9 @@ In the above example, the event will not play half of the time
 While chords can be explicitly entered, chords can also be created from mod expressions in patterns or in arpeggiators.
 See the "Randomness" section below for more tricks involving chords.
 
-{{ begin_code() }}1;ch=power
-4;ch=major
-3;ch=sus4
+{{ begin_code() }}1 ch=power
+4 ch=major
+3 ch=sus4
 {{ end_code() }}
 
 
