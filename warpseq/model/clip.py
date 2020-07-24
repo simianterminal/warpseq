@@ -249,7 +249,11 @@ class Clip(ReferenceObject):
 
         degree_shifts = utils.roller(degree_shifts)
         octave_shifts = utils.roller(octave_shifts)
-        scale_roller = utils.roller(self.scales)
+
+        if self.scales:
+            scale_roller = utils.roller(self.scales)
+        else:
+            scale_roller = None
         scale_note_roller = utils.roller(scale_note_shifts)
 
 
