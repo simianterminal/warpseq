@@ -109,23 +109,36 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
     note_list = flatten(note_list)
     events = []
 
-    for note in note_list:
+    for in_note in note_list:
 
+        from .. model.chord import Chord
+        from .. model.note import Note
 
-        start_index = note.start_time #str(round_partial(note.start_time, resolution))
-        stop_index = note.end_time #str(round_partial(note.end_time, resolution))
+        my_notes = None
+        if type(in_note) == Note:
+            my_notes = [ in_note ]
+        elif type(in_note) == Chord:
+            # an arp can sometimes generate chords from raw notes
+            my_notes = in_note.notes
+        else:
+            raise Exception("unexpected input: %s" % note)
 
-        event1 = Event(type=NOTE_ON, note=note, time=note.start_time)
+        for note in my_notes:
 
-        if event1.note.octave > clip.track.instrument.max_octave:
-            event1.note.octave = clip.track.instrument.max_octave
-        if event1.note.octave < clip.track.instrument.min_octave:
-            event1.note.octave = clip.track.instrument.min_octave
+            start_index = note.start_time #str(round_partial(note.start_time, resolution))
+            stop_index = note.end_time #str(round_partial(note.end_time, resolution))
 
-        events.append(event1)
+            event1 = Event(type=NOTE_ON, note=note, time=note.start_time)
 
-        event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, on_event=event1)
-        events.append(event2)
+            if event1.note.octave > clip.track.instrument.max_octave:
+                event1.note.octave = clip.track.instrument.max_octave
+            if event1.note.octave < clip.track.instrument.min_octave:
+                event1.note.octave = clip.track.instrument.min_octave
+
+            events.append(event1)
+
+            event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, on_event=event1)
+            events.append(event2)
 
     def sorter(event):
 

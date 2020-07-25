@@ -21,6 +21,7 @@ class ModExpression(object):
         if type(expressions) != list:
             expressions = str(expressions)
             expressions = expressions.split()
+            print("EXPR=%s" % expressions)
 
         input_note = note.copy()
 
@@ -45,7 +46,6 @@ class ModExpression(object):
 
         for expr in expressions:
 
-
             expr_index = expr_index + 1
 
             # if false, execute next ignores the NEXT event and then toggles back on.
@@ -64,6 +64,13 @@ class ModExpression(object):
             if input_note is None:
                 return input_note
 
-        input_note.from_scale = self.scale
+        from .. model.note import Note
+        from .. model.chord import Chord
+
+        if type(input_note) == Note:
+            input_note.from_scale = self.scale
+        elif type(input_note) == Chord:
+            for x in input_note.notes:
+                x.from_scale = x
 
         return input_note

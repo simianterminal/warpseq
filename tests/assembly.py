@@ -112,7 +112,7 @@ def test_assembly():
     a3 = Arp(name='octave_hop', slots="O+=1 .".split(), divide=1)
     a4 = Arp(name='capture', slots=["T=euro1 O-=2"], divide=1)
     a5 = Arp(name='silence', slots=["p=0.05 x"], divide=1)
-    a6 = Arp(name='a1', slots=["S+1","S+2","S+3","S+4","S+5"], divide=5)
+    a6 = Arp(name='a1', slots=["S+1 ch=power","S+2 ch=power","S+3 ch=power","S+4 ch=power","S+5 ch=power"], divide=5)
     song.add_arps([a1, a2, a3, a4, a5, a6])
 
 
@@ -162,8 +162,8 @@ def test_assembly():
     c_grab_test1 = Clip(name='c_grab_test1', scales=[baz_scale], patterns=[grab_test1], repeat=3)
     c_grab_test2 = Clip(name='c_grab_test2', scales=[baz_scale], patterns=[grab_test2], repeat=3)
 
-    song.add_clip(scene=s0, track=t1, clip=c_chords)
-    song.add_clip(scene=s1, track=t2, clip=c_snare)
+    song.add_clip(scene=s0, track=t2, clip=c_chords)
+    song.add_clip(scene=s1, track=t2, clip=c_kick)
     song.add_clip(scene=s2, track=t1, clip=c_mixed)
     song.add_clip(scene=s3, track=t1, clip=c_up)
     song.add_clip(scene=s4, track=t2, clip=c_down)

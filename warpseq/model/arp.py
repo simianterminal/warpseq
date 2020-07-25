@@ -81,6 +81,7 @@ class Arp(ReferenceObject):
                 # FIXME: there's a good chance probability events might not work here because of how
                 # 'next' is handled?  VERIFY
 
+                # print("MODEXPRDO: %s, %s, %s, %s" % (which_note, scale, track, which_slot))
                 final_note = mod_expr.do(which_note, scale, track, which_slot)
                 if final_note is None:
                     continue
@@ -90,8 +91,6 @@ class Arp(ReferenceObject):
                 # we return an array here based on the existing non-arp code path possibly returning
                 # chords.
 
-                assert final_note.start_time is not None
-                assert final_note.end_time is not None
 
                 new_note_list.append([final_note])
 
