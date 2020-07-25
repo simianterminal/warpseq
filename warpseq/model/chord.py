@@ -3,7 +3,7 @@
 from .base import BaseObject
 from .pattern import Pattern
 from classforge import Class, Field
-from .arp import Arp
+from .transform import Transform
 from .scale import Scale
 from .note import Note, note
 

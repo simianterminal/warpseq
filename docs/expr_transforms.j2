@@ -1,0 +1,54 @@
+
+<h3>Mod Expressions In Transforms</h3>
+
+<p>
+Warp does not just have Arpeggiators, warp has more complex "Transforms" that can be used to build arps, but also
+more detailed sets of meta-patterns that transform other patterns.
+</p>
+
+<p>
+To build an Arp, we only need this in the Transform definition:
+</p>
+
+{{ begin_code() }}
+0
+{{ end_code() }}
+
+<p>
+0 here just means "play what you would have played"
+</p>
+
+<p>
+In other words, just play every note like a normal arpeggiator would.  In a chord, this would play each note in the chord,
+one at a time.
+</p>
+
+<p>
+That's basic though. Transforms can use mod expressions, for instance:
+
+{{ begin_code() }}
+O+2
+O+1
+0
+O+1
+O+2
+{{ end_code() }}
+
+The above sequence would play the first note in the pattern 2 octaves up, the 1, then as written, then 1 up, and then 2 up.
+
+Alternatively, the transform can ALSO muck with any parameter it wants, including creation of chords.  Here is a particularly
+non-musical example:
+
+{{ begin_code() }}
+0
+0 cc10=90 v=80
+x
+O+1
+0 cc10=0:120
+{{ end_code() }}
+
+In this example, the first note plays as is, the second does with modified velocity and MIDI CC 10, the third
+note is silenced, the fourth note is an octave up, and the fifth note plays as is with random MIDI CC information that
+will persist as the transform cycles back on the first slot and finally be overwritten on the second.
+
+

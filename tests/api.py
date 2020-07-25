@@ -1,31 +1,39 @@
-from warpseq.api.song_api import SongApi
-
-song = SongApi()
+from warpseq.api.public import Api
+from warpseq.api import exceptions
 
 DEVICE='IAC Driver IAC Bus 1'
 
+# ----------------------------------------------------------------------------------------------------------------------
 
+api = Api()
 
 # ----------------------------------------------------------------------------------------------------------------------
 # setup MIDI devices
 
-print(song.get_devices())
+print(api.devices.list_available())
 
-song.add_device(name=DEVICE)
+#if DEVICE not in devices:
+#    raise Exception("this is not a valid device, try one of: %s" % devices)
 
-#song.add_device(name='example1')
-#song.remove_device(name='example1')
+api.devices.add(DEVICE)
+api.devices.add('blippy')
+api.devices.edit('blippy', new_name="dev2")
+api.devices.remove('blippy')
+
+print(api.devices.describe(DEVICE))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Instruments represent the combination of a MIDI Devices and a MIDI Channel
 
-song.add_instrument(name='euro1', device=DEVICE, channel=1, min_octave=0, base_octave=3, max_octave=10)
-song.add_instrument(name='euro2', device=DEVICE, channel=2)
-song.add_instrument(name='euro3', device=DEVICE, channel=3)
+api.instruments.add('euro1', device=DEVICE, channel=1, min_octave=0, base_octave=3, max_octave=10)
+api.instruments.add('euro2', device=DEVICE, channel=2)
+api.instruments.add('euro3', device=DEVICE, channel=3)
 
-#song.edit_instrument(name='euro3', channel=4)
-#song.remove_instrument(name='euro3')
-#print(song.get_instruments())
+api.instruments.edit(name='euro3', channel=4, device=DEVICE)
+api.instruments.remove(name='euro3')
+
+print(api.instruments.list())
+print(api.instruments.describe('euro1'))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Tracks are a vertical lane of clips where only one clip can be playing at once, but multiple tracks CAN target

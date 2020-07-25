@@ -24,7 +24,7 @@ site = Builder(
 			"Expressions" : {
 				"Expressions: Intro": "expr_intro",
 				"Randomness" : "expr_random",
-				"Arpeggiators" : "expr_arps",
+				"Transforms" : "expr_arps",
 				"Intra-Track" : "expr_track",
 				"Variables" : "expr_variables",
 			},

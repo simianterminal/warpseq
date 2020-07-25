@@ -1,7 +1,7 @@
 from .base import ReferenceObject
 from .pattern import Pattern
 from classforge import Class, Field
-from .arp import Arp
+from .transform import Transform
 from .scale import Scale
 from ..notation.smart import SmartExpression
 from ..notation.time_stream import evaluate_ties, evaluate_shifts, chord_list_to_notes, notes_to_events
@@ -24,7 +24,7 @@ class Clip(ReferenceObject):
     degree_shifts = Field(type=list, default=None, required=False, nullable=True)
     scale_note_shifts = Field(type=list, default=None, required=False, nullable=True)
     next_clip = Field(required=False, nullable=True)
-    arps = Field(type=list, default=None, nullable=False)
+    transforms = Field(type=list, default=None, nullable=False)
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
     auto_scene_advance = Field(type=bool, default=False, nullable=False)
@@ -59,10 +59,10 @@ class Clip(ReferenceObject):
         else:
             result['patterns'] = []
 
-        if self.arps:
-            result['arps'] = [ x.obj_id for x in self.arps ]
+        if self.transforms:
+            result['transforms'] = [ x.obj_id for x in self.transforms ]
         else:
-            result['arps'] = []
+            result['transforms'] = []
 
         if self.scales:
             result['scales'] = [x.obj_id for x in self.scales ]
@@ -114,7 +114,7 @@ class Clip(ReferenceObject):
             scales = [ song.find_scale(x) for x in data['scales'] ],
             patterns = [ song.find_pattern(x) for x in data['patterns'] ],
             length = data['length'],
-            arps = [ song.find_arp(x) for x in data['arps'] ],
+            transforms = [ song.find_transform(x) for x in data['transforms'] ],
             tempo = data['tempo'],
             repeat = data['repeat'],
             track = song.find_track(data['track']),
@@ -231,10 +231,12 @@ class Clip(ReferenceObject):
         scale_note_roller = utils.roller(scale_note_shifts)
 
 
-        arp = None
+        # arp = None
 
-        if self.arps:
-            arp_roller = utils.roller(self.arps)
+        if self.transforms:
+            transform_roller = utils.roller(self.transforms)
+        else:
+            transform_roller = None
 
         pat_index = 0
 
@@ -248,8 +250,10 @@ class Clip(ReferenceObject):
             slot_duration = self.slot_duration(song, pattern)
             scale = self.get_actual_scale(song, pattern, scale_roller)
 
-            if arp_roller:
-                arp = next(arp_roller)
+            if transform_roller:
+                transform = next(transform_roller)
+            else:
+                transform = None
 
             slots = pattern.slots
 
@@ -279,8 +283,8 @@ class Clip(ReferenceObject):
             # to just contain the first part
             if self.length and self.length < len(notes):
                 notes = notes[0:self.length]
-            if arp:
-                notes = arp.process(song, scale, self.track, notes)
+            if transform:
+                notes = transform.process(song, scale, self.track, notes)
             all_notes.extend(notes)
 
         c2 = time.time()

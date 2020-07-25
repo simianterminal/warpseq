@@ -3,7 +3,7 @@ from classforge import Class, Field
 from .. utils.utils import roller
 from .. notation.mod import ModExpression
 
-class Arp(ReferenceObject):
+class Transform(ReferenceObject):
 
     name = Field(type=str, required=True, nullable=False)
     slots = Field(type=list, required=True, default=None)
@@ -21,7 +21,7 @@ class Arp(ReferenceObject):
 
     @classmethod
     def from_dict(cls, song, data):
-        return Arp(
+        return Transform(
             obj_id = data['obj_id'],
             name = data['name'],
             slots = data['slots'],

@@ -1,4 +1,4 @@
-from warpseq.model.arp import Arp
+from warpseq.model.transform import Transform
 from warpseq.model.clip import Clip
 from warpseq.model.device import Device
 from warpseq.model.instrument import Instrument
@@ -10,6 +10,8 @@ from warpseq.model.scene import Scene
 from warpseq.model.note import Note
 from warpseq.playback.engine.realtime_engine import RealtimeEngine
 from warpseq.playback.multi_player import MultiPlayer
+
+# not an example of the public interface, users should use the higher level api (api/public.py).
 
 # fair warning: this is NOT meant to be musically listenable but is more a testbed for trying out various patterns
 # and testing them through MIDI recording / audio
@@ -63,7 +65,7 @@ def test_assembly():
     foo_scale = Scale(name='foo', root=Note(name='C', octave=OCTAVE_BIAS), scale_type='major')
     bar_scale = Scale(name='bar', root=Note(name='C', octave=OCTAVE_BIAS), scale_type='pentatonic')
     baz_scale = Scale(name='c4-major', root=Note(name='C', octave=OCTAVE_BIAS), scale_type='major')
-    akebono_scale   = Scale(name='c3-akebono', root=Note(name='C', octave=OCTAVE_BIAS), slots=['1', '2', 'b3', '5', '6'])
+    akebono_scale   = Scale(name='c3-akebono', root=Note(name='F', octave=OCTAVE_BIAS), slots=['1', '2', 'b3', '5', '6'])
     song.add_scales([ foo_scale, bar_scale, baz_scale, akebono_scale ])
     song.scale = foo_scale
 
@@ -98,13 +100,13 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # ARPS
 
-    a1 = Arp(name='a1', slots=[0,0,"S+1","O+2","O+1"], divide=5)
-    a2 = Arp(name='a2', slots=[0,0,0], divide=6)
-    a3 = Arp(name='octave_hop', slots="O+=1 .".split(), divide=1)
-    a4 = Arp(name='capture', slots=["T=euro1 O-=2"], divide=1)
-    a5 = Arp(name='silence', slots=["p=0.05 x"], divide=1)
-    a6 = Arp(name='a1', slots=["S+1 ch=power","S+2 ch=power","S+3 ch=power","S+4 ch=power","S+5 ch=power"], divide=5)
-    song.add_arps([a1, a2, a3, a4, a5, a6])
+    a1 = Transform(name='a1', slots=[0, 0, "S+1", "O+2", "O+1"], divide=5)
+    a2 = Transform(name='a2', slots=[0, 0, 0], divide=6)
+    a3 = Transform(name='octave_hop', slots="O+=1 .".split(), divide=1)
+    a4 = Transform(name='capture', slots=["T=euro1 O-=2"], divide=1)
+    a5 = Transform(name='silence', slots=["p=0.05 x"], divide=1)
+    a6 = Transform(name='a1', slots=["S+1 ch=power", "S+2 ch=power", "S+3 ch=power", "S+4 ch=power", "S+5 ch=power"], divide=5)
+    song.add_transforms([a1, a2, a3, a4, a5, a6])
 
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -114,16 +116,17 @@ def test_assembly():
     #expr_test = Pattern(name='expr_test', slots=[1, '1;S+=1', '1;S-=1', '1;S+=5' ])
     #expr_test = Pattern(name='expr_test', slots=[1, '1;b', '1;#', '1' ])
     #expr_test = Pattern(name='expr_test', slots='1;v=85;cc0=50 _ _ _ 2;ch=major,power,minor;v=10,80 _ _ _ 3;ch=major,power,minor;cc0=50:100 _ _ _ 4;ch=major,power,minor;cc0=50,100 _ _ _'.split())
+
     expr_test = Pattern(name='expr_test', slots=['1 p=0.6 x'])
     grab_test1 = Pattern(name='grab_test_1', slots=['1','2','3','4','5','6','7'])
     grab_test2 = Pattern(name='grab_test_2', slots=['1 T=euro1', '-', '-', '-', '-', '-', '-', '-'])
     short_test = Pattern(name='short_test', slots=['1','1','1'])
-    var_test   = Pattern(name='var_test', slots=['1 $x=20,80', '1 cc0=$x', '1 cc1=$x', '1 cc2=$x'])
+    var_test   = Pattern(name='var_test', slots=['1 $x=20:80', '1 cc0=$x', '1 cc1=$x', '1 cc2=$x'])
 
     mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", 2, 3, "V", [ "V", "V O+=1"]], tempo=120)
 
     #capture = Pattern(name='capture', slots=("1;T=euro1 0 0 0" * 4).split(), tempo=30)
-    chords = Pattern(name='chords', slots="I - - - _ IV - - - _ V - - - _ VI - - - _".split(), tempo=120)
+    chords = Pattern(name='chords', slots="I - - _ IV - - _ V - - _ VI - - _".split(), tempo=120)
     #chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"], tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
@@ -136,7 +139,7 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # CLIPS
 
-    c_up = Clip(name='c_up', patterns=[up], scales=[akebono_scale], octave_shifts=[-1], repeat=1, arps=[a3],  auto_scene_advance=True) # next_clip='c_chords') # repeat=2, next_clip='c5', length=4)
+    c_up = Clip(name='c_up', patterns=[up], scales=[akebono_scale], octave_shifts=[-1], repeat=1, transforms=[a3],  auto_scene_advance=True) # next_clip='c_chords') # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', patterns=[down], scales=[bar_scale], octave_shifts=[-1], repeat=1,  auto_scene_advance=True) # arp=a1, repeat=1)
     c_chords = Clip(name='c_chords', patterns=[chords], scales=[baz_scale], octave_shifts=[-2], repeat=1, tempo=120, auto_scene_advance=True) #
     c_kick = Clip(name='c_kick', patterns=[kick], scales=[baz_scale], repeat=2, auto_scene_advance=True)
@@ -147,25 +150,20 @@ def test_assembly():
     #c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scales=[baz_scale], arps=[a5], repeat=8)
 
     c_expr_test = Clip(name='c_expr_test', patterns=[expr_test], scales=[baz_scale], repeat=2, tempo=120,  auto_scene_advance=True)
-    c_short_test = Clip(name='c_short_test', patterns=[short_test], arps=[a1], repeat=6, tempo=150,  auto_scene_advance=True)
+    c_short_test = Clip(name='c_short_test', patterns=[short_test], transforms=[a1], repeat=6, tempo=150,  auto_scene_advance=True)
     c_var_test = Clip(name='c_var_test', patterns=[var_test], repeat=6,  auto_scene_advance=True)
 
-    # FIXME: it shoudl be ok if the clip scale is None
+    # FIXME: it should be ok if the clip scale is None
 
     c_grab_test1 = Clip(name='c_grab_test1', scales=[baz_scale], patterns=[grab_test1], repeat=3, auto_scene_advance=True)
     c_grab_test2 = Clip(name='c_grab_test2', scales=[baz_scale], patterns=[grab_test2], repeat=3, auto_scene_advance=True)
 
     song.add_clip(scene=s0, track=t2, clip=c_chords)
-
     song.add_clip(scene=s1, track=t1, clip=c_kick)
-
     song.add_clip(scene=s1, track=t2, clip=c_snare)
-
     song.add_clip(scene=s2, track=t1, clip=c_up)
     song.add_clip(scene=s2, track=t2, clip=c_down)
-
     song.add_clip(scene=s3, track=t1, clip=c_grab_test2)
-
     song.add_clip(scene=s4, track=t1, clip=c_expr_test)
     song.add_clip(scene=s4, track=t2, clip=c_var_test)
 

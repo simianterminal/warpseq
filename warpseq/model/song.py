@@ -1,6 +1,7 @@
 from . base import ReferenceObject
 from classforge import Class, Field
 from .scale import Scale
+from ..api import exceptions
 import json
 
 FORMAT_VERSION = 0.1
@@ -18,7 +19,7 @@ class Song(ReferenceObject):
     scenes = Field(type=list, required=False, nullable=False)
     tracks = Field(type=list, required=False, nullable=False)
     clips = Field(type=dict, required=False, nullable=False)
-    arps = Field(type=dict, required=False, nullable=False)
+    transforms = Field(type=dict, required=False, nullable=False)
     patterns = Field(type=dict, required=False, nullable=False)
 
     def on_init(self):
@@ -34,8 +35,8 @@ class Song(ReferenceObject):
             self.scenes = []
         if self.clips is None:
             self.clips = dict()
-        if self.arps is None:
-            self.arps = dict()
+        if self.transforms is None:
+            self.transforms = dict()
         if self.patterns is None:
             self.patterns = dict()
         super().on_init()
@@ -76,8 +77,8 @@ class Song(ReferenceObject):
                 return v
         return None
 
-    def find_arp(self, obj_id):
-        x = self.arps.get(str(obj_id), None)
+    def find_transform(self, obj_id):
+        x = self.transforms.get(str(obj_id), None)
         assert x is not None
         return x
 
@@ -97,7 +98,7 @@ class Song(ReferenceObject):
             scales = { str(k) :  v.to_dict() for (k, v) in self.scales.items()},
             scenes = [ v.to_dict() for v in self.scenes ],
             tracks = [ v.to_dict() for v in self.tracks ],
-            arps = { str(k) : v.to_dict() for (k, v) in self.arps.items()},
+            transforms = { str(k) : v.to_dict() for (k, v) in self.transforms.items()},
             patterns = { str(k) : v.to_dict() for (k, v) in self.patterns.items()},
             clips = { str(k) : v.to_dict() for (k,v) in self.clips.items() }
         )
@@ -131,7 +132,7 @@ class Song(ReferenceObject):
         from . scene import Scene
         from . track import Track
         from . clip import Clip
-        from . arp import Arp
+        from . transform import Transform
         from . pattern import Pattern
 
         song.scales = { str(k) : Scale.from_dict(song, v) for (k,v) in data['scales'].items() }
@@ -141,7 +142,7 @@ class Song(ReferenceObject):
         song.scenes = [ Scene.from_dict(song, v) for v in data['scenes'] ]
         song.tracks = [ Track.from_dict(song, v) for v in data['tracks'] ]
 
-        song.arps =  { str(k) : Arp.from_dict(song, v) for (k,v) in data['arps'].items() }
+        song.transforms =  {str(k) : Transform.from_dict(song, v) for (k, v) in data['transforms'].items()}
         song.patterns =  { str(k) : Pattern.from_dict(song, v) for (k,v) in data['patterns'].items() }
         song.clips =  { str(k) : Clip.from_dict(song, v) for (k,v) in data['clips'].items() }
 
@@ -288,10 +289,10 @@ class Song(ReferenceObject):
     def remove_pattern(self, pattern):
         del self.patterns[str(pattern.obj_id)]
 
-    def add_arps(self, arps):
-        assert type(arps) == list
-        for x in arps:
-            self.arps[str(x.obj_id)] = x
+    def add_transforms(self, transforms):
+        assert type(transforms) == list
+        for x in transforms:
+            self.transforms[str(x.obj_id)] = x
 
-    def remove_arp(self, arp):
-        del self.arps[str(arp.obj_id)]
+    def remove_transform(self, transform):
+        del self.transforms[str(transform.obj_id)]
