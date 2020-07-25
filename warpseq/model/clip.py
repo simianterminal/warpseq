@@ -29,6 +29,7 @@ class Clip(ReferenceObject):
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
     auto_scene_advance = Field(type=bool, default=False, nullable=False)
+    pattern_auto_reset = Field(type=bool, default=False, nullable=False)
 
     # internal state
     track = Field(type=Track, default=None, required=False, nullable=True)
@@ -49,10 +50,8 @@ class Clip(ReferenceObject):
     def reset(self):
 
         if self.tempo_shifts:
-            print("A1: %s" % self.tempo_shifts)
             self._tempo_roller = utils.roller(self.tempo_shifts)
         else:
-            print("A2")
             self._tempo_roller = utils.roller([0])
 
         degree_shifts = self.degree_shifts
@@ -82,6 +81,7 @@ class Clip(ReferenceObject):
             self._transform_roller = utils.roller(self.transforms)
         else:
             self._transform_roller = None
+
 
     def scenes(self, song):
         return [ song.find_scene(x) for x in self.scene_ids ]

@@ -1,0 +1,94 @@
+<h1>User Interface - COMING SOON</h1>
+
+<p>
+The user interface for Warp will be available in a future release. Until then, everything can be done in python with the {{ doc('api') }}.
+What follows is an explanation of the UI as planned (almost a requirements document!) to peak interest.  The UI is slated for release in fall of 2020.
+</p>
+
+<h2>General Concepts</h2>
+
+<ul>
+<li>The UI will have a very small number of pages and should be very simple to use</li>
+<li>You will start it by starting a server and going to http://port</li>
+<li>There is no authentication and you run this on your local machine, the one with the MIDI devices</li>
+<li>You will probably have Ableton or some other tool open behind the DAW to host VSTs and control audio, or even to record MIDI from Warp</li>
+<li>There are no menus.</li>
+<li>The server starts up with an empty song.  It only keeps one song in memory at a time.</li>
+</ul>
+
+<h2>Grid View</h2>
+
+<ul>
+<li>The startup page will be a scene and track grid</li>
+<li>There will be a button to add a scene</li>
+<li>There will be a button to add a track</li>
+<li>There will be a button to access the instruments page</li>
+<li>There's a save and load button that works from disk, as well as a new/reset button</li>
+<li>Pressing an arrow beside a scene should start all  scene clips</li>
+<li>Clips can be started and stopped too</li>
+<li>There should be a global start/stop button</li>
+<li>There will be a save/load file button</li>
+<li>Clips should be able to be rearranged</li>
+<li>Scenes and Tracks don't have to be rearranged - feature for later</li>
+<li>There should be a button to access the scale page</li>
+</ul>
+
+<h2>Scene Edit Page (Modal)</h2>
+
+<ul>
+<li>Just clicking "add scene" creates a empty scene. You don't have to edit it when adding</li>
+<li>Clicking on a scene allows editing the tempo and scale assignments.</li>
+<li>The tempo and scale can be blank</li>
+<li>The scene can be named</li>
+<li>The scene advance flag can be toggled</li>
+</ul>
+
+<h2>Scale Page (Modal)</h2>
+
+<ul>
+<li>We need a widget for creating named scales.  Scales can be user defined or selected from our canned types.</li>
+<li>Scales must be created in the system before using them elsewhere.</li>
+</ul>
+
+<h2>Track Page (Modal)</h2>
+
+<ul>
+<li>Clicking on the track allows for muting the track</li>
+<li>The track can be renamed</li>
+</ul>
+
+<h2>Clip Page (LARGE Modal)</h2>
+
+<ul>
+<li>The clip page shall be full screen or nearly a full screen modal with an easy way to get back to the grid</li>
+<li>There will be a Patterns Widget that allows adding and editing each pattern inline</li>
+<li>the same kind of widget will exist for Transforms to the right of patterns</li>
+<li>The third column contains roller options like scales, octave shifts, and so on... and things like the tempo widget - all other parameters - possibly 4 columns if needed</li>
+<li>You can see all attached patterns and transforms at once</li>
+<li>The octave shifts, scale degree shifts, tempo shifts are also editable lists very similar to pattern/transforms lists, but there is only one of them</li>
+<li>There's a scale picker and a tempo selector widget</li>
+<li>We can toggle the flag that controls scene auto advance or program next clip</li>
+<li>Changing anything should have immediate effect, there is no save button
+<li>There is no seperate "Patterns" widget. You can add patterns, remove them, or destroy them from this widget.</li>
+<li>Destroying a pattern/transform removes it everywhere it is referenced.</li>
+</ul>
+
+<h2>Pattern/Transform Widget</h2>
+
+<ul>
+<li>Each pattern in the clip is shown one on top of each other in a vertical row.  One row for patterns, one for transforms.</li>
+<li>This is basically a text area where one slot of the pattern is on it's own line.</li>
+<li>When the pattern is changed we need to ask the server if all expressions are valid, and need a method for this</li>
+<li>If there invalid it should say which are invalid</li>
+</ul>
+
+<h2>Status Indicators</h2>
+
+<ul>
+<li>Callbacks light up the currently playing scenes, clips, and when inside a clip, patterns.</li>
+<li>Ideally these callbacks should also light up the currently playing octave shifts, scale degree shifts, tempo shifts, and scales!</li>
+<li>The UI could poll to ask, but it will need to ask frequently.... could be websocket based.</li>
+</ul>
+
+
+

@@ -57,7 +57,7 @@ If this documentation seems confusing, we recommend looking at the {{ doc('api')
 
 <ul>
 <li>A pattern represents an ordered series of expressions that evaluate into notes or chords
-<li>Patterns include strings like "1", "IV", or "C4sus4" or even "C4sus4;O+1;cc0=50".</li>
+<li>Patterns include strings like "1", "IV", or "C4sus4" or even "C4sus4;O+1;cc0=50". See {{ doc('expr_intro') }}.</li>
 <li>Patterns can include velocity and MIDI CC information.
 <li>A pattern may define an octave_shift to be applied to the current Scale, which applies after the base octave of the instrument.
 <li>A pattern may define a Tempo to override the tempo of the Scene or Song.
@@ -94,14 +94,15 @@ If this documentation seems confusing, we recommend looking at the {{ doc('api')
 <li>A clip primarily contains a list of patterns that can be manually triggered to play in sequence</li>
 <li>A clip belongs to a Scene (horizontally) and a track (Vertically).</li>
 <li>Playing a clip will stop any other clips that are playing in the same track.</li>
+<li>A clip may override the tempo on a scene or song.</li>
 <li>A clip may have one or more scales.  These scales are used for each pattern, but the list of scales may be of a different length from the list of patterns.</li>
-<li>A clip may have one or more octave_shifts and scale degree_shifts.  These are used in rotation just as scales are, above.</li>
-<li>A clip may have one or more transforms.  These are used in rotation just as the scales are, above.</li>
+<li>A clip may have one or more octave_shifts and scale degree_shifts that apply to the currrently playing pattern.  These are used in rotation just as scales are, above.  These are easily implemented with mod_expressions and can be removed.</li>
+<li>A clip may have a list of tempo_shifts, which are added or subtracted to the tempo of each playing pattern. These are used in rotation, just as the scales are, above.
+<li>A clip may have one or more transforms, which are expressions that modify the currently playing pattern.  These are used in rotation just as the scales are, above.</li>
 <li>A clip may be set to repeat indefinitely (it will end if the scene ends), or for a finite number of times.</li>
 <li>A clip may trigger another clip when it completes</li>
 <li>A clip may be programmed to advance the scene when the clip completes. This is off by default.</li>
-<li>A clip may override the tempo on a scene or song.</li>
-<li>A clip may have a length. If set, patterns will wrap early at this point, rather than using all of the pattern symbols.</li>
+<li>A clip may have a length. If set, patterns will stop early at this point, rather than using all of the pattern symbols.</li>
 <li>A clip may set a slot_length, which defines the type of note in the current tempo. The default is 0.0625 - sixteenth notes.  This may be ignored in favor of just using tempo.</li>
 </ul>
 

@@ -49,3 +49,7 @@ BACKEND
 * nice to have: the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc. (still can 4:M7)
 
 * set up website publishing
+
+* callbacks for indicating what notes, patterns, scenes, tracks are playing
+
+* mod events that can reshuffle patterns?

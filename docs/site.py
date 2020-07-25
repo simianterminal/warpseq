@@ -21,6 +21,10 @@ site = Builder(
 				"Installation": "installation",
 				"Concepts/Glossary": "concepts",
 			},
+			"In Operation" : {
+				"Web UI" : "ui",
+				"api" : "api",
+			}
 			"Expressions" : {
 				"Expressions: Intro": "expr_intro",
 				"Randomness" : "expr_random",
@@ -30,7 +34,6 @@ site = Builder(
 			},
 			"Community": {
 				"Warp Club": "club",
-				"Python API" : "api",
 				"Contributing": "contributing",
 			}
 	},
