@@ -43,6 +43,9 @@ class Player(BaseObject):
             return False
         return True
 
+
+    # TODO: we might want to consider a callback type API to send events when clips start and stop playing
+
     def advance(self, milliseconds=TIME_INTERVAL):
 
         self.time_index += milliseconds

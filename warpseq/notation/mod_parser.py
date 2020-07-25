@@ -58,8 +58,6 @@ OPERATIONS = dict(
 
 def perform(parser, note, operations, what, how):
 
-    #print("PERFORM: (%s,%s,%s,%s)" % (parser, note, what, how))
-
     what = what.lower()
 
     extra_info = None
@@ -75,9 +73,7 @@ def perform(parser, note, operations, what, how):
         raise Exception("unknown mod expression: %s" % what)
 
     routine = operations[what]
-    #print("routine: %s", routine.__name__)
     result = routine(parser, note, how, extra_info)
-    #print("RESULT=%s" % result)
     return result
 
 
@@ -85,22 +81,14 @@ def perform(parser, note, operations, what, how):
 # interface used by mod.py (ModExpression class)
 
 def process_expr(parser, input, expr, deferred=False):
-    tokens = []
-
-    #print("process_expr: %s" % expr)
-
 
     if expr in [ "_", 'x']:
-        #print("> silence")
         return silence(input)
     elif expr in ["." , "0", ]:
-        #print("> pass")
         return input
     elif expr == "#":
-        #print("> sharp")
         return sharp(input)
     elif expr == "b":
-        #print("> flat")
         return flat(input)
 
     global OPERATIONS
@@ -112,24 +100,20 @@ def process_expr(parser, input, expr, deferred=False):
     if "+=" in expr:
         operations = table['increments']
         tokens = expr.split("+=",1)
-        #print("+> %s" % tokens[0])
         return perform(parser, input, operations, tokens[0], tokens[1])
     elif "+" in expr:
         # DUPLICATE CODE
         operations = table['increments']
         tokens = expr.split("+",1)
-        #print("+> %s" % tokens[0])
         return perform(parser, input, operations, tokens[0], tokens[1])
     elif "-=" in expr:
         operations = table['decrements']
         tokens = expr.split('-=',1)
-        #print("-> %s" % tokens[0])
         return perform(parser, input, operations, tokens[0], tokens[1])
     elif "-" in expr:
         # FIXME: duplicate code
         operations = table['decrements']
         tokens = expr.split('-',1)
-        #print("-> %s" % tokens[0])
         return perform(parser, input, operations, tokens[0], tokens[1])
     elif "=" in expr:
         operations = table['assignments']
@@ -138,7 +122,6 @@ def process_expr(parser, input, expr, deferred=False):
 
     else:
         raise Exception("unknown expr! (%s)" % expr)
-        pass
 
 def is_deferred_expr(expr):
     expr = expr.lower()

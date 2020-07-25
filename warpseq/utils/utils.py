@@ -1,6 +1,4 @@
 
-#import importlib
-
 def roller(alist):
     """
     Returns a generator that keeps looping around a pattern
@@ -29,22 +27,3 @@ def roll_right(x):
     new_list.insert(0, first)
     return new_list
 
-# UNUSED?
-
-#def instance_produce(namespace, class_name, args, kwargs):
-#    """
-#    Produce a class by name.
-#    """
-#    mod= importlib.import_module(namespace)
-#    cls = getattr(mod, class_name.title())
-#    return cls(*args, **kwargs)
-
-#def exclude_dict(orig, keys):
-#    """
-#    Given a dictionary, return a new one without certain keys.
-#    """
-#    new = dict()
-#    for (k,v) in orig.items():
-#        if k not in keys:
-#            new[k] = v
-#    return new

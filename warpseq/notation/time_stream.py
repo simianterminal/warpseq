@@ -16,8 +16,6 @@ def evaluate_ties(note_list):
     results = []
     previous_notes = None
 
-    # print("TNL:%s" % note_list)
-
     for n in note_list:
         is_tie = False
 
@@ -50,7 +48,6 @@ def evaluate_shifts(note_list, octave_shift, degree_shift, scale, scale_shift):
         chord_items = []
         for note in chord:
             if octave_shift or scale_shift:
-                #print("applying shifts: ", note, octave_shift, degree_shift, scale, scale_shift)
                 note = note.transpose(octaves=octave_shift - OCTAVE_BIAS, degrees=degree_shift)
             if scale_shift:
                 note = note.scale_transpose(scale, scale_shift)
@@ -67,8 +64,6 @@ def chord_list_to_notes(old_list):
     for x in old_list:
 
         bucket = []
-
-        #print("CLN: %s" % x)
 
         if type(x) == Chord:
             bucket = x.notes
@@ -110,7 +105,6 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
     #
     # with a finer granularity than the original input stream based on NOTE_RESOLUTION
 
-
     results = []
     note_list = flatten(note_list)
     events = []
@@ -121,10 +115,6 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
         start_index = note.start_time #str(round_partial(note.start_time, resolution))
         stop_index = note.end_time #str(round_partial(note.end_time, resolution))
 
-        #storage = buckets.get(start_index, [])
-
-
-
         event1 = Event(type=NOTE_ON, note=note, time=note.start_time)
 
         if event1.note.octave > clip.track.instrument.max_octave:
@@ -134,16 +124,10 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
 
         events.append(event1)
 
-        #storage.append(event)
-        #buckets[start_index] = storage
-
-        #storage = buckets.get(stop_index, [])
-
         event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, on_event=event1)
         events.append(event2)
 
     def sorter(event):
-
 
         if event.type == NOTE_OFF:
             return event.time - 0.0001

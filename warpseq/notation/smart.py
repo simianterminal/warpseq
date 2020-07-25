@@ -47,14 +47,6 @@ class SmartExpression(Class):
 
     def _do_single(self, clip, sym):
 
-        # TODO: this needs more magic here to support intra-track expressions and so on.
-
-        #print("****************************************************************************************")
-        #print("****************************************************************************************")
-        #print("****************************************************************************************")
-
-        # ensure the input is a string - this is mostly only a concern in test code
-
         sym = str(sym)
         sym = sym.strip()
 
@@ -62,26 +54,21 @@ class SmartExpression(Class):
         sym = tokens[0]
         mod_expressions = tokens[1:]
 
-        #print("mod_expressions=%s" % mod_expressions)
-
         # an empty string or an _ means no notes
         if sym == "" or sym == "_":
             return []
 
         # a hyphen means to tie the previous notes
         if sym == "-":
-            #print("APPLYING TIE: %s" % int(self._slot_duration))
             return [ Note(tie=True, name=None, octave=None, length=int(self._slot_duration)) ]
 
         # ready to figure out what notes we are going to return for this expression
         notes = None
 
-
         # first try roman numeral notation (chords are roman, scale notes are arabic)
         try:
             notes = self._roman.do_notes(sym)
         except Exception:
-            #traceback.print_exc()
             pass
 
         # if roman numerals failed, try literals like C4 or C4major
@@ -89,7 +76,6 @@ class SmartExpression(Class):
             try:
                 notes = self._literal.do_notes(sym)
             except Exception:
-                #traceback.print_exc()
                 pass
 
         # if neither of the above worked, we have to give up
@@ -111,13 +97,7 @@ class SmartExpression(Class):
             new_note = note.copy()
 
             if mod_expressions is not None:
-
-                #expressions = mod_expressions.split(";")
-
-                #print("OLD NOTE=%s" % new_note)
-                #print("EXPRESSIONS=", expressions)
                 new_note = self._mod.do(new_note, self.scale, self.track, mod_expressions)
-                #print("NEW NOTE=%s" % new_note)
             new_notes.append(new_note)
 
         self._previous = new_notes

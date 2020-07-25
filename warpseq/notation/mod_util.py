@@ -34,19 +34,13 @@ def pick_range(how):
 def evaluate_params(how, want_int=False, want_string=False):
 
     if is_choice(how):
-        #print("C1")
         result = pick_choice(how)
     elif is_range(how):
-        #print("R1")
         result = pick_range(how)
     else:
-        #print("--")
         result = how
         if is_variable(result):
             result = get_variable(result)
-
-
-
     if want_int:
         result = int(result)
     if want_string:

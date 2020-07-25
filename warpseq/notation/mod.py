@@ -16,16 +16,11 @@ class ModExpression(object):
 
     def do(self, note, scale, track, expressions):
 
-
-        #print("===========================================================================================")
-        #print("base note: %s" % note)
-
         self.scale = scale
 
         if type(expressions) != list:
             expressions = str(expressions)
             expressions = expressions.split()
-        #print(">>> EXPRESSION LIST:", expressions)
 
         input_note = note.copy()
 
@@ -46,21 +41,15 @@ class ModExpression(object):
         # execute next is a boolean toggled by probability events
         self.execute_next = True
 
-        print("---")
         expr_index = 0
-
-
-
 
         for expr in expressions:
 
 
             expr_index = expr_index + 1
-            #print("> processing mod expr: %s" % expr)
 
             # if false, execute next ignores the NEXT event and then toggles back on.
             if self.execute_next == False:
-                #print("> SKIPPING")
                 self.execute_next = True
                 continue
 
@@ -71,9 +60,7 @@ class ModExpression(object):
                     return input_note
 
             # we ALWAYS need to process non-deferred events
-            #print("BEFORE=%s" % input_note)
             input_note = process_expr(self, input_note, expr, deferred=False)
-            #print("AFTER EXPR (%s/%s)=%s" % (expr, expr_index, input_note))
             if input_note is None:
                 return input_note
 
