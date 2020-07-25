@@ -80,12 +80,12 @@ class Patterns(CollectionApi):
 
 # =====================================================================================================================
 
-class Arps(CollectionApi):
+class Transforms(CollectionApi):
 
     object_class    = Transform
-    song_collection = 'arps'
-    add_method      = 'add_arps'
-    remove_method   = 'remove_arp'
+    song_collection = 'transforms'
+    add_method      = 'add_transforms'
+    remove_method   = 'remove_transform'
     add_required    = [ 'name', 'slots' ]
     edit_required   = [ 'name' ]
     storage_dict    = True

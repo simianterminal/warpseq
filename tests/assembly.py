@@ -126,7 +126,7 @@ def test_assembly():
     mixed = Pattern(name='mixed', slots=[["1", "3", "5" ],"-", "-", "-", 2, 3, "V", [ "V", "V O+=1"]], tempo=120)
 
     #capture = Pattern(name='capture', slots=("1;T=euro1 0 0 0" * 4).split(), tempo=30)
-    chords = Pattern(name='chords', slots="I - - _ IV - - _ V - - _ VI - - _".split(), tempo=120)
+    chords = Pattern(name='chords', slots="I 1 2 3 IV 4 5 6 V 5 6 7 VI 6 7 8".split(), tempo=120)
     #chords2 = Pattern(name='chords2', slots="I IV V VI".split(), tempo=30, length=3)
     up = Pattern(name='up', slots=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"], tempo=120)
     down = Pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), tempo=120)
@@ -141,7 +141,7 @@ def test_assembly():
 
     c_up = Clip(name='c_up', patterns=[up], scales=[akebono_scale], octave_shifts=[-1], repeat=1, transforms=[a3],  auto_scene_advance=True) # next_clip='c_chords') # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', patterns=[down], scales=[bar_scale], octave_shifts=[-1], repeat=1,  auto_scene_advance=True) # arp=a1, repeat=1)
-    c_chords = Clip(name='c_chords', patterns=[chords], scales=[baz_scale], octave_shifts=[-2], repeat=1, tempo=120, auto_scene_advance=True) #
+    c_chords = Clip(name='c_chords', patterns=[chords], scales=[baz_scale], octave_shifts=[-2], tempo_shifts=[0,20,40,60,80], repeat=5, tempo=120, auto_scene_advance=True) #
     c_kick = Clip(name='c_kick', patterns=[kick], scales=[baz_scale], repeat=2, auto_scene_advance=True)
     c_snare = Clip(name='c_snare', patterns=[snare], scales=[baz_scale], repeat=2, auto_scene_advance=True) # next_clip='c_down')
     c_mixed = Clip(name='c_mixed', patterns=[mixed,up,down], scales=[baz_scale, baz_scale], octave_shifts=[0,-1], degree_shifts=[0], scale_note_shifts=[0], repeat=1, auto_scene_advance=True)

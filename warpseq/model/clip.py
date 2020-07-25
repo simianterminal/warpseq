@@ -22,6 +22,7 @@ class Clip(ReferenceObject):
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
     octave_shifts = Field(type=list, default=None, required=False, nullable=True)
     degree_shifts = Field(type=list, default=None, required=False, nullable=True)
+    tempo_shifts = Field(type=list, default=None, required=False, nullable=True)
     scale_note_shifts = Field(type=list, default=None, required=False, nullable=True)
     next_clip = Field(required=False, nullable=True)
     transforms = Field(type=list, default=None, nullable=False)
@@ -32,6 +33,55 @@ class Clip(ReferenceObject):
     # internal state
     track = Field(type=Track, default=None, required=False, nullable=True)
     scene = Field(type=Scene, default=None, required=False, nullable=True)
+
+    _current_tempo_shift = Field(type=int, default=0, nullable=False)
+    _tempo_roller = Field()
+    _scale_roller = Field()
+    _degree_roller = Field()
+    _octave_roller = Field()
+    _scale_note_roller = Field()
+    _transform_roller = Field()
+
+    def on_init(self):
+        super().on_init()
+        self.reset()
+
+    def reset(self):
+
+        if self.tempo_shifts:
+            print("A1: %s" % self.tempo_shifts)
+            self._tempo_roller = utils.roller(self.tempo_shifts)
+        else:
+            print("A2")
+            self._tempo_roller = utils.roller([0])
+
+        degree_shifts = self.degree_shifts
+        if degree_shifts is None:
+            degree_shifts = [ 0 ]
+
+        octave_shifts = self.octave_shifts
+        if octave_shifts is None:
+            octave_shifts = [ 0 ]
+
+        scale_note_shifts = self.scale_note_shifts
+        if scale_note_shifts is None:
+            scale_note_shifts = [ 0 ]
+
+        self._degree_roller = utils.roller(degree_shifts)
+        self._octave_roller = utils.roller(octave_shifts)
+
+        if self.scales:
+            self._scale_roller = utils.roller(self.scales)
+        else:
+            self._scale_roller = None
+
+        self._scale_note_roller = utils.roller(scale_note_shifts)
+
+
+        if self.transforms:
+            self._transform_roller = utils.roller(self.transforms)
+        else:
+            self._transform_roller = None
 
     def scenes(self, song):
         return [ song.find_scene(x) for x in self.scene_ids ]
@@ -52,6 +102,7 @@ class Clip(ReferenceObject):
             auto_scene_advance = self.auto_scene_advance,
             degree_shifts = self.degree_shifts,
             scale_note_shifts = self.scale_note_shifts,
+            tempo_shifts = self.tempo_shifts,
             octave_shifts = self.octave_shifts
         )
         if self.patterns:
@@ -98,6 +149,7 @@ class Clip(ReferenceObject):
             degree_shifts = self.degree_shifts,
             octave_shifts = self.octave_shifts,
             scale_note_shifts = self.scale_note_shifts,
+            tempo_shifts = self.tempo_shifts,
 
         )
         if self.arps:
@@ -124,7 +176,8 @@ class Clip(ReferenceObject):
             auto_scene_advance = data['auto_scene_advance'],
             degree_shifts = data['degree_shifts'],
             scale_note_shifts = data['scale_note_shifts'],
-            octave_shifts = data['octave_shifts']
+            octave_shifts = data['octave_shifts'],
+            tempo_shifts = data['tempo_shifts']
         )
 
     def get_actual_scale(self, song, pattern, roller):
@@ -142,13 +195,13 @@ class Clip(ReferenceObject):
     def actual_tempo(self, song, pattern):
 
         if self.tempo is not None:
-            return self.tempo
+            return self.tempo + self._current_tempo_shift
         if pattern.tempo is not None:
-            return pattern.tempo
+            return pattern.tempo  + self._current_tempo_shift
         if self.scene.tempo is not None:
-            return self.scene.tempo
+            return self.scene.tempo  + self._current_tempo_shift
         if song.tempo is not None:
-            return song.tempo
+            return song.tempo  + self._current_tempo_shift
 
         raise Exception("?")
 
@@ -207,28 +260,8 @@ class Clip(ReferenceObject):
 
         t_start = 0.0
 
-        arp_roller = None
 
-        degree_shifts = self.degree_shifts
-        if degree_shifts is None:
-            degree_shifts = [ 0 ]
 
-        octave_shifts = self.octave_shifts
-        if octave_shifts is None:
-            octave_shifts = [ 0 ]
-
-        scale_note_shifts = self.scale_note_shifts
-        if scale_note_shifts is None:
-            scale_note_shifts = [ 0 ]
-
-        degree_shifts = utils.roller(degree_shifts)
-        octave_shifts = utils.roller(octave_shifts)
-
-        if self.scales:
-            scale_roller = utils.roller(self.scales)
-        else:
-            scale_roller = None
-        scale_note_roller = utils.roller(scale_note_shifts)
 
 
         # arp = None
@@ -242,16 +275,19 @@ class Clip(ReferenceObject):
 
         for pattern in self.patterns:
 
-            pat_index = pat_index + 1
-            no = next(octave_shifts)
-            octave_shift = no + pattern.octave_shift + self.track.instrument.base_octave
-            degree_shift = next(degree_shifts)
-            scale_shift = next(scale_note_roller)
-            slot_duration = self.slot_duration(song, pattern)
-            scale = self.get_actual_scale(song, pattern, scale_roller)
+            self._current_tempo_shift = next(self._tempo_roller)
+            print("*********** CTS = %s" % self._current_tempo_shift)
 
-            if transform_roller:
-                transform = next(transform_roller)
+            pat_index = pat_index + 1
+            no = next(self._octave_roller)
+            octave_shift = no + pattern.octave_shift + self.track.instrument.base_octave
+            degree_shift = next(self._degree_roller)
+            scale_shift = next(self._scale_note_roller)
+            slot_duration = self.slot_duration(song, pattern)
+            scale = self.get_actual_scale(song, pattern, self._scale_roller)
+
+            if self._transform_roller:
+                transform = next(self._transform_roller)
             else:
                 transform = None
 
