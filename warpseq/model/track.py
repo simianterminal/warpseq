@@ -9,7 +9,13 @@ class Track(ReferenceObject):
     muted = Field(type=bool, required=False, default=False)
     instrument = Field(type=Instrument, required=True, nullable=False)
 
-    clip_ids = Field(type=list, default=[], required=False, nullable=False)
+    # internal state
+    clip_ids = Field(type=list, default=None, required=False, nullable=False)
+
+    def on_init(self):
+        if self.clip_ids is None:
+            self.clip_ids = []
+        super().on_init()
 
     def has_clip(self, clip):
         assert clip is not None

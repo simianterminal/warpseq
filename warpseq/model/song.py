@@ -11,7 +11,7 @@ class Song(ReferenceObject):
     scale = Field(type=Scale, required=False, nullable=True)
     tempo = Field(type=int, default=120, required=False, nullable=False)
 
-    # these should likely be dicts, but names can change, so if we change them they should have remove methods.
+    # mostly internal state, use add_remove to access
     devices = Field(type=dict, required=False, nullable=False)
     instruments = Field(type=dict, required=False, nullable=False)
     scales = Field(type=dict, required=False, nullable=False)
@@ -20,7 +20,25 @@ class Song(ReferenceObject):
     clips = Field(type=dict, required=False, nullable=False)
     arps = Field(type=dict, required=False, nullable=False)
     patterns = Field(type=dict, required=False, nullable=False)
-    auto_advance = Field(type=bool, default=False, nullable=True)
+
+    def on_init(self):
+        if self.devices is None:
+            self.devices = dict()
+        if self.instruments is None:
+            self.instruments = dict()
+        if self.scales is None:
+            self.scales = dict()
+        if self.tracks is None:
+            self.tracks = []
+        if self.scenes is None:
+            self.scenes = []
+        if self.clips is None:
+            self.clips = dict()
+        if self.arps is None:
+            self.arps = dict()
+        if self.patterns is None:
+            self.patterns = dict()
+        super().on_init()
 
     def find_device(self, obj_id):
         return self.devices.get(obj_id, None)
@@ -139,6 +157,7 @@ class Song(ReferenceObject):
         for (i,x) in enumerate(self.scenes):
             if x.obj_id == scene.obj_id:
                 index = i
+                print("the current scene is index: %s" % i)
                 break
 
         index = index + 1
@@ -146,6 +165,7 @@ class Song(ReferenceObject):
         if index >= len(self.scenes):
             return None
 
+        print("the new scene is index: %s" % (index))
         return self.scenes[index]
 
 

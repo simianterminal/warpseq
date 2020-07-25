@@ -9,7 +9,14 @@ class Scene(ReferenceObject):
     tempo = Field(type=int, default=None, nullable=True)
     scale = Field(type=Scale, default=None, nullable=True)
     auto_advance = Field(type=bool, default=True, nullable=False)
-    clip_ids = Field(type=list, required=True, nullable=False)
+
+    # internal state
+    clip_ids = Field(type=list, default=None, required=False, nullable=False)
+
+    def on_init(self):
+        if self.clip_ids is None:
+            self.clip_ids = []
+        super().on_init()
 
     def clips(self, song):
         results = [ song.find_clip(x) for x in self.clip_ids ]

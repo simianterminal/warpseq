@@ -6,12 +6,10 @@ from .. notation.mod import ModExpression
 class Arp(ReferenceObject):
 
     name = Field(type=str, required=True, nullable=False)
-    slots = Field(type=list, default=None)
+    slots = Field(type=list, required=True, default=None)
     octave_slots = Field(type=list, default=None)
     divide = Field(type=int, default=1, nullable=False)
 
-    def on_init(self):
-        pass
 
     def to_dict(self):
         return dict(

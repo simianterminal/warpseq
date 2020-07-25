@@ -21,7 +21,6 @@ class ModExpression(object):
         if type(expressions) != list:
             expressions = str(expressions)
             expressions = expressions.split()
-            print("EXPR=%s" % expressions)
 
         input_note = note.copy()
 

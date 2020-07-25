@@ -14,7 +14,7 @@ DIRECTIONS = [
 class Pattern(ReferenceObject):
 
     name = Field(required=True, nullable=False)
-    slots = Field(type=list)
+    slots = Field(type=list, required=True, nullable=False)
     length = Field(type=int, default=None, nullable=True)
     octave_shift = Field(type=int, default=0, nullable=False)
 

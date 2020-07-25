@@ -28,6 +28,8 @@ class Clip(ReferenceObject):
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
     auto_scene_advance = Field(type=bool, default=False, nullable=False)
+
+    # internal state
     track = Field(type=Track, default=None, required=False, nullable=True)
     scene = Field(type=Scene, default=None, required=False, nullable=True)
 
@@ -56,47 +58,53 @@ class Clip(ReferenceObject):
             result['patterns'] = [ x.obj_id for x in self.patterns ]
         else:
             result['patterns'] = []
+
         if self.arps:
             result['arps'] = [ x.obj_id for x in self.arps ]
         else:
             result['arps'] = []
+
         if self.scales:
             result['scales'] = [x.obj_id for x in self.scales ]
         else:
             result['scales'] = []
+
         if self.track:
             result['track'] = self.track.obj_id
         else:
             result['track'] = None
+
         if self.scene:
             result['scene'] = self.scene.obj_id
         else:
             result['scene'] = None
+
         return result
 
     def copy(self):
-        # FIXME: this might not be  used? if so, remove  (and elsewhere!)
+        raise Exception("DO NOT RECYCLE CLIPS!")
 
         new_id = self.new_object_id()
-        return Clip(
+        c2 = Clip(
             obj_id = new_id,
             name = self.name,
             patterns = [ x for x in self.patterns ],
             length = self.length,
-            arps = [ x for x in self.arps ],
             tempo = self.tempo,
             repeat = self.repeat,
-            track_ids = [],
-            scene_ids = [],
             slot_length = self.slot_length,
             next_clip = self.next_clip,
             auto_scene_advance = self.auto_scene_advance,
-            scales = [ x for x in self.scales ],
             degree_shifts = self.degree_shifts,
             octave_shifts = self.octave_shifts,
-            scale_note_shifts = self.scale_note_shifts
+            scale_note_shifts = self.scale_note_shifts,
 
         )
+        if self.arps:
+            c2.arps = [ x for x in self.arps ]
+        if self.scales:
+            c2.scales = [ x for x in self.scales ]
+        return c2
 
     @classmethod
     def from_dict(cls, song, data):

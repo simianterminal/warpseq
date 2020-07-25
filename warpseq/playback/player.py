@@ -66,7 +66,9 @@ class Player(BaseObject):
                 break
 
         if self.time_index >= self.clip_length_in_ms:
+            print("clip (%s) done : %s >= %s" % (self.clip.name, self.time_index, self.clip_length_in_ms))
             if self._still_on_this_clip():
+                print("restarting clip (%s)" % (self.clip.name))
                 # recompute events so randomness can change
                 self.events = self.clip.get_events(self.song)
                 self.start()
@@ -87,6 +89,9 @@ class Player(BaseObject):
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
                     print("auto advancing clip to: %s" % new_clip.name)
                     self._multiplayer.add_clip(new_clip)
+
+                else:
+                    print("clip (%s) does not have an advance directive" % self.clip.name)
 
 
     def stop(self):

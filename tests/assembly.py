@@ -29,16 +29,8 @@ def test_assembly():
 
     song = Song(
         name='A Song',
-        devices = dict(),
-        instruments = dict(),
-        scales = dict(),
-        tracks = [],
-        scenes = [],
-        arps = dict(),
-        clips = dict(),
-        patterns = dict()
+        tempo = 120
     )
-    song.tempo = 120
 
     # ------------------------------------------------------------------------------------------------------------------
     # DEVICES
@@ -78,31 +70,30 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # TRACKS
 
-    t1  = Track(name='euro1', instrument=euro1, clip_ids=[], muted=False)
-    t2  = Track(name='euro2', instrument=euro2, clip_ids=[])
-    t3  = Track(name='euro3', instrument=euro3, clip_ids=[])
-    t4  = Track(name='euro4', instrument=euro4, clip_ids=[])
-    t5  = Track(name='euro5', instrument=euro5, clip_ids=[])
-    t6  = Track(name='euro6', instrument=euro6, clip_ids=[])
-    t7  = Track(name='euro7', instrument=euro7, clip_ids=[])
-    t8  = Track(name='euro8', instrument=euro8, clip_ids=[])
-    t9  = Track(name='moog',  instrument=moog, clip_ids=[])
-    t10 = Track(name='kick',  instrument=kick, clip_ids=[])
+    t1  = Track(name='euro1', instrument=euro1, muted=False)
+    t2  = Track(name='euro2', instrument=euro2)
+    t3  = Track(name='euro3', instrument=euro3)
+    t4  = Track(name='euro4', instrument=euro4)
+    t5  = Track(name='euro5', instrument=euro5)
+    t6  = Track(name='euro6', instrument=euro6)
+    t7  = Track(name='euro7', instrument=euro7)
+    t8  = Track(name='euro8', instrument=euro8)
+    t9  = Track(name='moog',  instrument=moog)
+    t10 = Track(name='kick',  instrument=kick)
     song.add_tracks([t1,t2,t3,t4,t5,t6,t7,t8,t9,t10])
     song.remove_track(t8)
 
     # ------------------------------------------------------------------------------------------------------------------
     # SCENES
 
-    s0 = Scene(name='s1', clip_ids=[], auto_advance=True)
-    s1 = Scene(name='s1', clip_ids=[], auto_advance=True)
-    s2 = Scene(name='s2', scale=bar_scale, clip_ids=[], auto_advance=True)
-    s3 = Scene(name='s3', clip_ids=[], auto_advance=True)
-    s4 = Scene(name='s4', clip_ids=[], auto_advance=True)
-    s5 = Scene(name='s5', clip_ids=[], auto_advance=True)
-    s6 = Scene(name='s6', clip_ids=[], auto_advance=True)
+    s0 = Scene(name='s1', auto_advance=True)
+    s1 = Scene(name='s1', auto_advance=True)
+    s2 = Scene(name='s2', scale=bar_scale, auto_advance=True)
+    s3 = Scene(name='s3', auto_advance=True)
+    s4 = Scene(name='s4', auto_advance=True)
+    s5 = Scene(name='s5', auto_advance=True)
     song.add_scenes([ s0, s1, s2, s3, s4, s5 ])
-    song.remove_scene(s5)
+    #song.remove_scene(s5)
 
     # ------------------------------------------------------------------------------------------------------------------
     # ARPS
@@ -148,29 +139,38 @@ def test_assembly():
     c_up = Clip(name='c_up', patterns=[up], scales=[akebono_scale], octave_shifts=[-1], repeat=1, arps=[a3],  auto_scene_advance=True) # next_clip='c_chords') # repeat=2, next_clip='c5', length=4)
     c_down = Clip(name='c_down', patterns=[down], scales=[bar_scale], octave_shifts=[-1], repeat=1,  auto_scene_advance=True) # arp=a1, repeat=1)
     c_chords = Clip(name='c_chords', patterns=[chords], scales=[baz_scale], octave_shifts=[-2], repeat=1, tempo=120, auto_scene_advance=True) #
-    c_kick = Clip(name='c_kick', patterns=[kick], scales=[baz_scale], arps=[a6], repeat=4, auto_scene_advance=True)
-    c_snare = Clip(name='c_snare', patterns=[snare], scales=[baz_scale], repeat=1, auto_scene_advance=True) # next_clip='c_down')
+    c_kick = Clip(name='c_kick', patterns=[kick], scales=[baz_scale], repeat=2, auto_scene_advance=True)
+    c_snare = Clip(name='c_snare', patterns=[snare], scales=[baz_scale], repeat=2, auto_scene_advance=True) # next_clip='c_down')
     c_mixed = Clip(name='c_mixed', patterns=[mixed,up,down], scales=[baz_scale, baz_scale], octave_shifts=[0,-1], degree_shifts=[0], scale_note_shifts=[0], repeat=1, auto_scene_advance=True)
+
     #c_capture = Clip(name='c_capture', patterns=[capture], scales=[baz_scale])
     #c_silent = Clip(name='c_silent', patterns=[occasionally_silent], scales=[baz_scale], arps=[a5], repeat=8)
+
     c_expr_test = Clip(name='c_expr_test', patterns=[expr_test], scales=[baz_scale], repeat=2, tempo=120,  auto_scene_advance=True)
     c_short_test = Clip(name='c_short_test', patterns=[short_test], arps=[a1], repeat=6, tempo=150,  auto_scene_advance=True)
     c_var_test = Clip(name='c_var_test', patterns=[var_test], repeat=6,  auto_scene_advance=True)
 
     # FIXME: it shoudl be ok if the clip scale is None
 
-    c_grab_test1 = Clip(name='c_grab_test1', scales=[baz_scale], patterns=[grab_test1], repeat=3)
-    c_grab_test2 = Clip(name='c_grab_test2', scales=[baz_scale], patterns=[grab_test2], repeat=3)
+    c_grab_test1 = Clip(name='c_grab_test1', scales=[baz_scale], patterns=[grab_test1], repeat=3, auto_scene_advance=True)
+    c_grab_test2 = Clip(name='c_grab_test2', scales=[baz_scale], patterns=[grab_test2], repeat=3, auto_scene_advance=True)
 
     song.add_clip(scene=s0, track=t2, clip=c_chords)
-    song.add_clip(scene=s1, track=t2, clip=c_kick)
-    song.add_clip(scene=s2, track=t1, clip=c_mixed)
-    song.add_clip(scene=s3, track=t1, clip=c_up)
-    song.add_clip(scene=s4, track=t2, clip=c_down)
-    song.add_clip(scene=s5, track=t1, clip=c_grab_test1)
-    song.add_clip(scene=s5, track=t2, clip=c_grab_test2)
-    song.add_clip(scene=s6, track=t1, clip=c_expr_test)
-    song.add_clip(scene=s6, track=t2, clip=c_var_test)
+
+    song.add_clip(scene=s1, track=t1, clip=c_kick)
+
+    song.add_clip(scene=s1, track=t2, clip=c_snare)
+
+    song.add_clip(scene=s2, track=t1, clip=c_up)
+    song.add_clip(scene=s2, track=t2, clip=c_down)
+
+    song.add_clip(scene=s3, track=t1, clip=c_grab_test2)
+
+    song.add_clip(scene=s4, track=t1, clip=c_expr_test)
+    song.add_clip(scene=s4, track=t2, clip=c_var_test)
+
+    #song.add_clip(scene=s5, track=t1, clip=c_grab_test1)
+    #song.add_clip(scene=s5, track=t1, clip=c_grab_test2)
 
     # ------------------------------------------------------------------------------------------------------------------
     # SAVE/LOAD
@@ -186,9 +186,11 @@ def test_assembly():
     #multi_player.add_clip(c_mixed)
     multi_player.play_scene(s0)
 
-    for x in range(0, 16000):
+    for x in range(0, 64000):
+    #while True:
 
        multi_player.advance(milliseconds=2)
+    print("end: %s" % x)
     # multi_player.remove_clip(c1) # FIXME: rename to stop_clip ?
     multi_player.stop()
 
