@@ -53,6 +53,7 @@ class MultiPlayer(BaseObject):
     def add_clip(self, clip):
 
         # starts a clip playing, including stopping any already on the same track
+        clip.reset()
         assert clip.track is not None
 
         need_to_stop = [ c for c in self.clips if clip.track.obj_id == c.track.obj_id ]
