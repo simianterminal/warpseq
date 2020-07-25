@@ -4,18 +4,24 @@ NOTES
 BACKEND
 =======
 
-* more rockchisel docs (see docs/)
+* more rockchisel docs (see docs/) - use begin_info_block/begin_warn_block/section/table_of_contents
 
-* we should change the mod expression delimiter to whitespace.
+* add chord inversions to mod expressions
+
+* test MIDI CC, velocity code (v+=/v-=/etc) with chords
 
 * build the "friendly" high level API and port the test/assembly.py example to it.
   use arrays, not strings, for lists of expressions in those API examples.
+  - harder to make errors
+  - takes strings vs objects
 
-* cleanup various code
+* API docs for web page
+
+* cleanup various code functions (smaller functions, less assignments, etc)
 
 * increase error handling in expressions using custom exception types
 
-* make a Ctrl-C hook that stops all notes
+* make a Ctrl-C/error hook that stops all notes
 
 * demo script at launch should ask user to input their MIDI device name from a list
 
@@ -40,4 +46,6 @@ BACKEND
 
 * test slot_length (really this is the same as tempo, isn't it? -- do we need to expose it?)
 
-* nice to have: the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc.
+* nice to have: the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc. (still can 4:M7)
+
+* set up website publishing
