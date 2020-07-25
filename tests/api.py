@@ -12,13 +12,7 @@ api = Api()
 
 print(api.devices.list_available())
 
-#if DEVICE not in devices:
-#    raise Exception("this is not a valid device, try one of: %s" % devices)
-
 api.devices.add(DEVICE)
-api.devices.add('blippy')
-api.devices.edit('blippy', new_name="dev2")
-api.devices.remove('blippy')
 
 print(api.devices.describe(DEVICE))
 

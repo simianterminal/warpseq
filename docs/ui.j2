@@ -20,17 +20,19 @@ What follows is an explanation of the UI as planned (almost a requirements docum
 
 <ul>
 <li>The startup page will be a scene and track grid</li>
+<li>Small buttons across the top: Devices, Instruments, Scales</li>
+<li>Instruments is not enabled if there are no Devices</li>
 <li>There will be a button to add a scene</li>
 <li>There will be a button to add a track</li>
-<li>There will be a button to access the instruments page</li>
-<li>There's a save and load button that works from disk, as well as a new/reset button</li>
-<li>Pressing an arrow beside a scene should start all  scene clips</li>
+<li>There's a save and load button that works from disk, as well as a new/reset button (with confirmation)</li>
+<li>Pressing an arrow beside a scene should start all scene clips</li>
 <li>Clips can be started and stopped too</li>
 <li>There should be a global start/stop button</li>
-<li>There will be a save/load file button</li>
+<li>There will be a save/load file button - these can buttons across the top with devices/instruments/scales</li>
 <li>Clips should be able to be rearranged</li>
 <li>Scenes and Tracks don't have to be rearranged - feature for later</li>
-<li>There should be a button to access the scale page</li>
+<li>Add track is disabled until there are devices</li>
+<li>Per notes, the file will start up with all MIDI devices populated. If the song has no MIDI devices (because nothing is connected) there should be warning</li>.
 </ul>
 
 <h2>Scene Edit Page (Modal)</h2>
@@ -69,8 +71,8 @@ What follows is an explanation of the UI as planned (almost a requirements docum
 <li>There's a scale picker and a tempo selector widget</li>
 <li>We can toggle the flag that controls scene auto advance or program next clip</li>
 <li>Changing anything should have immediate effect, there is no save button
-<li>There is no seperate "Patterns" widget. You can add patterns, remove them, or destroy them from this widget.</li>
-<li>Destroying a pattern/transform removes it everywhere it is referenced.</li>
+<li>There is no separate "Patterns" page. You can add patterns, remove them, or destroy them from this widget.</li>
+<li>Destroying a pattern/transform removes it everywhere it is referenced, just as edits are also global (patterns/transforms are like symlinks)</li>
 </ul>
 
 <h2>Pattern/Transform Widget</h2>

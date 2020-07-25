@@ -1,0 +1,58 @@
+
+
+<h3>Pattern</h3>
+
+<ul>
+<li>A pattern represents an ordered series of {{ doc('expr_intro', 'Expressions') }} that evaluate into notes or chords
+<li>Patterns include strings like "1", "IV", or "C4sus4" or even "C4sus4;O+1;cc0=50".</li>
+<li>Patterns can include velocity and MIDI CC information.
+<li>A pattern may define an octave_shift to be applied to the current {{ doc('scale') }}, which applies after the base octave of the instrument.
+<li>A pattern may define a Tempo to override the tempo of the {{ doc('scene') }} or {{ doc('song') }}, if not further overriden by the {{ doc('clip') }}.
+<li>A pattern may define a Scale to override the scale of the {{ doc('scene') }} or {{ doc('song') }}, if not further overriden by a {{ doc('clip') }}.
+</ul>
+
+<h2>A Quick Example</h2>
+
+The simplest possible pattern is a scale:
+
+{{ begin_code() }}
+1
+2
+3
+4
+5
+6
+7
+8
+{{ end_code() }}
+
+Here are some major and minor chords in a pattern:
+
+{{ begin_code() }}
+I
+IV
+V
+i
+iv
+v
+{{ end_code() }}
+
+Here is a pattern some ties ("-") and rests (" "):
+
+{{ begin_code() }}
+1
+2
+3
+-
+
+1
+-
+2
+-
+3
+-
+
+{{ end_code() }}
+
+Patterns can be much more complex. For more, see the {{ doc('expr_into', 'Expressions') }} chapter.
+

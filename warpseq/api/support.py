@@ -1,3 +1,5 @@
+from . exceptions import *
+
 class BaseApi(object):
 
     def __init__(self, public_api):
@@ -5,13 +7,18 @@ class BaseApi(object):
         self.song = public_api.song
 
         #self.fn_name_lookup = getattr(self.song, self.__class__.name_lookup_method)
-        self.fn_add         = getattr(self.song, self.__class__.add_method)
+
+
+        if self.__class__.add_method:
+            self.fn_add         = getattr(self.song, self.__class__.add_method)
         self.add_required   = self.__class__.add_required
         self.edit_required  = self.__class__.edit_required
-        self.fn_remove      = getattr(self.song, self.__class__.remove_method)
+
+        if self.__class__.remove_method:
+            self.fn_remove      = getattr(self.song, self.__class__.remove_method)
 
     def _lookup(self, name):
-        coll = _get_collection()
+        coll = self._get_collection()
 
         if self.__class__.storage_dict:
 
@@ -25,21 +32,23 @@ class BaseApi(object):
                 if k.name == name:
                     return k
 
-        raise NotFound("%s not found" % k)
+        return None
 
     def _get_collection(self):
         return getattr(self.song, self.__class__.song_collection)
 
     def _require_input(self, what, params):
+        print("params=%s" % params)
         for k in what:
             if params[k] is None:
                 raise RequiredInput("%s is required" % k)
 
-    def _ok(self, ok):
-        return "ok"
+    def _ok(self):
+        return True
 
     def _generic_add(self, name, params):
         obj = self._lookup(name)
+        del params['self']
         del params['name']
         self._require_input(self.add_required, params)
         if not obj:

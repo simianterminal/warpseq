@@ -1,0 +1,15 @@
+
+<h3>Transforms</h3>
+
+<ul>
+<li>Classically, arpeggiators are used in synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
+<li>In Warp, transforms can be used to create arps, but that is only the most basic usage.</li>
+<li>Transforms can also run against individual notes, and even turn notes *back* into chords</li>.
+<li>Transforms are just special patterns that run across patterns to slice them up and modify them, using looped expressions.</li>
+<li>A transform with a divide time of 1 applies each step to one note, and only modifies the notes, rather than creating more.</li>
+<li>A transform with a divide time of 4 will divide each note into four parts, applying up to 4 different modifications to each fragment</li>
+<li>A transform can contain more slots than the divide time, allowing for arps that do not line up exactly with the notes they modify</li>
+<li>Transforms can also include velocity and MIDI CC information.
+<li>Transforms may also define octave_slots, which apply octave shifts.  This list of octave slots may be of a different length than the pattern slots.</li>
+<li>A transform can also silence notes in a pattern, effectively stuttering the input and high speed.</li>
+</li>

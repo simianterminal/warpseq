@@ -4,6 +4,10 @@ NOTES
 BACKEND
 =======
 
+* all available MIDI devices should be added to the song at startup
+
+* the default song should have a scale in it - C4 major should be fine. Let the user add more.
+
 * more rockchisel docs (see docs/) - use begin_info_block/begin_warn_block/section/table_of_contents
 
 * add chord inversions to mod expressions

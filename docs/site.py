@@ -18,19 +18,29 @@ site = Builder(
 	sections = {
 			"About": {
 				"Home" : "index",
-				"Installation": "installation",
-				"Concepts/Glossary": "concepts",
 			},
+			"Concepts" : {
+				"Song" : "song",
+				"Scale" : "scale",
+				"Device" : "device",
+				"Instrument" : "instrument",
+				"Pattern" : "pattern",
+				"Transform" : "transform",
+				"Scene" : "scene",
+				"Track" : "track",
+				"Clip" : "clip"
+			},
+		    "Expressions": {
+			    "Expressions: Intro": "expr_intro",
+			    "Randomness": "expr_random",
+			    "Transforms": "expr_transforms",
+			    "Intra-Track": "expr_track",
+		     	"Variables": "expr_variables",
+		    },
 			"In Operation" : {
+				"Installation": "installation",
 				"Web UI" : "ui",
 				"api" : "api",
-			}
-			"Expressions" : {
-				"Expressions: Intro": "expr_intro",
-				"Randomness" : "expr_random",
-				"Transforms" : "expr_arps",
-				"Intra-Track" : "expr_track",
-				"Variables" : "expr_variables",
 			},
 			"Community": {
 				"Warp Club": "club",

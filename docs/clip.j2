@@ -1,0 +1,67 @@
+
+
+<h3>Clip</h3>
+
+<ul>
+<li>A clip primarily contains a list of patterns that can be manually triggered to play in sequence</li>
+<li>A clip belongs to a Scene (horizontally) and a track (Vertically).</li>
+<li>Playing a clip will stop any other clips that are playing in the same track.</li>
+<li>A clip may override the tempo on a scene or song.</li>
+<li>A clip may have one or more scales.  These scales are used for each pattern, but the list of scales may be of a different length from the list of patterns.</li>
+<li>A clip may have one or more octave_shifts and scale degree_shifts that apply to the currrently playing pattern.  These are used in rotation just as scales are, above.  These are easily implemented with mod_expressions and can be removed.</li>
+<li>A clip may have a list of tempo_shifts, which are added or subtracted to the tempo of each playing pattern. These are used in rotation, just as the scales are, above.
+<li>A clip may have one or more transforms, which are expressions that modify the currently playing pattern.  These are used in rotation just as the scales are, above.</li>
+<li>A clip may be set to repeat indefinitely (it will end if the scene ends), or for a finite number of times.</li>
+<li>A clip may trigger another clip when it completes</li>
+<li>A clip may be programmed to advance the scene when the clip completes. This is off by default.</li>
+<li>A clip may have a length. If set, patterns will stop early at this point, rather than using all of the pattern symbols.</li>
+</ul>
+
+<h1>A simple clip explanation</h1>
+
+A simple clip may conceptually have the following properties:
+
+{{ begin_code() }}
+tempo : 140
+patterns: verse, chorus, verse2, chorus, bridge, verse
+scales: f-pentatonic
+{{ end_code() }}
+
+In this example, the patterns will play in order.  If there was a tempo or scale set on the {{ doc('scene') }} or {{ doc('clip') }} it will be overriden by the selections of
+140 bpm and the F-pentatonic scale.
+
+<h2>A very complex clip explanation</h2>
+
+Clips can be simple or they can be more detailed. Here's how a maximally complex (and probably non-musical!) example might look.
+
+{{ begin_code() }}
+tempo: 140
+tempo_shifts: [ 0, 10, 20 ]
+scales: f-pentatonic, g-minor
+octave_shifts, 0, 0, 0, 0, 1, -1, 2
+auto_scene_advance: True
+repeat: 10
+transforms: [ arpeggiate1, stutter2, chaos1 ]
+{{ end_code() }}
+
+In this example:
+
+<ul>
+<li>The base tempo will override the {{ doc('scene') }} or {{ doc('song') }} at 140 bpm.</li>
+<li>The first pattern will actually play at 140bpm, but every 2nd pattern at 150bpm and every 3rd pattern at 150bpm.</li>
+<li>Every other pattern will alternate between the F-Pentatonic and G-Minor scales.</li>
+<li>Every fifth pattern will be played one octave higher, the sixth one lower, and the seventh two higher</li>
+<li>When the clip is finished, the entire next scene will advance.</li>
+<li>Alternate clips are arpeggiated, sliced and diced, and munged by different transforms, in rotation. See {{ doc('transform', 'transforms') }}.
+<li>The sequence of two the two named patterns will repeat 20 times (10 patterns each)</li>
+</ul>
+
+<p>
+Because the various modifiers have different lengths, nothing will be exactly the same!  With {{ doc('transform', 'transforms') }} and even
+{{ doc('expr_info', 'mod expressions') }} applied to the patterns themselves, this can be even more complex than it looks! But don't worry if this
+seems advanced,  you can use as little features of Warp or as many as you want.  It's ok to start slow and learn to make more animated compositions over time.
+</p>
+
+
+
+
