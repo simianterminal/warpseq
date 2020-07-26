@@ -15,19 +15,19 @@ NOTE_TABLE = [
     ['C',12], ['Db',12], ['D',12], ['Eb',12], ['E',12], ['F',12], ['Gb',12], ['G',12], ['Ab',12], ['A',12], ['Bb',12], ['B',12],
 ]
 
-def offset(note, semitones):
+def offset(note, tones):
+
+    # this supports fractional semitones, like 1.5
 
     # FIXME: this implementation is **TEMPORARY** and should be changed to allow infinite negative and positive octaves.
     # if we do this, we can also remove the OCTAVE_BIAS hack in the scale implementation. (Search for OCTAVE_BIAS across all files)
 
-    print("offset=%s => %s" % (note, semitones))
-    if semitones == 0:
+    if tones == 0:
         return note
-    steps = 2 * semitones
+    steps = 2 * tones
     steps = int(steps)
     n1 = note.copy()
     note_index = n1.note_number()
-    an = NOTE_TABLE[note_index]
     new_note_index = note_index + steps
     lookup = NOTE_TABLE[new_note_index]
     n1.name = lookup[0]
