@@ -1,59 +1,52 @@
 NOTES
 =====
 
-BACKEND
-=======
-
-* all available MIDI devices should be added to the song at startup
+RELEASE GATES
+=============
 
 * the default song should have a scale in it - C4 major should be fine. Let the user add more.
 
-* more rockchisel docs (see docs/) - use begin_info_block/begin_warn_block/section/table_of_contents
-
-* add chord inversions to mod expressions
-
-* test MIDI CC, velocity code (v+=/v-=/etc) with chords
-
-* build the "friendly" high level API and port the test/assembly.py example to it.
-  use arrays, not strings, for lists of expressions in those API examples.
-  - harder to make errors
-  - takes strings vs objects
-
-* API docs for web page
-
-* cleanup various code functions (smaller functions, less assignments, etc)
-
-* increase error handling in expressions using custom exception types
+* test API needs to validate:
+*   - kick/snare pattern repeat without pause
+*   - next_clip w/o next scene
+*   - basic chords 
+*   - basic chords w/ tie
+*   - basic notes with gap
+*   - transform with octave shifts
+*   - transform with scale degree shifts
+*   - multiple patterns in sequence
+*   - multiple patterns with octave shift
+*   - single pattern with octave shift
+*   - multiple patterns with tempo shifts
+*   - silence events
+*   - grab events
+*   - midi CCs
+*   - random choice
+*   - random values
+*   - pattern overrides scale
+*   - scene overrides scale
 
 * make a Ctrl-C/error hook that stops all notes
 
+* we need a method that the API *must* call that validates patterns and transforms (slots) on save.
+
+* API docs for web page
+
 * demo script at launch should ask user to input their MIDI device name from a list
 
-* UI planning and support service
-
-* GUI interface idea: flask server and backend thread with opcodes (each opcode takes JSON):
-
-** opcodes for flask: LIST/ADD/EDIT/REMOVE for each
-** SONG/{LIST,ADD,EDIT,REMOVE}, same for DEVICE, INSTRUMENT, SCALE, CLIP, PATTERN, ARP, TRACK
-** PLAYER/PLAY_CLIPS(list)
-** PLAYER/STOP_CLIPS(list)
-** PLAYER/START_SCENE
-** PLAYER/STOP
-** SONG/LOAD filename.json
-** SONG/SAVE filename.json
-
-** how do we show the user what pattern symbols are invalid? -- need a method for validating patterns??
-
-** start free patreon posts
-
-* demo vids / songs / tracks
-
-* test slot_length (really this is the same as tempo, isn't it? -- do we need to expose it?)
-
-* nice to have: the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc. (still can 4:M7)
+* test API save/load
 
 * set up website publishing
 
-* callbacks for indicating what notes, patterns, scenes, tracks are playing
+* enable patreon page (= discord access)
+
+FUTURE/IDEAS
+============
+
+* REST-ish JSON API with background thread
+
+* callbacks for when clips start to play, scenes, other events
+
+* nice to have: the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc. (still can 4:M7)
 
 * mod events that can reshuffle patterns?
