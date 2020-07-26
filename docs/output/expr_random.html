@@ -1,0 +1,280 @@
+<html lang='en'>
+<head>
+<title>Warp MIDI Sequencer 0.1: Randomness</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<link rel="stylesheet" href="rockdoc.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism-okaidia.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous"></script>
+
+<div class="wrapper">
+    <nav id="sidebar">
+       <div class="sidebar-header">
+           <!-- topleft corner -->
+<h3>Warp</h3>
+       </div>
+       <ul class="list-unstyled components">
+           
+               
+               <li>
+               
+                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
+                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   
+                        <li><a href="./index.html">Home</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
+                   <ul class="collapse list-unstyled" id="navMenuConcepts">
+                   
+                        <li><a href="./song.html">Song</a></li>
+                   
+                        <li><a href="./scale.html">Scale</a></li>
+                   
+                        <li><a href="./device.html">Device</a></li>
+                   
+                        <li><a href="./instrument.html">Instrument</a></li>
+                   
+                        <li><a href="./pattern.html">Pattern</a></li>
+                   
+                        <li><a href="./transform.html">Transform</a></li>
+                   
+                        <li><a href="./scene.html">Scene</a></li>
+                   
+                        <li><a href="./track.html">Track</a></li>
+                   
+                        <li><a href="./clip.html">Clip</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li class="active">
+               
+                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   
+                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                   
+                        <li><a href="./expr_literal.html">Literals</a></li>
+                   
+                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                   
+                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                   
+                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                   
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                   
+                        <li><a href="./expr_random.html">Randomness</a></li>
+                   
+                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                   
+                        <li><a href="./expr_variables.html">Variables</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
+                   <ul class="collapse list-unstyled" id="navMenuInOperation">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
+                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   
+                        <li><a href="./club.html">Warp Club</a></li>
+                   
+                        <li><a href="./contributing.html">Contributing</a></li>
+                   
+                   </ul>
+               </li>
+           
+       </ul>
+       <div class="overlay"></div>
+    </nav>
+    <div id="content">
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Randomness</h2>
+
+
+There are two forms of randomness supplied - range and choice.
+
+<h3>Random Range</h3>
+
+The first form - range - picks a value between a range. The two limits of the range are separated by a colon (":").
+Here we randomly jump the third note in a pattern by between 0 and 4 octaves each time it plays:
+
+<div class='codeblock'><pre><code class="language-python">
+1
+2
+3 O+0:4
+4
+</code></pre></div>
+
+
+<h3>Random Choice</h3>
+
+The second form - choice - involves choosing from a list, which allows some control over probability distribution if an entry
+appears in a list more than once.  The choices in the list are separated by commas (",")
+
+<div class='codeblock'><pre><code class="language-python">
+3 O+0,2,3
+</code></pre></div>
+
+In the above example, the note jumps 0, 2 or 3 octaves, but the chance of an octave jump is 50%, because two of the values
+are zero.
+
+Choice is also the only random form that works with non-numeric values, such as this random chord type example:
+
+<div class='codeblock'><pre><code class="language-python">
+I
+3 ch=major,minor
+</code></pre></div>
+
+In this example, the second note is either a major or minor chord, with equal chance.
+
+As an example effecting probability, this quick example shows a 1/3 chance of a minor chord:
+
+<div class='codeblock'><pre><code class="language-python">
+I
+3 ch=major,major,minor
+</code></pre></div>
+
+
+
+<h3>Randomness for Humanization</h3>
+
+Humanizing otherwise repetitive patterns is a popular feature in many sequencers, and here's an example
+of humanizing velocity in Warp while playing a two octave scale, with every four notes being full volume.
+
+<div class='codeblock'><pre><code class="language-python">
+1 v=127
+2 v=60:80
+3 v=60:80
+4 v=60:80
+5 v=127
+6 v=60:80
+7 v=60:80
+8 v=60:80
+9 v=127
+10 v=60:80
+11 v=60:80
+12 v=60:80
+13 v=127
+14 v=60:80
+15 v=60:80
+16 v=60:80
+</code></pre></div>
+
+Because MIDI CC's are sticky between notes, assigning random values to CC values can work like a tempo-synced sample
+and hold.  The example below changes twice in each pattern iteration.
+
+<div class='codeblock'><pre><code class="language-python">
+1 cc0=0:127
+2
+3
+4
+5
+6 cc0=0:127
+7
+8
+9
+10
+</code></pre></div>
+
+This could be done with multiple MIDI CCs, changing them at different points in the pattern:
+
+<div class='codeblock'><pre><code class="language-python">
+1 cc0=0:127
+2
+3 cc1=20:127
+4
+5
+6 cc0=0:127
+7
+8 cc2=40:80
+9
+10
+</code></pre></div>
+
+        
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+    });
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+
+    
+        document.getElementById('navToggleExpressions').click();
+    
+
+});
+
+</script>
+
+</body>
+</html>

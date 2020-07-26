@@ -1,10 +1,17 @@
 
-<h3>Device</h3>
+<h1>Device</h1>
+
+A device is any computer operating system visible MIDI Device, such as your USB MIDI interface or the Mac IAC Audio Bus (if you have created one).
 
 <ul>
-<li>A device is any computer operating system visible MIDI Device, such as a USB MIDI interface or the IAC Audio Bus.</li>
 <li>Some sort of MIDI Device - physical or virtual - is required to use Warp.</li>
 <li>If you don't own any hardware synths, this is not a problem, Warp can also talk to software synths.</li>
-<li>In OS X, creating an IAC Bus (see {{ doc('installation') }} will allow Warpseq to talk to software synths.</li>
+<li>In OS X, creating an IAC Bus (see {{ doc('installation') }}) will allow Warpseq to talk to software synths.</li>
 <li>Warp is targetted just as much at hardware synths as software synths, and can speak to multiple devices and instruments at once.</li>
 </ul>
+
+{{ begin_info_block() }}
+When you start up a new {{ doc('song') }}, all the current devices on your computer should be added to the {{ doc('song') }} automatically, so you can use them.  If you open someone else's
+{{ doc('song') }} file, you may need to manually add some new devices and then reconfigure your {{ doc('instrument', 'Instrument') }} definitions in order to play the song on your software
+and hardware.
+{{ end_info_block() }}

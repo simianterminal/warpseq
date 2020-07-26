@@ -1,0 +1,246 @@
+<html lang='en'>
+<head>
+<title>Warp MIDI Sequencer 0.1: Intra-Track</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<link rel="stylesheet" href="rockdoc.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism-okaidia.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous"></script>
+
+<div class="wrapper">
+    <nav id="sidebar">
+       <div class="sidebar-header">
+           <!-- topleft corner -->
+<h3>Warp</h3>
+       </div>
+       <ul class="list-unstyled components">
+           
+               
+               <li>
+               
+                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
+                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   
+                        <li><a href="./index.html">Home</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
+                   <ul class="collapse list-unstyled" id="navMenuConcepts">
+                   
+                        <li><a href="./song.html">Song</a></li>
+                   
+                        <li><a href="./scale.html">Scale</a></li>
+                   
+                        <li><a href="./device.html">Device</a></li>
+                   
+                        <li><a href="./instrument.html">Instrument</a></li>
+                   
+                        <li><a href="./pattern.html">Pattern</a></li>
+                   
+                        <li><a href="./transform.html">Transform</a></li>
+                   
+                        <li><a href="./scene.html">Scene</a></li>
+                   
+                        <li><a href="./track.html">Track</a></li>
+                   
+                        <li><a href="./clip.html">Clip</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li class="active">
+               
+                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   
+                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                   
+                        <li><a href="./expr_literal.html">Literals</a></li>
+                   
+                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                   
+                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                   
+                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                   
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                   
+                        <li><a href="./expr_random.html">Randomness</a></li>
+                   
+                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                   
+                        <li><a href="./expr_variables.html">Variables</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
+                   <ul class="collapse list-unstyled" id="navMenuInOperation">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
+                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   
+                        <li><a href="./club.html">Warp Club</a></li>
+                   
+                        <li><a href="./contributing.html">Contributing</a></li>
+                   
+                   </ul>
+               </li>
+           
+       </ul>
+       <div class="overlay"></div>
+    </nav>
+    <div id="content">
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Intra-Track Expressions</h1>
+
+So far, the only intra-track operation supported is a note-grab.  When we say intra-track, we mean commands that set things
+that happen on the current track based on things that happen on *other* tracks.
+
+<h2>Note Grabs</h2>
+
+Note grabs allow one track to replace the value of what note should play based on using the value of another track's last
+played note.
+
+This allows for powerful harmonization.  Imagine, if you will, a muted track 1 containing melody information as part of a scale.
+
+<div class='codeblock'><pre><code class="language-python">
+1
+2
+3
+4
+1 O+1
+2
+4
+1 O+2
+1
+3
+</code></pre></div>
+
+Another track can play harmonized chords - even at a different tempo, that will always line up.  This is as if one player in a band
+was listening to another player:
+
+<div class='codeblock'><pre><code class="language-python">
+1 T=melodyTrack ch=major
+-
+-
+-
+1 T=melodyTrack ch=minor
+-
+-
+-
+-
+</code></pre></div>
+
+That's a short pattern.  Now we can add a baseline, which takes the melody track and drops down a few octaves.
+
+<div class='codeblock'><pre><code class="language-python">
+1 T=melodyTrack
+</code></pre></div>
+
+The bass pattern can be zero length, because we want to apply an arp pattern to it, that might look like this:
+
+<div class='codeblock'><pre><code class="language-python">
+1 T=melodyTrack O-1
+1 T=melodyTrack O-1 S+1
+1 T=melodyTrack O-1 S+2
+1 T=melodyTrack O-1 S+3
+</code></pre></div>
+
+The arp plays the first note the melody track is playing, then three successive notes going up 1, 2, and then 3 scale
+notes, all in key, but also one octave down.
+
+While the data entry of this may SEEM a little tedious, these same patterns can be played throughout large parts of the
+song (if desired), and do not need to be rewritten when varying the melody track.
+
+As such, we can make an entire song out of considerably LESS clips than in some other systems, by reusing patterns like this.
+
+<div class='warnblock'>
+<i class="fas fa-exclamation-triangle"></i></i></i>&nbsp;
+NOTE: (BUG) Currently the parser will not work if the targetted track names contains spaces.
+</div>
+
+
+        
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+    });
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+
+    
+        document.getElementById('navToggleExpressions').click();
+    
+
+});
+
+</script>
+
+</body>
+</html>

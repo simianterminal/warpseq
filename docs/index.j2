@@ -1,78 +1,32 @@
-<h1>Warpseq MIDI Sequencer</h1>
+{{ begin_info_block() }}
+Warp is in EARLY BETA preview.  The Python {{ doc('api') }} is available now, and fully functional. User interface releases Fall 2020.
+For any beta related questions, ideas, or feedback, <A HREF="mailto:michael@michaeldehaan.net">email Michael</A>. I'd love to hear from you.
+{{ end_info_block() }}
+
+<h1>Warp MIDI Sequencer</h1>
 
 <p>
-Have you ever wanted ...
+Warp is a <B>highly music theory aware</B> MIDI sequencer for software and hardware synthesizers. It is open source (Apache 2 licensed), and built in Python.
+Warp has an emphasis on allowing carefully <B>sculptable randomness, key-changes, tempo changes, and pattern variations</B>.
 </p>
 
 <p>
-<ul>
-<li>To talk to hardware and software synthesizers in a way that made you feel more like a composer?</li>
-<li>To use repetition in your music, but also introduce subtle variations?</li>
-<li>To embrace experiments in your music, and be suprised at what you discover?</li>
-<li>To compose without tedium?</li>
-<li>To access the benefits of music theory without the hassle?</li>
-<li>To shred at insane BPMs, changing key signatures all over the place, and sound like your computer went to Berklee?</li>
-<li>For electronic composition to be more fun and powerful than what your DAW enables?</li>
-</ul>
+Warp is inspired
+by tools such as Ableton Live, and hardware like the Sequentix Cirklon and the Elektron Monomachine. Like Ableton is grid based,
+but the pattern engine is infinitely more powerful. You will probably use Warp with your DAW open in the background,
+either recording audio or MIDI inputs from Warp.
 </p>
 
+<img src="./synths.png" WIDTH=30%>
+
+<h2>Ready To Get Started?</h2>
 
 <p>
-Warp is a unique music-theory aware MIDI sequencer. It is inspired by popular DAWs like Ableton Live, and hardware units like
-the Sequentix Cirklon and Elektron Monomachine and designed for (eventual) rapid-access during live performance as
-well as deliberate long-form compositions, with a goal on achieving increased sonic variety and experimentation as
-compared to traditional piano-roll DAW tools.
+This website contains extensive documentation that will teach you about Warp and help you understand if it is right for you.
+We encourage you to reach out and share your stories, feature ideas, and music with us.  For those about to rock, we salute you.
 </p>
 
 <p>
-Warp allows for constructing advanced pattern sequences that understand scales natively, including context-aware chords and transpositions.
-Additionally, it allow inter-track and randomness expressions in many varieties.  Particular attention has been paid to
-arpeggiators, which have become an flexible engine for manipulating note patterns, far behind what is provided in
-classic arpeggiators in hardware and software that most users have experienced.
-</p>
-
-<p>
-While Warp is not genre specific, Michael DeHaan's taste (the author) tends, at times, towards metal, classical, 80s Japanese
-video game music (aka "chiptune"), or minimal techno.  The minimal reference is somewhat key, and is shown by the subtle variations
-and randomness features in the mod engine. The classical/metal/chiptune references come into play by having tight timing and a very
-fast and extremely flexible transform engine (useful for building  arpeggiators among other things) that
-can turn even the most basic compositions into shredding (but still musical) chaos. I don't really listen to math rock, but
-Warp is ideal for the polyrhythmic fun that usually entails.  You could just as easily
-use Warpseq to describe basic rock music (which I really like), and there would be nothing wrong with that.
-</p>
-
-<p>
-Warp is built on a grid, just like in Ableton or Bitwig, but unlike DAW tools, is MIDI only. It does not make sounds on its own, and
-many of you will often run Warp with your DAW also open (for example, to record audio).
-</p>
-
-<p>
-While the concept of clips should be familiar to Ableton and Bitwig users, in Warp, "Clips" can consist of multiple
-symlinked patterns in a list, and multiple scales and/or octave shifts, each with their own (optional) lists of arpeggiators per pattern.
-Just to give a basic idea, it is easy to do "A, B, A, B, C" type patterns
-within a single clip. It's also possible to play one pattern an octave higher, and completely shred the third pattern using a transform.
-</p>
-
-<p>
-Warp is implemented in python, fully free (Apache 2 licensed), and will feature a performance oriented web interface.
-In the current developer-beta-release state (July/August 2020), using Warpseq requires some basic Python experience (see {{ doc('api') }},
-though the UI is in current development (SOON! WE ARE GOING FULL SPEED AHEAD!) - and this will make Warp accessible to many more users.
-</p>
-
-<p>
-Warpseq will continue to grow and gain new features with future releases, particularly in terms of the interface and expression language.
-</p>
-
-<p>
-See {{ doc('installation') }} for how to get going, or {{ doc('club') }} for how to get some great inside information
-and to support the project as it grows. We encourage you to reach out and share your stories, feature ideas, and music with us.
-</p>
-
-<p>
-Documentation links are on the left. For those about to rock, we salute you.
-</p>
-
-<p>
-<A HREF="http://michaeldehaan.net">Michael DeHaan</A> <A HREF="http://twitter.com/warpseq">(@warpseq)</A>
+-- <A HREF="http://michaeldehaan.net">Michael DeHaan</A>
 </p>
 

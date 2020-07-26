@@ -1,12 +1,14 @@
-
-<h3>Mod Expressions In Transforms</h3>
+<h1>Mod Expressions In Transforms</h1>
 
 <p>
-Warp does not just have Arpeggiators, warp has more complex "Transforms" that can be used to build arps, but also
+Unlike many other sequencer and DAW tools, Warp does not just have Arpeggiators, warp has more complex {{ doc('transforms', 'Transforms') }} that can be used to build arps, but also
 more detailed sets of meta-patterns that transform other patterns.
 </p>
 
 <p>
+As described in the Transform page, a transform moves across the notes that would have played in each pattern, at every step, and slices them up,
+and optionally changes them.
+
 To build an Arp, we only need this in the Transform definition:
 </p>
 
@@ -14,17 +16,15 @@ To build an Arp, we only need this in the Transform definition:
 0
 {{ end_code() }}
 
-<p>
-0 here just means "play what you would have played"
-</p>
 
 <p>
-In other words, just play every note like a normal arpeggiator would.  In a chord, this would play each note in the chord,
-one at a time.
+That's it! 0 here just means "play what you would have played".  The transform will always turn a chord into notes. In order to make sure it turns a triad into the full set of
+chord notes, we should set the {{ doc('transform', 'Transform') }} "divide" setting to at least 3.  If we set it to 9, it would strum each triad 3 times, very quickly.
 </p>
 
 <p>
 That's basic though. Transforms can use mod expressions, for instance:
+</p>
 
 {{ begin_code() }}
 O+2
@@ -36,8 +36,10 @@ O+2
 
 The above sequence would play the first note in the pattern 2 octaves up, the 1, then as written, then 1 up, and then 2 up.
 
+<p>
 Alternatively, the transform can ALSO muck with any parameter it wants, including creation of chords.  Here is a particularly
 non-musical example:
+</p>
 
 {{ begin_code() }}
 0

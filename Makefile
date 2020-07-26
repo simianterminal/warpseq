@@ -1,5 +1,6 @@
 manual:
 	(cd docs; python3 site.py)
+	cp docs/*.png docs/output
 deps:
 	pip3 install -r requirements.txt
 pyflakes:

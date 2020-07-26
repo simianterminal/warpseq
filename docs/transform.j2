@@ -1,15 +1,52 @@
 
-<h3>Transforms</h3>
+<h1>Transforms</h1>
 
+<p>Transforms take notes listed in {{ doc('pattern','patterns') }} inside a {{ doc('clip') }} and then do "things" to them.  They are optional, but very fun, and can
+add lots of sonic variety.</p>
+
+<p>
 <ul>
-<li>Classically, arpeggiators are used in synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
-<li>In Warp, transforms can be used to create arps, but that is only the most basic usage.</li>
-<li>Transforms can also run against individual notes, and even turn notes *back* into chords</li>.
-<li>Transforms are just special patterns that run across patterns to slice them up and modify them, using looped expressions.</li>
-<li>A transform with a divide time of 1 applies each step to one note, and only modifies the notes, rather than creating more.</li>
+<li>Classically, <b>arpeggiators</b> are used in synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
+<li>In Warp, transforms CAN be used to create arpeggiators, but that is only the most basic usage of them.</li>
+<li>Transforms can also run against individual notes (not just chords), and even turn those notes *back* into chords.</li>.
+<li>Transforms achieve this power through {{ doc('expr_info', 'Mod Expressions') }}.
+<li>Transforms may be thought of as a special kind of {{ doc('pattern') }} that runs against Patterns.
+<li>A transform with a divide time of 1 applies each slot of the transform to one slot of the pattern, and only modifies the notes, rather than creating more.</li>
 <li>A transform with a divide time of 4 will divide each note into four parts, applying up to 4 different modifications to each fragment</li>
 <li>A transform can contain more slots than the divide time, allowing for arps that do not line up exactly with the notes they modify</li>
-<li>Transforms can also include velocity and MIDI CC information.
-<li>Transforms may also define octave_slots, which apply octave shifts.  This list of octave slots may be of a different length than the pattern slots.</li>
-<li>A transform can also silence notes in a pattern, effectively stuttering the input and high speed.</li>
+<li>Transforms can manipulate notes or octaves, can silence notes, and can also include velocity and MIDI CC information.</li>
 </li>
+</p>
+
+<h2>Basic Examples</h2>
+
+Assume we have an incoming chord sequence:
+
+{{ begin_code() }}
+I
+IV
+V
+{{ end_code() }}
+
+And a transform:
+
+{{ begin_code }}
+0
+{{ end_code }}
+
+With a divide cycle of "3".
+
+In this simple example, we have built an arpeggiator, that plays the notes of the triad in quick succession.
+
+<h2>A More Complex Example</h2>
+
+Suppose we have the same chord sequence and a different transform:
+
+{{ begin_code() }}
+O+1
+0
+0
+{{ end_code() }}
+
+This will play the first note of each chord (the root) an octave up. For more examples, see the {{ doc('expr_intro', 'Expression Section') }}.
+

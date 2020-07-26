@@ -1,0 +1,284 @@
+<html lang='en'>
+<head>
+<title>Warp MIDI Sequencer 0.1: Modifer Expressions</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<link rel="stylesheet" href="rockdoc.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism-okaidia.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous"></script>
+
+<div class="wrapper">
+    <nav id="sidebar">
+       <div class="sidebar-header">
+           <!-- topleft corner -->
+<h3>Warp</h3>
+       </div>
+       <ul class="list-unstyled components">
+           
+               
+               <li>
+               
+                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
+                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   
+                        <li><a href="./index.html">Home</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
+                   <ul class="collapse list-unstyled" id="navMenuConcepts">
+                   
+                        <li><a href="./song.html">Song</a></li>
+                   
+                        <li><a href="./scale.html">Scale</a></li>
+                   
+                        <li><a href="./device.html">Device</a></li>
+                   
+                        <li><a href="./instrument.html">Instrument</a></li>
+                   
+                        <li><a href="./pattern.html">Pattern</a></li>
+                   
+                        <li><a href="./transform.html">Transform</a></li>
+                   
+                        <li><a href="./scene.html">Scene</a></li>
+                   
+                        <li><a href="./track.html">Track</a></li>
+                   
+                        <li><a href="./clip.html">Clip</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li class="active">
+               
+                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   
+                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                   
+                        <li><a href="./expr_literal.html">Literals</a></li>
+                   
+                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                   
+                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                   
+                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                   
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                   
+                        <li><a href="./expr_random.html">Randomness</a></li>
+                   
+                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                   
+                        <li><a href="./expr_variables.html">Variables</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
+                   <ul class="collapse list-unstyled" id="navMenuInOperation">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
+                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   
+                        <li><a href="./club.html">Warp Club</a></li>
+                   
+                        <li><a href="./contributing.html">Contributing</a></li>
+                   
+                   </ul>
+               </li>
+           
+       </ul>
+       <div class="overlay"></div>
+    </nav>
+    <div id="content">
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Mod Expressions</h1>
+
+Any <A HREF="./expr_intro.html">Expression</a> may be followed by a semicolon and one or more modifiers, seperated by semicolons.
+In basic <A HREF="./pattern.html">Patterns</a>, these modify the notes in the pattern. In <A HREF="./transform.html">Transforms</a>, however,
+these expressions do not include a preceeding note or chord symbol, and modify the currently playing part of the pattern on which
+they are applied.
+
+<h3>Octave Shifts</h3>
+
+A basic example shows some octave offsets.  Assuming the scale was C major and the base octave was 4...
+
+<div class='codeblock'><pre><code class="language-python">1 O+1
+1 O-2
+2 O=4
+</code></pre></div>
+
+... the above set of patterns would produce a C5, a C2, and D4.
+
+<h3>Velocity Controls</h3>
+
+velocity can be adjusted in one of many ways.
+
+<div class='codeblock'><pre><code class="language-python">1 v=100
+2 v+10
+3 v-10
+</code></pre></div>
+
+Velocity takes a value between 0 and 100, and does not always map to  volume - it depends on your instrument.
+The latter two examples might be interesting in arpeggiators. See the "Randomness" section below for more tricks involving
+MIDI velocity.
+
+<h3>MIDI CC Controls</h3>
+
+MIDI CCs can be used to add interesting variations.
+
+<div class='codeblock'><pre><code class="language-python">1 cc1=20
+4
+10 cc1=80
+</code></pre></div>
+
+In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
+MIDI CCs are sticky. See the "Randomness" section below for more tricks involving MIDI CCs.
+
+<h3>Degree Shifts</h3>
+
+Making a note go up or down a scale interval works as follows:
+
+<div class='codeblock'><pre><code class="language-python">1 +5
+1 -b3
+</code></pre></div>
+
+The above example shows a perfect fifth and a flat third.
+
+<h3>Flats and Sharps</h3>
+
+Accidentals outside the scale are easy to access:
+
+<div class='codeblock'><pre><code class="language-python">1
+2
+3 b
+4
+5 #
+6
+7
+</code></pre></div>
+
+Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.
+
+<h3>Scale Shifts</h3>
+
+scale shifts can jump a note up or down in the current scale:
+
+<div class='codeblock'><pre><code class="language-python">1 S+2
+4 S-2
+</code></pre></div>
+
+This may seem pointless, because we could have just said "3" or "2" here, but these can be used in powerful ways inside
+of arpeggiators.
+
+<h3>Probability Events</h3>
+
+A probability event can be assigned so that the next event has only a partial chance of firing.
+
+<div class='codeblock'><pre><code class="language-python">1 p=0.5;O+2
+</code></pre></div>
+
+In the above example, the note will jump an octave only half of the times the pattern plays.
+
+<h3>Silence Events</h3>
+
+Silences are most useful with probabilities.
+
+<div class='codeblock'><pre><code class="language-python">1 p=0.5;x
+</code></pre></div>
+
+In the above example, the event will not play half of the time
+
+<h3>Chordification</h3>
+
+While chords can be explicitly entered, chords can also be created from mod expressions in patterns or in arpeggiators.
+See the "Randomness" section below for more tricks involving chords.
+
+<div class='codeblock'><pre><code class="language-python">1 ch=power
+4 ch=major
+3 ch=sus4
+</code></pre></div>
+        
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+    });
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+
+    
+        document.getElementById('navToggleExpressions').click();
+    
+
+});
+
+</script>
+
+</body>
+</html>

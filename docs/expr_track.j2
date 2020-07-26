@@ -1,5 +1,9 @@
+<h1>Intra-Track Expressions</h1>
 
-<h3>Note Grabs</h3>
+So far, the only intra-track operation supported is a note-grab.  When we say intra-track, we mean commands that set things
+that happen on the current track based on things that happen on *other* tracks.
+
+<h2>Note Grabs</h2>
 
 Note grabs allow one track to replace the value of what note should play based on using the value of another track's last
 played note.
@@ -57,5 +61,8 @@ song (if desired), and do not need to be rewritten when varying the melody track
 
 As such, we can make an entire song out of considerably LESS clips than in some other systems, by reusing patterns like this.
 
+{{ begin_warn_block() }}
 NOTE: (BUG) Currently the parser will not work if the targetted track names contains spaces.
+{{ end_warn_block() }}
+
 

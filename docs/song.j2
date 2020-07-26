@@ -1,7 +1,15 @@
-<h3>Song</h3>
+<h1>Song</h1>
 
+<p>
+This chapter will explain some terms in Warp, and compare them a bit to what you may expect with audio production tools you may be familiar with.
+</p>
+
+<p>
 <ul>
-<li>Each Warp file is called a song</li>
-<li>A song must define a default tempo, though this may be overriden in a {{ doc('scene') }} or {{ doc('clip') }}</li>
-<li>A song may define a default scale, though this may also be overriden in a {{ doc('scene') }} or {{ doc('clip') }}</li>
+<li>Each Warp file is called (unimaginatively) a song</li>
+<li>A song must define a default tempo, though this may be overriden in a {{ doc('scene') }} or {{ doc('clip') }}. The default is 120. Change it.</li>
+<li>A song may define a default {{ doc('scale') }}, though this may also be overriden in a {{ doc('scene') }} or {{ doc('clip') }}.</li>
+<li>Songs can be saved and loaded to files, and files should be openable by any future version of Warp.</li>
+<li>Songs are technically JSON files, but you hand edit them at your own risk.  If that seems appealing, see the {{ doc('api') }}</li>
 </ul>
+</p>

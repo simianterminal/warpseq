@@ -1,0 +1,32 @@
+
+<h1>Expressing Literal Notes</h1>
+
+<p>
+Think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is:
+
+{{ begin_code() }}C4
+D4
+E4
+F4
+G4
+A4
+B4
+C4
+{{ end_code() }}
+
+<p>
+That, as simple as it is, is a TOTALLY VALID pattern in Warpseq.  You can program notes in like that if you want.  However,
+they won't respond to any scale settings in Warp.  They'll just stick to what you input.
+</p>
+
+<p>
+You can access black keys as well, with either sharps or flats:
+</p>
+
+{{ begin_code() }}
+Eb4
+C#4
+{{ end_code() }}
+
+<p>
+If you want to input something that obeys the scale settings, see {{ doc('expr_roman') }}.

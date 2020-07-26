@@ -1,22 +1,30 @@
 
+<h1>Patterns</h1>
 
-<h3>Pattern</h3>
+<p>A pattern represents an ordered series of {{ doc('expr_intro', 'Expressions') }} that evaluate into notes or chords when used inside a {{ doc('clip') }}.</p>
 
+<p>
 <ul>
-<li>A pattern represents an ordered series of {{ doc('expr_intro', 'Expressions') }} that evaluate into notes or chords
-<li>Patterns include strings like "1", "IV", or "C4sus4" or even "C4sus4;O+1;cc0=50".</li>
-<li>Patterns can include velocity and MIDI CC information.
-<li>A pattern may define an octave_shift to be applied to the current {{ doc('scale') }}, which applies after the base octave of the instrument.
-<li>A pattern may define a Tempo to override the tempo of the {{ doc('scene') }} or {{ doc('song') }}, if not further overriden by the {{ doc('clip') }}.
-<li>A pattern may define a Scale to override the scale of the {{ doc('scene') }} or {{ doc('song') }}, if not further overriden by a {{ doc('clip') }}.
+<li>Patterns include strings like:
+<ul>
+<li>"1"</li>
+<li>"IV"</li>
+<li>"C4sus4"</li>
+<li>or even "C4sus4;O+1;cc0=50".</li>
 </ul>
+</li>
+<li>Patterns can include velocity and MIDI CC information (see {{ doc('expr_mod') }}.
+<li>A pattern may define an octave_shift to be applied to the current {{ doc('scale') }}, which applies <i>after</i> the base octave of the instrument.
+<li>A pattern may define a Tempo to override the tempo of the {{ doc('scene') }} or {{ doc('song') }}, if not overriden by the {{ doc('clip') }}.
+<li>A pattern may define a Scale to override the scale of the {{ doc('scene') }} or {{ doc('song') }}, if not overriden by a {{ doc('clip') }}.
+</ul>
+</p>
 
 <h2>A Quick Example</h2>
 
 The simplest possible pattern is a scale:
 
-{{ begin_code() }}
-1
+{{ begin_code() }}1
 2
 3
 4
@@ -28,8 +36,7 @@ The simplest possible pattern is a scale:
 
 Here are some major and minor chords in a pattern:
 
-{{ begin_code() }}
-I
+{{ begin_code() }}I
 IV
 V
 i
@@ -39,8 +46,7 @@ v
 
 Here is a pattern some ties ("-") and rests (" "):
 
-{{ begin_code() }}
-1
+{{ begin_code() }}1
 2
 3
 -

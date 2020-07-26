@@ -1,0 +1,261 @@
+<html lang='en'>
+<head>
+<title>Warp MIDI Sequencer 0.1: Scale Notes And Chords</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<link rel="stylesheet" href="rockdoc.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism-okaidia.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous"></script>
+
+<div class="wrapper">
+    <nav id="sidebar">
+       <div class="sidebar-header">
+           <!-- topleft corner -->
+<h3>Warp</h3>
+       </div>
+       <ul class="list-unstyled components">
+           
+               
+               <li>
+               
+                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
+                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   
+                        <li><a href="./index.html">Home</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
+                   <ul class="collapse list-unstyled" id="navMenuConcepts">
+                   
+                        <li><a href="./song.html">Song</a></li>
+                   
+                        <li><a href="./scale.html">Scale</a></li>
+                   
+                        <li><a href="./device.html">Device</a></li>
+                   
+                        <li><a href="./instrument.html">Instrument</a></li>
+                   
+                        <li><a href="./pattern.html">Pattern</a></li>
+                   
+                        <li><a href="./transform.html">Transform</a></li>
+                   
+                        <li><a href="./scene.html">Scene</a></li>
+                   
+                        <li><a href="./track.html">Track</a></li>
+                   
+                        <li><a href="./clip.html">Clip</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li class="active">
+               
+                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   
+                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                   
+                        <li><a href="./expr_literal.html">Literals</a></li>
+                   
+                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                   
+                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                   
+                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                   
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                   
+                        <li><a href="./expr_random.html">Randomness</a></li>
+                   
+                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                   
+                        <li><a href="./expr_variables.html">Variables</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
+                   <ul class="collapse list-unstyled" id="navMenuInOperation">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
+                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   
+                        <li><a href="./club.html">Warp Club</a></li>
+                   
+                        <li><a href="./contributing.html">Contributing</a></li>
+                   
+                   </ul>
+               </li>
+           
+       </ul>
+       <div class="overlay"></div>
+    </nav>
+    <div id="content">
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Scale Notes & Chords</h1>
+
+Input of notes that follow <A HREF="./scale.html">Scale</a> settings within Warp follow a varient of something called "Roman Numeral Analysis".
+In short, Warp uses arabic numerals to indicate degrees along a scale, and roman numerals to represent basic chords. Jazz fans will
+object to this, and say this can't possibly represent all the types of interesting and useful chords, and they are correct - but bear
+with us.
+
+
+<h2>A Scale Example</h2>
+
+Here is the same scale mentioned in <A HREF="./expr_literal.html">Literals</a> in a way that will work for any 7-note <A HREF="./scale.html">Scale</a> setting:
+
+<div class='codeblock'><pre><code class="language-python"> 1
+2
+3
+4
+5
+6
+7
+8
+</code></pre></div>
+
+This means that we can define a <A HREF="./pattern.html">Pattern</a> and then the pattern can be then used in any clip using any scale we want.
+
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Most other sequencer programs and DAWs do not natively understand scales, but instead
+"force" notes to the nearest scale note.  This means multiple note entries might map to the same note, or it may be unclear
+if something rounds up or down.  Of greater concern, in these force-to-scale systems, the ability to use accidentals is lost.
+</div>
+
+<h3>Roman Numeral Chords</h3>
+
+Chords can be expressed as Roman numerals:
+
+<div class='codeblock'><pre><code class="language-python">
+I
+IV
+V
+</code></pre></div>
+
+This notation is commonly used to denote chord progressions.  Like the arabic numerals above, it is nice because it doesn't care what scale you are in.
+
+Lowercase roman numerals represent minor chords:
+
+<div class='codeblock'><pre><code class="language-python">
+i
+iv
+v
+</code></pre></div>
+
+More advanced types can be represented using their base notes and chord type:
+
+<div class='codeblock'><pre><code class="language-python">
+1 ch=sus4
+2 ch=major
+4 ch=power
+</code></pre></div>
+
+This is a bit of a spoiler as this refers to "Mod Expressions", covered immediately below.
+
+For reference the built-in chord types you can use this way are:
+
+<ul>
+<li>minor</li>
+<li>major</li>
+<li>dim</li>
+<li>aug</li>
+<li>sus4</li>
+<li>sus2</li>
+<li>fourth</li>
+<li>power</li>
+<li>fifth</li>
+<li>M6</li>
+<li>m6</li>
+<li>dom7</li>
+<li>M7</li>
+<li>m7</li>
+<li>aug7</li>
+<li>dim7</li>
+<li>mM7</li>
+</ul>
+
+That's a little jazzier, we just don't get to use the roman numeral syntax.
+        
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+    });
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+
+    
+        document.getElementById('navToggleExpressions').click();
+    
+
+});
+
+</script>
+
+</body>
+</html>

@@ -32,15 +32,19 @@ site = Builder(
 			},
 		    "Expressions": {
 			    "Expressions: Intro": "expr_intro",
-			    "Randomness": "expr_random",
-			    "Transforms": "expr_transforms",
+				"Literals" : "expr_literal",
+				"Scale Notes And Chords" : "expr_roman",
+				"Silences & Ties" : "expr_silence_ties",
+				"Modifer Expressions": "expr_mod",
+				"In Transforms": "expr_transforms",
+				"Randomness": "expr_random",
 			    "Intra-Track": "expr_track",
 		     	"Variables": "expr_variables",
 		    },
 			"In Operation" : {
 				"Installation": "installation",
 				"Web UI" : "ui",
-				"api" : "api",
+				"Python API" : "api",
 			},
 			"Community": {
 				"Warp Club": "club",
