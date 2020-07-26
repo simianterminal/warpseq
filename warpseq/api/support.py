@@ -59,7 +59,11 @@ class BaseApi(object):
                 elif hasattr(value, 'obj_id'):
                     value = value.name
                 new_data[k] = value
+        self._update_details(new_data, obj)
         return new_data
+
+    def _update_details(self, details, obj):
+        pass
 
     def _get_collection(self):
         return getattr(self.song, self.__class__.song_collection)

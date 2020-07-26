@@ -130,7 +130,6 @@ class Scales(CollectionApi):
         del params['octave']
 
     def _get_note(self, params):
-        print("PARAMS=%s" % params)
         note = params['note']
         octave = params['octave']
         scale_type = params['scale_type']
@@ -138,6 +137,14 @@ class Scales(CollectionApi):
             return Note(name=note, octave=octave)
         else:
             return None
+
+    def _update_details(self, details, obj):
+        if obj.root:
+            details['note'] = obj.root.name
+            details['octave'] = obj.root.octave
+        else:
+            details['note'] = None
+            details['octave'] = None
 
     def add(self, name, note:str=None, octave:int=None, scale_type:str=None, slots:list=None):
         params = locals()
@@ -153,6 +160,14 @@ class Scales(CollectionApi):
 
 
 class Patterns(CollectionApi):
+
+    #name = Field(required=True, nullable=False)
+    #slots = Field(type=list, required=True, nullable=False)
+    #length = Field(type=int, default=None, nullable=True)
+    #octave_shift = Field(type=int, default=0, nullable=False)
+
+    #tempo = Field(type=int, default=None, nullable=True)
+    #scale = Field(type=Scale, default=None, nullable=True)
 
     object_class    = Pattern
     public_fields   = [ 'FIXME' ]
