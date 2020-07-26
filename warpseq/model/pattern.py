@@ -34,7 +34,7 @@ class Pattern(ReferenceObject):
             octave_shift = self.octave_shift,
         )
         if self.scale:
-            result['scale'] = scale.obj_id
+            result['scale'] = self.obj_id
         else:
             result['scale'] = None
         return result

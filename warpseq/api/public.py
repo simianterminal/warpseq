@@ -158,14 +158,25 @@ class Scales(CollectionApi):
 
 # =====================================================================================================================
 
+class Transforms(CollectionApi):
+
+    object_class     = Transform
+    public_fields   = [ 'FIXME' ]
+    song_collection  = 'transforms'
+    add_method       = 'add_transforms'
+    add_required     = [ 'slots' ]
+    edit_required    = [ ]
+    remove_method    = 'remove_transform'
+
+# =====================================================================================================================
 
 class Patterns(CollectionApi):
 
     #name = Field(required=True, nullable=False)
     #slots = Field(type=list, required=True, nullable=False)
     #length = Field(type=int, default=None, nullable=True)
+    #length = Field(type=int, default=None, nullable=True)
     #octave_shift = Field(type=int, default=0, nullable=False)
-
     #tempo = Field(type=int, default=None, nullable=True)
     #scale = Field(type=Scale, default=None, nullable=True)
 
@@ -177,19 +188,17 @@ class Patterns(CollectionApi):
     edit_required   = [ ]
     remove_method   = 'remove_pattern'
 
-# =====================================================================================================================
+    def add(self, name, slots:list=None, length:int=None, octave_shift:int=0, tempo:int=None, scale=None):
+        if scale:
+            scale = self.api.scales.lookup(scale, require=True)
+        params = locals()
+        self._generic_add(name, params)
 
-class Transforms(CollectionApi):
-
-    object_class     = Transform
-    public_fields   = [ 'FIXME' ]
-    song_collection  = 'transforms'
-    add_method       = 'add_transforms'
-    add_required     = [ 'slots' ]
-    edit_required    = [ ]
-    remove_method    = 'remove_transform'
-
-
+    def edit(self, name, slots:list=None, length:int=None, octave_shift:int=0, tempo:int=None, scale=None):
+        if scale:
+            scale = self.api.scales.lookup(scale, require=True)
+        params = locals()
+        self._generic_edit(name, params)
 
 # =====================================================================================================================
 

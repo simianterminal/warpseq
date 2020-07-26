@@ -41,8 +41,8 @@ api.instruments.add('euro1', device=DEVICE, channel=1, min_octave=0, base_octave
 api.instruments.add('euro2', device=DEVICE, channel=2)
 api.instruments.add('euro3', device=DEVICE, channel=3)
 
-api.instruments.edit(name='euro3', channel=4, device=DEVICE)
-api.instruments.remove(name='euro3')
+api.instruments.edit('euro3', channel=4, device=DEVICE)
+api.instruments.remove('euro3')
 
 print(api.instruments.list())
 print(api.instruments.details('euro1'))
@@ -66,7 +66,7 @@ except NotFound:
     pass
 
 print(api.tracks.list())
-print(api.tracks.details('track1'))
+print(api.tracks.details(name='track1'))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Warp comes with many canned scale patterns but they need to be instanced to specify a base octave. User patterns can
@@ -82,14 +82,27 @@ api.scales.remove(name='C-major')
 # verify we can't pass in both scale_type and slots together
 api.scales.edit(name='G-user', slots=[1,2,3], scale_type='major')
 
-print(api.scales.details('Eb-natural-minor'))
-print(api.scales.details('G-user'))
+print(api.scales.details(name='Eb-natural-minor'))
+print(api.scales.details(name='G-user'))
 print(api.scales.list())
 
-#print(song.get_scales())
+# -------------------------------------------------------------------------------------------------------------
+# Patterns
+
+api.patterns.add(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16".split(), tempo=90)
+api.patterns.add(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), length=6, octave_shift=-2, scale='Eb-natural-minor')
+api.patterns.add(name='chords', slots="I IV V I".split(), tempo=40)
+
+api.patterns.edit(name='chords', slots="I V IV I", tempo=100, scale='Eb-natural-minor')
+api.patterns.remove(name='up')
+print(api.patterns.details('chords'))
+print(api.patterns.list())
+
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Arps
+# Transforms
 
 #song.add_arp(name='a1',slots=["O+2", "O-1", "1", "O+1", "O+2"], divide=5)
 #song.add_arp(name='a2',slots=["1", "1", "1"], divide=3)
@@ -99,16 +112,7 @@ print(api.scales.list())
 #song.remove_arp(name='a4')
 #print(song.get_arps())
 
-# -------------------------------------------------------------------------------------------------------------
-# Patterns
 
-#song.add_pattern(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16".split())
-#song.add_pattern(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), length=6)
-#song.add_pattern(name='chords', slots="I IV V I".split(), arps=[a1], tempo=40)
-
-#song.edit_pattern(name='chords', slots="I V IV I")
-#song.remove_pattern(name='chords')
-#print(song.get_patterns())
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Scenes
