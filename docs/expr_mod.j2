@@ -1,10 +1,19 @@
 
 <h1>Mod Expressions</h1>
 
-Any {{ doc('expr_intro', 'Expression') }} may be followed by a semicolon and one or more modifiers, seperated by semicolons.
+<p>
+Any literal notes or scale notes in a {{ doc('pattern') }} may be followed by a space and one or more modifiers, separated by spaces.
+</p>
+
+<p>
 In basic {{ doc('pattern', 'Patterns') }}, these modify the notes in the pattern. In {{ doc('transform', 'Transforms') }}, however,
 these expressions do not include a preceeding note or chord symbol, and modify the currently playing part of the pattern on which
-they are applied.
+they are applied as the clip is evaluated.
+</p>
+
+<p>
+We will start this chapter with some of the more basic note modifiers, shown in {{ doc('pattern','Pattern') }} examples.
+</p>
 
 <h3>Octave Shifts</h3>
 
@@ -19,7 +28,7 @@ A basic example shows some octave offsets.  Assuming the scale was C major and t
 
 <h3>Velocity Controls</h3>
 
-velocity can be adjusted in one of many ways.
+Velocity can be adjusted in one of many ways.
 
 {{ begin_code() }}1 v=100
 2 v+10
@@ -27,8 +36,8 @@ velocity can be adjusted in one of many ways.
 {{ end_code() }}
 
 Velocity takes a value between 0 and 100, and does not always map to  volume - it depends on your instrument.
-The latter two examples might be interesting in arpeggiators. See the "Randomness" section below for more tricks involving
-MIDI velocity.
+The latter two examples might be interesting in arpeggiator techniques with {{ doc('transform', 'Transforms') }}.
+See the {{ doc('expr_random') }} section for more tricks involving MIDI velocity.
 
 <h3>MIDI CC Controls</h3>
 
@@ -40,7 +49,7 @@ MIDI CCs can be used to add interesting variations.
 {{ end_code() }}
 
 In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
-MIDI CCs are sticky. See the "Randomness" section below for more tricks involving MIDI CCs.
+MIDI CCs are sticky. See the {{ doc('expr_random') }} below for more tricks involving MIDI CCs.
 
 <h3>Degree Shifts</h3>
 
@@ -50,7 +59,9 @@ Making a note go up or down a scale interval works as follows:
 1 -b3
 {{ end_code() }}
 
-The above example shows a perfect fifth and a flat third.
+The above example shows moving a note up a perfect fifth and down a flat third.  This doesn't make much sense
+in a basic {{ doc('pattern') }}, but would make more sense in a {{ doc('transform') }}. Fair warning: this can select
+notes outside the current scale.
 
 <h3>Flats and Sharps</h3>
 
@@ -65,18 +76,24 @@ Accidentals outside the scale are easy to access:
 7
 {{ end_code() }}
 
-Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.
+Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.  These can also be used, like all
+mod expressions, in {{ doc('transform', 'Transforms') }}.
 
 <h3>Scale Shifts</h3>
 
-scale shifts can jump a note up or down in the current scale:
+Scale shifts can jump a note up or down in the current scale:
 
 {{ begin_code() }}1 S+2
 4 S-2
 {{ end_code() }}
 
 This may seem pointless, because we could have just said "3" or "2" here, but these can be used in powerful ways inside
-of arpeggiators.
+of arpeggiators built with {{ doc('transform','Transforms') }}.
+
+{{ begin_info_block() }}
+REMINDER: We do not have different docs for mod expressions - the parts that come after the notes in Patterns, and mod expressions as
+used in Transforms. They are usable everywhere.  Transforms just don't have the preceeding note information.
+{{ end_info_block() }}
 
 <h3>Probability Events</h3>
 
@@ -85,7 +102,9 @@ A probability event can be assigned so that the next event has only a partial ch
 {{ begin_code() }}1 p=0.5;O+2
 {{ end_code() }}
 
-In the above example, the note will jump an octave only half of the times the pattern plays.
+In the above example, the note will jump an octave only half of the times the pattern plays.  These are a form of randomness, so this
+section is somewhat of a spoiler for the {{ doc('expr_random') }} section.
+
 
 <h3>Silence Events</h3>
 
@@ -94,7 +113,7 @@ Silences are most useful with probabilities.
 {{ begin_code() }}1 p=0.5;x
 {{ end_code() }}
 
-In the above example, the event will not play half of the time
+In the above example, the event will not play half of the time.  This has some relation to the {{ doc('expr_silence_ties') }} section.
 
 <h3>Chordification</h3>
 

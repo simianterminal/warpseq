@@ -1,12 +1,13 @@
 
 <h1>Transforms</h1>
 
-<p>Transforms take notes listed in {{ doc('pattern','patterns') }} inside a {{ doc('clip') }} and then do "things" to them.  They are optional, but very fun, and can
-add lots of sonic variety.</p>
+<p>Transforms are like meta-patterns - they are specialized patterns that are computed on top of and modify the result of patterns before those patterns are turned into MIDI events.
+Tranforms take notes listed in {{ doc('pattern','patterns') }} inside a {{ doc('clip') }} and then do "things" to them - they don't just have to change the notes - they can also alter
+velocity and MIDI CC data. Transforms are optional features to Warp, but very fun, and can add lots of sonic variety.</p>
 
 <p>
 <ul>
-<li>Classically, <b>arpeggiators</b> are used in synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
+<li>Classically, <b>arpeggiators</b> are used in computer synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
 <li>In Warp, transforms CAN be used to create arpeggiators, but that is only the most basic usage of them.</li>
 <li>Transforms can also run against individual notes (not just chords), and even turn those notes *back* into chords.</li>.
 <li>Transforms achieve this power through {{ doc('expr_info', 'Mod Expressions') }}.
@@ -36,7 +37,7 @@ And a transform:
 
 With a divide cycle of "3".
 
-In this simple example, we have built an arpeggiator, that plays the notes of the triad in quick succession.
+In this simple example - with just one expression - we have built an arpeggiator, that plays the notes of the triad in quick succession.
 
 <h2>A More Complex Example</h2>
 
@@ -50,3 +51,36 @@ O+1
 
 This will play the first note of each chord (the root) an octave up. For more examples, see the {{ doc('expr_intro', 'Expression Section') }}.
 
+<h2>Another Example</h2>
+
+{{ begin_code() }}
+0
+x
+0
+x
+0
+x
+{{ end_code() }}
+
+If this transform had a divide time of 6, it would slice up a triad, arpeggiating it and leaving some room for gaps in the middle.
+
+<h3>Yet Another Example</h3>
+
+{{ begin_code() }}
+0
+0
+0
+O+1
+O+1
+O+1
+{{ end_code() }}
+
+<p>
+With a divide time of 6, we just built a classic two octave arp. It plays the chord, then plays the same chord input an octave higher.
+</p>
+
+{{ begin_info_block() }}
+Transforms can use ANY mod expression listed in this documentation - they just don't start with notes.  In the documentation, you may
+see many useful expressions demoed with starting notes. When this happens, these examples are showing patterns -- but remember, you can
+use the same tools with transforms!  Just leave out the starting note or chord symbols.
+{{ end_info_block() }}

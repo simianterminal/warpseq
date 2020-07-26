@@ -154,22 +154,26 @@
 <h1>Scales</h1>
 
 <p>
-A scale represents a named musical scale, having a scale type (aka "mode"), and starting from a certain note. Warp does not require that
-you care about scales in your compositions, as you COULD input literal note names and octaves everywhere, if you so wish, but as it supports the concept of scale
-changes in so many places, it is rather useful to use them.  Most examples in these documents will refer to scale intervals and chords in
+A scale represents a named musical scale, having a scale type (aka "mode"), and starting from a certain note (aka a "root")".
+<p>
+
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Warp does not require that you care about scales in your compositions, as you COULD input literal note names and octaves everywhere, if you so wish, but as Warp supports the concept of scale
+changes in so many places, it is rather useful to use scales. Most examples in these documents will refer to scale intervals and chords in
 scales rather than specific notes. To use scales you have to add them to your <A HREF="./song.html">Songs</a>.
-</p>
+</div>
 
 <p>
 <ul>
 <li>Warp ships with many pre-defined MIDI scales</li>
 <li>Users may also define their own scales by interval: 1, 2, b3 ("flat third"), 5 ("perfect fifth"), etc.</li>
-<li>Scales are effectively links to the scale definition, so when you edit a named scale, they change the scale the scale is used.</li>
+<li>Scales are effectively symbolic links to the scale definition, so when you edit a named scale, they change the scale everywhere scale is used.</li>
 <li>Built in scale types include:
 <ul>
 <li>major (aka: ionian)</li>
 <li>pentatonic</li>
-<li>natural_minor (aka: aeolian, minor)</li>
+<li>natural_minor (aka: aeolian, or just "minor")</li>
 <li>blues</li>
 <li>dorian</li>
 <li>chromatic</li>
@@ -186,7 +190,7 @@ scales rather than specific notes. To use scales you have to add them to your <A
 <li>akebono</li>
 </ul>
 </li>
-<li>A given scale type can be used with any note.</li>
+<li>A given scale type can be used with any root note.</li>
 <li>A scale may be set the <A HREF="./song.html">Song</a>, or overriden on the <A HREF="./scene.html">Scene</a> or <A HREF="./clip.html">Clip</a>.
 </ul>
 </p>

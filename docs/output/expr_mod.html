@@ -154,10 +154,19 @@
 
 <h1>Mod Expressions</h1>
 
-Any <A HREF="./expr_intro.html">Expression</a> may be followed by a semicolon and one or more modifiers, seperated by semicolons.
+<p>
+Any literal notes or scale notes in a <A HREF="./pattern.html">Pattern</a> may be followed by a space and one or more modifiers, separated by spaces.
+</p>
+
+<p>
 In basic <A HREF="./pattern.html">Patterns</a>, these modify the notes in the pattern. In <A HREF="./transform.html">Transforms</a>, however,
 these expressions do not include a preceeding note or chord symbol, and modify the currently playing part of the pattern on which
-they are applied.
+they are applied as the clip is evaluated.
+</p>
+
+<p>
+We will start this chapter with some of the more basic note modifiers, shown in <A HREF="./pattern.html">Pattern</a> examples.
+</p>
 
 <h3>Octave Shifts</h3>
 
@@ -172,7 +181,7 @@ A basic example shows some octave offsets.  Assuming the scale was C major and t
 
 <h3>Velocity Controls</h3>
 
-velocity can be adjusted in one of many ways.
+Velocity can be adjusted in one of many ways.
 
 <div class='codeblock'><pre><code class="language-python">1 v=100
 2 v+10
@@ -180,8 +189,8 @@ velocity can be adjusted in one of many ways.
 </code></pre></div>
 
 Velocity takes a value between 0 and 100, and does not always map to  volume - it depends on your instrument.
-The latter two examples might be interesting in arpeggiators. See the "Randomness" section below for more tricks involving
-MIDI velocity.
+The latter two examples might be interesting in arpeggiator techniques with <A HREF="./transform.html">Transforms</a>.
+See the <A HREF="./expr_random.html">Randomness</a> section for more tricks involving MIDI velocity.
 
 <h3>MIDI CC Controls</h3>
 
@@ -193,7 +202,7 @@ MIDI CCs can be used to add interesting variations.
 </code></pre></div>
 
 In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
-MIDI CCs are sticky. See the "Randomness" section below for more tricks involving MIDI CCs.
+MIDI CCs are sticky. See the <A HREF="./expr_random.html">Randomness</a> below for more tricks involving MIDI CCs.
 
 <h3>Degree Shifts</h3>
 
@@ -203,7 +212,9 @@ Making a note go up or down a scale interval works as follows:
 1 -b3
 </code></pre></div>
 
-The above example shows a perfect fifth and a flat third.
+The above example shows moving a note up a perfect fifth and down a flat third.  This doesn't make much sense
+in a basic <A HREF="./pattern.html">Pattern</a>, but would make more sense in a <A HREF="./transform.html">Transform</a>. Fair warning: this can select
+notes outside the current scale.
 
 <h3>Flats and Sharps</h3>
 
@@ -218,18 +229,25 @@ Accidentals outside the scale are easy to access:
 7
 </code></pre></div>
 
-Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.
+Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.  These can also be used, like all
+mod expressions, in <A HREF="./transform.html">Transforms</a>.
 
 <h3>Scale Shifts</h3>
 
-scale shifts can jump a note up or down in the current scale:
+Scale shifts can jump a note up or down in the current scale:
 
 <div class='codeblock'><pre><code class="language-python">1 S+2
 4 S-2
 </code></pre></div>
 
 This may seem pointless, because we could have just said "3" or "2" here, but these can be used in powerful ways inside
-of arpeggiators.
+of arpeggiators built with <A HREF="./transform.html">Transforms</a>.
+
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+REMINDER: We do not have different docs for mod expressions - the parts that come after the notes in Patterns, and mod expressions as
+used in Transforms. They are usable everywhere.  Transforms just don't have the preceeding note information.
+</div>
 
 <h3>Probability Events</h3>
 
@@ -238,7 +256,9 @@ A probability event can be assigned so that the next event has only a partial ch
 <div class='codeblock'><pre><code class="language-python">1 p=0.5;O+2
 </code></pre></div>
 
-In the above example, the note will jump an octave only half of the times the pattern plays.
+In the above example, the note will jump an octave only half of the times the pattern plays.  These are a form of randomness, so this
+section is somewhat of a spoiler for the <A HREF="./expr_random.html">Randomness</a> section.
+
 
 <h3>Silence Events</h3>
 
@@ -247,7 +267,7 @@ Silences are most useful with probabilities.
 <div class='codeblock'><pre><code class="language-python">1 p=0.5;x
 </code></pre></div>
 
-In the above example, the event will not play half of the time
+In the above example, the event will not play half of the time.  This has some relation to the <A HREF="./expr_silence_ties.html">Silences & Ties</a> section.
 
 <h3>Chordification</h3>
 

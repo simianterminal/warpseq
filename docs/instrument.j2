@@ -1,13 +1,13 @@
 <h1>Instruments</h1>
 
 <p>
-An instrument is the named combination of a MIDI {{ doc('device') }} and a MIDI Channel number.
+An instrument is the named combination of a MIDI {{ doc('device') }} and a MIDI Channel number, which is what a {{ doc('track') }} sends MIDI events to.
 </p>
 
 <p>
 <ul>
 <li>An instrument has a minimum and maximum octave, outside of which notes will not play</li>
-<li>An instrument has a base octave, which is added to the default note in any {{ doc('scale') }}.  Transpositions can still occur below this default value.</li>
+<li>An instrument has a base octave, which is the default octave value in any {{ doc('scale') }}.  Transpositions can still occur below this default value, and this can also be shifted in a {{ doc('clip') }}.</li>
 </ul>
 </p>
 

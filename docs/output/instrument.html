@@ -154,13 +154,13 @@
 <h1>Instruments</h1>
 
 <p>
-An instrument is the named combination of a MIDI <A HREF="./device.html">Device</a> and a MIDI Channel number.
+An instrument is the named combination of a MIDI <A HREF="./device.html">Device</a> and a MIDI Channel number, which is what a <A HREF="./track.html">Track</a> sends MIDI events to.
 </p>
 
 <p>
 <ul>
 <li>An instrument has a minimum and maximum octave, outside of which notes will not play</li>
-<li>An instrument has a base octave, which is added to the default note in any <A HREF="./scale.html">Scale</a>.  Transpositions can still occur below this default value.</li>
+<li>An instrument has a base octave, which is the default octave value in any <A HREF="./scale.html">Scale</a>.  Transpositions can still occur below this default value, and this can also be shifted in a <A HREF="./clip.html">Clip</a>.</li>
 </ul>
 </p>
 

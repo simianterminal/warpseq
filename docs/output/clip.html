@@ -155,7 +155,8 @@
 <h1>Clip</h1>
 
 Users of popular grid-based DAWS (Digital Audio Workstations) like Ableton or Bitwig may be familiar with the concept of Clips.  Clips are, simply put, something playable that contains MIDI notes.
-A <A HREF="./song.html">Song</a> is what happens when you arrange clips by <A HREF="./scene.html">Scene</a> and <A HREF="./track.html">Track</a> and play a bunch of clips in a meaningful order.
+A <A HREF="./song.html">Song</a> is what happens when you arrange clips by <A HREF="./scene.html">Scene</a> and <A HREF="./track.html">Track</a> and play a bunch of clips in a meaningful order. Clips have a lot of parameters and they are one of the most
+fundamental concepts in Warp to learn. Spend some time understanding this section.
 
 <h2>Basic Features</h2>
 
@@ -181,7 +182,7 @@ A <A HREF="./song.html">Song</a> is what happens when you arrange clips by <A HR
 <li>A clip may have a length. If set, <A HREF="./pattern.html">Pattern</a> will stop early at this point, rather than using all of the <A HREF="./pattern.html">Pattern</a> symbols.</li>
 </ul>
 
-<h1>A Simple Clip</h1>
+<h1>A Simple Clip, Explained</h1>
 
 A simple clip may conceptually have the following properties:
 
@@ -226,6 +227,14 @@ In this example:
 Because the various modifiers have different lengths, nothing will be exactly the same!  With <A HREF="./transform.html">transforms</a> and even
 <A HREF="./expr_info.html">mod expressions</a> applied to the patterns themselves, this can be even more complex than it looks! But don't worry if this
 seems advanced,  you can use as little features of Warp or as many as you want.  It's ok to start slow and learn to make more animated compositions over time.
+</p>
+
+<h3>It's All About Loops</h3>
+
+<p>
+The fundamental idea is that many parameters can be expressed in lists, and they can cycle, and those lists can be of different lengths - this means the notes
+coming out are never exactly the same.  When combining these ideas with the expression engine inside <A HREF="./pattern.html">Patterns</a> and <A HREF="./transform.html">Transforms</a> the
+system gets to be capable of some quite unexpected results. The easiest way to explore what is possible is to try different variations and listen to what changing the parameters can do.
 </p>
 
 
