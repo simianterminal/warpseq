@@ -20,6 +20,7 @@ def offset(note, semitones):
     # FIXME: this implementation is **TEMPORARY** and should be changed to allow infinite negative and positive octaves.
     # if we do this, we can also remove the OCTAVE_BIAS hack in the scale implementation. (Search for OCTAVE_BIAS across all files)
 
+    print("offset=%s => %s" % (note, semitones))
     if semitones == 0:
         return note
     steps = 2 * semitones

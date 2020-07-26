@@ -179,6 +179,9 @@ class Clip(ReferenceObject):
 
     def get_actual_scale(self, song, pattern, roller):
 
+        from . scale import Scale
+        from . note import Note
+
         if roller:
             return next(roller)
         if pattern and pattern.scale:
@@ -187,7 +190,8 @@ class Clip(ReferenceObject):
             return self.scene.scale
         if song.scale:
             return song.scale
-        return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
+        print("-- WARNING -- DEFAULT TO CHROMATIC SCALE -- EXPECTED?")
+        return Scale(root=Note(name="C", octave=5), scale_type='chromatic')
 
     def actual_tempo(self, song, pattern):
 

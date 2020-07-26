@@ -50,7 +50,13 @@ class SmartExpression(Class):
         sym = str(sym)
         sym = sym.strip()
 
+        if sym in [ None, "" ]:
+            return [ None ]
+
         tokens = sym.split()
+
+
+
         sym = tokens[0]
         mod_expressions = tokens[1:]
 
@@ -93,13 +99,16 @@ class SmartExpression(Class):
         # to be returned
 
         new_notes = []
+        #print("m1")
         for note in notes:
             new_note = note.copy()
 
             if mod_expressions is not None:
                 new_note = self._mod.do(new_note, self.scale, self.track, mod_expressions)
             new_notes.append(new_note)
-
+        #print("m2")
         self._previous = new_notes
+
+        print("NN=%s" % new_notes)
 
         return new_notes

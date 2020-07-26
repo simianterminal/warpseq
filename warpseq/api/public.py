@@ -10,9 +10,15 @@ from .. model.track import Track
 from .. model.scene import Scene
 from .. model.clip import Clip
 from .. model.note import Note
+from .. playback.multi_player import MultiPlayer
+from .. playback.engine.realtime_engine import RealtimeEngine
+
 
 from . exceptions import  *
 from . support import BaseApi
+
+# FIXME: we need to validate all the patterns/transforms before they are saved so they don't cause errors
+# FIXME: TODO: there should be a callback system to notify of these error events, as well as playing clips and patterns therein
 
 # =====================================================================================================================
 
@@ -275,7 +281,7 @@ class Clips(CollectionApi):
 
         clip = Clip(name=name, patterns=patterns, octave_shifts=octave_shifts, degree_shifts=degree_shifts,
                  tempo_shifts=tempo_shifts, scale_note_shifts=scale_note_shifts, next_clip=next_clip,
-                 transforms=transforms)
+                 transforms=transforms, auto_scene_advance=auto_scene_advance, repeat=repeat)
 
         scene = self.api.scenes.lookup(scene, require=True)
         track = self.api.tracks.lookup(track, require=True)
@@ -349,38 +355,62 @@ class Player(object):
     def __init__(self, public_api, song):
         self.public_api = public_api
         self.song = song
+        self.multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine)
 
     def play_scene(self, scene):
-        pass
+        print("scene: %s" % scene)
+        scene = self.public_api.scenes.lookup(scene)
+        self.multi_player.play_scene(scene)
 
-    def player_clips(self, clips):
-        pass
+    def play_clips(self, clips):
+        clips = [ c for c in self.public_api.clips.lookup(c, require=True) ]
+        for c in clips:
+            self.multi_player.add_clip(c)
 
     def stop_clips(self, clips):
-        pass
+        clips = [ c for c in self.public_api.clips.lookup(c, require=True) ]
+        for c in clips:
+            self.multi_player.remove_clip(c)
 
     def stop(self):
-        pass
+        self.multi_player.stop()
 
     def advance(self, milliseconds=2):
-        pass
+        self.multi_player.advance(milliseconds)
 
+# =====================================================================================================================
+
+class SongApi(object):
+
+    def __init__(self, public_api, song):
+        self.public_api = public_api
+        self.song = song
+
+    def edit(self, tempo:int=None, scale:str=None):
+        if tempo:
+            self.song.tempo = tempo
+        if scale:
+            scale = self.public_api.scales.lookup(scale, require=True)
+            self.song.scale = scale
 
 # =====================================================================================================================
 
 class Api(object):
 
     def __init__(self):
-        self.song = Song(name='')
-        self.devices = Devices(self, self.song)
-        self.instruments = Instruments(self, self.song)
-        self.scales  = Scales(self, self.song)
-        self.patterns = Patterns(self, self.song)
-        self.transforms = Transforms(self, self.song)
-        self.scenes = Scenes(self, self.song)
-        self.tracks = Tracks(self, self.song)
-        self.clips = Clips(self, self.song)
-        self.player = Player(self, self.song)
+
+        self._song = Song(name='')
+
+        self.song = SongApi(self, self._song)
+        self.devices = Devices(self, self._song)
+        self.instruments = Instruments(self, self._song)
+        self.scales  = Scales(self, self._song)
+        self.patterns = Patterns(self, self._song)
+        self.transforms = Transforms(self, self._song)
+        self.scenes = Scenes(self, self._song)
+        self.tracks = Tracks(self, self._song)
+        self.clips = Clips(self, self._song)
+        self.player = Player(self, self._song)
 
     # ------------------------------------------------------------------------------------------------------------------
 

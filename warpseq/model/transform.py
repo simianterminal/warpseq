@@ -80,7 +80,13 @@ class Transform(ReferenceObject):
                 # 'next' is handled?  VERIFY
 
                 # print("MODEXPRDO: %s, %s, %s, %s" % (which_note, scale, track, which_slot))
+                #print("m3: %s, %s" % (self.name, self.slots))
+
+                # FIXME: the mod expression should know if it is running for a transform so it can behave
+                # differently, like it MIGHT be nice if a transform can insert note literals.
+
                 final_note = mod_expr.do(which_note, scale, track, which_slot)
+                #print("m4")
                 if final_note is None:
                     continue
 
