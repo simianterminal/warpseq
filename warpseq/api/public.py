@@ -161,12 +161,23 @@ class Scales(CollectionApi):
 class Transforms(CollectionApi):
 
     object_class     = Transform
-    public_fields   = [ 'FIXME' ]
+    public_fields    = [ 'name', 'slots', 'octave_slots', 'divide' ]
     song_collection  = 'transforms'
     add_method       = 'add_transforms'
     add_required     = [ 'slots' ]
     edit_required    = [ ]
     remove_method    = 'remove_transform'
+
+    def add(self, name, slots:list=None, octave_slots:list=None, divide:int=1):
+        params = locals()
+        print("PARAMS=%s" % params)
+        self._generic_add(name, params)
+
+    def edit(self, name, slots:list=None, octave_slots:list=None, divide:int=1):
+        params = locals()
+        print("PARAMS2=%s" % params)
+        self._generic_edit(name, params)
+
 
 # =====================================================================================================================
 
@@ -181,7 +192,7 @@ class Patterns(CollectionApi):
     #scale = Field(type=Scale, default=None, nullable=True)
 
     object_class    = Pattern
-    public_fields   = [ 'FIXME' ]
+    public_fields   = [ 'name', 'slots', 'length', 'octave_shift', 'tempo', 'scale' ]
     song_collection = 'patterns'
     add_method      = 'add_patterns'
     add_required    = [ 'slots' ]
@@ -205,12 +216,26 @@ class Patterns(CollectionApi):
 class Scenes(CollectionApi):
 
     object_class    = Scene
-    public_fields   = [ 'FIXME' ]
+    public_fields   = [ 'name', 'tempo', 'scale', 'auto_advance' ]
     song_collection = 'scenes'
     add_method      = 'add_scenes'
     add_required    = [ ]
     edit_required   = [ ]
     remove_method   = 'remove_scene'
+
+
+    def add(self, name, tempo:int=None, scale:str=None, auto_advance:bool=None):
+        if scale:
+            scale = self.api.scales.lookup(scale, require=True)
+        params = locals()
+        self._generic_add(name, params)
+
+    def edit(self, name, tempo:int=None, scale:str=None, auto_advance:bool=None):
+        if scale:
+            scale = self.api.scales.lookup(scale, require=True)
+        params = locals()
+        self._generic_edit(name, params)
+
 
 # =====================================================================================================================
 

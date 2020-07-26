@@ -81,6 +81,7 @@ api.scales.remove(name='C-major')
 
 # verify we can't pass in both scale_type and slots together
 api.scales.edit(name='G-user', slots=[1,2,3], scale_type='major')
+# FIXME: why did that work?
 
 print(api.scales.details(name='Eb-natural-minor'))
 print(api.scales.details(name='G-user'))
@@ -92,7 +93,6 @@ print(api.scales.list())
 api.patterns.add(name='up', slots="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16".split(), tempo=90)
 api.patterns.add(name='down', slots="15 14 13 12 11 10 9 8 7 6 5 4 3 2 1".split(), length=6, octave_shift=-2, scale='Eb-natural-minor')
 api.patterns.add(name='chords', slots="I IV V I".split(), tempo=40)
-
 api.patterns.edit(name='chords', slots="I V IV I", tempo=100, scale='Eb-natural-minor')
 api.patterns.remove(name='up')
 print(api.patterns.details('chords'))
@@ -104,25 +104,25 @@ print(api.patterns.list())
 # ----------------------------------------------------------------------------------------------------------------------
 # Transforms
 
-#song.add_arp(name='a1',slots=["O+2", "O-1", "1", "O+1", "O+2"], divide=5)
-#song.add_arp(name='a2',slots=["1", "1", "1"], divide=3)
-#song.add_arp(name='a3',slots=["1", "1", "1"], divide=4)
-
-#song.edit_arp(name='a4', divide=5)
-#song.remove_arp(name='a4')
-#print(song.get_arps())
-
-
+api.transforms.add(name='a1', slots=["O+2", "O-1", "1", "O+1", "O+2"], divide=5)
+api.transforms.add(name='a2', slots=["1", "1", "1"], octave_slots=[0,1,0,2], divide=6)
+api.transforms.add(name='a3', slots=["1", "2", "1"], divide=4)
+api.transforms.add(name='a4', slots=[0,1,2], divide=5)
+api.transforms.remove(name='a3')
+print(api.transforms.details('a2'))
+print(api.transforms.list())
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Scenes
 
-#song.add_scene(name='s1')
-#song.add_scene(name='s2', scale='bar_scale')
+api.scenes.add(name='s1', tempo=80, scale='Eb-natural-minor', auto_advance=True)
+api.scenes.add(name='s2', scale=None, auto_advance=False)
+api.scenes.edit(name='s2', auto_advance=True)
+print(api.scenes.details('s2'))
+print(api.scenes.list())
 
-#song.edit_scene(name='s2', scale='baz_scale')
-#song.remove_scene(name='s2')
-#print(song.get_scenes())
+# FIXME: we should have a way to reorder the scenes by name
+# FIXME: adding a scene without a name should be legal and result in an automatic scene name (same for tracks?)- maybe
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Tracks
