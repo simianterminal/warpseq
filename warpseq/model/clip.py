@@ -25,11 +25,10 @@ class Clip(ReferenceObject):
     tempo_shifts = Field(type=list, default=None, required=False, nullable=True)
     scale_note_shifts = Field(type=list, default=None, required=False, nullable=True)
     next_clip = Field(required=False, nullable=True)
-    transforms = Field(type=list, default=None, nullable=False)
+    transforms = Field(type=list, default=None, nullable=True)
     tempo = Field(type=int, default=None, nullable=True)
     repeat = Field(type=int, default=-1, nullable=True)
     auto_scene_advance = Field(type=bool, default=False, nullable=False)
-    pattern_auto_reset = Field(type=bool, default=False, nullable=False)
 
     # internal state
     track = Field(type=Track, default=None, required=False, nullable=True)
@@ -76,12 +75,10 @@ class Clip(ReferenceObject):
 
         self._scale_note_roller = utils.roller(scale_note_shifts)
 
-
-        if self.transforms:
+        if self.transforms is not None:
             self._transform_roller = utils.roller(self.transforms)
         else:
             self._transform_roller = None
-
 
     def scenes(self, song):
         return [ song.find_scene(x) for x in self.scene_ids ]

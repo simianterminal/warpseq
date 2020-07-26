@@ -39,10 +39,13 @@ class BaseApi(object):
         # FIXME: will need modifications if storage_list is True
         if type(coll) == dict:
             for (k,v) in coll.items():
-                data.append(v.name)
+                data.append(self._short_details(v))
         else:
-            return [ x.name for x in coll ]
+            return [ self._short_details(x) for x in coll ]
         return data
+
+    def _short_details(self, obj):
+        return obj.name
 
     def details(self, name):
         obj = self.lookup(name)
@@ -106,7 +109,7 @@ class BaseApi(object):
 
         for (k,v) in params.items():
             value = v
-            if v is not None:
+            if v is not None or k in self.__class__.nullable_edits:
                 value = v
                 setattr(obj, k, value)
         return self._ok()

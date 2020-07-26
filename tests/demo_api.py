@@ -118,7 +118,7 @@ print(api.transforms.list())
 api.scenes.add(name='s1', tempo=80, scale='Eb-natural-minor', auto_advance=True)
 api.scenes.add(name='s2', scale=None, auto_advance=False)
 api.scenes.edit(name='s2', auto_advance=True)
-print(api.scenes.details('s2'))
+print(api.scenes.details('s1'))
 print(api.scenes.list())
 
 # FIXME: we should have a way to reorder the scenes by name
@@ -127,31 +127,65 @@ print(api.scenes.list())
 # ----------------------------------------------------------------------------------------------------------------------
 # Tracks
 
-#song.add_track(name='euro1', instrument='euro1', muted=False)
-#song.add_track(name='euro2', instrument='euro2', muted=False)
-#song.add_track(name='euro3', instrument='euro3', muted=False)
-
-#song.edit_track(name='euro3', muted=True)
-#song.remove_track(name='euro3')
-#print(song.get_tracks())
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Clips
 
-#song.add_clip(scene='s1', track='t1', name='c1', pattern='c_chords', arps=['a2'], repeat=4, next_clip='c2')
-#song.add_clip(scene='s1', track='t2', name='c2', pattern='c_chords', length=8, repeat=4, next_clip=None)
-#song.add_clip(scene='s2', track='t1', name='c3', pattern='c_chords', repeat=4, next_clip=None)
+# simple example
+api.clips.add(name='blarg',
+              scene='s1',
+              track='track1',
+              patterns=['chords'])
 
-#song.copy_clip(scene='s2' track='t1', new_scene='s3', new_track='s4')
-#song.edit_clip(scene='s2', track='t1', pattern='p2')
-#song.move_clip(scene='s2', track='t1', new_scene='s2', new_track='t2')
-#song.remove_clip(scene='s2', track='t1')
-#print(song.get_clips())
+# complex example
+api.clips.add(name='does_not_matter',
+              scene='s2',
+              track='track1',
+              patterns=['down','chords'],
+              octave_shifts=[1,0,-1],
+              degree_shifts=[0,0,0],
+              tempo_shifts=[0,10,20],
+              scale_note_shifts=[0,0,0],
+              next_clip='previous_clip',
+              transforms=['a1','a2','a3'],
+              tempo=60,
+              repeat=3,
+              auto_scene_advance=False)
+api.clips.edit(scene='s2', track='track',
+               name='does_not_matter2',
+               patterns=['down','chords'],
+               octave_shifts=[1,0,-1],
+               degree_shifts=[0,0,0],
+               tempo_shifts=[0,10,20],
+               scale_note_shifts=[0,0,0],
+               next_clip='previous_clip',
+               transforms=['a1','a2','a3'],
+               tempo=60,
+               repeat=3,
+               auto_scene_advance=False)
+api.clips.remove(scene='s1', track='track1')
+
+print(api.clips.list())
+print(api.clips.describe('does_not_matter2'))
+
+# FIXME: probably want to add a method that returns the clip grid
+# + currently playing clips
+# + currently playing patterns in that clip?
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Player
 
-#song.play_clips(scene='s1', track='t1')
+api.player.add_scene('s1')
+api.player.add_clips(['c1','c2'])
+api.player.remove_clips(['c1','c2'])
+
+for x in range(0,64000):
+    api.player.advance(2)
+
+api.player.stop()
+
+
+# player(scene='s1', track='t1')
 #song.stop_clips(scene='s1', track='t2')
 #song.play()
 
