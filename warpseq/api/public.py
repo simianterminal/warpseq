@@ -35,6 +35,7 @@ class CollectionApi(BaseApi):
 class Devices(CollectionApi):
 
     object_class    = Device
+    public_fields   = [ 'name' ]
     song_collection = 'devices'
     add_method      = 'add_devices'
     add_required    = [ ]
@@ -55,6 +56,7 @@ class Devices(CollectionApi):
 class Instruments(CollectionApi):
 
     object_class    = Instrument
+    public_fields   = [ 'name', 'channel', 'device' ]
     song_collection = 'instruments'
     add_method      = 'add_instruments'
     add_required    = [ 'channel', 'device']
@@ -63,11 +65,11 @@ class Instruments(CollectionApi):
     storage_dict    = True
 
     def add(self, name, channel:int=None, device:str=None, min_octave:int=0, max_octave:int=10, base_octave:int=3):
-        device = Devices(self.song)._lookup(device)
+        device = self.api.devices.lookup(device)
         self._generic_add(name, locals())
 
     def edit(self, name, channel:int=None, device:str=None, min_octave:int=None, max_octave:int=None, base_octave:int=None):
-        device = Devices(self.song)._lookup(device)
+        device = self.api.devices.lookup(device)
         self._generic_edit(name, locals())
 
 # =====================================================================================================================
@@ -75,6 +77,7 @@ class Instruments(CollectionApi):
 class Patterns(CollectionApi):
 
     object_class    = Pattern
+    public_fields   = [ 'FIXME' ]
     song_collection = 'patterns'
     add_method      = 'add_patterns'
     add_required    = [ 'slots' ]
@@ -87,6 +90,7 @@ class Patterns(CollectionApi):
 class Transforms(CollectionApi):
 
     object_class     = Transform
+    public_fields   = [ 'FIXME' ]
     song_collection  = 'transforms'
     add_method       = 'add_transforms'
     add_required     = [ 'slots' ]
@@ -99,6 +103,7 @@ class Transforms(CollectionApi):
 class Tracks(CollectionApi):
 
     object_class    = Track
+    public_fields   = [ 'FIXME' ]
     song_collection = 'tracks'
     add_method      = 'add_tracks'
     add_required    = [ 'instrument', 'channel']
@@ -111,6 +116,7 @@ class Tracks(CollectionApi):
 class Scenes(CollectionApi):
 
     object_class    = Scene
+    public_fields   = [ 'FIXME' ]
     song_collection = 'scenes'
     add_method      = 'add_scenes'
     add_required    = [ ]
@@ -124,6 +130,7 @@ class Scenes(CollectionApi):
 class Clips(CollectionApi):
 
     object_class    = Clip
+    public_fields   = [ 'FIXME' ]
     song_collection = 'clips'
     add_method      = None
     add_required    = [ 'scene', 'track' ]
@@ -135,7 +142,8 @@ class Clips(CollectionApi):
 
 class Player(object):
 
-    def __init__(self, song):
+    def __init__(self, public_api, song):
+        self.public_api = public_api
         self.song = song
 
 # =====================================================================================================================
@@ -143,20 +151,21 @@ class Player(object):
 class Api(object):
 
     def __init__(self):
-
+        self.song = Song(name='')
+        self.devices = Devices(self, self.song)
+        self.instruments = Instruments(self, self.song)
+        self.patterns = Patterns(self, self.song)
+        self.transforms = Transforms(self, self.song)
+        self.scenes = Scenes(self, self.song)
+        self.clips = Clips(self, self.song)
+        self.player = Player(self, self.song)
         self.new()
-        self.devices = Devices(self)
-        self.instruments = Instruments(self)
-        self.patterns = Patterns(self)
-        self.transforms = Transforms(self)
-        self.scenes = Scenes(self)
-        self.clips = Clips(self)
-        self.player = Player(self)
 
     # ------------------------------------------------------------------------------------------------------------------
 
-    def new(self, name:str='song'):
-        self.song = Song(name=name)
+    def new(self):
+        # TODO: no way to edit the 'name' of the song, which isn't the same as the filename, do we even need one?
+        self.song.reset()
 
     def load(self, filename:str):
         raise NotImplementedError()

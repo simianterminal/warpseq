@@ -14,7 +14,7 @@ print(api.devices.list_available())
 
 api.devices.add(DEVICE)
 
-print(api.devices.describe(DEVICE))
+print(api.devices.details(DEVICE))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Instruments represent the combination of a MIDI Devices and a MIDI Channel
@@ -27,7 +27,7 @@ api.instruments.edit(name='euro3', channel=4, device=DEVICE)
 api.instruments.remove(name='euro3')
 
 print(api.instruments.list())
-print(api.instruments.describe('euro1'))
+print(api.instruments.details('euro1'))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Tracks are a vertical lane of clips where only one clip can be playing at once, but multiple tracks CAN target

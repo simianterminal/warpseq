@@ -23,23 +23,26 @@ class Song(ReferenceObject):
     patterns = Field(type=dict, required=False, nullable=False)
 
     def on_init(self):
-        if self.devices is None:
-            self.devices = dict()
-        if self.instruments is None:
-            self.instruments = dict()
-        if self.scales is None:
-            self.scales = dict()
-        if self.tracks is None:
-            self.tracks = []
-        if self.scenes is None:
-            self.scenes = []
-        if self.clips is None:
-            self.clips = dict()
-        if self.transforms is None:
-            self.transforms = dict()
-        if self.patterns is None:
-            self.patterns = dict()
         super().on_init()
+        self.reset(clear=False)
+
+    def reset(self, clear=True):
+        if clear or self.devices is None:
+            self.devices = dict()
+        if clear or self.instruments is None:
+            self.instruments = dict()
+        if clear or self.scales is None:
+            self.scales = dict()
+        if clear or self.tracks is None:
+            self.tracks = []
+        if clear or self.scenes is None:
+            self.scenes = []
+        if clear or self.clips is None:
+            self.clips = dict()
+        if clear or self.transforms is None:
+            self.transforms = dict()
+        if clear or self.patterns is None:
+            self.patterns = dict()
 
     def find_device(self, obj_id):
         return self.devices.get(obj_id, None)
