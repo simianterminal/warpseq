@@ -28,6 +28,8 @@ RELEASE GATES
 
 * make a Ctrl-C/error hook that stops all notes
 
+* make an examples directory with some more musical songs in it
+
 * we need a method that the API *must* call that validates patterns and transforms (slots) on save.
 
 * API docs for web page
@@ -37,6 +39,8 @@ RELEASE GATES
 * test API save/load
 
 * set up website publishing
+
+* upload a track to soundcloud
 
 * enable patreon page (= discord access)
 
