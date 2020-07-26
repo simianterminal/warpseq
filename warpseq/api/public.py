@@ -255,6 +255,9 @@ class Clips(CollectionApi):
     remove_method   = 'remove_clip'
     nullable_edits  = [ 'tempo', 'repeat' ]
 
+    # this is relatively dark because the clips are anything but generic, living at the intersection of a 2D
+    # grid that isn't real, and the names are imaginary - the exact opposite of previous objects.
+
 
     def add(self, name, scene:str=None, track:str=None, patterns:list=None,  octave_shifts:list=None,
             degree_shifts:list=None, tempo_shifts:list=None, scale_note_shifts:list=None, next_clip:str=None,
@@ -265,6 +268,10 @@ class Clips(CollectionApi):
         if transforms:
             transforms = [ self.api.transforms.lookup(t, require=True) for t in transforms ]
         params = locals()
+
+        if params["next_clip"]:
+            # validate but keep it a string
+            self.api.clips.lookup(params["next_clip"], require=True)
 
         clip = Clip(name=name, patterns=patterns, octave_shifts=octave_shifts, degree_shifts=degree_shifts,
                  tempo_shifts=tempo_shifts, scale_note_shifts=scale_note_shifts, next_clip=next_clip,
@@ -277,12 +284,12 @@ class Clips(CollectionApi):
         return self._ok()
 
 
-    def edit(self, name, new_name:str=None, scene: str = None, track:str = None, patterns: list = None, octave_shifts:list = None,
+    def edit(self, name:str=None, new_name:str=None, scene: str = None, track:str = None, patterns: list = None, octave_shifts:list = None,
             degree_shifts: list = None, tempo_shifts: list = None, scale_note_shifts:list = None, next_clip:str = None,
             transforms: list = None, tempo:int=None, repeat:int=None, auto_scene_advance:bool=False):
 
         scene = self.api.scenes.lookup(scene, require=True)
-        track = self.api.track.lookup(track, require=True)
+        track = self.api.tracks.lookup(track, require=True)
 
         params = locals()
 
@@ -297,15 +304,29 @@ class Clips(CollectionApi):
             del params["name"]
         del params["new_name"]
 
+        if params["next_clip"]:
+            # validate but keep it a string
+            self.api.clips.lookup(params["next_clip"], require=True)
+
 
         obj = self.song.get_clip_for_scene_and_track(scene, track)
-        if obj is not None:
+        if obj is None:
             raise NotFound("clip not found for scene (%s) and track (%s)" % (scene.name, track.name))
 
         for (k,v) in params.items():
+            if k == 'self':
+                continue
             if k in self.__class__.nullable_edits or v is not None:
+                print("SETATTR: %s=>%s" % (k,v))
                 setattr(obj, k, v)
 
+        return self._ok()
+
+    def remove(self, scene:str=None, track:str=None):
+
+        scene = self.api.scenes.lookup(scene, require=True)
+        track = self.api.tracks.lookup(track, require=True)
+        self.song.remove_clip(scene,track)
         return self._ok()
 
     def _update_details(self, details, obj):
@@ -328,6 +349,22 @@ class Player(object):
     def __init__(self, public_api, song):
         self.public_api = public_api
         self.song = song
+
+    def play_scene(self, scene):
+        pass
+
+    def player_clips(self, clips):
+        pass
+
+    def stop_clips(self, clips):
+        pass
+
+    def stop(self):
+        pass
+
+    def advance(self, milliseconds=2):
+        pass
+
 
 # =====================================================================================================================
 

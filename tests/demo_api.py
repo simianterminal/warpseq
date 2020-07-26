@@ -146,27 +146,27 @@ api.clips.add(name='does_not_matter',
               degree_shifts=[0,0,0],
               tempo_shifts=[0,10,20],
               scale_note_shifts=[0,0,0],
-              next_clip='previous_clip',
-              transforms=['a1','a2','a3'],
+              next_clip=None,
+              transforms=['a1','a2','a4'],
               tempo=60,
               repeat=3,
               auto_scene_advance=False)
-api.clips.edit(scene='s2', track='track',
-               name='does_not_matter2',
+api.clips.edit(scene='s2', track='track1',
+               new_name='does_not_matter2',
                patterns=['down','chords'],
                octave_shifts=[1,0,-1],
                degree_shifts=[0,0,0],
                tempo_shifts=[0,10,20],
                scale_note_shifts=[0,0,0],
-               next_clip='previous_clip',
-               transforms=['a1','a2','a3'],
+               next_clip='does_not_matter',
+               transforms=['a1','a2'],
                tempo=60,
                repeat=3,
                auto_scene_advance=False)
 api.clips.remove(scene='s1', track='track1')
 
 print(api.clips.list())
-print(api.clips.describe('does_not_matter2'))
+print(api.clips.details('does_not_matter2'))
 
 # FIXME: probably want to add a method that returns the clip grid
 # + currently playing clips
