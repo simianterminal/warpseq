@@ -43,6 +43,10 @@ class Devices(CollectionApi):
     remove_method   = 'remove_device'
     storage_dict    = True
 
+    def __init__(self, public_api, song):
+        super().__init__(public_api, song)
+        self.auto_add_discovered()
+
     def list_available(self):
         return MIDI_PORTS
 
@@ -50,6 +54,12 @@ class Devices(CollectionApi):
         if name not in self.list_available():
             raise InvalidInput("MIDI device named (%s) is not available on this computer" % name)
         self._generic_add(name, locals())
+
+    def auto_add_discovered(self):
+        for x in self.list_available():
+            if not self.lookup(x):
+                self.add(x)
+
 
 # =====================================================================================================================
 
@@ -65,11 +75,11 @@ class Instruments(CollectionApi):
     storage_dict    = True
 
     def add(self, name, channel:int=None, device:str=None, min_octave:int=0, max_octave:int=10, base_octave:int=3):
-        device = self.api.devices.lookup(device)
+        device = self.api.devices.lookup(device, require=True)
         self._generic_add(name, locals())
 
     def edit(self, name, channel:int=None, device:str=None, min_octave:int=None, max_octave:int=None, base_octave:int=None):
-        device = self.api.devices.lookup(device)
+        device = self.api.devices.lookup(device, require=True)
         self._generic_edit(name, locals())
 
 # =====================================================================================================================
@@ -157,9 +167,9 @@ class Api(object):
         self.patterns = Patterns(self, self.song)
         self.transforms = Transforms(self, self.song)
         self.scenes = Scenes(self, self.song)
+        self.tracks = Tracks(self, self.song)
         self.clips = Clips(self, self.song)
         self.player = Player(self, self.song)
-        self.new()
 
     # ------------------------------------------------------------------------------------------------------------------
 

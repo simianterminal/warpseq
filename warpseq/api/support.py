@@ -18,21 +18,18 @@ class BaseApi(object):
 
         self.public_fields = self.__class__.public_fields
 
-    def lookup(self, name):
+    def lookup(self, name, require=False):
         coll = self._get_collection()
-
         if self.__class__.storage_dict:
-
             for (k,v) in coll.items():
                 if v.name == name:
                     return v
-
         else:
-
             for k in coll:
                 if k.name == name:
                     return k
-
+        if require:
+            raise NotFound("\"%s\" not found" % name)
         return None
 
     def list(self):
@@ -47,7 +44,7 @@ class BaseApi(object):
     def details(self, name):
         obj = self.lookup(name)
         if obj is None:
-            raise NotFound("%s not found")
+            raise NotFound("\"%s\" not found" % name)
         data = obj.to_dict()
         new_data = dict()
         for (k,v) in data.items():
@@ -59,7 +56,6 @@ class BaseApi(object):
         return getattr(self.song, self.__class__.song_collection)
 
     def _require_input(self, what, params):
-        print("params=%s" % params)
         for k in what:
             if params[k] is None:
                 raise RequiredInput("%s is required" % k)
@@ -88,8 +84,6 @@ class BaseApi(object):
 
         self._require_input(self.edit_required, params)
         if "new_name" in params:
-            value = params["new_name"]
-
             del params["new_name"]
 
 
@@ -97,9 +91,9 @@ class BaseApi(object):
             value = v
             if v is not None:
                 value = v
-                if value is "":
+                if value == "":
                     value = None
-                setattr(obj, k, v)
+                setattr(obj, k, value)
         return self._ok()
 
     def _generic_remove(self, name):
@@ -113,9 +107,10 @@ class BaseApi(object):
         for (k,v) in coll:
             results.append(k.name)
 
-    def _generic_all(self):
-        results = []
-        coll = _get_collection()
-        for (k,v) in coll:
-            # TODO: we may want to trim this to just public data members
-            results.append(v.to_json())
+    # NOT USED
+    #def _generic_all(self):
+    #    results = []
+    #    coll = _get_collection()
+    #    for (k,v) in coll:
+    #        # TODO: we may want to trim this to just public data members
+    #        results.append(v.to_json())

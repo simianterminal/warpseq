@@ -254,6 +254,7 @@ class Song(ReferenceObject):
 
     def add_devices(self, devices):
         for x in devices:
+            print("ADDING: %s" % x.obj_id)
             self.devices[str(x.obj_id)] = x
 
     def remove_device(self, device):

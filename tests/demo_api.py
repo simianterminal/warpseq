@@ -1,23 +1,41 @@
 from warpseq.api.public import Api
 from warpseq.api import exceptions
+import sys
 
-DEVICE='IAC Driver IAC Bus 1'
+DEVICE = 'IAC Driver IAC Bus 1'
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 api = Api()
 
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # setup MIDI devices
 
-print(api.devices.list_available())
 
-api.devices.add(DEVICE)
+print("---")
+print("available MIDI devices:")
+available = api.devices.list_available()
+if DEVICE not in available:
+    print("please change 'DEVICE' to point to one of your MIDI devices: %s" % available)
+    sys.exit(1)
 
-print(api.devices.details(DEVICE))
+# ----------------------------------------------------------------------------------------------------------------------
+# Devices are just names of MIDI devices - they are added for you automatically, but if an song from someone else's
+# computer is loaded, you may need to change the instrument definitions to reference yours instead.
+
+print("---")
+print("working with devices")
+
+print("Devices = %s" % api.devices.list())
+print("details for %s = %s" % (DEVICE, api.devices.details(DEVICE)))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Instruments represent the combination of a MIDI Devices and a MIDI Channel
+
+print("---")
+print("working with instruments")
 
 api.instruments.add('euro1', device=DEVICE, channel=1, min_octave=0, base_octave=3, max_octave=10)
 api.instruments.add('euro2', device=DEVICE, channel=2)
@@ -33,13 +51,19 @@ print(api.instruments.details('euro1'))
 # Tracks are a vertical lane of clips where only one clip can be playing at once, but multiple tracks CAN target
 # the same instrument.
 
-#song.add_track(name='euro1', instrument='euro1', muted=False)
-#song.add_track(name='euro2', instrument='euro2', muted=False)
+print("---")
+print("working with tracks")
 
-#song.add_instrument(name='test', instrument='euro1')
-#song.edit_instrument(name='test', instrument='euro2')
-#song.remove_instrument(name='test')
-#print(song.get_tracks())
+api.tracks.add(name='track1', instrument='euro1', muted=False)
+api.tracks.add(name='track2', instrument='euro2', muted=False)
+
+api.tracks.add(name='track3', instrument='euro1')
+api.tracks.edit(name='track3', instrument='euro2')
+api.tracks.remove(name='track3')
+api.tracks.remove(name='does_not_exist')
+
+print(api.tracks.list())
+print(api.tracks.details('track1'))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Warp comes with many canned scale patterns but they need to be instanced to specify a base octave. User patterns can
