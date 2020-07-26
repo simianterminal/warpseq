@@ -20,7 +20,7 @@ class BaseApi(object):
 
     def lookup(self, name, require=False):
         coll = self._get_collection()
-        if self.__class__.storage_dict:
+        if type(coll) == dict:
             for (k,v) in coll.items():
                 if v.name == name:
                     return v
@@ -34,12 +34,15 @@ class BaseApi(object):
 
     def list(self):
         coll = self._get_collection()
+        print("COLL:%s" % coll)
         data = []
         # FIXME: will need modifications if storage_list is True
-        for (k,v) in coll.items():
-            data.append(v.name)
+        if type(coll) == dict:
+            for (k,v) in coll.items():
+                data.append(v.name)
+        else:
+            return [ x.name for x in coll ]
         return data
-
 
     def details(self, name):
         obj = self.lookup(name)
@@ -49,7 +52,13 @@ class BaseApi(object):
         new_data = dict()
         for (k,v) in data.items():
             if k in self.public_fields:
-                new_data[k] = v
+                value = getattr(obj, k)
+                if type(value) == list:
+                    if len(value) > 0 and hasattr(value[0], 'obj_id'):
+                        value = [ x.name for x in value]
+                elif hasattr(value, 'obj_id'):
+                    value = value.name
+                new_data[k] = value
         return new_data
 
     def _get_collection(self):
@@ -65,6 +74,7 @@ class BaseApi(object):
 
     def _generic_add(self, name, params):
         obj = self.lookup(name)
+        print("PARAMS=%s" % params)
         del params['self']
         del params['name']
         self._require_input(self.add_required, params)
@@ -84,6 +94,9 @@ class BaseApi(object):
 
         self._require_input(self.edit_required, params)
         if "new_name" in params:
+            value = params["new_name"]
+            if value:
+                obj.name = value
             del params["new_name"]
 
 
@@ -91,21 +104,19 @@ class BaseApi(object):
             value = v
             if v is not None:
                 value = v
-                if value == "":
-                    value = None
                 setattr(obj, k, value)
         return self._ok()
 
     def _generic_remove(self, name):
-        obj = self.lookup(name)
+        obj = self.lookup(name, require=True)
         self.fn_remove(obj)
         return self._ok()
 
-    def _generic_list_names(self):
-        results = []
-        coll = _get_collection()
-        for (k,v) in coll:
-            results.append(k.name)
+    #def _generic_list_names(self):
+    #    results = []
+    #    coll = _get_collection()
+    #    for (k,v) in coll:
+    #        results.append(k.name)
 
     # NOT USED
     #def _generic_all(self):

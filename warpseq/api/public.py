@@ -3,11 +3,13 @@ import rtmidi
 from .. model.song import Song
 from .. model.device import Device
 from .. model.instrument import Instrument
+from .. model.scale import Scale
 from .. model.pattern import Pattern
 from .. model.transform  import Transform
 from .. model.track import Track
 from .. model.scene import Scene
 from .. model.clip import Clip
+from .. model.note import Note
 
 from . exceptions import  *
 from . support import BaseApi
@@ -41,7 +43,6 @@ class Devices(CollectionApi):
     add_required    = [ ]
     edit_required   = None
     remove_method   = 'remove_device'
-    storage_dict    = True
 
     def __init__(self, public_api, song):
         super().__init__(public_api, song)
@@ -72,17 +73,84 @@ class Instruments(CollectionApi):
     add_required    = [ 'channel', 'device']
     edit_required   = [ ]
     remove_method   = 'remove_instrument'
-    storage_dict    = True
 
     def add(self, name, channel:int=None, device:str=None, min_octave:int=0, max_octave:int=10, base_octave:int=3):
         device = self.api.devices.lookup(device, require=True)
         self._generic_add(name, locals())
 
-    def edit(self, name, channel:int=None, device:str=None, min_octave:int=None, max_octave:int=None, base_octave:int=None):
+    def edit(self, name, new_name:str=None, channel:int=None, device:str=None, min_octave:int=None, max_octave:int=None, base_octave:int=None):
         device = self.api.devices.lookup(device, require=True)
         self._generic_edit(name, locals())
 
 # =====================================================================================================================
+
+class Tracks(CollectionApi):
+
+    object_class    = Track
+    public_fields   = [ 'name', 'instrument', 'track' ]
+    song_collection = 'tracks'
+    add_method      = 'add_tracks'
+    add_required    = [ 'instrument', 'muted']
+    edit_required   = [ ]
+    remove_method   = 'remove_track'
+
+    def add(self, name, instrument:str=None, muted:bool=False):
+        instrument = self.api.instruments.lookup(instrument, require=True)
+        self._generic_add(name, locals())
+
+    def edit(self, name, new_name:str=None, instrument:str=None, muted:bool=False):
+        instrument = self.api.instruments.lookup(instrument, require=False)
+        self._generic_edit(name, locals())
+
+# =====================================================================================================================
+
+class Scales(CollectionApi):
+
+    object_class    = Scale
+    public_fields   = [ 'name', 'scale_type', 'slots' ] # FIXME: may need work
+    song_collection = 'scales'
+    add_method      = 'add_scales'
+    add_required    = [ ]
+    edit_required   = [ ]
+    remove_method   = 'remove_track'
+
+    def _check_params(self, params, for_edit=False):
+        slots = params['slots']
+        root = self._get_note(params)
+        params['root'] = root
+        if root is None and slots is None:
+            if not for_edit:
+                raise InvalidInput("either root+octave+scale_type or slots is required")
+            else:
+                del params['root']
+                del params['slots']
+        if root is not None and slots is not None:
+            raise InputInput("root/octave/scale_type and slots are mutually exclusive")
+        del params['note']
+        del params['octave']
+
+    def _get_note(self, params):
+        print("PARAMS=%s" % params)
+        note = params['note']
+        octave = params['octave']
+        scale_type = params['scale_type']
+        if note and octave and scale_type:
+            return Note(name=note, octave=octave)
+        else:
+            return None
+
+    def add(self, name, note:str=None, octave:int=None, scale_type:str=None, slots:list=None):
+        params = locals()
+        self._check_params(params)
+        self._generic_add(name, params)
+
+    def edit(self, name, new_name:str=None, note:str=None, octave:int=None, scale_type:str=None, slots:list=None):
+        params = locals()
+        self._check_params(params, for_edit=True)
+        self._generic_edit(name, params)
+
+# =====================================================================================================================
+
 
 class Patterns(CollectionApi):
 
@@ -93,7 +161,6 @@ class Patterns(CollectionApi):
     add_required    = [ 'slots' ]
     edit_required   = [ ]
     remove_method   = 'remove_pattern'
-    storage_dict    = True
 
 # =====================================================================================================================
 
@@ -106,20 +173,8 @@ class Transforms(CollectionApi):
     add_required     = [ 'slots' ]
     edit_required    = [ ]
     remove_method    = 'remove_transform'
-    storage_dict     = True
 
-# =====================================================================================================================
 
-class Tracks(CollectionApi):
-
-    object_class    = Track
-    public_fields   = [ 'FIXME' ]
-    song_collection = 'tracks'
-    add_method      = 'add_tracks'
-    add_required    = [ 'instrument', 'channel']
-    edit_required   = [ ]
-    remove_method   = 'remove_track'
-    storage_dict    = False
 
 # =====================================================================================================================
 
@@ -132,7 +187,6 @@ class Scenes(CollectionApi):
     add_required    = [ ]
     edit_required   = [ ]
     remove_method   = 'remove_scene'
-    storage_dict    = False
 
 # =====================================================================================================================
 
@@ -146,7 +200,6 @@ class Clips(CollectionApi):
     add_required    = [ 'scene', 'track' ]
     edit_required   = [ 'scene', 'track' ]
     remove_method   = 'remove_clip'
-    storage_dict    = False
 
 # =====================================================================================================================
 
@@ -164,6 +217,7 @@ class Api(object):
         self.song = Song(name='')
         self.devices = Devices(self, self.song)
         self.instruments = Instruments(self, self.song)
+        self.scales  = Scales(self, self.song)
         self.patterns = Patterns(self, self.song)
         self.transforms = Transforms(self, self.song)
         self.scenes = Scenes(self, self.song)

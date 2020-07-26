@@ -40,7 +40,7 @@ class Scale(ReferenceObject):
     from . note import Note
 
     name = Field(type=str, required=False, nullable=False)
-    root = Field(type=Note, required=True, nullable=False)
+    root = Field(type=Note, required=False, nullable=True)
     scale_type = Field(type=str, required=False, nullable=True, default=None, choices=SCALE_TYPE_NAMES)
     slots = Field(type=list, required=False, nullable=True, default=None)
     _cached = Field(type=list, required=False)
@@ -48,24 +48,29 @@ class Scale(ReferenceObject):
     # slots = Field(type=list, required=True, nullable=False)
 
     def to_dict(self):
-        return dict(
+        data = dict(
             obj_id = self.obj_id,
             name = self.name,
-            root = [ self.root.name, self.root.octave ],
             scale_type = self.scale_type,
             slots = self.slots
         )
+        if self.root:
+            data["root"] = [ self.root.name, self.root.octave ]
+        else:
+            data["root"] = None
+        return data
 
     @classmethod
     def from_dict(cls, song, data):
-        return Scale(
+        s = Scale(
             obj_id = data['obj_id'],
             name = data['name'],
-            root = Note(name=data['root'][0], octave=data['root'][1]),
             scale_type = data['scale_type'],
             slots = data['slots']
         )
-
+        if data['root']:
+            s.root = Note(name=data['root'][0], octave=data['root'][1])
+        return s
 
     def generate(self, length=None):
 

@@ -1,5 +1,5 @@
 from warpseq.api.public import Api
-from warpseq.api import exceptions
+from warpseq.api.exceptions import *
 import sys
 
 DEVICE = 'IAC Driver IAC Bus 1'
@@ -60,7 +60,10 @@ api.tracks.add(name='track2', instrument='euro2', muted=False)
 api.tracks.add(name='track3', instrument='euro1')
 api.tracks.edit(name='track3', instrument='euro2')
 api.tracks.remove(name='track3')
-api.tracks.remove(name='does_not_exist')
+try:
+    api.tracks.remove(name='does_not_exist')
+except NotFound:
+    pass
 
 print(api.tracks.list())
 print(api.tracks.details('track1'))
@@ -69,12 +72,20 @@ print(api.tracks.details('track1'))
 # Warp comes with many canned scale patterns but they need to be instanced to specify a base octave. User patterns can
 # also be supplied.
 
-#song.add_scale(name='C-major', root='C', octave=3, scale_type='major')
-#song.add_scale(name='Eb-natural-minor', root='Eb', octave=4, scale_type='natural_minor')
+api.scales.add(name='C-major', note='C', octave=3, scale_type='major')
+api.scales.add(name='Eb-natural-minor', note='Eb', octave=4, scale_type='natural_minor')
 
-#song.add_scale(name='F-user', root='F', octave=3, slots=[1,2,'b3',6])
-#song.edit_scale(name='F-user', root='G', new_name='G-user')
-#song.remove_scale(name='G-user')
+api.scales.add(name='F-user', note='F', octave=3, slots=[1,2,'b3',6])
+api.scales.edit(name='F-user', note='G', octave=4, new_name='G-user')
+api.scales.remove(name='C-major')
+
+# verify we can't pass in both scale_type and slots together
+api.scales.edit(name='G-user', slots=[1,2,3], scale_type='major')
+
+print(api.scales.details('Eb-natural-minor'))
+print(api.scales.details('G-user'))
+print(api.scales.list())
+
 #print(song.get_scales())
 
 # ----------------------------------------------------------------------------------------------------------------------
