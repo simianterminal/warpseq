@@ -1,3 +1,20 @@
+# What this demos shows:
+#
+# * a simple 4/4 kick/snare pattern for 4 bars, then a change up
+#
+# Learning objectives:
+#
+# * basic API operation
+# * how to input notes without a scale
+# * understanding of warpseq's timing
+#
+# Things to try:
+#
+# * change the song's tempo
+# * change the snare and kick patterns
+# * add in some hi-hats
+# * add in a third scene and pattern
+
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo
 
