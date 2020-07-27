@@ -127,12 +127,12 @@ class Scales(CollectionApi):
         params['root'] = root
         if root is None and slots is None:
             if not for_edit:
-                raise InvalidInput("either root+octave+scale_type or slots is required")
+                raise InvalidInput("either note+octave+scale_type or slots is required")
             else:
                 del params['root']
                 del params['slots']
         if root is not None and slots is not None:
-            raise InputInput("root/octave/scale_type and slots are mutually exclusive")
+            raise InputInput("note/octave/scale_type and slots are mutually exclusive")
         del params['note']
         del params['octave']
 
@@ -140,7 +140,7 @@ class Scales(CollectionApi):
         note = params['note']
         octave = params['octave']
         scale_type = params['scale_type']
-        if note and octave and scale_type:
+        if note and (octave is not None) and scale_type:
             return Note(name=note, octave=octave)
         else:
             return None
@@ -267,12 +267,14 @@ class Clips(CollectionApi):
 
     def add(self, name, scene:str=None, track:str=None, patterns:list=None,  octave_shifts:list=None,
             degree_shifts:list=None, tempo_shifts:list=None, scale_note_shifts:list=None, next_clip:str=None,
-            transforms:list=None, tempo:int=None, repeat:int=None, auto_scene_advance:bool=False):
+            transforms:list=None, tempo:int=None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None):
 
         if patterns:
             patterns = [ self.api.patterns.lookup(p, require=True) for p in patterns ]
         if transforms:
             transforms = [ self.api.transforms.lookup(t, require=True) for t in transforms ]
+        if scales:
+            scales = [ self.api.scales.lookup(s, require=True) for s in scales ]
         params = locals()
 
         if params["next_clip"]:
@@ -281,7 +283,7 @@ class Clips(CollectionApi):
 
         clip = Clip(name=name, patterns=patterns, octave_shifts=octave_shifts, degree_shifts=degree_shifts,
                  tempo_shifts=tempo_shifts, scale_note_shifts=scale_note_shifts, next_clip=next_clip,
-                 transforms=transforms, auto_scene_advance=auto_scene_advance, repeat=repeat)
+                 transforms=transforms, auto_scene_advance=auto_scene_advance, repeat=repeat, scales=scales)
 
         scene = self.api.scenes.lookup(scene, require=True)
         track = self.api.tracks.lookup(track, require=True)
@@ -292,7 +294,7 @@ class Clips(CollectionApi):
 
     def edit(self, name:str=None, new_name:str=None, scene: str = None, track:str = None, patterns: list = None, octave_shifts:list = None,
             degree_shifts: list = None, tempo_shifts: list = None, scale_note_shifts:list = None, next_clip:str = None,
-            transforms: list = None, tempo:int=None, repeat:int=None, auto_scene_advance:bool=False):
+            transforms: list = None, tempo:int=None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None):
 
         scene = self.api.scenes.lookup(scene, require=True)
         track = self.api.tracks.lookup(track, require=True)
@@ -303,6 +305,8 @@ class Clips(CollectionApi):
             params["patterns"] = [ self.api.patterns.lookup(p, require=True) for p in patterns ]
         if transforms:
             params["transforms"] = [ self.api.transforms.lookup(t, require=True) for t in transforms ]
+        if scales:
+            params["scales"] = [ self.api.scales.lookup(s, require=True) for s in scales ]
 
         if new_name is not None:
             params["name"] = params["new_name"]
@@ -323,7 +327,6 @@ class Clips(CollectionApi):
             if k == 'self':
                 continue
             if k in self.__class__.nullable_edits or v is not None:
-                print("SETATTR: %s=>%s" % (k,v))
                 setattr(obj, k, v)
 
         return self._ok()
@@ -358,7 +361,6 @@ class Player(object):
         self.multi_player = MultiPlayer(song=song, engine_class=RealtimeEngine)
 
     def play_scene(self, scene):
-        print("scene: %s" % scene)
         scene = self.public_api.scenes.lookup(scene, require=True)
         self.multi_player.play_scene(scene)
 

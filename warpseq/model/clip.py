@@ -277,7 +277,6 @@ class Clip(ReferenceObject):
         for pattern in self.patterns:
 
             self._current_tempo_shift = next(self._tempo_roller)
-            print("*********** CTS = %s" % self._current_tempo_shift)
 
             pat_index = pat_index + 1
             no = next(self._octave_roller)
@@ -295,6 +294,7 @@ class Clip(ReferenceObject):
             slots = pattern.slots
 
             # convert expressions into arrays of notes
+            #print("SCALE=%s" % scale)
             notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
 
             use_length = self.actual_length()
@@ -306,9 +306,14 @@ class Clip(ReferenceObject):
             # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
 
             notes = [ notation.do(self, expression) for expression in slots ]
+            #print("N1>>>%s" % notes)
             notes = chord_list_to_notes(notes)
             notes = evaluate_ties(notes)
+            #print("N2>>>%s" % notes)
+
             notes = evaluate_shifts(notes, octave_shift, degree_shift, scale, scale_shift)
+            #print("N3>>>%s" % notes)
+
 
             for slot in notes:
                 for note in slot:

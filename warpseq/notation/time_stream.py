@@ -7,7 +7,6 @@ NOTE_GAP = 0.01
 from .. model.event import Event, NOTE_ON, NOTE_OFF
 from .. model.chord import Chord
 from .. model.note import Note
-from .. model.scale import OCTAVE_BIAS
 
 def evaluate_ties(note_list):
 
@@ -48,7 +47,7 @@ def evaluate_shifts(note_list, octave_shift, degree_shift, scale, scale_shift):
         chord_items = []
         for note in chord:
             if octave_shift or scale_shift:
-                note = note.transpose(octaves=octave_shift - OCTAVE_BIAS, degrees=degree_shift)
+                note = note.transpose(octaves=octave_shift, degrees=degree_shift)
             if scale_shift:
                 note = note.scale_transpose(scale, scale_shift)
             chord_items.append(note)

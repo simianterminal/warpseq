@@ -34,7 +34,6 @@ class BaseApi(object):
 
     def list(self):
         coll = self._get_collection()
-        print("COLL:%s" % coll)
         data = []
         # FIXME: will need modifications if storage_list is True
         if type(coll) == dict:
@@ -81,7 +80,6 @@ class BaseApi(object):
 
     def _generic_add(self, name, params):
         obj = self.lookup(name)
-        print("PARAMS=%s" % params)
         del params['self']
         del params['name']
         self._require_input(self.add_required, params)

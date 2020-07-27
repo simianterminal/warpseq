@@ -4,7 +4,7 @@ from warpseq.model.device import Device
 from warpseq.model.instrument import Instrument
 from warpseq.model.pattern import Pattern
 from warpseq.model.song import Song
-from warpseq.model.scale import Scale, OCTAVE_BIAS
+from warpseq.model.scale import Scale
 from warpseq.model.track import Track
 from warpseq.model.scene import Scene
 from warpseq.model.note import Note
@@ -47,25 +47,25 @@ def test_assembly():
     # ------------------------------------------------------------------------------------------------------------------
     # INSTRUMENTS
 
-    euro1 = Instrument(device=d1, name='eurorack1', channel=1, min_octave=0, base_octave=6, max_octave=8)
-    euro2 = Instrument(device=d1, name='eurorack2', channel=2, min_octave=0, base_octave=6, max_octave=8)
-    euro3 = Instrument(device=d1, name='eurorack3', channel=3, min_octave=0, base_octave=6, max_octave=8)
-    euro4 = Instrument(device=d1, name='eurorack4', channel=4, min_octave=0, base_octave=6, max_octave=8)
-    euro5 = Instrument(device=d1, name='eurorack5', channel=5, min_octave=0, base_octave=6, max_octave=8)
-    euro6 = Instrument(device=d1, name='eurorack6', channel=6, min_octave=0, base_octave=6, max_octave=8)
-    euro7 = Instrument(device=d1, name='eurorack7', channel=7, min_octave=0, base_octave=6, max_octave=8)
-    euro8 = Instrument(device=d1, name='eurorack8', channel=8, min_octave=0, base_octave=6, max_octave=8)
-    moog  = Instrument(device=d2, name='moog', channel=9, min_octave=2, base_octave=6, max_octave=8)
-    kick  = Instrument(device=d3, name='kick', channel=1, min_octave=0, base_octave=6, max_octave=8)
+    euro1 = Instrument(device=d1, name='eurorack1', channel=1, min_octave=0, base_octave=1, max_octave=8)
+    euro2 = Instrument(device=d1, name='eurorack2', channel=2, min_octave=0, base_octave=1, max_octave=8)
+    euro3 = Instrument(device=d1, name='eurorack3', channel=3, min_octave=0, base_octave=1, max_octave=8)
+    euro4 = Instrument(device=d1, name='eurorack4', channel=4, min_octave=0, base_octave=1, max_octave=8)
+    euro5 = Instrument(device=d1, name='eurorack5', channel=5, min_octave=0, base_octave=1, max_octave=8)
+    euro6 = Instrument(device=d1, name='eurorack6', channel=6, min_octave=0, base_octave=1, max_octave=8)
+    euro7 = Instrument(device=d1, name='eurorack7', channel=7, min_octave=0, base_octave=1, max_octave=8)
+    euro8 = Instrument(device=d1, name='eurorack8', channel=8, min_octave=0, base_octave=1, max_octave=8)
+    moog  = Instrument(device=d2, name='moog', channel=9, min_octave=2, base_octave=1, max_octave=8)
+    kick  = Instrument(device=d3, name='kick', channel=1, min_octave=0, base_octave=1, max_octave=8)
     song.add_instruments([ euro1, euro2, euro3, euro4, euro5, euro6, euro7, euro8, moog, kick])
 
     # ------------------------------------------------------------------------------------------------------------------
     # SCALES
 
-    foo_scale = Scale(name='foo', root=Note(name='C', octave=OCTAVE_BIAS), scale_type='major')
-    bar_scale = Scale(name='bar', root=Note(name='C', octave=OCTAVE_BIAS), scale_type='pentatonic')
-    baz_scale = Scale(name='c4-major', root=Note(name='C', octave=OCTAVE_BIAS), scale_type='major')
-    akebono_scale   = Scale(name='c3-akebono', root=Note(name='F', octave=OCTAVE_BIAS), slots=['1', '2', 'b3', '5', '6'])
+    foo_scale = Scale(name='foo', root=Note(name='C', octave=0), scale_type='major')
+    bar_scale = Scale(name='bar', root=Note(name='C', octave=0), scale_type='pentatonic')
+    baz_scale = Scale(name='c4-major', root=Note(name='C', octave=0), scale_type='major')
+    akebono_scale   = Scale(name='c3-akebono', root=Note(name='F', octave=0), slots=['1', '2', 'b3', '5', '6'])
     song.add_scales([ foo_scale, bar_scale, baz_scale, akebono_scale ])
     song.scale = foo_scale
 

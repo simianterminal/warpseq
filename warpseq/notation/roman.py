@@ -47,7 +47,7 @@ class Roman(object):
         assert scale is not None
         self.scale = scale
 
-        self._note_buffer = [ n for n in self.scale.generate(length=40) ]
+        self._note_buffer = [ n for n in self.scale.generate(length=150) ]
 
     def chord(self, sym):
         """
@@ -84,6 +84,7 @@ class Roman(object):
            raise Exception("do not know how to parse chord symbol: %s" % sym)
 
         if chord_data == 'REST':
+            # FIXME: does anything use this?
             return None
 
         # here's where we override the chord type if need be

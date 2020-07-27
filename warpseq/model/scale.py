@@ -2,10 +2,6 @@ from . base import ReferenceObject
 from classforge import Class, Field
 from . note import Note, note
 
-# we start all scale math in the middle of the scale to arrange for a wide amount of shifting.
-# we subtract this back off later.
-OCTAVE_BIAS = 6
-
 SCALE_TYPES = dict(
    major              = [ 1, 2, 3, 4, 5, 6, 7 ],
    pentatonic         = [ 1, 2, 3, 5, 6 ],
@@ -86,7 +82,8 @@ class Scale(ReferenceObject):
             except IndexError:
                 return result
             index = index + 1
-        return result
+
+        return [r.copy() for r in result]
 
 
     def _generate(self, length=None):
