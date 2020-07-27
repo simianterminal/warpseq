@@ -4,6 +4,10 @@ NOTES
 RELEASE GATES
 =============
 
+* delete assembly test, test/public_api (examples replace these)
+* make sure examples are prominently linked in docs
+* update docs to remove parameters no longer included
+
 * the song tempo is now required and has a default
 * remove absolute tempo from scene and clip and pattern - just leave rate.
 * remove tempo, scale, and octave_shifts from pattern - keep patterns SIMPLE so they can basically just be text areas

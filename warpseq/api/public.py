@@ -198,7 +198,7 @@ class Patterns(CollectionApi):
     #scale = Field(type=Scale, default=None, nullable=True)
 
     object_class    = Pattern
-    public_fields   = [ 'name', 'slots', 'length', 'octave_shift', 'tempo', 'scale' ]
+    public_fields   = [ 'name', 'slots', 'length', 'octave_shift', 'scale' ]
     song_collection = 'patterns'
     add_method      = 'add_patterns'
     add_required    = [ 'slots' ]
@@ -219,7 +219,7 @@ class Patterns(CollectionApi):
 class Scenes(CollectionApi):
 
     object_class    = Scene
-    public_fields   = [ 'name', 'tempo', 'scale', 'auto_advance' ]
+    public_fields   = [ 'name', 'scale', 'auto_advance' ]
     song_collection = 'scenes'
     add_method      = 'add_scenes'
     add_required    = [ ]
@@ -228,13 +228,13 @@ class Scenes(CollectionApi):
     nullable_edits  = [ 'tempo', 'scale' ]
 
 
-    def add(self, name, tempo:int=None, scale:str=None, auto_advance:bool=None, rate:int=1):
+    def add(self, name, scale:str=None, auto_advance:bool=None, rate:int=1):
         if scale:
             scale = self.api.scales.lookup(scale, require=True)
         params = locals()
         return self._generic_add(name, params)
 
-    def edit(self, name, new_name:str=None, tempo:int=None, scale:str=None, auto_advance:bool=None, rate:int=None):
+    def edit(self, name, new_name:str=None, scale:str=None, auto_advance:bool=None, rate:int=None):
         if scale:
             scale = self.api.scales.lookup(scale, require=True)
         params = locals()
@@ -249,7 +249,7 @@ class Clips(CollectionApi):
     object_class    = Clip
     public_fields   = [ 'name', 'scene', 'track', 'patterns', 'octave_shifts',
                         'degree_shifts', 'tempo_shifts', 'scale_note_shifts', 'next_clip', 'transforms',
-                        'tempo', 'repeat' ]
+                        'repeat' ]
     song_collection = 'clips'
     add_method      = 'add_clip'
     add_required    = [ 'scene', 'track', 'patterns' ]
@@ -263,7 +263,7 @@ class Clips(CollectionApi):
 
     def add(self, name, scene:str=None, track:str=None, patterns:list=None,  octave_shifts:list=None,
             degree_shifts:list=None, tempo_shifts:list=None, scale_note_shifts:list=None, next_clip:str=None,
-            transforms:list=None, tempo:int=None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=1):
+            transforms:list=None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=1):
 
         if patterns:
             patterns = [ self.api.patterns.lookup(p, require=True) for p in patterns ]
@@ -279,7 +279,7 @@ class Clips(CollectionApi):
 
         clip = Clip(name=name, patterns=patterns, octave_shifts=octave_shifts, degree_shifts=degree_shifts,
                  tempo_shifts=tempo_shifts, scale_note_shifts=scale_note_shifts, next_clip=next_clip,
-                 transforms=transforms, auto_scene_advance=auto_scene_advance, repeat=repeat, scales=scales)
+                 transforms=transforms, auto_scene_advance=auto_scene_advance, repeat=repeat, scales=scales, rate=rate)
 
         scene = self.api.scenes.lookup(scene, require=True)
         track = self.api.tracks.lookup(track, require=True)
@@ -290,7 +290,7 @@ class Clips(CollectionApi):
 
     def edit(self, name:str=None, new_name:str=None, scene: str = None, track:str = None, patterns: list = None, octave_shifts:list = None,
             degree_shifts: list = None, tempo_shifts: list = None, scale_note_shifts:list = None, next_clip:str = None,
-            transforms: list = None, tempo:int=None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=None):
+            transforms: list = None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=None):
 
         scene = self.api.scenes.lookup(scene, require=True)
         track = self.api.tracks.lookup(track, require=True)

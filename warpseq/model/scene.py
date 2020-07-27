@@ -6,7 +6,6 @@ class Scene(ReferenceObject):
     from . scale import Scale
 
     name = Field(type=str, required=True, nullable=False)
-    tempo = Field(type=int, default=None, nullable=True)
     scale = Field(type=Scale, default=None, nullable=True)
     auto_advance = Field(type=bool, default=True, nullable=False)
     rate = Field(type=float, default=1, nullable=False)
@@ -42,7 +41,6 @@ class Scene(ReferenceObject):
         result = dict(
             obj_id = self.obj_id,
             name = self.name,
-            tempo = self.tempo,
             auto_advance = self.auto_advance,
             clip_ids = self.clip_ids,
             rate = self.rate,
@@ -58,7 +56,6 @@ class Scene(ReferenceObject):
         return Scene(
             obj_id = data['obj_id'],
             name = data['name'],
-            tempo = data['tempo'],
             scale = song.find_scale(data['scale']),
             auto_advance = data['auto_advance'],
             clip_ids = data['clip_ids'],

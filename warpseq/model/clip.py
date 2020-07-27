@@ -93,7 +93,6 @@ class Clip(ReferenceObject):
             obj_id = self.obj_id,
             name = self.name,
             length = self.length,
-            tempo = self.tempo,
             repeat = self.repeat,
             slot_length = self.slot_length,
             next_clip = self.next_clip,
@@ -140,7 +139,6 @@ class Clip(ReferenceObject):
             name = self.name,
             patterns = [ x for x in self.patterns ],
             length = self.length,
-            tempo = self.tempo,
             repeat = self.repeat,
             slot_length = self.slot_length,
             next_clip = self.next_clip,
@@ -167,7 +165,6 @@ class Clip(ReferenceObject):
             patterns = [ song.find_pattern(x) for x in data['patterns'] ],
             length = data['length'],
             transforms = [ song.find_transform(x) for x in data['transforms'] ],
-            tempo = data['tempo'],
             repeat = data['repeat'],
             track = song.find_track(data['track']),
             scene = song.find_scene(data['scene']),
@@ -198,16 +195,7 @@ class Clip(ReferenceObject):
         return Scale(root=Note(name="C", octave=5), scale_type='chromatic')
 
     def actual_tempo(self, song, pattern):
-
-        if self.tempo is not None:
-            t1 = self.tempo + self._current_tempo_shift
-        elif pattern.tempo is not None:
-            t1 = pattern.tempo  + self._current_tempo_shift
-        elif self.scene.tempo is not None:
-            t1 = self.scene.tempo  + self._current_tempo_shift
-        elif song.tempo is not None:
-            t1 = song.tempo  + self._current_tempo_shift
-
+        t1 = song.tempo  + self._current_tempo_shift
         return int(t1 * self.rate * pattern.rate * self.scene.rate)
 
     def sixteenth_note_duration(self, song, pattern):
