@@ -35,8 +35,8 @@ api.tracks.add(name='lead', instrument='lead_inst', muted=False)
 
 # setup scales
 
-#print("available scale types:")
-#print(api.scales.scale_types())
+print("available scale types:")
+print(api.scales.scale_types())
 
 api.scales.add(name='C-major', note='C', octave=0, scale_type='major')
 api.scales.add(name='C-minor', note='C', octave=0, scale_type='natural_minor')
@@ -52,14 +52,14 @@ api.patterns.add(name='up', slots=['1','2','3','4','5','6','7','8'])
 api.patterns.add(name='down', slots=['8','7','6','5','4','3','2','1'])
 
 # setup scenes
-api.scenes.add(name='scene_1', tempo=60, auto_advance=True)
-api.scenes.add(name='scene_2', tempo=60, auto_advance=True)
-api.scenes.add(name='scene_3', tempo=60, auto_advance=True)
-api.scenes.add(name='scene_4', tempo=60, auto_advance=True)
-api.scenes.add(name='scene_5', tempo=60, auto_advance=True)
-api.scenes.add(name='scene_6', tempo=60, auto_advance=True)
-api.scenes.add(name='scene_7', tempo=60, auto_advance=True)
-api.scenes.add(name='scene_8', tempo=60, auto_advance=True)
+api.scenes.add(name='scene_1', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_2', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_3', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_4', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_5', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_6', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_7', rate=1, auto_advance=True)
+api.scenes.add(name='scene_8', rate=1, auto_advance=True)
 
 # setup clips
 api.clips.add(name='s1c', scene='scene_1', track='lead', scales=['C-major'], patterns=['up'], repeat=1, auto_scene_advance=True)

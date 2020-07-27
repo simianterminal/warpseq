@@ -27,6 +27,7 @@ class Clip(ReferenceObject):
     next_clip = Field(required=False, nullable=True)
     transforms = Field(type=list, default=None, nullable=True)
     tempo = Field(type=int, default=None, nullable=True)
+    rate = Field(type=float, default=1, nullable=False)
     repeat = Field(type=int, default=-1, nullable=True)
     auto_scene_advance = Field(type=bool, default=False, nullable=False)
 
@@ -100,7 +101,8 @@ class Clip(ReferenceObject):
             degree_shifts = self.degree_shifts,
             scale_note_shifts = self.scale_note_shifts,
             tempo_shifts = self.tempo_shifts,
-            octave_shifts = self.octave_shifts
+            octave_shifts = self.octave_shifts,
+            rate = self.rate,
         )
         if self.patterns:
             result['patterns'] = [ x.obj_id for x in self.patterns ]
@@ -147,6 +149,7 @@ class Clip(ReferenceObject):
             octave_shifts = self.octave_shifts,
             scale_note_shifts = self.scale_note_shifts,
             tempo_shifts = self.tempo_shifts,
+            rate = self.rate,
 
         )
         if self.arps:
@@ -174,7 +177,8 @@ class Clip(ReferenceObject):
             degree_shifts = data['degree_shifts'],
             scale_note_shifts = data['scale_note_shifts'],
             octave_shifts = data['octave_shifts'],
-            tempo_shifts = data['tempo_shifts']
+            tempo_shifts = data['tempo_shifts'],
+            rate = data['rate']
         )
 
     def get_actual_scale(self, song, pattern, roller):
@@ -196,15 +200,15 @@ class Clip(ReferenceObject):
     def actual_tempo(self, song, pattern):
 
         if self.tempo is not None:
-            return self.tempo + self._current_tempo_shift
-        if pattern.tempo is not None:
-            return pattern.tempo  + self._current_tempo_shift
-        if self.scene.tempo is not None:
-            return self.scene.tempo  + self._current_tempo_shift
-        if song.tempo is not None:
-            return song.tempo  + self._current_tempo_shift
+            t1 = self.tempo + self._current_tempo_shift
+        elif pattern.tempo is not None:
+            t1 = pattern.tempo  + self._current_tempo_shift
+        elif self.scene.tempo is not None:
+            t1 = self.scene.tempo  + self._current_tempo_shift
+        elif song.tempo is not None:
+            t1 = song.tempo  + self._current_tempo_shift
 
-        raise Exception("?")
+        return int(t1 * self.rate * pattern.rate * self.scene.rate)
 
     def sixteenth_note_duration(self, song, pattern):
         tempo_ratio = (120 / self.actual_tempo(song, pattern))

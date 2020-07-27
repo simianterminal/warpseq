@@ -9,6 +9,7 @@ class Scene(ReferenceObject):
     tempo = Field(type=int, default=None, nullable=True)
     scale = Field(type=Scale, default=None, nullable=True)
     auto_advance = Field(type=bool, default=True, nullable=False)
+    rate = Field(type=float, default=1, nullable=False)
 
     # internal state
     clip_ids = Field(type=list, default=None, required=False, nullable=False)
@@ -44,6 +45,7 @@ class Scene(ReferenceObject):
             tempo = self.tempo,
             auto_advance = self.auto_advance,
             clip_ids = self.clip_ids,
+            rate = self.rate,
         )
         if self.scale:
             result['scale'] = self.scale.obj_id
@@ -59,5 +61,6 @@ class Scene(ReferenceObject):
             tempo = data['tempo'],
             scale = song.find_scale(data['scale']),
             auto_advance = data['auto_advance'],
-            clip_ids = data['clip_ids']
+            clip_ids = data['clip_ids'],
+            rate = data["rate"],
         )

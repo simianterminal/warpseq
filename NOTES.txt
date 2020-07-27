@@ -4,6 +4,8 @@ NOTES
 RELEASE GATES
 =============
 
+* remove tempo, scale, and octave_shifts from pattern - keep patterns SIMPLE so they can basically just be text areas
+
 * the default song should have a scale in it - C4 major should be fine. Let the user add more.
 
 * test API needs to validate:

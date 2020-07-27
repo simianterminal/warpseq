@@ -31,6 +31,10 @@ SCALE_ALIASES = dict(
    minor = 'natural_minor'
 )
 
+def scale_types():
+    values = [ x for x in SCALE_TYPES.keys() ]
+    return values
+
 class Scale(ReferenceObject):
 
     from . note import Note

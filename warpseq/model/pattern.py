@@ -19,6 +19,7 @@ class Pattern(ReferenceObject):
     octave_shift = Field(type=int, default=0, nullable=False)
 
     tempo = Field(type=int, default=None, nullable=True)
+    rate  = Field(type=float, default=1, nullable=False)
     scale = Field(type=Scale, default=None, nullable=True)
 
     def on_init(self):
@@ -32,6 +33,7 @@ class Pattern(ReferenceObject):
             length = self.length,
             tempo = self.tempo,
             octave_shift = self.octave_shift,
+            rate = self.rate
         )
         if self.scale:
             result['scale'] = self.obj_id
@@ -48,5 +50,6 @@ class Pattern(ReferenceObject):
             length = data['length'],
             tempo = data['tempo'],
             octave_shift = data['octave_shift'],
+            rate = data['rate'],
             scale = song.find_scale(data['scale'])
         )
