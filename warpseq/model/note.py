@@ -72,7 +72,7 @@ class Note(BaseObject):
 
     def chordify(self, chord_type):
         from . chord import Chord
-        return Chord(root=self.copy(), chord_type=chord_type)
+        return Chord(root=self.copy(), chord_type=chord_type, from_scale=self.from_scale)
 
     def _equivalence(self, name):
         """
@@ -94,6 +94,9 @@ class Note(BaseObject):
 
 
     def scale_transpose(self, scale, steps):
+
+        assert scale is not None
+        assert steps is not None
 
         index = 0
         found = False

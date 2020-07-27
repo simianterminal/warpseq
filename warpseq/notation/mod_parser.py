@@ -53,6 +53,11 @@ OPERATIONS = dict(
     )
 )
 
+OPERATIONS['deferred']['increments'].update(OPERATIONS['normal']['increments'])
+OPERATIONS['deferred']['decrements'].update(OPERATIONS['normal']['decrements'])
+OPERATIONS['deferred']['assignments'].update(OPERATIONS['normal']['assignments'])
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # helper functions for process_expr
 
@@ -70,7 +75,7 @@ def perform(parser, note, operations, what, how):
         what = '$'
 
     if not what in operations:
-        raise Exception("unknown mod expression: %s" % what)
+        raise Exception("unknown mod expression: (%s)" % what)
 
     routine = operations[what]
     #print("ROUTINE=%s" % routine.__name__)

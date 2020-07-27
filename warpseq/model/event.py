@@ -16,3 +16,11 @@ class Event(BaseObject):
 
     def __repr__(self):
         return "Event<Note=%s, type=%s, time=%s>" % (self.note, self.type, self.time)
+
+    def copy(self):
+        return Event(
+            type = self.type,
+            note = self.note.copy(), # could be a Chord!  Be careful.
+            time = self.time,
+            on_event = self.on_event,
+        )

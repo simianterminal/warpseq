@@ -45,6 +45,7 @@ class Chord(BaseObject):
     notes = Field(type=list, required=False, nullable=True)
     root = Field(type=Note, required=False, nullable=True)
     chord_type = Field(type=str, required=False, choices=CHORD_TYPE_KEYS, default=None, nullable=True)
+    from_scale = Field(default=None)
 
     """
     Constructs a chord, in different ways:
@@ -77,11 +78,11 @@ class Chord(BaseObject):
             self.notes = self._chordify()
 
     def chordify(self, chord_type):
-        return Chord(root=self.notes[0].copy(), chord_type=chord_type)
+        return Chord(root=self.notes[0].copy(), chord_type=chord_type, from_scale=self.notes[0].from_scale)
 
     def copy(self):
         notes = [ n.copy() for n in self.notes ]
-        return Chord(notes=notes)
+        return Chord(notes=notes, from_scale=self.notes[0].from_scale)
 
     def with_velocity(self, velocity):
         c1 = self.copy()
@@ -131,7 +132,7 @@ class Chord(BaseObject):
         Transposing a chord is returns a new chord with all of the notes transposed.
         """
         notes = [ note.transpose(steps=steps, octaves=octaves, semitones=None) for note in self.notes ]
-        return Chord(notes=notes)
+        return Chord(notes=notes, from_scale=notes[0].from_scale)
 
     def invert(self, amount=1, octaves=1):
         """
