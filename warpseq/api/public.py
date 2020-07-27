@@ -281,9 +281,11 @@ class Clips(CollectionApi):
             scales = [ self.api.scales.lookup(s, require=True) for s in scales ]
         params = locals()
 
-        if params["next_clip"]:
-            # validate but keep it a string
-            self.api.clips.lookup(params["next_clip"], require=True)
+        # not validating because it will likely be added *LATER*
+        #
+        #if params["next_clip"]:
+        #    # validate but keep it a string
+        #    self.api.clips.lookup(params["next_clip"], require=True)
 
         clip = Clip(name=name, patterns=patterns, octave_shifts=octave_shifts, degree_shifts=degree_shifts,
                  tempo_shifts=tempo_shifts, scale_note_shifts=scale_note_shifts, next_clip=next_clip,
