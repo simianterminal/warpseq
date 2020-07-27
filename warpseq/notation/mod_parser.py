@@ -83,9 +83,9 @@ def perform(parser, note, operations, what, how):
 
 def process_expr(parser, input, expr, deferred=False):
 
-    if expr in [ "_", 'x']:
+    if expr in [ "_", 'x', "0" ]:
         return silence(input)
-    elif expr in ["." , "0", ]:
+    elif expr in ["." , "1", ]:
         return input
     elif expr == "#":
         return sharp(input)

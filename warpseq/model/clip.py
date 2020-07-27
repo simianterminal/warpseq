@@ -108,10 +108,12 @@ class Clip(ReferenceObject):
         else:
             result['patterns'] = []
 
-        if self.transforms:
-            result['transforms'] = [ x.obj_id for x in self.transforms ]
-        else:
-            result['transforms'] = []
+
+        result["transforms"] = self._save_transforms()
+        #if self.transforms:
+        #    result['transforms'] = [ x.obj_id for x in self.transforms ]
+        #else:
+        #    result['transforms'] = []
 
         if self.scales:
             result['scales'] = [x.obj_id for x in self.scales ]
@@ -130,41 +132,34 @@ class Clip(ReferenceObject):
 
         return result
 
-    def copy(self):
-        raise Exception("DO NOT RECYCLE CLIPS!")
+    def _save_transforms(self):
+        results = []
+        for x in self.transforms:
+            if type(x) == list:
+                results.append([ i.obj_id for i in x ])
+            else:
+                results.append(x.obj_id)
+        return results
 
-        new_id = self.new_object_id()
-        c2 = Clip(
-            obj_id = new_id,
-            name = self.name,
-            patterns = [ x for x in self.patterns ],
-            length = self.length,
-            repeat = self.repeat,
-            slot_length = self.slot_length,
-            next_clip = self.next_clip,
-            auto_scene_advance = self.auto_scene_advance,
-            degree_shifts = self.degree_shifts,
-            octave_shifts = self.octave_shifts,
-            scale_note_shifts = self.scale_note_shifts,
-            tempo_shifts = self.tempo_shifts,
-            rate = self.rate,
+    def _load_transforms(self, data):
 
-        )
-        if self.arps:
-            c2.arps = [ x for x in self.arps ]
-        if self.scales:
-            c2.scales = [ x for x in self.scales ]
-        return c2
+        results = []
+        for x in data:
+            if type(x) == list:
+                results.append([ song.find_transform(i) for i in x ])
+            else:
+                results.append(song.find_transform(x))
+        return results
 
     @classmethod
     def from_dict(cls, song, data):
-        return Clip(
+        clip = Clip(
             obj_id = data['obj_id'],
             name = data['name'],
             scales = [ song.find_scale(x) for x in data['scales'] ],
             patterns = [ song.find_pattern(x) for x in data['patterns'] ],
             length = data['length'],
-            transforms = [ song.find_transform(x) for x in data['transforms'] ],
+            transforms = [],
             repeat = data['repeat'],
             track = song.find_track(data['track']),
             scene = song.find_scene(data['scene']),
@@ -177,6 +172,8 @@ class Clip(ReferenceObject):
             tempo_shifts = data['tempo_shifts'],
             rate = data['rate']
         )
+        clip.transforms = self._load_transforms(data['transforms'])
+        return clip
 
     def get_actual_scale(self, song, pattern, roller):
 
@@ -314,8 +311,15 @@ class Clip(ReferenceObject):
             # to just contain the first part
             if self.length and self.length < len(notes):
                 notes = notes[0:self.length]
+
+
+
             if transform:
-                notes = transform.process(song, scale, self.track, notes)
+                # transforms can be in lists like: [t0, [t1, t2], t3, [ t4, t5, t6]]
+                if type(transform) != list:
+                    transform = [ transform ]
+                for tform in transform:
+                    notes = tform.process(song, scale, self.track, notes)
             all_notes.extend(notes)
 
         c2 = time.time()

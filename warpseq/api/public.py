@@ -260,6 +260,14 @@ class Clips(CollectionApi):
     # this is relatively dark because the clips are anything but generic, living at the intersection of a 2D
     # grid that isn't real, and the names are imaginary - the exact opposite of previous objects.
 
+    def _lookup_transforms(self, alist):
+        results = []
+        for x in alist:
+            if type(x) == list:
+                results.append([ self.api.transforms.lookup(i, require=True) for i in x])
+            else:
+                results.append(self.api.transforms.lookup(x))
+        return results
 
     def add(self, name, scene:str=None, track:str=None, patterns:list=None,  octave_shifts:list=None,
             degree_shifts:list=None, tempo_shifts:list=None, scale_note_shifts:list=None, next_clip:str=None,
@@ -268,7 +276,7 @@ class Clips(CollectionApi):
         if patterns:
             patterns = [ self.api.patterns.lookup(p, require=True) for p in patterns ]
         if transforms:
-            transforms = [ self.api.transforms.lookup(t, require=True) for t in transforms ]
+            transforms = self._lookup_transforms(transforms)
         if scales:
             scales = [ self.api.scales.lookup(s, require=True) for s in scales ]
         params = locals()
@@ -300,7 +308,7 @@ class Clips(CollectionApi):
         if patterns:
             params["patterns"] = [ self.api.patterns.lookup(p, require=True) for p in patterns ]
         if transforms:
-            params["transforms"] = [ self.api.transforms.lookup(t, require=True) for t in transforms ]
+            params["transforms"] = self._lookup_transforms(transforms)
         if scales:
             params["scales"] = [ self.api.scales.lookup(s, require=True) for s in scales ]
 
