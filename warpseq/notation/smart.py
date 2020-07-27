@@ -97,7 +97,7 @@ class SmartExpression(Class):
         slot_duration = clip.slot_duration(self.song, self.pattern)
         for note in notes:
             note.length = round(slot_duration)
-            print("NL ASSIGN: %s" % note.length)
+            # print("NL ASSIGN: %s" % note.length)
 
         # if the note was trailed by any mod expressions, apply them to all notes
         # to be returned
