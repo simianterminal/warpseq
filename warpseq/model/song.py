@@ -158,12 +158,10 @@ class Song(ReferenceObject):
 
         index = None
 
-        print("ALL SCENES: %s" % [s.name for s in self.scenes])
-
         for (i,x) in enumerate(self.scenes):
             if x.obj_id == scene.obj_id:
                 index = i
-                print("the current scene is index: %s" % i)
+                #print("the current scene is index: %s" % i)
                 break
 
         index = index + 1
@@ -171,7 +169,7 @@ class Song(ReferenceObject):
         if index >= len(self.scenes):
             return None
 
-        print("the new scene is index: %s" % (index))
+        #print("the new scene is index: %s" % (index))
         return self.scenes[index]
 
 
