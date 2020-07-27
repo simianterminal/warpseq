@@ -320,6 +320,7 @@ class Clip(ReferenceObject):
                 for note in slot:
                     note.start_time = round(t_start)
                     note.end_time = round(t_start + note.length)
+                    note.from_scale = scale
                 t_start = t_start + slot_duration
 
             # if the length of the pattern (or the clip) is shorter than the symbols provided, trim the pattern

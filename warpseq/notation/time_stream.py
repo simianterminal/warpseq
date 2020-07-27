@@ -134,7 +134,7 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
             start_index = note.start_time #str(round_partial(note.start_time, resolution))
             stop_index = note.end_time #str(round_partial(note.end_time, resolution))
 
-            event1 = Event(type=NOTE_ON, note=note, time=note.start_time)
+            event1 = Event(type=NOTE_ON, note=note, time=note.start_time, scale=note.from_scale)
 
             if event1.note.octave > clip.track.instrument.max_octave:
                 event1.note.octave = clip.track.instrument.max_octave
@@ -143,7 +143,7 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
 
             events.append(event1)
 
-            event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, on_event=event1)
+            event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, scale=note.from_scale, on_event=event1)
             events.append(event2)
 
     def sorter(event):

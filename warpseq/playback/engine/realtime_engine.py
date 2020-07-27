@@ -112,7 +112,7 @@ class RealtimeEngine(BaseObject):
             exprs = event.note.flags['deferred_expressions']
             has_deferred = True
             for expr in exprs:
-                value = self.mod_expressions.do(event.note, event.note.from_scale, self.track, expr)
+                value = self.mod_expressions.do(event.note, event.scale, self.track, expr)
                 if value is None:
                     return
                 event.note = value
@@ -127,7 +127,7 @@ class RealtimeEngine(BaseObject):
         #       print("CHILD: %s" % x)
                 evt.note = x
                 evt.note.flags['deferred'] = False
-                evt.note.from_scale = event.note.from_scale
+                #evt.note.from_scale = event.note.from_scale
                 self.play(evt)
             return
 
@@ -162,7 +162,7 @@ class RealtimeEngine(BaseObject):
                     # on_event = Field(required=False, default=None, nullable=True)
 
                     assert type(x) != Chord
-                    evt.on_event = Event(time = event.on_event.time, note = x, type=event.on_event.type, on_event=None)
+                    evt.on_event = Event(time = event.on_event.time, scale=event.scale, note = x, type=event.on_event.type, on_event=None)
 
 
                     self.play(evt)

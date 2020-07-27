@@ -13,6 +13,7 @@ class Event(BaseObject):
     note = Field(type=Note, required=True, nullable=False)
     time = Field(type=float, required=True, nullable=False)
     on_event = Field(required=False, default=None, nullable=True)
+    scale = Field(required=False, default=None)
 
     def __repr__(self):
         return "Event<Note=%s, type=%s, time=%s>" % (self.note, self.type, self.time)
