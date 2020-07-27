@@ -14,24 +14,39 @@ class Clip(ReferenceObject):
     from . track import Track
     from . scene import Scene
 
+    # -----
+
+    # THIS SECTION: USER EDITABLE
+
+    # PRIMARY FEATURES
     name = Field(type=str, required=True, nullable=False)
     scales = Field(type=list, required=False, nullable=True, default=None)
     patterns = Field(type=list, required=True, nullable=False)
-    # number of notes before repeat/loop
-    length = Field(type=int, default=None, required=False, nullable=True)
-    slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
+    transforms = Field(type=list, default=None, nullable=True)
+
+    # COLUMN TWO
+    rate = Field(type=float, default=1, nullable=False)
+    repeat = Field(type=int, default=-1, nullable=True)
+    # these next two are mutually exclusive, if ASA is true, next_clip is ignored
+    auto_scene_advance = Field(type=bool, default=False, nullable=False)
+    next_clip = Field(required=False, nullable=True)
+
+    # COLUMN THREE - these are like "easy" versions of transforms that can be used without
+    # creating a transform object. They take integers and not mod expressions
     octave_shifts = Field(type=list, default=None, required=False, nullable=True)
     degree_shifts = Field(type=list, default=None, required=False, nullable=True)
     tempo_shifts = Field(type=list, default=None, required=False, nullable=True)
     scale_note_shifts = Field(type=list, default=None, required=False, nullable=True)
-    next_clip = Field(required=False, nullable=True)
-    transforms = Field(type=list, default=None, nullable=True)
-    tempo = Field(type=int, default=None, nullable=True)
-    rate = Field(type=float, default=1, nullable=False)
-    repeat = Field(type=int, default=-1, nullable=True)
-    auto_scene_advance = Field(type=bool, default=False, nullable=False)
 
-    # internal state
+    # -------
+
+    # additional properties - may be discontinued - no need to expose
+    length = Field(type=int, default=None, required=False, nullable=True)
+
+    # basically internal, not exposed in the public API, use 'rate' instead
+    slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
+
+    # internal state - not exposed
     track = Field(type=Track, default=None, required=False, nullable=True)
     scene = Field(type=Scene, default=None, required=False, nullable=True)
 

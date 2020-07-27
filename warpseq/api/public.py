@@ -298,7 +298,7 @@ class Clips(CollectionApi):
 
     def edit(self, name:str=None, new_name:str=None, scene: str = None, track:str = None, patterns: list = None, octave_shifts:list = None,
             degree_shifts: list = None, tempo_shifts: list = None, scale_note_shifts:list = None, next_clip:str = None,
-            transforms: list = None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=None):
+            transforms:list = None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=None):
 
         scene = self.api.scenes.lookup(scene, require=True)
         track = self.api.tracks.lookup(track, require=True)

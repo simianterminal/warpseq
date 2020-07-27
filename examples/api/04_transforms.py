@@ -86,6 +86,6 @@ api.clips.add(name='melody octave adjustment, then stutter', scene='scene_6', tr
 api.clips.add(name='stacked transforms', scene='scene_7', track='lead', scales=['C-major'], patterns=['basic'], transforms=[['octave ramp','stutter'],'bassline',['octave arp','basic arp']], repeat=3,  auto_scene_advance=True)
 
 # play
-api.player.play_scene('scene_4')
+api.player.play_scene('scene_1')
 for x in range(0,128000):
     api.player.advance(5)
