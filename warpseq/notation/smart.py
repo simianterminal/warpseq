@@ -61,7 +61,7 @@ class SmartExpression(Class):
         mod_expressions = tokens[1:]
 
         # an empty string or an _ means no notes
-        if sym == "" or sym == "_":
+        if sym == "" or sym == "_" or sym == ".":
             return []
 
         # a hyphen means to tie the previous notes

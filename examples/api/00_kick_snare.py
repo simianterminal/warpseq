@@ -1,19 +1,30 @@
+# -------------------------------------------------------------
+# Warp API Demo
+# (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
+# --------------------------------------------------------------
+#
 # What this demos shows:
 #
 # * a simple 4/4 kick/snare pattern for 4 bars, then a change up
 #
+# ------------------------------------------------------------
+#
 # Learning objectives:
 #
-# * basic API operation
-# * how to input notes without a scale
-# * understanding of warpseq's timing
+# * study basic API operation
+# * learn how to input notes without a scale
+# * learn how scenes advance into other scenes
 #
+# -------------------------------------------------------------
 # Things to try:
 #
 # * change the song's tempo
 # * change the snare and kick patterns
 # * add in some hi-hats
 # * add in a third scene and pattern
+# * turn off auto_scene_advance - what happens?
+#
+# --------------------------------------------------------------
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo
@@ -38,10 +49,10 @@ api.tracks.add(name='snare', instrument='snare_inst', muted=False)
 api.scales.add(name='C-major', note='C', octave=3, scale_type='major')
 
 # setup patterns
-api.patterns.add(name='kick_4_4',  slots="C5 - -  - C5 - -  - C5 - -  - C5 - -  -".split())
-api.patterns.add(name='snare_4_4', slots="-  - D5 - - -  D5 - -  - D5 - -  - D5 -".split())
-api.patterns.add(name='kick_alt',  slots="C5 - C5 - C5 - -  - C5 - -  - C5 - -  -".split())
-api.patterns.add(name='snare_alt', slots="-  - D5 - -  - D5 D5 -  D5 D5 - -  D5 D5 -".split())
+api.patterns.add(name='kick_4_4',  slots="C5 . .  . C5 . .  . C5 . .  . C5 . .  .".split())
+api.patterns.add(name='snare_4_4', slots=".  . D5 . . .  D5 . .  . D5 . .  . D5 .".split())
+api.patterns.add(name='kick_alt',  slots="C5 . C5 . C5 . .  . C5 . .  . C5 . .  .".split())
+api.patterns.add(name='snare_alt', slots=".  . D5 . .  . D5 D5 .  D5 D5 . .  D5 D5 .".split())
 
 # setup scenes
 api.scenes.add(name='scene_1', scale='C-major', auto_advance=True)
