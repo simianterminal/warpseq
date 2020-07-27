@@ -13,6 +13,11 @@ NOTE_TABLE = [
     ['C',10], ['Db',10], ['D',10], ['Eb',10], ['E',10], ['F',10], ['Gb',10], ['G',10], ['Ab',10], ['A',10], ['Bb',10], ['B',10],
     ['C',11], ['Db',11], ['D',11], ['Eb',11], ['E',11], ['F',11], ['Gb',11], ['G',11], ['Ab',11], ['A',11], ['Bb',11], ['B',11],
     ['C',12], ['Db',12], ['D',12], ['Eb',12], ['E',12], ['F',12], ['Gb',12], ['G',12], ['Ab',12], ['A',12], ['Bb',12], ['B',12],
+
+    ['C', 13], ['Db', 13], ['D', 13], ['Eb', 13], ['E', 13], ['F', 13], ['Gb', 13], ['G', 13], ['Ab', 13], ['A', 13], ['Bb', 13], ['B', 13],
+    ['C', 14], ['Db', 14], ['D', 14], ['Eb', 14], ['E', 14], ['F', 14], ['Gb', 14], ['G', 14], ['Ab', 14], ['A', 14], ['Bb', 14], ['B', 14],
+    ['C', 15], ['Db', 15], ['D', 15], ['Eb', 15], ['E', 15], ['F', 15], ['Gb', 15], ['G', 15], ['Ab', 15], ['A', 15], ['Bb', 15], ['B', 15],
+
 ]
 
 def offset(note, tones):
@@ -24,11 +29,13 @@ def offset(note, tones):
 
     if tones == 0:
         return note
+    #print("STEPS=%s" % tones)
     steps = 2 * tones
     steps = int(steps)
     n1 = note.copy()
     note_index = n1.note_number()
     new_note_index = note_index + steps
+    #print("NNI=%s" % new_note_index)
     lookup = NOTE_TABLE[new_note_index]
     n1.name = lookup[0]
     n1.octave = lookup[1]

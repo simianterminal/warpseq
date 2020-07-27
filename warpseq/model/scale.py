@@ -72,10 +72,14 @@ class Scale(ReferenceObject):
             s.root = Note(name=data['root'][0], octave=data['root'][1])
         return s
 
+    # FIXME: remove the length param
     def generate(self, length=None):
 
         if self._cached is None:
             self._generate(length=145)
+        else:
+            return [ r.copy() for r in self._cached ]
+        #print("CACHED SCALE: %s" % self._cached)
 
         index = 0
 

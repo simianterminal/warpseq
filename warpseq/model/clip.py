@@ -267,6 +267,7 @@ class Clip(ReferenceObject):
             pat_index = pat_index + 1
             no = next(self._octave_roller)
             octave_shift = no + pattern.octave_shift + self.track.instrument.base_octave
+            #print("TOTAL OCTAVE SHIFT=%s" % octave_shift)
             degree_shift = next(self._degree_roller)
             scale_shift = next(self._scale_note_roller)
             slot_duration = self.slot_duration(song, pattern)
@@ -292,10 +293,12 @@ class Clip(ReferenceObject):
             # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
 
             notes = [ notation.do(self, expression) for expression in slots ]
+
             #print("N1>>>%s" % notes)
             notes = chord_list_to_notes(notes)
             notes = evaluate_ties(notes)
             #print("N2>>>%s" % notes)
+
 
             notes = evaluate_shifts(notes, octave_shift, degree_shift, scale, scale_shift)
             #print("N3>>>%s" % notes)

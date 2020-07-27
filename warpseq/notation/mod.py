@@ -16,6 +16,8 @@ class ModExpression(object):
 
     def do(self, note, scale, track, expressions):
 
+        #print("EXPR=%s" % expressions)
+
         self.scale = scale
 
         if type(expressions) != list:
@@ -59,7 +61,9 @@ class ModExpression(object):
                     return input_note
 
             # we ALWAYS need to process non-deferred events
+            #print("PROC IN=%s" % input_note)
             input_note = process_expr(self, input_note, expr, deferred=False)
+            #print("PROC OUT=%s" % input_note)
             if input_note is None:
                 return input_note
 

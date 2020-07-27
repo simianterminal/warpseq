@@ -28,6 +28,9 @@ def expr_octave_up(parser, input, how, extra_info):
 
 def expr_octave_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
+    #print("-how=%s" % -how)
+    #print(type(how))
+    #print(type(input))
     return input.transpose(octaves=-how)
 
 def expr_octave_set(parser, input, how, extra_info):

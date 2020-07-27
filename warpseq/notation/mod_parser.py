@@ -73,6 +73,7 @@ def perform(parser, note, operations, what, how):
         raise Exception("unknown mod expression: %s" % what)
 
     routine = operations[what]
+    print("ROUTINE=%s" % routine.__name__)
     result = routine(parser, note, how, extra_info)
     return result
 
@@ -113,7 +114,9 @@ def process_expr(parser, input, expr, deferred=False):
     elif "-" in expr:
         # FIXME: duplicate code
         operations = table['decrements']
+        #print("OPERATIONS=%s" % operations)
         tokens = expr.split('-',1)
+        #print("TOKENS=%s" % tokens)
         return perform(parser, input, operations, tokens[0], tokens[1])
     elif "=" in expr:
         operations = table['assignments']

@@ -166,12 +166,16 @@ class Note(BaseObject):
         if semitones is None:
             semitones = 0
 
-        steps = steps + (octaves * 6) + (semitones * 0.5) + degree_steps
+        steps = steps + (semitones * 0.5) + degree_steps
+
+        result = self.copy()
 
         if steps:
-            return self.offset(steps)
-        else:
-            return self
+            result = self.offset(steps)
+        if octaves:
+            result.octave = result.octave + octaves
+            #print("NEW RO=%s" % result.octave)
+        return result
 
     def expand_notes(self):
         return [ self ]
