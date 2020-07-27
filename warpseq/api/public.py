@@ -125,22 +125,19 @@ class Scales(CollectionApi):
         slots = params['slots']
         root = self._get_note(params)
         params['root'] = root
-        if root is None and slots is None:
+        scale_type = params['scale_type']
+        if scale_type is None and slots is None:
             if not for_edit:
-                raise InvalidInput("either note+octave+scale_type or slots is required")
-            else:
-                del params['root']
-                del params['slots']
-        if root is not None and slots is not None:
-            raise InputInput("note/octave/scale_type and slots are mutually exclusive")
+                raise InvalidInput("either scale_type or slots is required")
+        if slots is not None and scale_type is not None:
+            raise InvalidInput("scale_type and slots are mutually exclusive")
         del params['note']
         del params['octave']
 
     def _get_note(self, params):
         note = params['note']
         octave = params['octave']
-        scale_type = params['scale_type']
-        if note and (octave is not None) and scale_type:
+        if note and (octave is not None):
             return Note(name=note, octave=octave)
         else:
             return None

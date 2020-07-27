@@ -38,23 +38,18 @@ api.tracks.add(name='lead', instrument='lead_inst', muted=False)
 #print("available scale types:")
 #print(api.scales.scale_types())
 
-
 api.scales.add(name='C-major', note='C', octave=0, scale_type='major')
 api.scales.add(name='C-minor', note='C', octave=0, scale_type='natural_minor')
 api.scales.add(name='G-major', note='G', octave=0, scale_type='major')
 api.scales.add(name='G-minor', note='G', octave=0, scale_type='natural_minor')
 api.scales.add(name='Bb-mixolydian', note='Bb', octave=0, scale_type='mixolydian')
 api.scales.add(name='A-akebono', note='A', octave=0, scale_type='akebono')
-
-
-# user scales are currently disabled
-#api.scales.add(name='F-user1', note='F', octave=0, slots = [1, 'b2', 'b3', '5', 6 ])
-#api.scales.add(name='F-user2', note='F', octave=1, slots = [1, 'b2', 'b3', '5', 6 ])
+api.scales.add(name='F-user1', note='F', octave=0, slots = [1, 'b2', 'b3', '5', 6 ])
+api.scales.add(name='F-user2', note='F', octave=1, slots = [1, 'b2', 'b3', '5', 6 ])
 
 # setup patterns
 api.patterns.add(name='up', slots=['1','2','3','4','5','6','7','8'])
 api.patterns.add(name='down', slots=['8','7','6','5','4','3','2','1'])
-
 
 # setup scenes
 api.scenes.add(name='scene_1', tempo=60, auto_advance=True)
@@ -74,6 +69,7 @@ api.clips.add(name='s4c', scene='scene_4', track='lead', scales=['G-minor'], pat
 api.clips.add(name='s5c', scene='scene_5', track='lead', scales=['Bb-mixolydian'], patterns=['up'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s6c', scene='scene_6', track='lead', scales=['A-akebono'], patterns=['up'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s7c', scene='scene_7', track='lead', scales=['C-major','G-minor','A-akebono'], patterns=['down'], repeat=3, auto_scene_advance=True)
+api.clips.add(name='s8c', scene='scene_8', track='lead', scales=['F-user1', 'F-user2'], patterns=['down'], repeat=2, auto_scene_advance=True)
 
 # play
 api.player.play_scene('scene_1')
