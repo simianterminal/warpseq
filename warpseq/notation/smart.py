@@ -91,9 +91,13 @@ class SmartExpression(Class):
 
         # assign a length to all the notes based on the clip settings
         # this may be modified later by the arp selection (if set)
-        slot_duration = clip.slot_duration(self.song)
+
+        assert self.pattern is not None
+
+        slot_duration = clip.slot_duration(self.song, self.pattern)
         for note in notes:
             note.length = round(slot_duration)
+            print("NL ASSIGN: %s" % note.length)
 
         # if the note was trailed by any mod expressions, apply them to all notes
         # to be returned

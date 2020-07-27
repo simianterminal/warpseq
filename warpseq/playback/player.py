@@ -78,6 +78,7 @@ class Player(BaseObject):
                 self._multiplayer.remove_clip(self.clip)
 
                 if self.clip.auto_scene_advance:
+                    print("inquiring on next scene from %s" % self.clip.scene)
                     new_scene = self.song.next_scene(self.clip.scene)
                     if new_scene:
                         print("auto advancing scene to: %s" % new_scene.name)

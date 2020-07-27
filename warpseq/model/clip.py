@@ -202,19 +202,13 @@ class Clip(ReferenceObject):
         tempo_ratio = (120 / self.actual_tempo(song, pattern))
         return tempo_ratio * 125
 
-    def slot_duration(self, song, pattern=None):
+    def slot_duration(self, song, pattern):
 
-        patterns = self.patterns
-        if pattern is not None:
-            patterns = [ pattern ]
-        total_duration = 0
-
-        for pat in patterns:
-            snd = self.sixteenth_note_duration(song, pat)
-            slot_ratio = self.slot_length / (1/16.0)
-            slot_duration = snd * slot_ratio
-            total_duration = total_duration + slot_duration
-        return total_duration
+        assert pattern is not None
+        snd = self.sixteenth_note_duration(song, pattern)
+        slot_ratio = self.slot_length / (1/16.0)
+        slot_duration = snd * slot_ratio
+        return slot_duration
 
     def get_clip_duration(self, song):
 

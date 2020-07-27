@@ -158,6 +158,8 @@ class Song(ReferenceObject):
 
         index = None
 
+        print("ALL SCENES: %s" % [s.name for s in self.scenes])
+
         for (i,x) in enumerate(self.scenes):
             if x.obj_id == scene.obj_id:
                 index = i

@@ -37,7 +37,6 @@ api.tracks.add(name='lead', instrument='lead_inst', muted=False)
 # setup scales
 print("available scale types:")
 print(api.scales.scale_types())
-
 api.scales.add(name='C-major', note='C', octave=0, scale_type='major')
 api.scales.add(name='C-minor', note='C', octave=0, scale_type='natural_minor')
 api.scales.add(name='G-major', note='G', octave=0, scale_type='major')
