@@ -359,7 +359,7 @@ class Player(object):
 
     def play_scene(self, scene):
         print("scene: %s" % scene)
-        scene = self.public_api.scenes.lookup(scene)
+        scene = self.public_api.scenes.lookup(scene, require=True)
         self.multi_player.play_scene(scene)
 
     def play_clips(self, clips):
