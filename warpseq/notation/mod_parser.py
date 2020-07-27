@@ -73,7 +73,7 @@ def perform(parser, note, operations, what, how):
         raise Exception("unknown mod expression: %s" % what)
 
     routine = operations[what]
-    print("ROUTINE=%s" % routine.__name__)
+    #print("ROUTINE=%s" % routine.__name__)
     result = routine(parser, note, how, extra_info)
     return result
 
