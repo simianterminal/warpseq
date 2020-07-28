@@ -31,10 +31,10 @@ api.song.edit(tempo=160)
 # setup instruments
 DEVICE = demo.suggest_device(api, 'IAC Driver IAC Bus 1')
 
-api.instruments.add('guide', device=DEVICE, channel=4, min_octave=0, base_octave=3, max_octave=10, muted=True)
-api.instruments.add('lead_inst', device=DEVICE, channel=1, min_octave=0, base_octave=3, max_octave=10)
-api.instruments.add('chord_inst', device=DEVICE, channel=2, min_octave=0, base_octave=3, max_octave=10)
-api.instruments.add('bass_inst', device=DEVICE, channel=3, min_octave=0, base_octave=3, max_octave=10)
+api.instruments.add('guide', device=DEVICE, channel=4, min_octave=0, base_octave=4, max_octave=10, muted=True)
+api.instruments.add('lead_inst', device=DEVICE, channel=1, min_octave=0, base_octave=4, max_octave=10)
+api.instruments.add('chord_inst', device=DEVICE, channel=2, min_octave=0, base_octave=4, max_octave=10)
+api.instruments.add('bass_inst', device=DEVICE, channel=3, min_octave=0, base_octave=4, max_octave=10)
 
 # setup tracks
 api.tracks.add(name='guide', instrument='guide')

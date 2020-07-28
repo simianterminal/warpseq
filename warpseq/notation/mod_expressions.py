@@ -122,6 +122,7 @@ def expr_chord_set(parser, input, how, extra_info):
 # INTRA-TRACK EVENTS
 
 def expr_track_grab(parser, input, how, extra_info):
+
     # note grab: T=euro1
     how = evaluate_params(how, want_string=True)
     playing = get_first_playing_note(how)

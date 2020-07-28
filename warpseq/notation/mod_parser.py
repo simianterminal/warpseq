@@ -36,8 +36,16 @@ ASSIGNMENTS = {
 }
 
 DEFERRED_ASSIGNMENTS = {
+    "o": expr_octave_set,
+    "s": expr_scale_note_down,
+    "v": expr_velocity_set,
+    "cc": expr_cc_set,
+    "ch": expr_chord_set,
+    "$": expr_variable_set,
+    "p": expr_probability_set,
     "t"  : expr_track_grab
 }
+
 
 
 OPERATIONS = dict(
@@ -47,15 +55,12 @@ OPERATIONS = dict(
         assignments = ASSIGNMENTS
     ),
     deferred = dict(
-        increments = dict(),
-        decrements = dict(),
+        increments = INCREMENTS,
+        decrements = DECREMENTS,
         assignments = DEFERRED_ASSIGNMENTS
     )
 )
 
-OPERATIONS['deferred']['increments'].update(OPERATIONS['normal']['increments'])
-OPERATIONS['deferred']['decrements'].update(OPERATIONS['normal']['decrements'])
-OPERATIONS['deferred']['assignments'].update(OPERATIONS['normal']['assignments'])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -78,7 +83,6 @@ def perform(parser, note, operations, what, how):
         raise Exception("unknown mod expression: (%s)" % what)
 
     routine = operations[what]
-    #print("ROUTINE=%s" % routine.__name__)
     result = routine(parser, note, how, extra_info)
     return result
 
