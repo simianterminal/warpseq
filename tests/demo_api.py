@@ -2,17 +2,17 @@ from warpseq.api.public import Api
 from warpseq.api.exceptions import *
 import sys
 
+# THIS TEST IS NOT MEANT FOR TEACHING WARPSEQ.  Instead, See examples/api/*.py for musical API tutorials.
+# This mostly tests I/O and edit commands.
+
 DEVICE = 'IAC Driver IAC Bus 1'
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 api = Api()
 
-
-
 # ----------------------------------------------------------------------------------------------------------------------
 # setup MIDI devices
-
 # FIXME: make a method that checks an environment variable?
 
 print("---")
@@ -180,17 +180,17 @@ print(api.clips.list())
 # ----------------------------------------------------------------------------------------------------------------------
 # Player
 
-api.player.play_scene('s1')
+#api.player.play_scene('s1')
 #
 #api.player.play_clips(['c1','c2'])
 #api.player.stop_clips(['c1','c2'])
 #api.player.stop()
-
-for x in range(0,64000):
-    # print("advance: %s" % x)
-    api.player.advance(2)
-
-api.player.stop()
+#
+#for x in range(0,64000):
+#    # print("advance: %s" % x)
+#    api.player.advance(2)
+#
+#api.player.stop()
 
 # FIXME: api.save_as('/tmp/warpseq_test.json')
 # api.save()

@@ -15,12 +15,18 @@ class Pattern(ReferenceObject):
 
     name = Field(required=True, nullable=False)
     slots = Field(type=list, required=True, nullable=False)
-    length = Field(type=int, default=None, nullable=True)
+
+
     octave_shift = Field(type=int, default=0, nullable=False)
 
-    tempo = Field(type=int, default=None, nullable=True)
+
+    # tempo = Field(type=int, default=None, nullable=True)
+
     rate  = Field(type=float, default=1, nullable=False)
     scale = Field(type=Scale, default=None, nullable=True)
+
+    # length is not exposed in the public API (currently)
+    length = Field(type=int, default=None, nullable=True)
 
     def on_init(self):
         super().on_init()
@@ -31,7 +37,7 @@ class Pattern(ReferenceObject):
             name = self.name,
             slots = self.slots,
             length = self.length,
-            tempo = self.tempo,
+            #tempo = self.tempo,
             octave_shift = self.octave_shift,
             rate = self.rate
         )
@@ -48,7 +54,7 @@ class Pattern(ReferenceObject):
             name = data['name'],
             slots = data['slots'],
             length = data['length'],
-            tempo = data['tempo'],
+            #tempo = data['tempo'],
             octave_shift = data['octave_shift'],
             rate = data['rate'],
             scale = song.find_scale(data['scale'])
