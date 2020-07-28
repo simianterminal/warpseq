@@ -55,8 +55,8 @@ api.patterns.add(name='even', slots = ['1 T=guide','','1 T=guide', '', '5', ''])
 api.patterns.add(name='odd', slots = ['','1 T=guide','','1 T=guide', '', '5' ])
 api.patterns.add(name='chords', slots = ['1 T=guide ch=major', '-', '-', '-'])
 
+# setup transforms
 api.transforms.add(name='bassline', slots=['1', 'S+1', 'S+4', 'S+5'], divide=4)
-
 
 # setup scenes
 api.scenes.add(name='scene_1', rate=1, auto_advance=True, scale='Eb-lydian')

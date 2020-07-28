@@ -81,6 +81,6 @@ api.clips.add(name='s11c', scene='scene_11', track='lead', scales=['C-major'], p
 api.clips.add(name='s12c', scene='scene_12', track='lead', scales=['C-major'], patterns=['many things also with chords'], repeat=4, auto_scene_advance=True)
 
 # play
-api.player.play_scene('scene_11')
+api.player.play_scene('scene_1')
 for x in range(0,128000):
     api.player.advance(5)
