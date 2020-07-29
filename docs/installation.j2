@@ -1,19 +1,19 @@
-<h1>Installation Hello</h1>
+<h1>Installation</h1>
 
 <h2>Requirements</h2>
 
+<p>
 So far, Warp has been tested on Mac and Linux.  If you are on Windows, we would appreciate help in testing.
+</p>
 
-First install python3 and git if you do not already have it.  On a Mac, we recommend getting Python3 from homebrew:
+<p>
+First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, we recommend installing <i>python3</i> from homebrew:
+</p>
 
 {{ begin_code(language='bash') }}
 brew install python3
 brew install git
 {{ end_code() }}
-
-<p>
-Otherwise, do what your platform needs you to do to install Python 3 and git.
-</p>
 
 <h2>Checkout</h2>
 
@@ -25,27 +25,20 @@ Now clone the project into a directory:
 git clone https://laserllama@bitbucket.org/laserllama/warpseq.git
 {{ end_code() }}
 
-
-
 <h2>Libraries</h2>
 
 <p>
-Now install the Python dependencies:
+Now install the dependencies:
 </p>
 
 {{ begin_code(language='bash') }}pip3 install -f requirements.txt
 {{ end_code() }}
 
-{{ begin_info_block() }}
-Fun fact: Warp uses a python library called <A HREF="http://classforge.io">classforge</A>, also from <A HREF="http://michaeldehaan.net">Michael DeHaan</A>. The documentation
-for Warp was generated with Michael's project <A HREF="http://rockchisel.com">rockchisel</A>.  Python developers may be interested in these.
-{{ end_info_block() }}
-
 <h2>Creating a Virtual Bus</h2>
 
 <p>
-If you want to use Warp with software (as opposed to hardware) synthesizers, we need to create a Virtual Bus to talk to them.  Ableton has already written some great documentation
-on this, so we suggest following those:
+If you want to use Warp with software synthesizers, you will need to create a Virtual Bus in your operating system to talk to them if you do not already have one.
+Ableton has already written some great documentation on this, so we suggest following those:
 </p>
 
 <p>
@@ -53,7 +46,7 @@ on this, so we suggest following those:
 </p>
 
 <p>
-(You can skip step 5 unless you also use Ableton and haven't already set that up)
+You can skip step 5 in the above document unless you also use Ableton and haven't already set that up.
 </p>
 
 <h2>Ready?</h2>
@@ -63,15 +56,14 @@ We are ready to go.  At the current state of development, only the python API is
 To try out Warpseq from the API, run one of the examples:
 </p>
 
-{{ begin_code(language='bash') }}
-python3 tests/api.py
+{{ begin_code(language='bash') }}cd examples/api
+python3 tests/00_kick_snare.py
 {{ end_code() }}
 
 <p>
-Except this won't probably work, because you need to select your MIDI interface!  Hack the example for now
-where you see "Device" to match the name of a device you have.  FIXME: this instruction will change.
+The program may prompt you about selecting a MIDI interface.
 </p>
 
 <p>
-When the UI is available, there will just be a few more install steps.
+When the UI is available, there will just be a few more install steps for Web UI dependencies.
 </p>

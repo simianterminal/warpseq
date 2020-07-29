@@ -1,6 +1,6 @@
 <html lang='en'>
 <head>
-<title>Warp MIDI Sequencer 0.1: Randomness</title>
+<title>Warp MIDI Sequencer 0.1: More Randomness</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" href="rockdoc.css">
@@ -41,6 +41,23 @@
                
                <li>
                
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
                    <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
                    <ul class="collapse list-unstyled" id="navMenuConcepts">
                    
@@ -68,41 +85,26 @@
                
                <li class="active">
                
-                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
                    
-                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
-                        <li><a href="./expr_literal.html">Literals</a></li>
+                        <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
                         <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
                    
                         <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
                    
-                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                        <li><a href="./expr_transforms.html">Transforms</a></li>
                    
-                        <li><a href="./expr_random.html">Randomness</a></li>
+                        <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
-                   <ul class="collapse list-unstyled" id="navMenuInOperation">
-                   
-                        <li><a href="./installation.html">Installation</a></li>
-                   
-                        <li><a href="./ui.html">Web UI</a></li>
-                   
-                        <li><a href="./api.html">Python API</a></li>
                    
                    </ul>
                </li>
@@ -256,7 +258,7 @@ This could be done with multiple MIDI CCs, changing them at different points in 
 
 <h3>Probability Events</h3>
 
-Another form of randomness is the "p" mod expression, which is covered in the <A HREF="./expr_mod.html">Modifer Expressions</a> section.
+Another form of randomness is the "p" mod expression, which is covered in the <A HREF="./expr_mod.html">Common Modifiers</a> section.
         
     </div>
 </div>
@@ -272,7 +274,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleExpressions').click();
+        document.getElementById('navToggleExpressionLanguage').click();
     
 
 });

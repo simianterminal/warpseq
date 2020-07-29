@@ -39,6 +39,23 @@
                </li>
            
                
+               <li>
+               
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
                <li class="active">
                
                    <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
@@ -68,41 +85,26 @@
                
                <li>
                
-                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
                    
-                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
-                        <li><a href="./expr_literal.html">Literals</a></li>
+                        <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
                         <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
                    
                         <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
                    
-                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                        <li><a href="./expr_transforms.html">Transforms</a></li>
                    
-                        <li><a href="./expr_random.html">Randomness</a></li>
+                        <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
-                   <ul class="collapse list-unstyled" id="navMenuInOperation">
-                   
-                        <li><a href="./installation.html">Installation</a></li>
-                   
-                        <li><a href="./ui.html">Web UI</a></li>
-                   
-                        <li><a href="./api.html">Python API</a></li>
                    
                    </ul>
                </li>
@@ -156,12 +158,18 @@
 
 <p>A scene is a list of <A HREF="./clip.html">Clips</a> that can be launched (played) together. When starting a new scene, all other clips not in the scene will stop.</p>
 
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Unlike some other DAWs, scenes aren't just useful for triggering clips.  They are a useful place to assign a key change, so your songs can use different scales
+in different movements - even if they still repeat the same patterns. This is a great way to provide some more interesting song structure with very little extra input.
+</div>
+
 <p>
 <ul>
-<li>A scene may override the tempo of the <A HREF="./song.html">Song</a>, if not further overriden on the <A HREF="./clip.html">Clips</a>  therein.</li>
 <li>A scene may override the scale of the <A HREF="./song.html">Song</a>, if not further overriden on the <A HREF="./clip.html">Clips</a> therein.</li>
-<li>A scene may be set to auto_advance, in which case any of the <A HREF="./clip.html">Clips</a> therein flagged as such will advance the scene to the next scene when finished.</li>
+<li>A scene may be set to auto_advance, in which case any of the <A HREF="./clip.html">Clips</a> flagged as such will advance the scene to the next scene when finished.</li>
 <li>There is no limit to the number of scenes you may have.</li>
+<li>A clip may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed).</li>
 </ul>
 </p>
         

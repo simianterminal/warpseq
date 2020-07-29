@@ -39,6 +39,23 @@
                </li>
            
                
+               <li class="active">
+               
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
                <li>
                
                    <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
@@ -68,41 +85,26 @@
                
                <li>
                
-                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
                    
-                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
-                        <li><a href="./expr_literal.html">Literals</a></li>
+                        <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
                         <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
                    
                         <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
                    
-                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                        <li><a href="./expr_transforms.html">Transforms</a></li>
                    
-                        <li><a href="./expr_random.html">Randomness</a></li>
+                        <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li class="active">
-               
-                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
-                   <ul class="collapse list-unstyled" id="navMenuInOperation">
-                   
-                        <li><a href="./installation.html">Installation</a></li>
-                   
-                        <li><a href="./ui.html">Web UI</a></li>
-                   
-                        <li><a href="./api.html">Python API</a></li>
                    
                    </ul>
                </li>
@@ -165,7 +167,7 @@ how to program. What follows is an explanation of the UI as planned (almost a re
 <li>You will start it by starting a server and going to http://port</li>
 <li>There is no authentication and you run this on your local machine, the one with the MIDI devices</li>
 <li>You will probably have Ableton or some other tool open behind the DAW to host VSTs and control audio, or even to record MIDI from Warp</li>
-<li>There are no menus.</li>
+<li>There are no menu bars.</li>
 <li>The server starts up with an empty song.  It only keeps one song in memory at a time.</li>
 </ul>
 
@@ -218,14 +220,12 @@ how to program. What follows is an explanation of the UI as planned (almost a re
 <li>The clip page shall be full screen or nearly a full screen modal with an easy way to get back to the grid</li>
 <li>There will be a Patterns Widget that allows adding and editing each pattern inline</li>
 <li>the same kind of widget will exist for Transforms to the right of patterns</li>
-<li>The third column contains roller options like scales, octave shifts, and so on... and things like the tempo widget - all other parameters - possibly 4 columns if needed</li>
+<li>The third column contains roller options like scale and rate</li>
 <li>You can see all attached patterns and transforms at once</li>
-<li>The octave shifts, scale degree shifts, tempo shifts are also editable lists very similar to pattern/transforms lists, but there is only one of them</li>
-<li>There's a scale picker and a tempo selector widget</li>
 <li>We can toggle the flag that controls scene auto advance or program next clip</li>
 <li>Changing anything should have immediate effect, there is no save button
 <li>There is no separate "Patterns" page. You can add patterns, remove them, or destroy them from this widget.</li>
-<li>Destroying a pattern/transform removes it everywhere it is referenced, just as edits are also global (patterns/transforms are like symlinks)</li>
+<li>Destroying a pattern/transform removes it everywhere it is referenced - but that should only happen from a separate patterns list page.</li>
 </ul>
 
 <h2>Pattern/Transform Widget</h2>
@@ -234,7 +234,8 @@ how to program. What follows is an explanation of the UI as planned (almost a re
 <li>Each pattern in the clip is shown one on top of each other in a vertical row.  One row for patterns, one for transforms.</li>
 <li>This is basically a text area where one slot of the pattern is on it's own line.</li>
 <li>When the pattern is changed we need to ask the server if all expressions are valid, and need a method for this</li>
-<li>If there invalid it should say which are invalid</li>
+<li>Remember transforms can be two dimensional arrays!  Multiple transforms per line, multiple lines of transforms</li>
+<li>If there invalid patterns it should say which are invalid - this may have to wait until they are evaluated during a song</li>
 </ul>
 
 <h2>Status Indicators</h2>
@@ -262,7 +263,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleInOperation').click();
+        document.getElementById('navToggleSetupAndUsage').click();
     
 
 });

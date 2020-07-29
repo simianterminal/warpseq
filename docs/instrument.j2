@@ -8,6 +8,21 @@ An instrument is the named combination of a MIDI {{ doc('device') }} and a MIDI 
 <ul>
 <li>An instrument has a minimum and maximum octave, outside of which notes will not play</li>
 <li>An instrument has a base octave, which is the default octave value in any {{ doc('scale') }}.  Transpositions can still occur below this default value, and this can also be shifted in a {{ doc('clip') }}.</li>
+<li>An instrument can be muted.</li>
 </ul>
 </p>
+
+{{ begin_warn_block() }}
+If you can't hear a track, check these things:
+
+ <ul>
+  <li>that the instrument isn't muted in Warp</li>
+  <li>that the track isn't muted in Warp</li>
+  <li>that the note is inside the octave range as defined on the instrument</li>
+  <li>that your DAW MIDI track is armed (for software synths on virtual buses)</li>
+  <li>that your MIDI channel number on the track is correct</li>
+</ul>
+
+It's ok, we've been there.
+{{ end_warn_block() }}
 

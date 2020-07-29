@@ -8,8 +8,7 @@ There are two forms of randomness supplied - range and choice.
 The first form - range - picks a value between a range. The two limits of the range are separated by a colon (":").
 Here we randomly jump the third note in a pattern by between 0 and 4 octaves each time it plays:
 
-{{ begin_code() }}
-1
+{{ begin_code() }}1
 2
 3 O+0:4
 4
@@ -21,8 +20,7 @@ Here we randomly jump the third note in a pattern by between 0 and 4 octaves eac
 The second form - choice - involves choosing from a list, which allows some control over probability distribution if an entry
 appears in a list more than once.  The choices in the list are separated by commas (",")
 
-{{ begin_code() }}
-3 O+0,2,3
+{{ begin_code() }}3 O+0,2,3
 {{ end_code() }}
 
 In the above example, the note jumps 0, 2 or 3 octaves, but the chance of an octave jump is 50%, because two of the values
@@ -30,8 +28,7 @@ are zero.
 
 Choice is also the only random form that works with non-numeric values, such as this random chord type example:
 
-{{ begin_code() }}
-I
+{{ begin_code() }}I
 3 ch=major,minor
 {{ end_code() }}
 
@@ -39,8 +36,7 @@ In this example, the second note is either a major or minor chord, with equal ch
 
 As an example effecting probability, this quick example shows a 1/3 chance of a minor chord:
 
-{{ begin_code() }}
-I
+{{ begin_code() }}I
 3 ch=major,major,minor
 {{ end_code() }}
 
@@ -51,8 +47,7 @@ I
 Humanizing otherwise repetitive patterns is a popular feature in many sequencers, and here's an example
 of humanizing velocity in Warp while playing a two octave scale, with every four notes being full volume.
 
-{{ begin_code() }}
-1 v=127
+{{ begin_code() }}1 v=127
 2 v=60:80
 3 v=60:80
 4 v=60:80
@@ -73,8 +68,7 @@ of humanizing velocity in Warp while playing a two octave scale, with every four
 Because MIDI CC's are sticky between notes, assigning random values to CC values can work like a tempo-synced sample
 and hold.  The example below changes twice in each pattern iteration.
 
-{{ begin_code() }}
-1 cc0=0:127
+{{ begin_code() }}1 cc0=0:127
 2
 3
 4
@@ -88,8 +82,7 @@ and hold.  The example below changes twice in each pattern iteration.
 
 This could be done with multiple MIDI CCs, changing them at different points in the pattern:
 
-{{ begin_code() }}
-1 cc0=0:127
+{{ begin_code() }}1 cc0=0:127
 2
 3 cc1=20:127
 4

@@ -39,6 +39,23 @@
                </li>
            
                
+               <li class="active">
+               
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
                <li>
                
                    <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
@@ -68,41 +85,26 @@
                
                <li>
                
-                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
                    
-                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
-                        <li><a href="./expr_literal.html">Literals</a></li>
+                        <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
                         <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
                    
                         <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
                    
-                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                        <li><a href="./expr_transforms.html">Transforms</a></li>
                    
-                        <li><a href="./expr_random.html">Randomness</a></li>
+                        <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li class="active">
-               
-                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
-                   <ul class="collapse list-unstyled" id="navMenuInOperation">
-                   
-                        <li><a href="./installation.html">Installation</a></li>
-                   
-                        <li><a href="./ui.html">Web UI</a></li>
-                   
-                        <li><a href="./api.html">Python API</a></li>
                    
                    </ul>
                </li>
@@ -151,22 +153,22 @@
 
 
 
-<h1>Installation Hello</h1>
+<h1>Installation</h1>
 
 <h2>Requirements</h2>
 
+<p>
 So far, Warp has been tested on Mac and Linux.  If you are on Windows, we would appreciate help in testing.
+</p>
 
-First install python3 and git if you do not already have it.  On a Mac, we recommend getting Python3 from homebrew:
+<p>
+First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, we recommend installing <i>python3</i> from homebrew:
+</p>
 
 <div class='codeblock'><pre><code class="language-bash">
 brew install python3
 brew install git
 </code></pre></div>
-
-<p>
-Otherwise, do what your platform needs you to do to install Python 3 and git.
-</p>
 
 <h2>Checkout</h2>
 
@@ -178,28 +180,20 @@ Now clone the project into a directory:
 git clone https://laserllama@bitbucket.org/laserllama/warpseq.git
 </code></pre></div>
 
-
-
 <h2>Libraries</h2>
 
 <p>
-Now install the Python dependencies:
+Now install the dependencies:
 </p>
 
 <div class='codeblock'><pre><code class="language-bash">pip3 install -f requirements.txt
 </code></pre></div>
 
-<div class='infoblock'>
-<i class="fas fa-info-circle"></i></i>&nbsp;
-Fun fact: Warp uses a python library called <A HREF="http://classforge.io">classforge</A>, also from <A HREF="http://michaeldehaan.net">Michael DeHaan</A>. The documentation
-for Warp was generated with Michael's project <A HREF="http://rockchisel.com">rockchisel</A>.  Python developers may be interested in these.
-</div>
-
 <h2>Creating a Virtual Bus</h2>
 
 <p>
-If you want to use Warp with software (as opposed to hardware) synthesizers, we need to create a Virtual Bus to talk to them.  Ableton has already written some great documentation
-on this, so we suggest following those:
+If you want to use Warp with software synthesizers, you will need to create a Virtual Bus in your operating system to talk to them if you do not already have one.
+Ableton has already written some great documentation on this, so we suggest following those:
 </p>
 
 <p>
@@ -207,7 +201,7 @@ on this, so we suggest following those:
 </p>
 
 <p>
-(You can skip step 5 unless you also use Ableton and haven't already set that up)
+You can skip step 5 in the above document unless you also use Ableton and haven't already set that up.
 </p>
 
 <h2>Ready?</h2>
@@ -217,17 +211,16 @@ We are ready to go.  At the current state of development, only the python API is
 To try out Warpseq from the API, run one of the examples:
 </p>
 
-<div class='codeblock'><pre><code class="language-bash">
-python3 tests/api.py
+<div class='codeblock'><pre><code class="language-bash">cd examples/api
+python3 tests/00_kick_snare.py
 </code></pre></div>
 
 <p>
-Except this won't probably work, because you need to select your MIDI interface!  Hack the example for now
-where you see "Device" to match the name of a device you have.  FIXME: this instruction will change.
+The program may prompt you about selecting a MIDI interface.
 </p>
 
 <p>
-When the UI is available, there will just be a few more install steps.
+When the UI is available, there will just be a few more install steps for Web UI dependencies.
 </p>
         
     </div>
@@ -244,7 +237,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleInOperation').click();
+        document.getElementById('navToggleSetupAndUsage').click();
     
 
 });

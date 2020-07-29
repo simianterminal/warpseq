@@ -39,6 +39,23 @@
                </li>
            
                
+               <li class="active">
+               
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
                <li>
                
                    <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
@@ -68,41 +85,26 @@
                
                <li>
                
-                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
                    
-                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
-                        <li><a href="./expr_literal.html">Literals</a></li>
+                        <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
                         <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
                    
                         <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
                    
-                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                        <li><a href="./expr_transforms.html">Transforms</a></li>
                    
-                        <li><a href="./expr_random.html">Randomness</a></li>
+                        <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li class="active">
-               
-                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
-                   <ul class="collapse list-unstyled" id="navMenuInOperation">
-                   
-                        <li><a href="./installation.html">Installation</a></li>
-                   
-                        <li><a href="./ui.html">Web UI</a></li>
-                   
-                        <li><a href="./api.html">Python API</a></li>
                    
                    </ul>
                </li>
@@ -159,13 +161,20 @@ there are two reasons why you may want an API.
 </p>
 
 <ul>
-<li>The Web UI isn't available yet - which is currently true.  Check back around September, most likely?</li>
+<li>The Web UI isn't available yet! - which is currently true. Look for something in Fall of 2020!</li>
 <li>The API allows fancy generative compositions and allows you to see all of your patterns on the same screen at once</li>
 </ul>
 
 <p>
-API docs to come (BELOW) -- FIXME.
+API examples are part of the project repo, but you can also browse them on <A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">BitBucket.</A>
 </p>
+
+<p>
+The public API is considered (fairly) stable and isolates users from internal code changes within warp.  Methods outside of "public.py" are subject to change.
+</p>
+
+
+
         
     </div>
 </div>
@@ -181,7 +190,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleInOperation').click();
+        document.getElementById('navToggleSetupAndUsage').click();
     
 
 });

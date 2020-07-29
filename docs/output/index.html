@@ -41,6 +41,23 @@
                
                <li>
                
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
                    <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
                    <ul class="collapse list-unstyled" id="navMenuConcepts">
                    
@@ -68,41 +85,26 @@
                
                <li>
                
-                   <a id='navToggleExpressions' href="#navMenuExpressions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expressions</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressions">
+                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
                    
-                        <li><a href="./expr_intro.html">Expressions: Intro</a></li>
+                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
-                        <li><a href="./expr_literal.html">Literals</a></li>
+                        <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
                         <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
                    
                         <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Modifer Expressions</a></li>
+                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
                    
-                        <li><a href="./expr_transforms.html">In Transforms</a></li>
+                        <li><a href="./expr_transforms.html">Transforms</a></li>
                    
-                        <li><a href="./expr_random.html">Randomness</a></li>
+                        <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track</a></li>
+                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleInOperation' href="#navMenuInOperation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">In Operation</a>
-                   <ul class="collapse list-unstyled" id="navMenuInOperation">
-                   
-                        <li><a href="./installation.html">Installation</a></li>
-                   
-                        <li><a href="./ui.html">Web UI</a></li>
-                   
-                        <li><a href="./api.html">Python API</a></li>
                    
                    </ul>
                </li>
@@ -151,32 +153,39 @@
 
 
 
-<div class='infoblock'>
-<i class="fas fa-info-circle"></i></i>&nbsp;
-Warp is in EARLY BETA preview.  The Python <A HREF="./api.html">Python API</a> is available now, and fully functional. User interface releases Fall 2020.
-For any beta related questions, ideas, or feedback, <A HREF="mailto:michael@michaeldehaan.net">email Michael</A>. I'd love to hear from you.
-</div>
 
 <h1>Warp MIDI Sequencer</h1>
 
 <p>
-Warp is an advanced music theory aware MIDI sequencer for software and hardware synthesizers. It is open source (Apache 2 licensed), and built in Python.
-Warp has an emphasis on allowing carefully sculptable randomness, key-changes, tempo changes, and pattern variations, all powered by an feature-rich expression language.
+Warp is an new music-theory-aware MIDI sequencer for software and hardware synthesizers designed for composition and dynamic live performance.</p>
+
+<p>Warp is open source (Apache 2 licensed), and built in Python.
+Warp has an emphasis on enabling intentional randomness, choreographed key-changes, and emergent new musical frontiers through a powerful built-in transform language.
 </p>
 
 <p>
-Warp is inspired by tools such as Ableton Live, and hardware like the Sequentix Cirklon and the Elektron Monomachine. Like Ableton is grid based,
-but the pattern engine is infinitely more powerful. Instead of using a piano roll, patterns (and modifiers called "transforms") are simply typed in.
-You will probably use Warp with your DAW open in the background, either recording audio or MIDI inputs from Warp.
+Warp is inspired by some of our favorite tools such as Ableton Live, the Sequentix Cirklon, and the Elektron Monomachine. Like Ableton, Warp is grid based, yet
+instead of using a piano roll, patterns (and modifiers called "transforms") are simply typed in. You will probably use Warp with your DAW open in the background, either recording audio or incoming MIDI from Warp.
 </p>
 
 <img src="./synths.png" WIDTH=30%>
 
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Warp is a developer beta preview stage.  The Python <A HREF="./api.html">Python API</a> is available now, and fully functional. The user interface will open up Warp to everyone and will release in the Fall of 2020.
+For any beta related questions, ideas, or feedback, <A HREF="mailto:michael@michaeldehaan.net">email Michael</A>. We'd love to hear from you.
+</div>
+
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Tip: Joining the <A HREF="http://FIXME">Warp Patreon</A> allows you access to extra tips & tricks, inside blog posts, sample files, live video chats, and our community discord channel.
+</div>
+
 <h2>Ready To Get Started?</h2>
 
 <p>
-This website contains extensive documentation that will teach you about Warp and help you understand if it is right for you.
-We encourage you to reach out and share your stories, feature ideas, and music with us.  For those about to rock, we salute you.
+This website contains extensive documentation that will teach you about Warp -- just explore the chapters on your left.
+We encourage you to <A HREF="mailto:michael@michaeldehaan.net">reach out</A> and share your stories, feature ideas, and music with us.  For those about to rock - we salute you.
 </p>
 
 <p>

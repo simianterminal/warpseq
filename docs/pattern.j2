@@ -2,23 +2,15 @@
 <h1>Patterns</h1>
 
 <p>A pattern represents an ordered series of {{ doc('expr_intro', 'Expressions') }} that evaluate into notes or chords when used inside a {{ doc('clip') }}.  The basic idea is that when
-describing patterns of notes in Warp, you just type in expressions.  Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
+describing patterns of notes in Warp, you just type in simple text expressions. Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
 out, just learn to type in notes and chords -- once you get those working, you can try modifier expressions and also read about {{ doc('transform', 'Transforms') }}.</p>
 
 <p>
-<ul>
-<li>Patterns include string expressions like:
-<ul>
-<li>"1" -- the first note in the current scale</li>
-<li>"IV" -- the fourth major chord in the current scale</li>
-<li>"C4sus4" -- a C suspended chord, in the forth octave</li>
-<li>or even "C4sus4 cc0=50 cc1=105 v=90" -- the same, but with some MIDI CC data and velocity data attached</li>
-</ul>
 </li>
-<li>In addition to the text expressions in a pattern:
+<li>In addition to the text (notes) in the pattern:
 <ul>
 <li>A pattern may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed).</li>
-<li>A pattern may define a Scale to override the scale of the {{ doc('scene') }} or {{ doc('song') }}, if not overriden by a {{ doc('clip') }}.
+<li>A pattern may optionally define a Scale to override the scale of the {{ doc('scene') }} or {{ doc('song') }}, if not overriden by a {{ doc('clip') }}.
 </ul>
 </li>
 </p>
