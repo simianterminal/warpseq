@@ -177,7 +177,6 @@ class Note(BaseObject):
             result = self.offset(steps)
         if octaves:
             result.octave = result.octave + octaves
-            #print("NEW RO=%s" % result.octave)
         return result
 
     def expand_notes(self):

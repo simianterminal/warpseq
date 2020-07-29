@@ -1,13 +1,12 @@
 from . exceptions import *
 
+# code supporting public API boilerplate reduction - a bit too much meta-programming but ah well
+
 class BaseApi(object):
 
     def __init__(self, public_api, song):
         self.api  = public_api
         self.song = song
-
-        #self.fn_name_lookup = getattr(self.song, self.__class__.name_lookup_method)
-
 
         if self.__class__.add_method:
             self.fn_add         = getattr(self.song, self.__class__.add_method)
@@ -35,7 +34,6 @@ class BaseApi(object):
     def list(self):
         coll = self._get_collection()
         data = []
-        # FIXME: will need modifications if storage_list is True
         if type(coll) == dict:
             for (k,v) in coll.items():
                 data.append(self._short_details(v))
@@ -117,16 +115,3 @@ class BaseApi(object):
         self.fn_remove(obj)
         return self._ok()
 
-    #def _generic_list_names(self):
-    #    results = []
-    #    coll = _get_collection()
-    #    for (k,v) in coll:
-    #        results.append(k.name)
-
-    # NOT USED
-    #def _generic_all(self):
-    #    results = []
-    #    coll = _get_collection()
-    #    for (k,v) in coll:
-    #        # TODO: we may want to trim this to just public data members
-    #        results.append(v.to_json())

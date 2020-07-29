@@ -31,26 +31,20 @@ class Clip(ReferenceObject):
     auto_scene_advance = Field(type=bool, default=False, nullable=False)
     next_clip = Field(required=False, nullable=True)
 
-    # REMOVING SOME OF THESE - can be implemented with transforms!
-    # COLUMN THREE - these are like "easy" versions of transforms that can be used without
-    # creating a transform object. They take integers and not mod expressions
-    #octave_shifts = Field(type=list, default=None, required=False, nullable=True)
-    #degree_shifts = Field(type=list, default=None, required=False, nullable=True)
     tempo_shifts = Field(type=list, default=None, required=False, nullable=True)
-    #scale_note_shifts = Field(type=list, default=None, required=False, nullable=True)
 
     # -------
 
-    # additional properties - may be discontinued - no need to expose
+    # FIXME: do we need this anymore? Not an input parameter.
     length = Field(type=int, default=None, required=False, nullable=True)
 
     # basically internal, not exposed in the public API, use 'rate' instead
+    # might be used later to implement some note length mods
     slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
 
     # internal state - not exposed
     track = Field(type=Track, default=None, required=False, nullable=True)
     scene = Field(type=Scene, default=None, required=False, nullable=True)
-
     _current_tempo_shift = Field(type=int, default=0, nullable=False)
     _tempo_roller = Field()
     _scale_roller = Field()
@@ -69,21 +63,6 @@ class Clip(ReferenceObject):
             self._tempo_roller = utils.roller(self.tempo_shifts)
         else:
             self._tempo_roller = utils.roller([0])
-
-        #degree_shifts = self.degree_shifts
-        #if degree_shifts is None:
-        #    degree_shifts = [ 0 ]
-
-        #octave_shifts = self.octave_shifts
-        #if octave_shifts is None:
-        #    octave_shifts = [ 0 ]
-
-        #scale_note_shifts = self.scale_note_shifts
-        #if scale_note_shifts is None:
-        #    scale_note_shifts = [ 0 ]
-
-        #self._degree_roller = utils.roller(degree_shifts)
-        #self._octave_roller = utils.roller(octave_shifts)
 
         if self.scales:
             self._scale_roller = utils.roller(self.scales)
@@ -111,10 +90,7 @@ class Clip(ReferenceObject):
             slot_length = self.slot_length,
             next_clip = self.next_clip,
             auto_scene_advance = self.auto_scene_advance,
-            #degree_shifts = self.degree_shifts,
-            #scale_note_shifts = self.scale_note_shifts,
             tempo_shifts = self.tempo_shifts,
-            #octave_shifts = self.octave_shifts,
             rate = self.rate,
         )
         if self.patterns:
@@ -122,12 +98,7 @@ class Clip(ReferenceObject):
         else:
             result['patterns'] = []
 
-
         result["transforms"] = self._save_transforms()
-        #if self.transforms:
-        #    result['transforms'] = [ x.obj_id for x in self.transforms ]
-        #else:
-        #    result['transforms'] = []
 
         if self.scales:
             result['scales'] = [x.obj_id for x in self.scales ]
@@ -180,9 +151,6 @@ class Clip(ReferenceObject):
             slot_length = data['slot_length'],
             next_clip = data['next_clip'],
             auto_scene_advance = data['auto_scene_advance'],
-            #degree_shifts = data['degree_shifts'],
-            #scale_note_shifts = data['scale_note_shifts'],
-            #octave_shifts = data['octave_shifts'],
             tempo_shifts = data['tempo_shifts'],
             rate = data['rate']
         )
@@ -275,13 +243,9 @@ class Clip(ReferenceObject):
             self._current_tempo_shift = next(self._tempo_roller)
 
             pat_index = pat_index + 1
-            #no = next(self._octave_roller)
 
             octave_shift = pattern.octave_shift + self.track.instrument.base_octave
 
-            #print("TOTAL OCTAVE SHIFT=%s" % octave_shift)
-            #degree_shift = next(self._degree_roller)
-            #scale_shift = next(self._scale_note_roller)
             slot_duration = self.slot_duration(song, pattern)
             scale = self.get_actual_scale(song, pattern, self._scale_roller)
 
@@ -293,7 +257,6 @@ class Clip(ReferenceObject):
             slots = pattern.slots
 
             # convert expressions into arrays of notes
-            #print("SCALE=%s" % scale)
             notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
 
             use_length = self.actual_length()
@@ -305,15 +268,9 @@ class Clip(ReferenceObject):
             # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
 
             notes = [ notation.do(self, expression) for expression in slots ]
-
-            #print("N1>>>%s" % notes)
             notes = chord_list_to_notes(notes)
             notes = evaluate_ties(notes)
-            #print("N2>>>%s" % notes)
-
             notes = evaluate_shifts(notes, octave_shift, 0, scale, 0)
-
-
 
             for slot in notes:
                 for note in slot:
@@ -326,8 +283,6 @@ class Clip(ReferenceObject):
             # to just contain the first part
             if self.length and self.length < len(notes):
                 notes = notes[0:self.length]
-
-
 
             if transform:
                 # transforms can be in lists like: [t0, [t1, t2], t3, [ t4, t5, t6]]

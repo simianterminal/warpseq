@@ -24,18 +24,15 @@ def offset(note, tones):
 
     # this supports fractional semitones, like 1.5
 
-    # FIXME: this implementation is **TEMPORARY** and should be changed to allow infinite negative and positive octaves.
-    # if we do this, we can also remove the OCTAVE_BIAS hack in the scale implementation. (Search for OCTAVE_BIAS across all files)
+    # FIXME: this implementation is **TEMPORARY** and can be implemented without the table - when removed, delete this file
 
     if tones == 0:
         return note
-    #print("STEPS=%s" % tones)
     steps = 2 * tones
     steps = int(steps)
     n1 = note.copy()
     note_index = n1.note_number()
     new_note_index = note_index + steps
-    #print("NNI=%s" % new_note_index)
     lookup = NOTE_TABLE[new_note_index]
     n1.name = lookup[0]
     n1.octave = lookup[1]

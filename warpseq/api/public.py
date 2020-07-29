@@ -17,7 +17,6 @@ from .. playback.engine.realtime_engine import RealtimeEngine
 from . exceptions import  *
 from . support import BaseApi
 
-# FIXME: we need to validate all the patterns/transforms before they are saved so they don't cause errors
 # FIXME: TODO: there should be a callback system to notify of these error events, as well as playing clips and patterns therein
 
 # =====================================================================================================================
@@ -28,9 +27,6 @@ MIDI_PORTS = midi_out.get_ports()
 # =====================================================================================================================
 
 class CollectionApi(BaseApi):
-
-    #def all(self):
-    #    return self._generic_all()
 
     def remove(self, name):
         return self._generic_remove(name)
@@ -64,7 +60,6 @@ class Devices(CollectionApi):
         for x in self.list_available():
             if not self.lookup(x):
                 self.add(x)
-
 
 # =====================================================================================================================
 
@@ -189,14 +184,6 @@ class Transforms(CollectionApi):
 
 class Patterns(CollectionApi):
 
-    #name = Field(required=True, nullable=False)
-    #slots = Field(type=list, required=True, nullable=False)
-    #length = Field(type=int, default=None, nullable=True)
-    #length = Field(type=int, default=None, nullable=True)
-    #octave_shift = Field(type=int, default=0, nullable=False)
-    #tempo = Field(type=int, default=None, nullable=True)
-    #scale = Field(type=Scale, default=None, nullable=True)
-
     object_class    = Pattern
     public_fields   = [ 'name', 'slots', 'length', 'octave_shift', 'scale' ]
     song_collection = 'patterns'
@@ -227,7 +214,6 @@ class Scenes(CollectionApi):
     remove_method   = 'remove_scene'
     nullable_edits  = [ 'tempo', 'scale' ]
 
-
     def add(self, name, scale:str=None, auto_advance:bool=None, rate:int=1):
         if scale:
             scale = self.api.scales.lookup(scale, require=True)
@@ -240,9 +226,7 @@ class Scenes(CollectionApi):
         params = locals()
         return self._generic_edit(name, params)
 
-
 # =====================================================================================================================
-
 
 class Clips(CollectionApi):
 
@@ -258,7 +242,7 @@ class Clips(CollectionApi):
     nullable_edits  = [ 'tempo', 'repeat' ]
 
     # this is relatively dark because the clips are anything but generic, living at the intersection of a 2D
-    # grid that isn't real, and the names are imaginary - the exact opposite of previous objects.
+    # grid and the names are not unique
 
     def _lookup_transforms(self, alist):
         results = []
@@ -280,12 +264,6 @@ class Clips(CollectionApi):
         if scales:
             scales = [ self.api.scales.lookup(s, require=True) for s in scales ]
         params = locals()
-
-        # not validating because it will likely be added *LATER*
-        #
-        #if params["next_clip"]:
-        #    # validate but keep it a string
-        #    self.api.clips.lookup(params["next_clip"], require=True)
 
         clip = Clip(name=name, patterns=patterns, tempo_shifts=tempo_shifts, next_clip=next_clip,
                  transforms=transforms, auto_scene_advance=auto_scene_advance, repeat=repeat, scales=scales, rate=rate)
@@ -342,15 +320,6 @@ class Clips(CollectionApi):
         track = self.api.tracks.lookup(track, require=True)
         self.song.remove_clip(scene,track)
         return self._ok()
-
-    def _update_details(self, details, obj):
-        #if obj.root:
-        #    details['note'] = obj.root.name
-        #    details['octave'] = obj.root.octave
-        #else:
-        #    details['note'] = None
-        #    details['octave'] = None
-        pass
 
     def _short_details(self, obj):
         return dict(name=obj.name, scene=obj.scene.name, track=obj.track.name)
@@ -420,6 +389,7 @@ class Api(object):
         self.player = Player(self, self._song)
 
     # ------------------------------------------------------------------------------------------------------------------
+    # FIXME: implement all of these to enable the UI
 
     def new(self):
         # TODO: no way to edit the 'name' of the song, which isn't the same as the filename, do we even need one?

@@ -155,25 +155,15 @@ class Song(ReferenceObject):
         return song
 
     def next_scene(self, scene):
-
         index = None
-
         for (i,x) in enumerate(self.scenes):
             if x.obj_id == scene.obj_id:
                 index = i
-                #print("the current scene is index: %s" % i)
                 break
-
         index = index + 1
-
         if index >= len(self.scenes):
             return None
-
-        #print("the new scene is index: %s" % (index))
         return self.scenes[index]
-
-
-
 
     @classmethod
     def from_json(cls, data):

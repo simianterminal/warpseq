@@ -45,8 +45,6 @@ class Scale(ReferenceObject):
     slots = Field(type=list, required=False, nullable=True, default=None)
     _cached = Field(type=list, required=False)
 
-    # slots = Field(type=list, required=True, nullable=False)
-
     def to_dict(self):
         data = dict(
             obj_id = self.obj_id,
@@ -79,7 +77,6 @@ class Scale(ReferenceObject):
             self._generate(length=145)
         else:
             return [ r.copy() for r in self._cached ]
-        #print("CACHED SCALE: %s" % self._cached)
 
         index = 0
 
