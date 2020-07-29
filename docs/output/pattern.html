@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -157,26 +157,16 @@
 <h1>Patterns</h1>
 
 <p>A pattern represents an ordered series of <A HREF="./expr_intro.html">Expressions</a> that evaluate into notes or chords when used inside a <A HREF="./clip.html">Clip</a>.  The basic idea is that when
-describing patterns of notes in Warp, you just type in expressions.  Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
+describing patterns of notes in Warp, you just type in simple text expressions. Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
 out, just learn to type in notes and chords -- once you get those working, you can try modifier expressions and also read about <A HREF="./transform.html">Transforms</a>.</p>
 
 <p>
-<ul>
-<li>Patterns include string expressions like:
-<ul>
-<li>"1" -- the first note in the current scale</li>
-<li>"IV" -- the fourth major chord in the current scale</li>
-<li>"C4sus4" -- a C suspended chord, in the forth octave</li>
-<li>or even "C4sus4 cc0=50 cc1=105 v=90" -- the same, but with some MIDI CC data and velocity data attached</li>
-</ul>
-</li>
-<li>In addition to the text expressions in a pattern:
+In addition to the text (notes) in the pattern:
+
 <ul>
 <li>A pattern may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed).</li>
-<li>A pattern may define a Scale to override the scale of the <A HREF="./scene.html">Scene</a> or <A HREF="./song.html">Song</a>, if not overriden by a <A HREF="./clip.html">Clip</a>.
+<li>A pattern may optionally define a Scale to override the scale of the <A HREF="./scene.html">Scene</a> or <A HREF="./song.html">Song</a>, if not overriden by a <A HREF="./clip.html">Clip</a>.</li>
 </ul>
-</li>
-</p>
 
 <h2>A Quick Example</h2>
 

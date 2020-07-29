@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -155,37 +155,47 @@
 
 <h1>Expressions</h1>
 
-<p>
-In Warpseq, when we define notes or chords in a <A HREF="./pattern.html">Pattern</a>, we can simply type in symbols for the notes and chords, or we can also
-use more complex expressions. These expressions can involve randomness and other musical features, to add variety to compositions.
-</p>
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Right now, Warp is in a developer-only beta mode, where there's a great Python API, but no user interface available yet. Once the UI is available, this section
+will morph into a user guide and will also include screenshots.
+</div>
 
 <p>
-The goal of Warp is for any user to easily express high-level compositional intent, and that includes variation, such as subtle note changes
-on certain steps as commonly found in acid or minimal techno OR insane arpeggiated chord sequences that only a robotic Mozart could pull off.
-To achieve this, we need tools -- a language -- for expressing this.  Warpseq expressions are that language -- designed to be rapidly entered and edited in with a keyboard,
+In Warpseq, notes and chords are written in text. When we define notes or chords in a <A HREF="./pattern.html">Pattern</a>, we can simply type in symbols for the notes and chords.
+</p>
+
+<h2>Notes and Chords Are Only The Start</h2>
+
+<p>
+The goal of Warp is for any user to easily express high-level compositional intent, and that includes random or evolving variations. These variations many include such as subtle note
+or MIDI CC changes on certain steps as commonly found in acid or minimal techno OR insane arpeggiated chord sequences that only a robotic Mozart could pull off.
+To achieve this, we need tools -- a language -- for expressing this. Warp expressions are that language -- designed to be rapidly entered and edited in with a keyboard,
 rather than slowly placed via a piano roll interface.
 </p>
 
-<p>
-Expressions are used not only in describing what notes play, they are also used in <A HREF="./transform.html">Transforms</a>.  As we have explained
-earlier in the documentation, transforms move across the notes that would be in a <A HREF="./pattern.html">Pattern</a>, and can modify them in a number of ways.  They can use
-all of the <A HREF="./patterns.html">Patterns</a> expressed anywhere else in this chapter.
-</p>
+<h2>Transforms Implement MIDI Effects</h2>
 
 <p>
-Expressions in both <A HREF="./pattern.html">Patterns</a> and <A HREF="./transform.html">Tranforms</a> work in the concept of the current <A HREF="./scale.html">Scale</a>, so they always stay musical.
-Yet it is still possible to express sharps and flats outside the scale (aka "blue notes"), something
-that is usually not possible in classical DAWS with "force to scale" features.
+Expressions in <A HREF="./patterns.html">Patterns</a> are not only used in describing what notes play, but also in <A HREF="./transform.html">Transforms</a>.  As we have explained
+earlier in the documentation, transforms move across the notes that would be in a <A HREF="./pattern.html">Pattern</a>, and can modify them in a number of ways - which will grow with
+each future release of the Warp program.
 </p>
 
-<p>
-We don't want to overwhelm anyone, but there is a lot of power here. If this seems confusing, we recommend looking at some of the example songs that come with Warp, and things should make a lot
-more sense in context.  You can then think of this chapter more as a reference manual and come back to it as needed, or when you feel like learning more features.
-</p>
+<h2>Everything Is Scale Aware</h2>
 
 <p>
-Ready to go down the rabbit hole? Here we go!
+Expressions in both <A HREF="./pattern.html">Patterns</a> and <A HREF="./transform.html">Tranforms</a> work in the context of the current <A HREF="./scale.html">Scale</a>, so they always stay musical.
+Yet it is still possible to express sharps and flats outside the scale (aka "blue notes"), something that is usually not possible in classical DAWS with "force to scale" features.
+If you express a "E4", however, that note will always be an E4, meaning you can control drum synths without them being altered by a scale change.
+</p>
+
+<h2>Ready To Get Started Learning Expressions?</h2>
+
+<p>
+We don't want to overwhelm anyone, but there is a lot of power to explore here. If this seems confusing, we recommend looking at some of the example songs that come with Warp (see <A HREF="./api.html">Api</a> for now),
+and things should make a lot more sense in context.  You can then think of this documentation section more as a reference manual and come back to it as needed, or when you feel like learning more features.
+Explore each chapter and feel free to not use everything at once - eventually, you'll feel like exploring and trying out more features as things become second nature.
 </p>
 
 

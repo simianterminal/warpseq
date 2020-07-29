@@ -1,36 +1,45 @@
 <h1>Expressions</h1>
 
-<p>
-In Warpseq, when we define notes or chords in a {{ doc('pattern') }}, we can simply type in symbols for the notes and chords, or we can also
-use more complex expressions. These expressions can involve randomness and other musical features, to add variety to compositions.
-</p>
+{{ begin_info_block() }}
+Right now, Warp is in a developer-only beta mode, where there's a great Python API, but no user interface available yet. Once the UI is available, this section
+will morph into a user guide and will also include screenshots.
+{{ end_info_block() }}
 
 <p>
-The goal of Warp is for any user to easily express high-level compositional intent, and that includes variation, such as subtle note changes
-on certain steps as commonly found in acid or minimal techno OR insane arpeggiated chord sequences that only a robotic Mozart could pull off.
-To achieve this, we need tools -- a language -- for expressing this.  Warpseq expressions are that language -- designed to be rapidly entered and edited in with a keyboard,
+In Warpseq, notes and chords are written in text. When we define notes or chords in a {{ doc('pattern') }}, we can simply type in symbols for the notes and chords.
+</p>
+
+<h2>Notes and Chords Are Only The Start</h2>
+
+<p>
+The goal of Warp is for any user to easily express high-level compositional intent, and that includes random or evolving variations. These variations many include such as subtle note
+or MIDI CC changes on certain steps as commonly found in acid or minimal techno OR insane arpeggiated chord sequences that only a robotic Mozart could pull off.
+To achieve this, we need tools -- a language -- for expressing this. Warp expressions are that language -- designed to be rapidly entered and edited in with a keyboard,
 rather than slowly placed via a piano roll interface.
 </p>
 
-<p>
-Expressions are used not only in describing what notes play, they are also used in {{ doc('transform', 'Transforms') }}.  As we have explained
-earlier in the documentation, transforms move across the notes that would be in a {{ doc('pattern') }}, and can modify them in a number of ways.  They can use
-all of the {{ doc('patterns', 'Patterns') }} expressed anywhere else in this chapter.
-</p>
+<h2>Transforms Implement MIDI Effects</h2>
 
 <p>
-Expressions in both {{ doc('pattern','Patterns') }} and {{ doc('transform', 'Tranforms') }} work in the concept of the current {{ doc('scale') }}, so they always stay musical.
-Yet it is still possible to express sharps and flats outside the scale (aka "blue notes"), something
-that is usually not possible in classical DAWS with "force to scale" features.
+Expressions in {{ doc('patterns','Patterns') }} are not only used in describing what notes play, but also in {{ doc('transform', 'Transforms') }}.  As we have explained
+earlier in the documentation, transforms move across the notes that would be in a {{ doc('pattern') }}, and can modify them in a number of ways - which will grow with
+each future release of the Warp program.
 </p>
 
-<p>
-We don't want to overwhelm anyone, but there is a lot of power here. If this seems confusing, we recommend looking at some of the example songs that come with Warp, and things should make a lot
-more sense in context.  You can then think of this chapter more as a reference manual and come back to it as needed, or when you feel like learning more features.
-</p>
+<h2>Everything Is Scale Aware</h2>
 
 <p>
-Ready to go down the rabbit hole? Here we go!
+Expressions in both {{ doc('pattern','Patterns') }} and {{ doc('transform', 'Tranforms') }} work in the context of the current {{ doc('scale') }}, so they always stay musical.
+Yet it is still possible to express sharps and flats outside the scale (aka "blue notes"), something that is usually not possible in classical DAWS with "force to scale" features.
+If you express a "E4", however, that note will always be an E4, meaning you can control drum synths without them being altered by a scale change.
+</p>
+
+<h2>Ready To Get Started Learning Expressions?</h2>
+
+<p>
+We don't want to overwhelm anyone, but there is a lot of power to explore here. If this seems confusing, we recommend looking at some of the example songs that come with Warp (see {{ doc('api','Api') }} for now),
+and things should make a lot more sense in context.  You can then think of this documentation section more as a reference manual and come back to it as needed, or when you feel like learning more features.
+Explore each chapter and feel free to not use everything at once - eventually, you'll feel like exploring and trying out more features as things become second nature.
 </p>
 
 

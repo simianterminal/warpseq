@@ -1,6 +1,6 @@
 <html lang='en'>
 <head>
-<title>Warp MIDI Sequencer 0.1: Intra-Track Expressions</title>
+<title>Warp MIDI Sequencer 0.1: Guide Tracks</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" href="rockdoc.css">
@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -155,15 +155,24 @@
 
 <h1>Intra-Track Expressions</h1>
 
+<p>
+Warpseq allows tracks to choose what they are doing based on what is happening on other tracks. We may call these tracks
+"guide tracks", and often, they might even be muted tracks that are not themselves playing notes.
+</p>
+
+<p>
 So far, the only intra-track operation supported is a note-grab.  When we say intra-track, we mean commands that set things
 that happen on the current track based on things that happen on *other* tracks.
+</p>
 
 <h2>Note Grabs</h2>
 
 Note grabs allow one track to replace the value of what note should play based on using the value of another track's last
 played note.
 
+<p>
 This allows for powerful harmonization.  Imagine, if you will, a muted track 1 containing melody information as part of a scale.
+</p>
 
 <div class='codeblock'><pre><code class="language-python">
 1
@@ -208,17 +217,23 @@ The bass pattern can be zero length, because we want to apply an arp pattern to 
 1 T=melodyTrack O-1 S+3
 </code></pre></div>
 
+<p>
 The arp plays the first note the melody track is playing, then three successive notes going up 1, 2, and then 3 scale
 notes, all in key, but also one octave down.
+</p>
 
+<p>
 While the data entry of this may SEEM a little tedious, these same patterns can be played throughout large parts of the
 song (if desired), and do not need to be rewritten when varying the melody track.
+</p>
 
+<p>
 As such, we can make an entire song out of considerably LESS clips than in some other systems, by reusing patterns like this.
+</p>
 
 <div class='warnblock'>
 <i class="fas fa-exclamation-triangle"></i></i></i>&nbsp;
-NOTE: (BUG) Currently the parser will not work if the targetted track names contains spaces.
+NOTE: (BUG) Currently the parser will not work with note grabs if the targetted track names contains spaces.
 </div>
 
 

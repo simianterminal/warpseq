@@ -1,0 +1,58 @@
+
+<h1>Silence (Rests)</h1>
+
+<p>
+Often we don't want a pattern to be constantly playing notes.  We might want to leave some gaps.
+</p>
+
+<p>
+An "x" or an empty space represents a slot in a pattern where nothing should play.
+</p>
+
+<p>
+"x" can be a mod expression following a note, that can silence the note without
+having to delete it from the pattern.
+</p>
+
+{{ begin_code() }}1
+2
+3
+
+1
+2 x
+3
+{{ end_code() }}
+
+<h2>Ties</h2>
+
+A dash (aka hyphen) in a step extends the note out for an additional note duration, Here we have some longer chords held for
+four notes each and then part of a scale:
+
+{{ begin_code() }}IV
+-
+-
+-
+iii
+-
+-
+-
+1
+2
+3
+4
+5
+{{ end_code() }}
+
+{{ begin_info_block() }}
+If all your notes are the same length, you can just adjust the rate on a pattern or clip to slow it down without
+using ties.
+{{ end_info_block() }}
+
+{{ begin_info_block() }}
+The Warp system does not currently allow for playing broken chords (arpeggiators exist via {{ doc('transform','Transforms') }} however!), but if you desire the ability to play broken
+chords, you can have multiple tracks target the same instrument, and that is an easy way to accomplish this.
+{{ end_info_block() }}
+
+{{ begin_info_block() }}
+A format for dotted note durations (kind of like a half tie, using "." to follow the note) will probably be added in the near future.
+{{ end_info_block() }}

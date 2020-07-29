@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -156,36 +156,29 @@
 
 <h1>Clip</h1>
 
-Users of popular grid-based DAWs (Digital Audio Workstations) like Ableton or Bitwig may be familiar with the concept of Clips.  Clips are, simply put, a small piece of something playable that contains MIDI notes.
-A <A HREF="./song.html">Song</a> is what happens when you arrange clips by <A HREF="./scene.html">Scene</a> and <A HREF="./track.html">Track</a> in a grid. Clips have a lot of parameters and they are one of the most
-fundamental concepts in Warp to learn.
+Users of popular grid-based DAWs like Ableton or Bitwig may be familiar with clips.  Clips are, simply put, a small piece of something playable that contains MIDI notes.
+A <A HREF="./song.html">Song</a> is what happens when you arrange multiple clips by <A HREF="./scene.html">Scene</a> and <A HREF="./track.html">Track</a> in a grid.
 
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
-Patterns, transforms, and scale references (or "symlinks") in clips are only references - which may make sense if you have a programming background.  What this means is that if I have a pattern named "groove1" and I later
-reconfigure what symbols are in groove1, it will change in all clips that use that pattern.  Since this is also true for transforms and scales, it makes it easy to try out large-scale variations in a song without tedious
-reprogramming of an entire piece.
+<A HREF="./pattern.html">Patterns</a>, <A HREF="./transform.html">transforms</a>, and <A HREF="./scale.html">scales</a> referenced clips are only symbolic links - which may make sense if you have a programming background.  What this means is that if one has a pattern named "groove1" and later
+reconfigures what notes and chords are in groove1, Warp will change in all clips that use that pattern.  This makes it easy to try out both small and large scale variations in a song without tedious reprogramming.
 </div>
 
 
 <h2>Basic Features</h2>
 
 <ul>
-<li>A clip contains a list of one or more <A HREF="./pattern.html">Patterns</a> that play in order.</li>
 <li>A clip belongs to a <A HREF="./scene.html">Scene</a> (horizontally) and a <A HREF="./track.html">Track</a> (Vertically) in the <A HREF="./song.html">Song</a> grid.</li>
-<li>As in popular grid-based DAWs, playing a clip will stop any other clips that are playing in the same <A HREF="./track.html">Track</a> as the clip.</li>
+<li>A clip contains a list of one or more <A HREF="./pattern.html">Patterns</a> that play in order, resulting in notes.</li>
+<li>Playing a clip will stop any other clips that are playing in the same <A HREF="./track.html">Track</a> as the clip.</li>
 <li>A clip may have one or more <A HREF="./scale.html">Scales</a>.  These scales are used for each playing <A HREF="./pattern.html">Pattern</a> and are rotated in a loop as each pattern advances or the clip repeats.</li>
 <li>If a clip does not have a <A HREF="./scale.html">Scale</a> assigned, the <A HREF="./scale.html">Scale</a> can come from the <A HREF="./scene.html">Scene</a>, and if not set there, the <A HREF="./song.html">Song</a>.
 <li>A clip may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed)</li>
-</ul>
-
-<h2>Advanced Features</h2>
-
-<ul>
 <li>A clip may have one or more <A HREF="./transform.html">Transforms</a>, which are powerful tools that modify the currently playing <A HREF="./pattern.html">Pattern</a>.  These are used in rotation just as the <A HREF="./scale.html">Scales</a> are.</li>
-<li>A clip may have a list of tempo_shifts, which are added or subtracted to the tempo of each playing <A HREF="./pattern.html">Pattern</a>. These rotate similarly.
+<li>A clip may have a list of tempo_shifts, which are added or subtracted to the tempo of each playing <A HREF="./pattern.html">Pattern</a>. These rotate similarly as scales or transforms.
 <li>A clip may be set to repeat indefinitely (it will end if the scene ends), or for a finite number of times.</li>
-<li>A clip may be programmed to advance the <A HREF="./scene.html">Scene</a> when the clip completes. This is off by default.</li>
+<li>A clip may be set to advance the <A HREF="./scene.html">Scene</a> when the clip completes. This is off by default.</li>
 <li>A clip may trigger another specific clip when it completes. This does not occur if the clip is set to advance a <A HREF="./scene.html">Scene</a>.</li>
 </ul>
 

@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -153,27 +153,27 @@
 
 
 
-<h1>Mod Expressions In Transforms</h1>
+<h1>Mod Expressions As Transforms</h1>
 
 <p>
 Unlike many other sequencer and DAW tools, Warp does not just have Arpeggiators, warp has more complex <A HREF="./transforms.html">Transforms</a> that can be used to build arps, but also
-more detailed sets of meta-patterns that transform other patterns.
+more detailed sets of meta-patterns that transform other patterns - basically, transforms are powereful MIDI Effects just like a reverb is an audio effect.
 </p>
 
 <p>
 As described in the Transform page, a transform moves across the notes that would have played in each pattern, at every step, and slices them up,
 and optionally changes them.
+</p>
 
+<p>
 To build an Arp, we only need this in the Transform definition:
 </p>
 
-<div class='codeblock'><pre><code class="language-python">
-0
+<div class='codeblock'><pre><code class="language-python">0
 </code></pre></div>
 
-
 <p>
-That's it! 0 here just means "play what you would have played".  The transform will always turn a chord into notes. In order to make sure it turns a triad into the full set of
+Whoa that was short. That's it! 0 here just means "play what you would have played".  The transform will always turn a chord into notes. In order to make sure it turns a triad into the full set of
 chord notes, we should set the <A HREF="./transform.html">Transform</a> "divide" setting to at least 3.  If we set it to 9, it would strum each triad 3 times, very quickly.
 </p>
 
@@ -181,8 +181,7 @@ chord notes, we should set the <A HREF="./transform.html">Transform</a> "divide"
 That's basic though. Transforms can use mod expressions, for instance:
 </p>
 
-<div class='codeblock'><pre><code class="language-python">
-O+2
+<div class='codeblock'><pre><code class="language-python">O+2
 O+1
 0
 O+1
@@ -192,21 +191,24 @@ O+2
 The above sequence would play the first note in the pattern 2 octaves up, the 1, then as written, then 1 up, and then 2 up.
 
 <p>
-Alternatively, the transform can ALSO muck with any parameter it wants, including creation of chords.  Here is a particularly
-non-musical example:
+Alternatively, the transform can ALSO muck with any parameter it wants/  Here is an example that adjusts some velocity and MIDI CCs while strumming
+some notes:
 </p>
 
-<div class='codeblock'><pre><code class="language-python">
-0
+<div class='codeblock'><pre><code class="language-python">0
 0 cc10=90 v=80
-x
-O+1
++1
 0 cc10=0:120
 </code></pre></div>
 
-In this example, the first note plays as is, the second does with modified velocity and MIDI CC 10, the third
-note is silenced, the fourth note is an octave up, and the fifth note plays as is with random MIDI CC information that
+<p>
+In this example, the first note plays as is, the second does with modified velocity and MIDI CC 10, the third note is an octave up, and the fourth note plays as is with random MIDI CC information that
 will persist as the transform cycles back on the first slot and finally be overwritten on the second.
+</p>
+
+<p>
+<B>Anything you can put after a note -- as described earlier in this documentation -- can be put in a transform expression.</B>.  You just can't put in notes.
+</p>
 
 
         

@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -157,11 +157,13 @@
 <h1>Expressing Literal Notes</h1>
 
 <p>
-Warp can represent scale notes or just specific notes.
+Warp can represent scale notes or just specific notes.  For starters, let's learn specific notes that won't be affected by the current
+<A HREF="./scale.html">Scale</a>.  This is something you will need to do when using drum synths, but otherwise, you probably won't use this
+feature very often.
 </p>
 
 <p>
-Think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is:
+For a starter example, think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is:
 </p>
 
 <div class='codeblock'><pre><code class="language-python">C4
@@ -175,12 +177,12 @@ C4
 </code></pre></div>
 
 <p>
-That, as simple as it is, is a TOTALLY VALID pattern in Warpseq.  You can program notes in like that if you want.  However,
-they won't respond to any scale settings in Warp.  They'll just stick to what you input.  That is decidedly LESS useful, but you can do it.
+That, as simple as it is, is a valid pattern in Warpseq.  You can program notes in like that if you want and would just enter them in order. In the UI,
+you would put each on a line by itself. However, as we mentioned, these symbols won't respond to any scale settings in Warp.  They'll just stick to what you input.
 </p>
 
 <p>
-Anyway, you can access black keys as well, with either sharps or flats:
+To continue, you can access black keys as well, as either sharps or flats, as is your preference:
 </p>
 
 <div class='codeblock'><pre><code class="language-python">
@@ -188,14 +190,11 @@ Eb4
 C#4
 </code></pre></div>
 
-<p>
-If you want to input something that obeys the scale settings, see <A HREF="./expr_roman.html">Scale Notes And Chords</a>.
-</p>
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+If you want to input notes or chords that instead follow the scale settings -- which is in general what you want to do when writing anything that isn't a percussion track -- see <A HREF="./expr_scale_notes.html">Scale Notes And Chords</a>.
+</div>
 
-<p>
-As you use Warp, you'll just type these notes in.  There's no piano roll, or assumption that you play keyboards.
-If you are a guitar or euphonium person that also does eurorack, you're just as welcome here.
-</p>
         
     </div>
 </div>

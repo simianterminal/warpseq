@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -163,8 +163,24 @@ An instrument is the named combination of a MIDI <A HREF="./device.html">Device<
 <ul>
 <li>An instrument has a minimum and maximum octave, outside of which notes will not play</li>
 <li>An instrument has a base octave, which is the default octave value in any <A HREF="./scale.html">Scale</a>.  Transpositions can still occur below this default value, and this can also be shifted in a <A HREF="./clip.html">Clip</a>.</li>
+<li>An instrument can be muted.</li>
 </ul>
 </p>
+
+<div class='warnblock'>
+<i class="fas fa-exclamation-triangle"></i></i></i>&nbsp;
+If you can't hear a track, check these things:
+
+ <ul>
+  <li>that the instrument isn't muted in Warp</li>
+  <li>that the track isn't muted in Warp</li>
+  <li>that the note is inside the octave range as defined on the instrument</li>
+  <li>that your DAW MIDI track is armed (for software synths on virtual buses)</li>
+  <li>that your MIDI channel number on the track is correct</li>
+</ul>
+
+It's ok, we've been there.
+</div>
 
         
     </div>

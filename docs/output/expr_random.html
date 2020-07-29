@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -155,59 +155,66 @@
 
 <h2>Randomness</h2>
 
-
-There are two forms of randomness supplied - range and choice.
+Additional types of randomness in Warp are not mod expressions themselves (like "p" as shown in the <A HREF="./expr_mod.html">Mod Expressions</a> guide"), but are used in the <i>values</i> of mod expressions.
 
 <h3>Random Range</h3>
 
-The first form - range - picks a value between a range. The two limits of the range are separated by a colon (":").
-Here we randomly jump the third note in a pattern by between 0 and 4 octaves each time it plays:
+"Range" picks a value between a range. The inclusive start and end of the range are separated by a colon (":").
+In the example below, we randomly jump the third note in a scale pattern by between 0 and 4 octaves each time it plays:
 
-<div class='codeblock'><pre><code class="language-python">
-1
+<div class='codeblock'><pre><code class="language-python">1
 2
 3 O+0:4
 4
+5
+6
+7
+8
 </code></pre></div>
-
 
 <h3>Random Choice</h3>
 
-The second form - choice - involves choosing from a list, which allows some control over probability distribution if an entry
+"Choice" involves choosing from a list, which allows some control over probability distribution if an entry
 appears in a list more than once.  The choices in the list are separated by commas (",")
 
-<div class='codeblock'><pre><code class="language-python">
-3 O+0,2,3
+<div class='codeblock'><pre><code class="language-python">1 O+0,2,3
+2 O+1,3
+3
+4
+5
+6
+7
 </code></pre></div>
 
-In the above example, the note jumps 0, 2 or 3 octaves, but the chance of an octave jump is 50%, because two of the values
-are zero.
+In the above example, the first note (which is the first note of the selected scale) jumps 0, 2 or 3 octaves, but the chance of an octave jump is only 50%, because two of the values
+are zero.  The second note jumps either 1 or 3 octaves.
 
+<p>
 Choice is also the only random form that works with non-numeric values, such as this random chord type example:
+</p>
 
-<div class='codeblock'><pre><code class="language-python">
-I
+<div class='codeblock'><pre><code class="language-python">I
 3 ch=major,minor
 </code></pre></div>
 
-In this example, the second note is either a major or minor chord, with equal chance.
+<p>
+In this example, the first chord is definitively a major chord, and the second note is either a major or minor chord, with equal chance.
+</p>
 
-As an example effecting probability, this quick example shows a 1/3 chance of a minor chord:
+<p>
+This next quick example shows a 1/3 chance of a minor chord and a 2/3 chance of a major chord.
+</p>
 
-<div class='codeblock'><pre><code class="language-python">
-I
+<div class='codeblock'><pre><code class="language-python">I
 3 ch=major,major,minor
 </code></pre></div>
 
+<h2>Using Randomness for Humanization</h2>
 
+Humanizing otherwise repetitive patterns is a popular feature in many sequencers. Below is an example
+of humanizing velocity in Warp while playing a two octave scale, with every four notes being full volume:
 
-<h3>Randomness for Humanization</h3>
-
-Humanizing otherwise repetitive patterns is a popular feature in many sequencers, and here's an example
-of humanizing velocity in Warp while playing a two octave scale, with every four notes being full volume.
-
-<div class='codeblock'><pre><code class="language-python">
-1 v=127
+<div class='codeblock'><pre><code class="language-python">1 v=127
 2 v=60:80
 3 v=60:80
 4 v=60:80
@@ -226,10 +233,9 @@ of humanizing velocity in Warp while playing a two octave scale, with every four
 </code></pre></div>
 
 Because MIDI CC's are sticky between notes, assigning random values to CC values can work like a tempo-synced sample
-and hold.  The example below changes twice in each pattern iteration.
+and hold.  The example below changes twice in each pattern iteration:
 
-<div class='codeblock'><pre><code class="language-python">
-1 cc0=0:127
+<div class='codeblock'><pre><code class="language-python">1 cc0=0:127
 2
 3
 4
@@ -243,8 +249,7 @@ and hold.  The example below changes twice in each pattern iteration.
 
 This could be done with multiple MIDI CCs, changing them at different points in the pattern:
 
-<div class='codeblock'><pre><code class="language-python">
-1 cc0=0:127
+<div class='codeblock'><pre><code class="language-python">1 cc0=0:127
 2
 3 cc1=20:127
 4
@@ -255,10 +260,6 @@ This could be done with multiple MIDI CCs, changing them at different points in 
 9
 10
 </code></pre></div>
-
-<h3>Probability Events</h3>
-
-Another form of randomness is the "p" mod expression, which is covered in the <A HREF="./expr_mod.html">Common Modifiers</a> section.
         
     </div>
 </div>

@@ -39,12 +39,12 @@ site = Builder(
 		    "Expression Language": {
 			    "Intro to Expressions": "expr_intro",
 				"Literal Notes" : "expr_literal",
-				"Scale Notes And Chords" : "expr_roman",
-				"Silences & Ties" : "expr_silence_ties",
-				"Common Modifiers": "expr_mod",
+				"Scale Notes And Chords" : "expr_scale_notes",
+				"Rests & Ties" : "expr_rests_ties",
+				"Mod Expressions": "expr_mod",
 				"Transforms": "expr_transforms",
 				"More Randomness": "expr_random",
-			    "Intra-Track Expressions": "expr_track",
+			    "Guide Tracks": "expr_track",
 		     	"Variables": "expr_variables",
 		    },
 			"Community": {

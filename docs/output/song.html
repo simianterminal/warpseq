@@ -92,17 +92,17 @@
                    
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
                    
-                        <li><a href="./expr_roman.html">Scale Notes And Chords</a></li>
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
-                        <li><a href="./expr_silence_ties.html">Silences & Ties</a></li>
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
                    
-                        <li><a href="./expr_mod.html">Common Modifiers</a></li>
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
-                        <li><a href="./expr_track.html">Intra-Track Expressions</a></li>
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
                    
                         <li><a href="./expr_variables.html">Variables</a></li>
                    
@@ -161,13 +161,19 @@ This chapter will explain some terms in Warp, and compare them a bit to what you
 
 <p>
 <ul>
-<li>Each Warp file is called (unimaginatively) a song</li>
+<li>Each Warp file is called a song.  Each song definition is self contained.  There is no "computer specific" setup in Warp.</li>
 <li>A song must define a default tempo, though this may be overriden in a <A HREF="./scene.html">Scene</a> or <A HREF="./clip.html">Clip</a>. The default is 120. Change it.</li>
 <li>A song may define a default <A HREF="./scale.html">Scale</a>, though this may also be overriden in a <A HREF="./scene.html">Scene</a> or <A HREF="./clip.html">Clip</a>.</li>
 <li>Songs can be saved and loaded to files, and files should be openable by any future version of Warp.</li>
 <li>Songs are technically JSON files, but you hand edit them at your own risk.  If that seems appealing, see the <A HREF="./api.html">Python API</a></li>
 </ul>
 </p>
+
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+If you don't want to set up each <A HREF="./device.html">Device</a> or <A HREF="./instrument.html">Instrument</a> each time, a good idea is to make an empty
+Warp song called "template.warp". This is also a good place to keep your favorite user <A HREF="./scale.html">Scale</a> definitions.
+</div>
         
     </div>
 </div>

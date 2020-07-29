@@ -1,10 +1,9 @@
 <h1>Scale Notes & Chords</h1>
 
-Input of notes that follow {{ doc('scale') }} settings within Warp follow a varient of something called "Roman Numeral Analysis".
-In short, Warp uses arabic numerals to indicate degrees along a scale, and roman numerals to represent basic chords. Jazz fans will
-object to this, and say this can't possibly represent all the types of interesting and useful chords, and they are correct - but bear
-with us.
-
+<p>
+Warp uses arabic numerals to indicate degrees along a scale, and roman numerals to represent basic chords.
+We'll show you how to make more complex chords as well.
+</p>
 
 <h2>A Scale Example</h2>
 
@@ -20,20 +19,25 @@ Here is the same scale mentioned in {{ doc('expr_literal') }} in a way that will
 8
 {{ end_code() }}
 
+<p>
 This means that we can define a {{ doc('pattern') }} and then the pattern can be then used in any clip using any scale we want.
+The {{ doc('scale','Scale') }} value will be taken from the clip, if so provided, or if not, can come from the scene, and if not set there,
+will use the value from the song.  If you don't set a scale anywhere, the system will assume the C major scale.
+</p>
 
 {{ begin_info_block() }}
 Most other sequencer programs and DAWs do not natively understand scales, but instead
 "force" notes to the nearest scale note.  This means multiple note entries might map to the same note, or it may be unclear
 if something rounds up or down.  Of greater concern, in these force-to-scale systems, the ability to use accidentals is lost.
+Another major problem with DAWs is while "force to scale" can often be achieved with a MIDI effect, using multiple scales
+together often requires a separate track for every combination of instrument and scale.  This is not the case in Warp!
 {{ end_info_block() }}
 
 <h3>Roman Numeral Chords</h3>
 
 Chords can be expressed as Roman numerals:
 
-{{ begin_code() }}
-I
+{{ begin_code() }}I
 IV
 V
 {{ end_code() }}
@@ -42,16 +46,14 @@ This notation is commonly used to denote chord progressions.  Like the arabic nu
 
 Lowercase roman numerals represent minor chords:
 
-{{ begin_code() }}
-i
+{{ begin_code() }}i
 iv
 v
 {{ end_code() }}
 
 More advanced types can be represented using their base notes and chord type:
 
-{{ begin_code() }}
-1 ch=sus4
+{{ begin_code() }}1 ch=sus4
 2 ch=major
 4 ch=power
 {{ end_code() }}
@@ -80,4 +82,7 @@ For reference the built-in chord types you can use this way are:
 <li>mM7</li>
 </ul>
 
-That's a little jazzier, we just don't get to use the roman numeral syntax.
+<p>
+So we have access to a lot of different chord types, we just don't get to use the roman numeral syntax for anything but major
+and minor chords.
+</p>

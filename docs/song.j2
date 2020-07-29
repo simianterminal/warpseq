@@ -6,10 +6,15 @@ This chapter will explain some terms in Warp, and compare them a bit to what you
 
 <p>
 <ul>
-<li>Each Warp file is called (unimaginatively) a song</li>
+<li>Each Warp file is called a song.  Each song definition is self contained.  There is no "computer specific" setup in Warp.</li>
 <li>A song must define a default tempo, though this may be overriden in a {{ doc('scene') }} or {{ doc('clip') }}. The default is 120. Change it.</li>
 <li>A song may define a default {{ doc('scale') }}, though this may also be overriden in a {{ doc('scene') }} or {{ doc('clip') }}.</li>
 <li>Songs can be saved and loaded to files, and files should be openable by any future version of Warp.</li>
 <li>Songs are technically JSON files, but you hand edit them at your own risk.  If that seems appealing, see the {{ doc('api') }}</li>
 </ul>
 </p>
+
+{{ begin_info_block() }}
+If you don't want to set up each {{ doc('device','Device') }} or {{ doc('instrument','Instrument') }} each time, a good idea is to make an empty
+Warp song called "template.warp". This is also a good place to keep your favorite user {{ doc('scale','Scale') }} definitions.
+{{ end_info_block() }}

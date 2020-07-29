@@ -5,10 +5,11 @@ Warp contains a variable engine where variables can be shared between tracks and
 are set and accessed as follows, and CAN be used in conjunction with the randomness features above.
 </p>
 
+<p>
 Assume the following {{ doc('pattern', 'Pattern') }} example:
+</p>
 
-{{ begin_code() }}
-1 $x=5 $y=10
+{{ begin_code() }}1 $x=5 $y=10
 2 $z=20
 3
 4 cc0=$x
@@ -21,18 +22,29 @@ Assume the following {{ doc('pattern', 'Pattern') }} example:
 11
 {{ end_code() }}
 
+<p>
 The above example is a little crazy, but the basics are that variables can be substituted anywhere a number can
 be in a modifier expression.  Variables can also hold strings, like in this {{ doc('pattern') }} example:
+</p>
 
-{{ begin_code() }}
-_ $x=power,major,minor
+{{ begin_code() }}_ $x=power,major,minor
 4 ch=$x
 8 ch=$x
 {{ end_code() }}
 
+<p>
 In the above example, the first in the pattern is silent, and then we play two chords of the same type.
+</p>
 
+<p>
 The variable engine can be mostly ignored if you don't want to use it, but could be interesting in more
 complex works.
+</p>
 
-All of these modifiers can also be used in {{ doc('transform', 'Transforms') }}.
+<p>
+The examples below show regular patterns, but all of these modifiers can also be used in {{ doc('transform', 'Transform') }} effects as well.
+</p>
+
+{{ begin_info_block() }}
+Variables are part of a global namespace and are available to all scenes, clips, and tracks.
+{{ end_info_block() }}
