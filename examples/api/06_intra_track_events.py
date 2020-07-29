@@ -2,24 +2,11 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# What this demos shows:
-# * how to use a silent (or not silent!) guide information
-#   track to supply pitch values to other tracks, which
-#   then use patterns/transforms to automatically generate
-#   chords and a bassline
-# * how if you don't choose the right instruments these
-#   examples sound terrible and maybe you should just
-#   do your own thing
-# --------------------------------------------------------------
-# Learning objectives:
-# * understand how to write note grab events
-# * refresh your memory of mod expressions
-# -------------------------------------------------------------
-# Things to try:
-# * change the underlying melody track, how do the other tracks
-#   change?
-# * can you add some interesting transforms?
-# -------------------------------------------------------------
+#
+# this demos hows how instruments can pull notes selectively
+# from a silent guide track, which can be useful to rapidly
+# construct large movements without having to sequence notes
+# for every single instrument
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo

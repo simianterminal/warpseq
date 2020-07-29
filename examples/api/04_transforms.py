@@ -2,27 +2,10 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# What this demos shows:
-# * how transforms work
-# * how to build a trivial arpeggiator ("arp")
-# * how to build a octave jumping
-# * how to use transforms as an octave manipulator
-# * how to use transforms to make a walking bassline
-# * how to stutter notes
-# * how to alternate transforms within a scene
-# * how to use transforms to silence notes
-# * how to stack transforms
-# --------------------------------------------------------------
-# Learning objectives:
-# * understand how transforms can make patterns more interesting
-# * know how to use transforms to apply humanization
-# * know how to build various types of MIDI effects out of transforms
-# -------------------------------------------------------------
-# Things to try:
-# * create your own transforms using mod expressions
-# * try changing the base patterns, tempo, and scale
-# * experiment with the 'divide' times
-# -------------------------------------------------------------
+#
+# this demo shows how transforms work (see docs!) and how
+# to build a simple arpeggiator, as well as other MIDI effects.
+
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo
@@ -56,17 +39,7 @@ api.scenes.add(name='scene_5', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_6', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_7', rate=0.5, auto_advance=True)
 
-
-# * how transforms work
-# * how to build a trivial arpeggiator ("arp")
-# * how to build a octave jumping
-# * how to use transforms as an octave manipulator
-# * how to use transforms to make a walking bassline
-# * how to stutter notes
-# * how to alternate transforms within a scene
-# * how to use transforms to silence notes
-# * how to stack transforms
-
+# setup transforms
 api.transforms.add(name='basic arp', slots=['1'], divide=3)
 api.transforms.add(name='octave arp', slots=['1','1','1','O+1','O+1','O+1'], divide=6)
 api.transforms.add(name='velocity arp', slots=['1 v=120','1 v=100','1 v=80'], divide=3)
@@ -74,7 +47,6 @@ api.transforms.add(name='midi cc arp', slots=['1 cc1=80', '1 cc1=100', '1 cc1=20
 api.transforms.add(name='bassline', slots=['1','S+4','S+5','S+2','S+4','S+5','1'], divide=3)
 api.transforms.add(name='octave ramp', slots=['1','O+1','O+2'], divide=1)
 api.transforms.add(name='stutter', slots=['1','x','1','x','1','p=0.5 x'], divide=6)
-
 
 # setup clips
 api.clips.add(name='chord strum', scene='scene_1', track='lead', scales=['C-major'], patterns=['chords'], transforms=['basic arp'], repeat=1, auto_scene_advance=True)

@@ -1,87 +1,29 @@
 
 <h1>Clip</h1>
 
-Users of popular grid-based DAWS (Digital Audio Workstations) like Ableton or Bitwig may be familiar with the concept of Clips.  Clips are, simply put, something playable that contains MIDI notes.
-A {{ doc('song') }} is what happens when you arrange clips by {{ doc('scene') }} and {{ doc('track') }} and play a bunch of clips in a meaningful order. Clips have a lot of parameters and they are one of the most
-fundamental concepts in Warp to learn. Spend some time understanding this section.
+Users of popular grid-based DAWs (Digital Audio Workstations) like Ableton or Bitwig may be familiar with the concept of Clips.  Clips are, simply put, a small piece of something playable that contains MIDI notes.
+A {{ doc('song') }} is what happens when you arrange clips by {{ doc('scene') }} and {{ doc('track') }} in a grid. Clips have a lot of parameters and they are one of the most
+fundamental concepts in Warp to learn.
 
 <h2>Basic Features</h2>
 
 <ul>
-<li>A clip primarily contains a list of one or more {{ doc('pattern', 'Patterns') }} that can be manually triggered to play in sequence</li>
-<li>A clip belongs to a {{ doc('scene') }} (horizontally) and a {{ doc('track') }} (Vertically).</li>
-<li>Playing a clip will stop any other clips that are playing in the same {{ doc('track') }} as the clip.</li>
-<li>A clip may override the tempo on a {{ doc('scene') }} or {{ doc('song') }}.</li>
-<li>A clip may have one or more {{ doc('scale','Scales') }}.  These scales are used for each {{ doc('pattern') }}, but the list of {{ doc('scale', 'Scales') }} may be of a different length from the list of {{ doc('pattern', 'Pattern') }}.</li>
-<li>If a clip does not have a {{ doc('scale') }} assigned, the {{ doc('scale') }} can come from the {{ doc('scene') }}, and if not there, the {{ doc('song') }}.
-<li>A clip may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed).</li>
+<li>A clip contains a list of one or more {{ doc('pattern', 'Patterns') }} that play in order.</li>
+<li>A clip belongs to a {{ doc('scene') }} (horizontally) and a {{ doc('track') }} (Vertically) in the {{ doc('song') }} grid.</li>
+<li>As in popular grid-based DAWs, playing a clip will stop any other clips that are playing in the same {{ doc('track') }} as the clip.</li>
+<li>A clip may have one or more {{ doc('scale','Scales') }}.  These scales are used for each playing {{ doc('pattern') }} and are rotated in a loop as each pattern advances or the clip repeats.</li>
+<li>If a clip does not have a {{ doc('scale') }} assigned, the {{ doc('scale') }} can come from the {{ doc('scene') }}, and if not set there, the {{ doc('song') }}.
+<li>A clip may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed)</li>
 </ul>
 
 <h2>Advanced Features</h2>
 
 <ul>
-<li>A clip may have one or more {{ doc('transform', 'Transforms') }}, which are expressions that modify the currently playing {{ doc('pattern') }}.  These are used in rotation just as the {{ doc('scale', 'Scales') }} are.</li>
-<li>A clip may have one or more octave_shifts and scale degree_shifts that apply to the currrently playing {{ doc('pattern') }}.  These rotate  similarly.  These are easily implemented with mod_expressions and can be removed.</li>
+<li>A clip may have one or more {{ doc('transform', 'Transforms') }}, which are powerful tools that modify the currently playing {{ doc('pattern') }}.  These are used in rotation just as the {{ doc('scale', 'Scales') }} are.</li>
 <li>A clip may have a list of tempo_shifts, which are added or subtracted to the tempo of each playing {{ doc('pattern') }}. These rotate similarly.
 <li>A clip may be set to repeat indefinitely (it will end if the scene ends), or for a finite number of times.</li>
 <li>A clip may be programmed to advance the {{ doc('scene') }} when the clip completes. This is off by default.</li>
 <li>A clip may trigger another specific clip when it completes. This does not occur if the clip is set to advance a {{ doc('scene') }}.</li>
 </ul>
-
-<h1>A Simple Clip, Explained</h1>
-
-A simple clip may conceptually have the following properties:
-
-{{ begin_code() }}
-tempo : 140
-patterns: verse, chorus, verse2, chorus, bridge, verse
-scales: f-pentatonic
-{{ end_code() }}
-
-<p>
-In this example, the named patterns will play in order.  If there was a tempo or scale set on the {{ doc('scene') }} or {{ doc('clip') }} it will be overriden by the selections of
-140 bpm and the F-pentatonic scale.  Since repeat isn't set, the pattern will repeat infinitely until stopped.
-</p>
-
-<h2>A More Complex Clip</h2>
-
-Clips can be simple or they can be more detailed. Here's how a maximally complex (and probably non-musical!) example might look.
-
-{{ begin_code() }}
-tempo: 140
-tempo_shifts: [ 0, 10, 20 ]
-scales: f-pentatonic, g-minor
-octave_shifts, 0, 0, 0, 0, 1, -1, 2
-auto_scene_advance: True
-repeat: 10
-transforms: [ arpeggiate1, stutter2, chaos1 ]
-{{ end_code() }}
-
-In this example:
-
-<ul>
-<li>The base tempo will override the {{ doc('scene') }} or {{ doc('song') }} at 140 bpm.</li>
-<li>The first pattern will actually play at 140bpm, but every 2nd pattern at 150bpm and every 3rd pattern at 150bpm.</li>
-<li>Every other pattern will alternate between the F-Pentatonic and G-Minor scales.</li>
-<li>Every fifth pattern will be played one octave higher, the sixth one lower, and the seventh two higher</li>
-<li>When the clip is finished, the entire next scene will advance.</li>
-<li>Alternate clips are arpeggiated, sliced and diced, and munged by different transforms, in rotation. See {{ doc('transform', 'transforms') }}.
-<li>The sequence of two the two named patterns will repeat 20 times (10 patterns each)</li>
-</ul>
-
-<p>
-Because the various modifiers have different lengths, nothing will be exactly the same!  With {{ doc('transform', 'transforms') }} and even
-{{ doc('expr_info', 'mod expressions') }} applied to the patterns themselves, this can be even more complex than it looks! But don't worry if this
-seems advanced,  you can use as little features of Warp or as many as you want.  It's ok to start slow and learn to make more animated compositions over time.
-</p>
-
-<h3>It's All About Loops</h3>
-
-<p>
-The fundamental idea is that many parameters can be expressed in lists, and they can cycle, and those lists can be of different lengths - this means the notes
-coming out are never exactly the same.  When combining these ideas with the expression engine inside {{ doc('pattern', 'Patterns') }} and {{ doc('transform', 'Transforms') }} the
-system gets to be capable of some quite unexpected results. The easiest way to explore what is possible is to try different variations and listen to what changing the parameters can do.
-</p>
-
 
 

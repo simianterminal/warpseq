@@ -247,8 +247,8 @@ class Scenes(CollectionApi):
 class Clips(CollectionApi):
 
     object_class    = Clip
-    public_fields   = [ 'name', 'scene', 'track', 'patterns', 'octave_shifts',
-                        'degree_shifts', 'tempo_shifts', 'scale_note_shifts', 'next_clip', 'transforms',
+    public_fields   = [ 'name', 'scene', 'track', 'patterns',
+                        'tempo_shifts', 'next_clip', 'transforms',
                         'repeat' ]
     song_collection = 'clips'
     add_method      = 'add_clip'
@@ -269,8 +269,8 @@ class Clips(CollectionApi):
                 results.append(self.api.transforms.lookup(x))
         return results
 
-    def add(self, name, scene:str=None, track:str=None, patterns:list=None,  octave_shifts:list=None,
-            degree_shifts:list=None, tempo_shifts:list=None, scale_note_shifts:list=None, next_clip:str=None,
+    def add(self, name, scene:str=None, track:str=None, patterns:list=None,
+            tempo_shifts:list=None, next_clip:str=None,
             transforms:list=None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=1):
 
         if patterns:
@@ -287,8 +287,7 @@ class Clips(CollectionApi):
         #    # validate but keep it a string
         #    self.api.clips.lookup(params["next_clip"], require=True)
 
-        clip = Clip(name=name, patterns=patterns, octave_shifts=octave_shifts, degree_shifts=degree_shifts,
-                 tempo_shifts=tempo_shifts, scale_note_shifts=scale_note_shifts, next_clip=next_clip,
+        clip = Clip(name=name, patterns=patterns, tempo_shifts=tempo_shifts, next_clip=next_clip,
                  transforms=transforms, auto_scene_advance=auto_scene_advance, repeat=repeat, scales=scales, rate=rate)
 
         scene = self.api.scenes.lookup(scene, require=True)
@@ -298,8 +297,8 @@ class Clips(CollectionApi):
         return self._ok()
 
 
-    def edit(self, name:str=None, new_name:str=None, scene: str = None, track:str = None, patterns: list = None, octave_shifts:list = None,
-            degree_shifts: list = None, tempo_shifts: list = None, scale_note_shifts:list = None, next_clip:str = None,
+    def edit(self, name:str=None, new_name:str=None, scene: str = None, track:str = None, patterns: list = None,
+            tempo_shifts: list = None, next_clip:str = None,
             transforms:list = None, repeat:int=None, auto_scene_advance:bool=False, scales:list=None, rate:int=None):
 
         scene = self.api.scenes.lookup(scene, require=True)

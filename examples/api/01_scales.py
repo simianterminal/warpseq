@@ -2,23 +2,16 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# What this demos shows:
-# * varies scale runs and patterns, repeated in different scales
-# --------------------------------------------------------------
-# Learning objectives:
-# * learn how to make scales available to scenes
-# * learn how to choose scale notes in patterns
-# * learn how to set the scale for a song
-# * learn how to override the scale in a pattern
-# * learn how to override the scale in a clip
-# * learn how to adjust the rate (tempo) of a scene
-# -------------------------------------------------------------
-# Things to try:
-# * change the patterns
-# * change the scales without changing the patterns
-# * adjust the base octave of the instrument
-# * adjust the tempo rate
-# -------------------------------------------------------------
+#
+# this demo shows how to enter scale notes that change automatically
+# as the scales change.
+#
+# scales can be defined on the song and overridden per scene
+# (for easy mid-song key changes) or even per clip - where they
+# can be expressed in a list, and will rotate as each pattern
+# in the clip advances.
+#
+# try changing the patterns and scales
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo

@@ -2,17 +2,11 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# What this demos shows:
-# * shows basic chords and ties
-# * previews mod expressions in creating other chord types
-# --------------------------------------------------------------
-# Learning objectives:
-# * learn how to input chords
-# -------------------------------------------------------------
-# Things to try:
-# * change the chord patterns
-# * change the scale and see how the chords adapt
-# -------------------------------------------------------------
+# this demo shows how to express basic chords using roman
+# numerals and other chord types with mod expressions
+#
+# it also shows how to use ties ("-").
+
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo

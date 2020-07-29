@@ -2,23 +2,11 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# What this demos shows:
-# * learn about different types of mod expressions
-# * how to jump up octaves
-# * how to use sharps and flats
-# * how to assign events randomly based on % probability
-# * how to assign a value randomly from a range
-# * how to assign a value randomly from a list
-# * how to set MIDI CC
-# * how to set velocity
-# --------------------------------------------------------------
-# Learning objectives:
-# * fully understand basic mod expressions
-# * be able to use mod expressions in transforms in the next lesson
-# -------------------------------------------------------------
-# Things to try:
-# * anything goes!
-# -------------------------------------------------------------
+#
+# this demo shows the different types of mod expressions,
+# how to jump octaves,  sharps and flats, how to have
+# random events based on probability, and how to change
+# MIDI velocity and CCs
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo

@@ -2,25 +2,15 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# What this demos shows
-# * a simple 4/4 kick/snare pattern for 4 bars, then a change up
-# --------------------------------------------------------------
-# Learning objectives:
-# * study basic API operation
-# * learn how to input notes without a scale
-# * learn how scenes advance into other scene
-# --------------------------------------------------------------
-# Things to try:
-# * change the song's tempo
-# * change the snare and kick patterns
-# * add in some hi-hats
-# * add in a third scene and pattern
-# * turn off auto_scene_advance - what happens?
-# --------------------------------------------------------------
-# Setup:
-# * MIDI channel 1 will play a kick drum
-# * MIDI channel 2 will play a snare
-# --------------------------------------------------------------
+#
+# this demo shows a basic 4/4 kick/snare pattern using absolute
+# notes. It will not be adjusted by a scale change, which is
+# important when talking to drum hardware and soft synths.
+#
+# after the basic pattern plays, the pattern changes up,
+# showing how to advance a clip.
+#
+# try changing the patterns and adding a third scene.
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo

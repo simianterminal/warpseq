@@ -135,7 +135,7 @@ class RealtimeEngine(BaseObject):
             return
 
         if event.type == NOTE_ON:
-            #print("***NON***")
+            print("PLAY: %s" % event.note)
             (note_number, velocity) = self._note_data(event)
             self.count_on = self.count_on + 1
             register_playing_note(self.track, event.note)

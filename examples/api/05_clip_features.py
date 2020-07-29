@@ -2,31 +2,10 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# What this demos shows:
-# * how everything in Warp revolves around the clip object
-# * how octave shifts, tempo shifts, and scale note shifts can
-#   be used to increase variety in repeated patterns without
-#   using transforms
-# * how clips can change the scale entirely mid-stream
-# * how lists of all of the above, including transforms, of
-#   different lengths can add increasing sonic variety when
-#   these values wrap around differently with successive
-#   repeats
-# * how to construct a build or tempo breakdown
-# * how to have clips jump to other clips rather than using
-#   scene advance
-# --------------------------------------------------------------
-# Learning objectives:
-# * know how to name and use other features in clips other than
-#   patterns and transforms
-# -------------------------------------------------------------
-# Things to try:
-# * change the included lists of information and vary the
-#   the lengths of those lists. How does this affect the
-#   music?
-# * what happens when the lists are all of the same
-#   length?
-# -------------------------------------------------------------
+
+# this demo shows some other clip parameters, including
+# scale changes and puts together some concepts mentioned
+# in earlier demos
 
 from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo
@@ -58,6 +37,10 @@ api.scenes.add(name='scene_2', rate=1, auto_advance=False)
 # setup transforms
 api.transforms.add(name='stutter', slots=['1', 'x', '1', '1', '1', 'x'], divide=3)
 api.transforms.add(name='chance octave jump', slots=['1','1','1','O=0,0,0,1,2'], divide=3)
+api.transforms.add(name='octave up', slots=['O+1'], divide=1)
+api.transforms.add(name='octave hop', slots=['1', 'O+1'], divide=1)
+api.transforms.add(name='every third note up 5th', slots=['1','1','S+5'], divide=1)
+
 
 # setup clips
 api.clips.add(name='kitchen sink',
@@ -65,9 +48,7 @@ api.clips.add(name='kitchen sink',
               track='lead',
               scales=['G-phyrigian', 'F-mixolydian', 'magic'],
               patterns=['up', 'down'],
-              transforms=['chance octave jump','stutter',['chance octave jump', 'stutter']],
-              octave_shifts=[ 0, 1, 2, 3 ],
-              scale_note_shifts = [ 0, 0, 1, 2, 3 ],
+              transforms=[['chance octave jump'],['octave up', 'stutter'],['octave hop', 'every third note up 5th']],
               tempo_shifts = [0, 5, 10, 15, 20, 25, 30 ],
               repeat=20,
               next_clip='ending')
