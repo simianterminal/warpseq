@@ -106,28 +106,19 @@ class RealtimeEngine(BaseObject):
         from ... model.event import Event, NOTE_OFF, NOTE_ON
 
 
-        has_deferred = False
-        deferred_scale = None
         if event.type == NOTE_ON and event.note.flags['deferred'] == True:
             exprs = event.note.flags['deferred_expressions']
-            has_deferred = True
             for expr in exprs:
                 value = self.mod_expressions.do(event.note, event.scale, self.track, expr)
                 if value is None:
                     return
                 event.note = value
 
-                #if type(event.note) != Chord:
-                #    deferred_scale = event.note.from_scale
-
         if type(event.note) == Chord:
-        #   print("IS CHORD!")
             for x in event.note.notes:
                 evt = event.copy()
-        #       print("CHILD: %s" % x)
                 evt.note = x
                 evt.note.flags['deferred'] = False
-                #evt.note.from_scale = event.note.from_scale
                 self.play(evt)
             return
 
@@ -135,6 +126,7 @@ class RealtimeEngine(BaseObject):
             return
 
         if event.type == NOTE_ON:
+            # FIXME: move this into the callbacks system (among other events)
             print("PLAY: %s" % event.note)
             (note_number, velocity) = self._note_data(event)
             self.count_on = self.count_on + 1
@@ -152,14 +144,8 @@ class RealtimeEngine(BaseObject):
         elif event.type == NOTE_OFF:
 
             if type(event.on_event.note) == Chord:
-                #print("** REMAP!**")
                 for x in event.on_event.note.notes:
                     evt = event.copy()
-
-                    # type = Field(type=int, required=True, choices=[NOTE_ON, NOTE_OFF])
-                    # note = Field(type=Note, required=True, nullable=False)
-                    # time = Field(type=float, required=True, nullable=False)
-                    # on_event = Field(required=False, default=None, nullable=True)
 
                     assert type(x) != Chord
                     evt.on_event = Event(time = event.on_event.time, scale=event.scale, note = x, type=event.on_event.type, on_event=None)
@@ -168,7 +154,6 @@ class RealtimeEngine(BaseObject):
                     self.play(evt)
                 return
 
-            #print("***OFF***")
             (note_number, velocity) = self._note_data(event.on_event)
             self.count_off = self.count_off + 1
 

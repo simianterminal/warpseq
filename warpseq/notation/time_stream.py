@@ -45,18 +45,13 @@ def evaluate_shifts(note_list, octave_shift, degree_shift, scale, scale_shift):
         return note_list
     results = []
     for chord in note_list:
-        #print("CHORD=%s" % chord)
         chord_items = []
         for note in chord:
             n1 = None
             if octave_shift or scale_shift:
-                #print("SHIFT1")
                 n1 = note.transpose(octaves=octave_shift, degrees=degree_shift)
             if scale_shift:
-                #print("SHIFT2")
                 n1 = note.scale_transpose(scale, scale_shift)
-                #print("SHIFTED: %s" % n1)
-            #print("APPENDING: %s" % n1)
             chord_items.append(n1)
         results.append(chord_items)
     return results
@@ -130,9 +125,6 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
             raise Exception("unexpected input: %s" % note)
 
         for note in my_notes:
-
-            start_index = note.start_time #str(round_partial(note.start_time, resolution))
-            stop_index = note.end_time #str(round_partial(note.end_time, resolution))
 
             event1 = Event(type=NOTE_ON, note=note, time=note.start_time, scale=note.from_scale)
 

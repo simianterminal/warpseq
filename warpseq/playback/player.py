@@ -66,8 +66,10 @@ class Player(BaseObject):
                 break
 
         if self.time_index >= self.clip_length_in_ms:
+            # FIXME: move this into the callbacks system (among other events)
             print("clip (%s) done : %s >= %s" % (self.clip.name, self.time_index, self.clip_length_in_ms))
             if self._still_on_this_clip():
+                # FIXME: move this into the callbacks system (among other events)
                 print("restarting clip (%s)" % (self.clip.name))
                 # recompute events so randomness can change
                 self.events = self.clip.get_events(self.song)
@@ -80,17 +82,21 @@ class Player(BaseObject):
                 if self.clip.auto_scene_advance:
                     new_scene = self.song.next_scene(self.clip.scene)
                     if new_scene:
+                        # FIXME: move this into the callbacks system (among other events)
                         print("auto advancing scene to: %s" % new_scene.name)
                         self._multiplayer.play_scene(new_scene)
                     else:
+                        # FIXME: move this into the callbacks system (among other events)
                         print("no scene to advance to")
 
                 elif self.clip.next_clip is not None:
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
+                    # FIXME: move this into the callbacks system (among other events)
                     print("auto advancing clip to: %s" % new_clip.name)
                     self._multiplayer.add_clip(new_clip)
 
                 else:
+                    # FIXME: move this into the callbacks system (among other events)
                     print("clip (%s) does not have an advance directive" % self.clip.name)
 
 

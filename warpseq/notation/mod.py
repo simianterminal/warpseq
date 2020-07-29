@@ -2,10 +2,9 @@
 Copyright 2020, Michael DeHaan <michael@michaeldehaan.net>
 """
 
-# from .. model.note import note
-# from .. model.chord import chord, Chord
 from .. model.registers import get_first_playing_note
 from . mod_parser import process_expr, is_deferred_expr
+
 
 class ModExpression(object):
 
@@ -15,8 +14,6 @@ class ModExpression(object):
         self.scale = None
 
     def do(self, note, scale, track, expressions):
-
-        #print("EXPR=%s" % expressions)
 
         self.scale = scale
 
@@ -61,14 +58,12 @@ class ModExpression(object):
                     return input_note
 
             # we ALWAYS need to process non-deferred events
-            #print("PROC IN=%s" % input_note)
             input_note = process_expr(self, input_note, expr, deferred=False)
-            #print("PROC OUT=%s" % input_note)
             if input_note is None:
                 return input_note
 
-        from .. model.note import Note
-        from .. model.chord import Chord
+        from ..model.note import Note
+        from ..model.chord import Chord
 
         if type(input_note) == Note:
             input_note.from_scale = self.scale

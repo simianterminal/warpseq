@@ -28,9 +28,6 @@ def expr_octave_up(parser, input, how, extra_info):
 
 def expr_octave_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    #print("-how=%s" % -how)
-    #print(type(how))
-    #print(type(input))
     return input.transpose(octaves=-how)
 
 def expr_octave_set(parser, input, how, extra_info):
@@ -123,7 +120,6 @@ def expr_chord_set(parser, input, how, extra_info):
 
 def expr_track_grab(parser, input, how, extra_info):
 
-    # note grab: T=euro1
     how = evaluate_params(how, want_string=True)
     playing = get_first_playing_note(how)
     if playing is None:
