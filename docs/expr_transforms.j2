@@ -1,8 +1,8 @@
 <h1>Mod Expressions As Transforms</h1>
 
 <p>
-Unlike many other sequencer and DAW tools, Warp does not just have Arpeggiators, warp has more complex {{ doc('transforms', 'Transforms') }} that can be used to build arps, but also
-more detailed sets of meta-patterns that transform other patterns - basically, transforms are powereful MIDI Effects just like a reverb is an audio effect.
+Unlike many other sequencer and DAW tools, Warp does not <i>just</i> have Arpeggiators, Warp has {{ doc('transforms', 'Transforms') }}. Transforms can be used to build
+arpeggiators ("arps"), but also other types of processes that transform patterns - basically, transforms are powerful MIDI Effects just like a reverb is an audio effect.
 </p>
 
 <p>
@@ -11,57 +11,194 @@ and optionally changes them.
 </p>
 
 <p>
-To build an Arp, we only need this in the Transform definition:
+To build a simple Arp, we create a transform with <b>divide</b> time set to 3, and fill in the following patterns into the transform - just one value!
 </p>
 
-{{ begin_code() }}0
+{{ begin_code() }}# transform definition
+0
 {{ end_code() }}
 
-{{ begin_info_block() }}
 <p>
-Understanding <i>divide</i> times is important.  A transform will always turn a chord into individual notes. In order to make sure it turns a triad into the full set of
-chord notes, we should set the {{ doc('transform', 'Transform') }} "divide" setting to at least 3.  If we set it to 9, it would strum each triad 3 times, very quickly.
-If we set it to 1, it would play the first note of each chord.
+The "0" just means play the current note as is. Understanding <i>divide</i> times is important.  If a pattern normally contains 16th notes, each transform (with the divide time set to 3) will contain *3* notes where
+there used to be just 1 note.  The arp will <i>automatically</i> work as an arpeggiator, playing each note in the chord in turn. Because the divide time is 3, it has room to complete playing all three chord notes
+within the time the chord was normally going to be played.
 </p>
 
-<p>
-If the transform were processing notes and not chords, a divide time of 1 would not convert a note into more than 1 note.  If a divide time was 3, it would play each
-note 3 times in the space that a note would normally play once.
-</p>
-{{ end_info_block() }}
+Example input (scale = C Major):
 
+{{ begin_code() }}# pattern definition
+I
+{{ end_code() }}
 
-<p>
-That's basic though. Transforms can use mod expressions, for instance:
-</p>
+The transform would then cause the system to just play each note in turn, like so:
 
-{{ begin_code() }}O+2
-O+1
+{{ begin_code() }}# output example
+1
+3
+5
+{{ end_code() }}
+
+In that same space of a sixteenth note, let's assume we instead set <i>divide</i> to 6.  The output from that one chord is now this:
+
+{{ begin_code() }}# output example
+1
+3
+5
+1
+3
+5
+{{ end_code() }}
+
+Now, let's change the transform definition again to the expressions below, leaving the <i>divide</i> time as 6:
+
+{{ begin_code() }}# transform definition
 0
 O+1
-O+2
 {{ end_code() }}
 
-The above sequence would play the first note in the pattern 2 octaves up, the 1, then as written, then 1 up, and then 2 up.
+The output then becomes the input chord notes played in sequence, then played once again, one octave higher:
+
+{{ begin_code() }}# output example
+1
+3
+5
+1 O+1
+3 O+1
+5 O+1
+{{ end_code() }}
 
 <p>
-Alternatively, the transform can ALSO muck with any parameter it wants/  Here is an example that adjusts some velocity and MIDI CCs while strumming
+So basically you can think of patterns as modifying one pattern (with {{ doc('expr_mod','Mod Expressions') }}) to produce another.
+</p>
+
+<p>
+Here's a question. What if the pattern contained just singular notes, and not chords, like so?
+</p>
+
+{{ begin_code() }}# input pattern
+1
+2
+3
+4
+5
+6
+7
+{{ end_code() }}
+
+
+<p>
+The output would be as follows:
+</p>
+
+{{ begin_code() }}# output example
+1
+2 O+1
+3
+4 O+1
+5
+6 O+1
+7
+{{ end_code() }}
+
+And if the pattern were to repeat, the octaves would line up the next time on the first note:
+
+{{ begin_code() }}# output example (second pass of pattern)
+1 O+1
+2
+3 O+1
+4
+5 O+1
+6
+7 O+1
+{{ end_code() }}
+
+<p>
+Transforms aren't just limited to octaves. Transform can ALSO muck with any parameter it wants, and use any {{ doc('mod_expr','Mod Expression') }}.  Here is an example that adjusts some velocity and MIDI CCs while strumming
 some notes:
 </p>
 
-{{ begin_code() }}0
+{{ begin_code() }}# transform definition
+0
 0 cc10=90 v=80
 +1
 0 cc10=0:120
 {{ end_code() }}
 
 <p>
-In this example, the first note plays as is, the second does with modified velocity and MIDI CC 10, the third note is an octave up, and the fourth note plays as is with random MIDI CC information that
-will persist as the transform cycles back on the first slot and finally be overwritten on the second.
+In this example, the first note plays as is, the second plays the indicated note with modified velocity and MIDI CC 10 adjusted, the third note is an octave up, and the fourth note plays as is with random MIDI CC information that
+will persist as the transform cycles back on the first slot and finally be overwritten on the second.  Is that a musical example?  Maybe not... but anything goes!
 </p>
 
 <p>
-<B>Anything you can put after a note -- as described earlier in this documentation -- can be put in a transform expression.</B>.  You just can't put in notes.
+Here's one more example of a transform that rapidly stutters notes:
 </p>
+
+{{ begin_code() }}0
+x
+{{ end_code() }}
+
+<p>
+Try using that transform with a <b>divide</b> time of something like 12.
+</p>
+
+<p>
+Finally, it's not exactly true that transforms always turn notes into chords.  They do, but they can also output chords! Assume the following input pattern:
+</p>
+
+{{ begin_code() }}# input pattern
+1
+4
+5
+1
+{{ end_code() }}
+
+<p>
+and the following transform...
+</p>
+
+{{ begin_code() }}# transform
+ch=major
+ch=minor
+ch=power
+ch=power
+{{ end_code() }}
+
+<p>
+As the pattern notes loop again, the transform has a different length from the pattern, it would produce the following chords in turn:
+</p>
+
+{{ begin_code() }}# output example
+1 ch=major
+4 ch=minor
+5 ch=power
+1 ch=power
+4 ch=major
+5 ch=minor
+1 ch=power
+4 ch=power
+5 ch=major
+...
+{{ end_code() }}
+
+<p>
+<B>Any expression you can put after a note -- as described earlier in this documentation -- can be put in a transform expression.</B>.  You just can't put in notes.
+</p>
+
+<h2>Stacking Patterns</h2>
+
+<p>
+Inside a {{ doc('clip') }} there is a list of {{ doc('pattern','Patterns') }} and a list of transforms.  However, for every transform in that list, it can really use two or more STACKED
+transforms.  This runs one transform's output into the input of another, potentially creating some extremely complex note data from some very simple expressions.
+</p>
+
+<h2>Need Help Understanding Transforms?</h2>
+
+<p>
+The {{ doc('api') }} contains some good examples of transforms that will make things easier to understand in context.  When the UI is available, we'll also ship with some demo
+song files that use a lot of interesting techniques.
+</p>
+
+
+
 
 
