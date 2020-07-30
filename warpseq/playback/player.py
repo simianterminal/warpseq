@@ -7,6 +7,7 @@
 from .. model.base import BaseObject
 from classforge import Field
 from .. model.event import Event, NOTE_ON, NOTE_OFF
+from warpseq.api.callbacks import Callbacks
 
 TIME_INTERVAL = 10
 
@@ -29,12 +30,14 @@ class Player(BaseObject):
     clip_length_in_ms = Field(type=int, required=False, nullable=False)
     events = Field(type=list, required=False, nullable=False)
     _multiplayer = Field()
+    callbacks = Field()
 
     def on_init(self):
 
         self.clip_length_in_ms = self.clip.get_clip_duration(self.song)
         self.events = self.clip.get_events(self.song)
         self.repeat_count = self.clip.repeat
+        self.callbacks = Callbacks()
         self.start()
 
     def queue_size(self):
@@ -75,8 +78,7 @@ class Player(BaseObject):
             # FIXME: move this into the callbacks system (among other events)
             print("clip (%s) done : %s >= %s" % (self.clip.name, self.time_index, self.clip_length_in_ms))
             if self._still_on_this_clip():
-                # FIXME: move this into the callbacks system (among other events)
-                print("restarting clip (%s)" % (self.clip.name))
+                self.callbacks.on_clip_restart(self.clip)
                 # recompute events so randomness can change
                 self.events = self.clip.get_events(self.song)
                 self.start()
@@ -89,21 +91,15 @@ class Player(BaseObject):
                     new_scene = self.song.next_scene(self.clip.scene)
                     if new_scene:
                         # FIXME: move this into the callbacks system (among other events)
-                        print("auto advancing scene to: %s" % new_scene.name)
                         self._multiplayer.play_scene(new_scene)
-                    else:
-                        # FIXME: move this into the callbacks system (among other events)
-                        print("no scene to advance to")
+                        return
 
-                elif self.clip.next_clip is not None:
+                if self.clip.next_clip is not None:
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
                     # FIXME: move this into the callbacks system (among other events)
                     print("auto advancing clip to: %s" % new_clip.name)
                     self._multiplayer.add_clip(new_clip)
-
-                else:
-                    # FIXME: move this into the callbacks system (among other events)
-                    print("clip (%s) does not have an advance directive" % self.clip.name)
+                    return
 
 
     def stop(self):

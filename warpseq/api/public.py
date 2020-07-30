@@ -19,7 +19,7 @@ from .. model.note import Note
 from .. playback.multi_player import MultiPlayer
 from .. playback.engine.realtime_engine import RealtimeEngine
 
-
+from . callbacks import Callbacks, DefaultCallback
 from . exceptions import  *
 from . support import BaseApi
 
@@ -375,14 +375,26 @@ class SongApi(object):
             scale = self.public_api.scales.lookup(scale, require=True)
             self.song.scale = scale
 
+
+
 # =====================================================================================================================
 
 class Api(object):
 
-    def __init__(self):
+    def __init__(self, default_callbacks=True):
+        self._reset()
 
+        if default_callbacks:
+            Callbacks().clear()
+            Callbacks().register(DefaultCallback())
+
+    def _reset(self):
+
+        self._filename = None
         self._song = Song(name='')
+        self._setup_api()
 
+    def _setup_api(self):
         self.song = SongApi(self, self._song)
         self.devices = Devices(self, self._song)
         self.instruments = Instruments(self, self._song)
@@ -397,15 +409,27 @@ class Api(object):
     # ------------------------------------------------------------------------------------------------------------------
     # FIXME: implement all of these to enable the UI
 
-    def new(self):
-        # TODO: no way to edit the 'name' of the song, which isn't the same as the filename, do we even need one?
-        self.song.reset()
+    #def new(self):
+    #    # TODO: no way to edit the 'name' of the song, which isn't the same as the filename, do we even need one?
+    #    self._reset()
 
     def load(self, filename:str):
-        raise NotImplementedError()
+        fh = open(filename, "r")
+        data = fh.read()
+        fh.close()
+        self._song = Song.from_json(data)
+        self._filename = filename
+        self._setup_api()
 
     def save(self):
-        raise NotImplementedError()
+        if not self._filename:
+            raise Exception("no filename set, use save_as")
+        data = self._song.to_json()
+        fh = open(self._filename, "w+")
+        fh.write(data)
+        fh.close()
 
     def save_as(self, filename:str):
-        raise NotImplementedError()
+        self._filename = filename
+        self.save()
+

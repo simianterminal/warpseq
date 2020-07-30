@@ -13,6 +13,7 @@
 # try changing the patterns and adding a third scene.
 
 from warpseq.api.public import Api as WarpApi
+from warpseq.api.callbacks import Callbacks, DefaultCallback
 from warpseq.api import demo
 
 # setup API and song
@@ -48,6 +49,13 @@ api.clips.add(name='s2k1', scene='scene_2', track='kick', patterns=['kick_alt'],
 api.clips.add(name='s2s1', scene='scene_2', track='snare', patterns=['snare_alt'], repeat=4)
 
 # play
+
+
+
+#api.save_as("/tmp/test.json")
+#api.save()
+#api.load("/tmp/test.json")
+#print(api._song.to_json())
 
 api.player.play_scene('scene_1')
 for x in range(0,64000):

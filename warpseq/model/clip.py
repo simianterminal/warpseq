@@ -124,6 +124,8 @@ class Clip(ReferenceObject):
         return result
 
     def _save_transforms(self):
+        if not self.transforms:
+            return []
         results = []
         for x in self.transforms:
             if type(x) == list:
@@ -160,7 +162,7 @@ class Clip(ReferenceObject):
             tempo_shifts = data['tempo_shifts'],
             rate = data['rate']
         )
-        clip.transforms = self._load_transforms(data['transforms'])
+        clip.transforms = clip._load_transforms(data['transforms'])
         return clip
 
     def get_actual_scale(self, song, pattern, roller):

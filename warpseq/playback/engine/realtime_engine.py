@@ -10,7 +10,7 @@ from warpseq.model.event import NOTE_ON, NOTE_OFF
 import rtmidi as rtmidi
 from warpseq.model.registers import register_playing_note, unregister_playing_note
 from  ... notation.mod import ModExpression
-
+from warpseq.api.callbacks import Callbacks
 
 MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
@@ -55,6 +55,7 @@ class RealtimeEngine(BaseObject):
 
     # informational/state
     time_index = Field(type=int)
+    callbacks = Field()
 
     def on_init(self):
 
@@ -63,6 +64,7 @@ class RealtimeEngine(BaseObject):
         self.device = self.instrument.device
         self.mod_expressions = ModExpression(defer=True)
         self.midi_out = rtmidi.MidiOut()
+        self.callbacks = Callbacks()
 
         ports = self.midi_out.get_ports()
         index = 0
@@ -132,7 +134,7 @@ class RealtimeEngine(BaseObject):
 
         if event.type == NOTE_ON:
             # FIXME: move this into the callbacks system (among other events)
-            print("PLAY: %s" % event.note)
+            self.callbacks.on_note_on(event)
             (note_number, velocity) = self._note_data(event)
             self.count_on = self.count_on + 1
             register_playing_note(self.track, event.note)
@@ -158,6 +160,9 @@ class RealtimeEngine(BaseObject):
 
                     self.play(evt)
                 return
+
+            self.callbacks.on_note_off(event)
+
 
             (note_number, velocity) = self._note_data(event.on_event)
             self.count_off = self.count_off + 1

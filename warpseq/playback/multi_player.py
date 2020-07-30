@@ -9,6 +9,7 @@ from classforge import Field
 from . player import TIME_INTERVAL
 import time
 import ctypes
+from warpseq.api.callbacks import Callbacks
 
 class MultiPlayer(BaseObject):
 
@@ -19,10 +20,12 @@ class MultiPlayer(BaseObject):
     # state
     clips = Field(type=list)
     players = Field(type=dict)
+    callbacks = Field()
 
     def on_init(self):
         self.clips = []
         self.players = {}
+        self.callbacks = Callbacks()
 
     def stop(self):
         for (n, p) in self.players.items():
@@ -50,6 +53,7 @@ class MultiPlayer(BaseObject):
 
         self.stop()
 
+        self.callbacks.on_scene_start(scene)
         clips = scene.clips(self.song)
         for c in clips:
             self.add_clip(c)
@@ -59,7 +63,9 @@ class MultiPlayer(BaseObject):
 
         # starts a clip playing, including stopping any already on the same track
         # FIXME: move this into the callbacks system (among other events)
-        print("playing clip: %s" % clip.name)
+
+        self.callbacks.on_clip_start(clip)
+
         clip.reset()
         assert clip.track is not None
 
@@ -76,6 +82,7 @@ class MultiPlayer(BaseObject):
             player.start()
 
     def remove_clip(self, clip):
+        self.callbacks.on_clip_stop(clip)
         if clip.name not in self.players:
             # clip was already removed/stopped ?
             return
