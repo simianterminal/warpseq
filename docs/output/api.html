@@ -172,8 +172,34 @@ API examples are part of the project repo, but you can also browse them on <A HR
 The public API is considered (fairly) stable and isolates users from internal code changes within warp.  Methods outside of "public.py" are subject to change.
 </p>
 
+<h2>Running the API Example Demos</h2>
+
+<p>
+The API demos are live demos that send MIDI events to your software, hardware, or DAW.  Listening to them will require you set up some
+tracks or devices that can receive MIDI.  To run them:
+</p>
+
+<div class='codeblock'><pre><code class="language-python">
+cd checkout_location
+cd examples/api/
+PYTHONPATH=. python3 any_example.py
+</code></pre></div>
 
 
+<p>
+<A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">The API demos</A> are written to use a specific MIDI interface but if you don't have yours named the same as ours, you can set an environment variable.
+On a MAC, this is done as follows:
+</p>
+
+<div class='codeblock'><pre><code class="language-python">WARP_MIDI_DEVICE="My Device Name" PYTHONPATH=. python3 any_example.py
+</code></pre></div>
+
+Or alternatively:
+
+<div class='codeblock'><pre><code class="language-python">
+export WARP_MIDI_DEVICE="My Device Name"
+PYTHONPATH=. python3 any_example.py
+</code></pre></div>
         
     </div>
 </div>

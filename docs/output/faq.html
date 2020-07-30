@@ -1,6 +1,6 @@
 <html lang='en'>
 <head>
-<title>Warp MIDI Sequencer 0.1: Installation</title>
+<title>Warp MIDI Sequencer 0.1: FAQ</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" href="rockdoc.css">
@@ -153,83 +153,46 @@
 
 
 
-<h1>Installation</h1>
+<h1>Frequently Asked Questions</h1>
 
-<i>First off, thank you for interest in trying out Warp!</i>
-
-<div class='infoblock'>
-<i class="fas fa-info-circle"></i></i>&nbsp;
-Warp is in a developer-only beta phase through Fall 2020 as we work on the user interface.  The instructions below cover
-setting up the API and will include full install instructions later. For now, we will assume some basic Python development and
-command line skills.  As we evolve, these instructions will evolve to make them more accessible to everyone. If you would like
-to help improve our documentation, see <A HREF="./contributing.html">contributing</a>.
-</div>
-
-<h2>Requirements</h2>
-
-<i>Warp should work on most any commputer.</i>
+<h3>Is Warp Free?</h3>
 
 <p>
-First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, we recommend installing <i>python3</i> from homebrew:
+Yes. Warp is free and open source software.  See <A HREF="./contributing.html">Contributing</a> for details on how to help with development, if you are interested. See <A HREF="./club.html">Warp Club</a> for some awesome user community opportunities.
 </p>
 
-<div class='codeblock'><pre><code class="language-bash">
-brew install python3
-brew install git
-</code></pre></div>
-
-<h2>Checkout</h2>
+<h3>What's Coming Next?</h3>
 
 <p>
-Now clone the project into a directory:
+Right now Warp is in a developer-beta release mode where only the Python API is available.  We are going to be releasing a web interface in the Fall of 2020, and can talk more about future plans beyond the UI then.
+See <A HREF="./ui.html">Web UI</a> for a rough sketch of what the UI will include.  Song files created today should be loadable by the UI.
 </p>
 
-<div class='codeblock'><pre><code class="language-bash">cd wherever
-git clone https://laserllama@bitbucket.org/laserllama/warpseq.git
-</code></pre></div>
+<h3>Does Warp work with Hardware or Software Synths?</h3>
 
-<h2>Libraries</h2>
+<p>Warp works with both. To use software synths, you may need to create a virtual bus.  See "<A HREF="<A HREF="https://help.ableton.com/hc/en-us/articles/209774225-How-to-setup-a-virtual-MIDI-bus">How To Setup A Virtual MIDI Bus [Ableton.com]</A>",
+of which most is generic.
 
-<p>
-Now install the dependencies:
+<p>Warp can talk to multiple MIDI devices at one time, including a mix of hardware synths and software.  A hardware MIDI interface has multiple numbered output channels. While MIDI hardware can normally be daisy chained, we would recommend
+using a MIDI splitter, like a <A HREF="https://kentonuk.com/product/thru-5/">Kenton Thru</A> to reduce latency.</p>
+
+<h3>Does Warp replace my DAW?</h3>
+
+<p>Generally no, but it could. You might still want to record audio in your DAW, possibly record MIDI from Warp, and use the DAW to host VST and AU format effects.  You may not need a full compositional environment, however, and could choose
+to use more of an audio recording program - or even a tape deck.  This is up to you.
 </p>
 
-<div class='codeblock'><pre><code class="language-bash">pip3 install -r requirements.txt
-</code></pre></div>
+<h3>How Do I Use My DAW with Warp?</h3>
 
-<h2>Creating a Virtual Bus</h2>
+<p>You want to set up MIDI tracks for all of your software synths, accepting input on the proper channels (such as an "IAC" or virtual bus) and not "Omni" channels.  To receive incoming MIDI, be sure to arm your tracks.
+You do not need to make MIDI tracks in your DAW for hardware synths if you don't want to, audio only tracks are fine.</p>
 
-<p>
-If you want to use Warp with software synthesizers, you will need to create a Virtual Bus in your operating system to talk to them if you do not already have one.
-Ableton has already written some great documentation on this, so we suggest following those:
-</p>
+<h3>Does Warp have arpeggiators?</h3>
 
-<p>
-<A HREF="https://help.ableton.com/hc/en-us/articles/209774225-How-to-setup-a-virtual-MIDI-bus">How To Setup A Virtual MIDI Bus [Ableton.com]</A>.
-</p>
+<p>Yes, you can build a simple arpeggiator with a transform. Just set the divide time to 3. This is covered in <A HREF="./expr_transforms.html">Transforms</a>.</p>
 
-<p>
-You can skip step 5 in the above document unless you also use Ableton and haven't already set that up.
-</p>
+<h3>More To Come...</h3>
 
-<h2>Ready?</h2>
-
-<p>
-We are ready to go.  At the current state of development, only the python API is available.  The UI is coming soon.
-To try out Warpseq from the API, run one of the examples:
-</p>
-
-<div class='codeblock'><pre><code class="language-bash">cd examples/api
-python3 tests/00_kick_snare.py
-</code></pre></div>
-
-<p>
-The program may prompt you about selecting a MIDI interface.
-</p>
-
-<p>
-When the UI is available, there will just be a few more install steps for Web UI dependencies.
-</p>
         
     </div>
 </div>

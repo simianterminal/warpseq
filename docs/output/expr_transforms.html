@@ -172,10 +172,20 @@ To build an Arp, we only need this in the Transform definition:
 <div class='codeblock'><pre><code class="language-python">0
 </code></pre></div>
 
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
 <p>
-Whoa that was short. That's it! 0 here just means "play what you would have played".  The transform will always turn a chord into notes. In order to make sure it turns a triad into the full set of
+Understanding <i>divide</i> times is important.  A transform will always turn a chord into individual notes. In order to make sure it turns a triad into the full set of
 chord notes, we should set the <A HREF="./transform.html">Transform</a> "divide" setting to at least 3.  If we set it to 9, it would strum each triad 3 times, very quickly.
+If we set it to 1, it would play the first note of each chord.
 </p>
+
+<p>
+If the transform were processing notes and not chords, a divide time of 1 would not convert a note into more than 1 note.  If a divide time was 3, it would play each
+note 3 times in the space that a note would normally play once.
+</p>
+</div>
+
 
 <p>
 That's basic though. Transforms can use mod expressions, for instance:

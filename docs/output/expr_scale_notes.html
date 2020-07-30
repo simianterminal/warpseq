@@ -1,6 +1,6 @@
 <html lang='en'>
 <head>
-<title>Warp MIDI Sequencer 0.1: Installation</title>
+<title>Warp MIDI Sequencer 0.1: Scale Notes And Chords</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" href="rockdoc.css">
@@ -39,7 +39,7 @@
                </li>
            
                
-               <li class="active">
+               <li>
                
                    <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
                    <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
@@ -83,7 +83,7 @@
                </li>
            
                
-               <li>
+               <li class="active">
                
                    <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
                    <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
@@ -153,82 +153,94 @@
 
 
 
-<h1>Installation</h1>
+<h1>Scale Notes & Chords</h1>
 
-<i>First off, thank you for interest in trying out Warp!</i>
+<p>
+Warp uses arabic numerals to indicate degrees along a scale, and roman numerals to represent basic chords.
+We'll show you how to make more complex chords as well.
+</p>
+
+<h2>A Scale Example</h2>
+
+Here is the same scale mentioned in <A HREF="./expr_literal.html">Literal Notes</a> in a way that will work for any 7-note <A HREF="./scale.html">Scale</a> setting:
+
+<div class='codeblock'><pre><code class="language-python"> 1
+2
+3
+4
+5
+6
+7
+8
+</code></pre></div>
+
+<p>
+This means that we can define a <A HREF="./pattern.html">Pattern</a> and then the pattern can be then used in any clip using any scale we want.
+The <A HREF="./scale.html">Scale</a> value will be taken from the clip, if so provided, or if not, can come from the scene, and if not set there,
+will use the value from the song.  If you don't set a scale anywhere, the system will assume the C major scale.
+</p>
 
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
-Warp is in a developer-only beta phase through Fall 2020 as we work on the user interface.  The instructions below cover
-setting up the API and will include full install instructions later. For now, we will assume some basic Python development and
-command line skills.  As we evolve, these instructions will evolve to make them more accessible to everyone. If you would like
-to help improve our documentation, see <A HREF="./contributing.html">contributing</a>.
+Most other sequencer programs and DAWs do not natively understand scales, but instead
+"force" notes to the nearest scale note.  This means multiple note entries might map to the same note, or it may be unclear
+if something rounds up or down.  Of greater concern, in these force-to-scale systems, the ability to use accidentals is lost.
+Another major problem with DAWs is while "force to scale" can often be achieved with a MIDI effect, using multiple scales
+together often requires a separate track for every combination of instrument and scale.  This is not the case in Warp!
 </div>
 
-<h2>Requirements</h2>
+<h3>Roman Numeral Chords</h3>
 
-<i>Warp should work on most any commputer.</i>
+Chords can be expressed as Roman numerals:
 
-<p>
-First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, we recommend installing <i>python3</i> from homebrew:
-</p>
-
-<div class='codeblock'><pre><code class="language-bash">
-brew install python3
-brew install git
+<div class='codeblock'><pre><code class="language-python">I
+IV
+V
 </code></pre></div>
 
-<h2>Checkout</h2>
+This notation is commonly used to denote chord progressions.  Like the arabic numerals above, it is nice because it doesn't care what scale you are in.
 
-<p>
-Now clone the project into a directory:
-</p>
+Lowercase roman numerals represent minor chords:
 
-<div class='codeblock'><pre><code class="language-bash">cd wherever
-git clone https://laserllama@bitbucket.org/laserllama/warpseq.git
+<div class='codeblock'><pre><code class="language-python">i
+iv
+v
 </code></pre></div>
 
-<h2>Libraries</h2>
+More advanced types can be represented using their base notes and chord type:
 
-<p>
-Now install the dependencies:
-</p>
-
-<div class='codeblock'><pre><code class="language-bash">pip3 install -r requirements.txt
+<div class='codeblock'><pre><code class="language-python">1 ch=sus4
+2 ch=major
+4 ch=power
 </code></pre></div>
 
-<h2>Creating a Virtual Bus</h2>
+This is a bit of a spoiler as this refers to "Mod Expressions", covered immediately below.
+
+For reference the built-in chord types you can use this way are:
+
+<ul>
+<li>minor</li>
+<li>major</li>
+<li>dim</li>
+<li>aug</li>
+<li>sus4</li>
+<li>sus2</li>
+<li>fourth</li>
+<li>power</li>
+<li>fifth</li>
+<li>M6</li>
+<li>m6</li>
+<li>dom7</li>
+<li>M7</li>
+<li>m7</li>
+<li>aug7</li>
+<li>dim7</li>
+<li>mM7</li>
+</ul>
 
 <p>
-If you want to use Warp with software synthesizers, you will need to create a Virtual Bus in your operating system to talk to them if you do not already have one.
-Ableton has already written some great documentation on this, so we suggest following those:
-</p>
-
-<p>
-<A HREF="https://help.ableton.com/hc/en-us/articles/209774225-How-to-setup-a-virtual-MIDI-bus">How To Setup A Virtual MIDI Bus [Ableton.com]</A>.
-</p>
-
-<p>
-You can skip step 5 in the above document unless you also use Ableton and haven't already set that up.
-</p>
-
-<h2>Ready?</h2>
-
-<p>
-We are ready to go.  At the current state of development, only the python API is available.  The UI is coming soon.
-To try out Warpseq from the API, run one of the examples:
-</p>
-
-<div class='codeblock'><pre><code class="language-bash">cd examples/api
-python3 tests/00_kick_snare.py
-</code></pre></div>
-
-<p>
-The program may prompt you about selecting a MIDI interface.
-</p>
-
-<p>
-When the UI is available, there will just be a few more install steps for Web UI dependencies.
+So we have access to a lot of different chord types, we just don't get to use the roman numeral syntax for anything but major
+and minor chords.
 </p>
         
     </div>
@@ -245,7 +257,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleSetupAndUsage').click();
+        document.getElementById('navToggleExpressionLanguage').click();
     
 
 });
