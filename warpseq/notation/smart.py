@@ -1,3 +1,9 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
 from . literal import Literal
 from . roman  import Roman
 from . mod import ModExpression

@@ -1,4 +1,8 @@
-
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
 
 from warpseq.utils.utils import roll_left, roll_right, roller
 

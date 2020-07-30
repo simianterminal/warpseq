@@ -1,3 +1,9 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
 from . mod_util import *
 from .. model.registers import get_first_playing_note
 

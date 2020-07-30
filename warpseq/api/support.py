@@ -1,3 +1,9 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
 from . exceptions import *
 
 # code supporting public API boilerplate reduction - a bit too much meta-programming but ah well

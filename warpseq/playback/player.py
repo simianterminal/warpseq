@@ -1,3 +1,9 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
 from .. model.base import BaseObject
 from classforge import Field
 from .. model.event import Event, NOTE_ON, NOTE_OFF

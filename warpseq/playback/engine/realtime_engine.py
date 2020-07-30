@@ -1,3 +1,8 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
 
 from classforge import Field
 from warpseq.model.base import BaseObject

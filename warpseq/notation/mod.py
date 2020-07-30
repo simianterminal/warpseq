@@ -1,6 +1,8 @@
-"""
-Copyright 2020, Michael DeHaan <michael@michaeldehaan.net>
-"""
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
 
 from .. model.registers import get_first_playing_note
 from . mod_parser import process_expr, is_deferred_expr

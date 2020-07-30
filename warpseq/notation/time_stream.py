@@ -1,3 +1,9 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
 #NOTE_RESOLUTION = .02
 
 # a small gap between notes that ensures the off notes fire before the on notes

@@ -1,3 +1,9 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
 # the registry keeps track of currently playing events to allow intra-track modifiers
 
 PLAYING_BY_TRACK = dict()

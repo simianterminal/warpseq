@@ -1,3 +1,9 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
 from . base import ReferenceObject
 from classforge import Class, Field
 from .. utils.utils import roller
@@ -27,7 +33,6 @@ class Transform(ReferenceObject):
             slots = data['slots'],
             octave_slots = data['slots']
         )
-
 
     def process(self, song, scale, track, note_list):
 

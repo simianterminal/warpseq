@@ -1,3 +1,8 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
 
 from warpseq.model.note import note
 from warpseq.model.chord import chord
