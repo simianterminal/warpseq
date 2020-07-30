@@ -156,90 +156,24 @@
 
 <h1>Transforms</h1>
 
-<p>Transforms are like meta-patterns - they are specialized patterns that are computed on top of and modify the result of patterns before those patterns are turned into MIDI events.
-Tranforms take notes listed in <A HREF="./pattern.html">patterns</a> inside a <A HREF="./clip.html">Clip</a> and then do "things" to them - they don't just have to change the notes - they can also alter
-velocity and MIDI CC data. Transforms are optional features to Warp, but very fun, and can add lots of sonic variety.</p>
+<p>Transforms are like meta-patterns that serve as MIDI effects.  They process patterns and modify the result before they are turned into MIDI events.
+Transforms take notes listed in <A HREF="./pattern.html">patterns</a> inside a <A HREF="./clip.html">Clip</a> and then do "things" to them - they don't just have to change the notes - for instance,
+they can also change velocity and MIDI CC data. Using just a few transforms can add a lot of sonic variety to repeated patterns.</p>
 
 <p>
 <ul>
 <li>Classically, <b>arpeggiators</b> are used in computer synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
-<li>In Warp, transforms CAN be used to create arpeggiators, but that is only the most basic usage of them.</li>
-<li>Transforms can also run against individual notes (not just chords), and even turn those notes *back* into chords.</li>.
+<li>In Warp, transforms CAN be used to create arpeggiators, but that is only the most basic usage of transforms.</li>
+<li>in Warp, transforms can also run against individual notes (not just chords), and even turn those notes *back* into chords.</li>.
 <li>Transforms achieve this power through <A HREF="./expr_info.html">Mod Expressions</a>.
-<li>Transforms may be thought of as a special kind of <A HREF="./pattern.html">Pattern</a> that runs against Patterns.
-<li>A transform with a divide time of 1 applies each slot of the transform to one slot of the pattern, and only modifies the notes, rather than creating more.</li>
-<li>A transform with a divide time of 4 will divide each note into four parts, applying up to 4 different modifications to each fragment</li>
-<li>A transform can contain more slots than the divide time, allowing for arps that do not line up exactly with the notes they modify</li>
-<li>Transforms can manipulate notes or octaves, can silence notes, and can also include velocity and MIDI CC information.</li>
-</li>
+<li>Transforms have a <i>divide</i> time that decides how much they slice up notes or chords. For processing triads, usually use will want to set this to a multiple of 3.</li>
+<li>in Warp, a <A HREF="./clip.html">Clip</a> can contain a list of transforms, where one <i>or more</i> transforms is applied in rotation after another.</li>
 </p>
 
-<h2>Basic Examples</h2>
+<h2>Examples</h2>
 
-Assume we have an incoming chord sequence:
-
-<div class='codeblock'><pre><code class="language-python">
-I
-IV
-V
-</code></pre></div>
-
-And a transform:
-
-<Macro 'begin_code'>
-0
-<Macro 'end_code'>
-
-With a divide cycle of "3".
-
-In this simple example - with just one expression - we have built an arpeggiator, that plays the notes of the triad in quick succession.
-
-<h2>A More Complex Example</h2>
-
-Suppose we have the same chord sequence and a different transform:
-
-<div class='codeblock'><pre><code class="language-python">
-O+1
-0
-0
-</code></pre></div>
-
-This will play the first note of each chord (the root) an octave up. For more examples, see the <A HREF="./expr_intro.html">Expression Section</a>.
-
-<h2>Another Example</h2>
-
-<div class='codeblock'><pre><code class="language-python">
-0
-x
-0
-x
-0
-x
-</code></pre></div>
-
-If this transform had a divide time of 6, it would slice up a triad, arpeggiating it and leaving some room for gaps in the middle.
-
-<h3>Yet Another Example</h3>
-
-<div class='codeblock'><pre><code class="language-python">
-0
-0
-0
-O+1
-O+1
-O+1
-</code></pre></div>
-
-<p>
-With a divide time of 6, we just built a classic two octave arp. It plays the chord, then plays the same chord input an octave higher.
-</p>
-
-<div class='infoblock'>
-<i class="fas fa-info-circle"></i></i>&nbsp;
-Transforms can use ANY mod expression listed in this documentation - they just don't start with notes.  In the documentation, you may
-see many useful expressions demoed with starting notes. When this happens, these examples are showing patterns -- but remember, you can
-use the same tools with transforms!  Just leave out the starting note or chord symbols.
-</div>
+Transform examples are included as part of the Expression Guide: see <A HREF="./expr_transforms.html">here</a>.  Reading this chapter will give a lot better understanding of how
+Transforms work and what they can do.
         
     </div>
 </div>

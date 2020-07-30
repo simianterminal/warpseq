@@ -6,12 +6,13 @@ arpeggiators ("arps"), but also other types of processes that transform patterns
 </p>
 
 <p>
-As described in the Transform page, a transform moves across the notes that would have played in each pattern, at every step, and slices them up,
-and optionally changes them.
+As described in the {{ doc('transform', 'Transforms') }} page, a transform moves across the notes that would have played in each pattern, at every step, and slices them up,
+and <i>somehow</i> changes them.  The <i>somehow</i> varies based on what {{ doc('expr_mod','Mod Expressions') }} are used, in what order.  How frequently it slices is them is
+based on what the <i>divide</i> time is set to.
 </p>
 
 <p>
-To build a simple Arp, we create a transform with <b>divide</b> time set to 3, and fill in the following patterns into the transform - just one value!
+To build a simple Arp, we create a transform with <b>divide</b> time set to 3, and fill in the following patterns into the transform - only one value!
 </p>
 
 {{ begin_code() }}# transform definition
@@ -19,12 +20,12 @@ To build a simple Arp, we create a transform with <b>divide</b> time set to 3, a
 {{ end_code() }}
 
 <p>
-The "0" just means play the current note as is. Understanding <i>divide</i> times is important.  If a pattern normally contains 16th notes, each transform (with the divide time set to 3) will contain *3* notes where
+The "0" just means play the current note as is. Understanding <i>divide</i> times is important.  If a pattern normally contained 16th notes (tempo ratio=1), each transform (with the divide time set to 3) will contain *3* notes where
 there used to be just 1 note.  The arp will <i>automatically</i> work as an arpeggiator, playing each note in the chord in turn. Because the divide time is 3, it has room to complete playing all three chord notes
-within the time the chord was normally going to be played.
+within the time the chord was normally going to be played.  Setting the divide time to <i>4</i> would result in the root note of the chord being replaced, because the transform would need to loop back over to get more notes.
 </p>
 
-Example input (scale = C Major):
+Let's assume the following pattern with a scale set to C Major:
 
 {{ begin_code() }}# pattern definition
 I
@@ -32,15 +33,23 @@ I
 
 The transform would then cause the system to just play each note in turn, like so:
 
-{{ begin_code() }}# output example
+{{ begin_code() }}# output pattern
 1
 3
 5
+{{ end_code() }}
+
+Which in C Major is:
+
+{{ begin_code() }}# output notes
+C
+E
+G
 {{ end_code() }}
 
 In that same space of a sixteenth note, let's assume we instead set <i>divide</i> to 6.  The output from that one chord is now this:
 
-{{ begin_code() }}# output example
+{{ begin_code() }}# output pattern
 1
 3
 5
@@ -49,14 +58,16 @@ In that same space of a sixteenth note, let's assume we instead set <i>divide</i
 5
 {{ end_code() }}
 
-Now, let's change the transform definition again to the expressions below, leaving the <i>divide</i> time as 6:
+<p>
+That's the same chord, strummed twice, in the same space of time. Now, let's change the transform definition again to the expressions below, leaving the <i>divide</i> time as 6:
+</p>
 
 {{ begin_code() }}# transform definition
 0
 O+1
 {{ end_code() }}
 
-The output then becomes the input chord notes played in sequence, then played once again, one octave higher:
+The output then changes to the input chord notes played in sequence, then played once more again, one octave higher:
 
 {{ begin_code() }}# output example
 1
@@ -85,9 +96,8 @@ Here's a question. What if the pattern contained just singular notes, and not ch
 7
 {{ end_code() }}
 
-
 <p>
-The output would be as follows:
+Well, the transform still works against the input notes, just as before, but at each step, has less notes to draw from.  Assuming a <i>divide</i> time of 1, the output would be as follows:
 </p>
 
 {{ begin_code() }}# output example
@@ -113,7 +123,7 @@ And if the pattern were to repeat, the octaves would line up the next time on th
 {{ end_code() }}
 
 <p>
-Transforms aren't just limited to octaves. Transform can ALSO muck with any parameter it wants, and use any {{ doc('mod_expr','Mod Expression') }}.  Here is an example that adjusts some velocity and MIDI CCs while strumming
+Transforms aren't just limited to octaves. Transform can use any {{ doc('mod_expr','Mod Expression') }}.  Here is an example that adjusts some velocity and MIDI CCs while strumming
 some notes:
 </p>
 
@@ -138,7 +148,8 @@ x
 {{ end_code() }}
 
 <p>
-Try using that transform with a <b>divide</b> time of something like 12.
+Try using that transform with a <b>divide</b> time of something like 12. If receiving a triad as input, it would strum each chord 4 times in the space of the normal notes, but if receiving a single note, it would play
+that note *12* times.
 </p>
 
 <p>
@@ -181,7 +192,11 @@ As the pattern notes loop again, the transform has a different length from the p
 {{ end_code() }}
 
 <p>
-<B>Any expression you can put after a note -- as described earlier in this documentation -- can be put in a transform expression.</B>.  You just can't put in notes.
+You can of course use a transform to *selectively* at certain steps in the transform, or even *randomly* decide to turn notes into chords, and also select chord types randomly.
+</p>
+
+<p>
+<B>Any {{ doc('expr_mod', 'Mod Expression') }} you can put after a note can be put in a transform expression.</B>.  You just can't put in notes and chord symbols to start with.
 </p>
 
 <h2>Stacking Patterns</h2>
