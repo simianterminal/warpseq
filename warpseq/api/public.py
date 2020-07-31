@@ -115,7 +115,7 @@ class Tracks(CollectionApi):
 class Scales(CollectionApi):
 
     object_class    = Scale
-    public_fields   = [ 'name', 'scale_type', 'slots' ] # FIXME: may need work
+    public_fields   = [ 'name', 'scale_type', 'slots' ] # this is somewhat ignored because of the methods below
     song_collection = 'scales'
     add_method      = 'add_scales'
     add_required    = [ ]

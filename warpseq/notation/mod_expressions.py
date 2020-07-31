@@ -67,30 +67,12 @@ def expr_degree_down(parser, input, how, extra_info):
 # ----------------------------------------------------------------------------------------------------------------------
 # VELOCITY
 
-def expr_velocity_up(parser, input, how, extra_info):
-    how = evaluate_params(how, want_int=True)
-    return input.adjust_velocity(how)
-
-def expr_velocity_down(parser, input, how, extra_info):
-    how = evaluate_params(how, want_int=True)
-    return input.adjust_velocity(-how)
-
 def expr_velocity_set(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
     return input.with_velocity(how)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # CCs
-
-# FIXME: do we want to support this?
-def expr_cc_up(parser, input, how, extra_info):
-    how = evaluate_params(how, want_int=True)
-    return input.adjust_cc(extra_info, how)
-
-# FIXME: do we want to support this?
-def expr_cc_down(parser, input, how, extra_info):
-    how = evaluate_params(how, want_int=True)
-    return input.adjust_cc(extra_info, -how)
 
 def expr_cc_set(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)

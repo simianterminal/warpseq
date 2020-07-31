@@ -77,10 +77,10 @@ class Roman(object):
         # above).
         chord_data = CHORD_SYMBOLS.get(sym, None)
         if chord_data is None:
+           # FIXME: convert to custom exception types
            raise Exception("do not know how to parse chord symbol: %s" % sym)
 
         if chord_data == 'REST':
-            # FIXME: does anything use this?
             return None
 
         # here's where we override the chord type if need be

@@ -19,8 +19,6 @@ INCREMENTS = {
     "o"  : expr_octave_up,
     "s"  : expr_scale_note_up,
     "d"  : expr_degree_up,
-    "v"  : expr_velocity_up,
-    "cc" : expr_cc_up,
     "$"  : expr_variable_up,
 }
 
@@ -28,8 +26,6 @@ DECREMENTS = {
     "o"  : expr_octave_down,
     "s"  : expr_scale_note_down,
     "d"  : expr_degree_down,
-    "v"  : expr_velocity_down,
-    "cc" : expr_cc_down,
     "$"  : expr_variable_up
 }
 

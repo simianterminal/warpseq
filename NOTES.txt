@@ -4,59 +4,26 @@ NOTES
 RELEASE GATES
 =============
 
-* delete assembly test, test/public_api (examples replace these)
-* make sure examples are prominently linked in docs
-* update docs to remove parameters no longer included
-
-* make it possible to have transform lists like [a1,a2],a3,[a4,a5] - in series AND parallel
-
 * the default song should have a scale in it - C4 major should be fine. Let the user add more.
-
-* test API needs to validate:
-*   - kick/snare pattern repeat without pause
-*   - next_clip w/o next scene
-*   - basic chords 
-*   - basic chords w/ tie
-*   - basic notes with gap
-*   - transform with octave shifts
-*   - transform with scale degree shifts
-*   - multiple patterns in sequence
-*   - multiple patterns with octave shift
-*   - single pattern with octave shift
-*   - multiple patterns with tempo shifts
-*   - silence events
-*   - grab events
-*   - midi CCs
-*   - random choice
-*   - random values
-*   - pattern overrides scale
-*   - scene overrides scale
-
+* review/update comments
 * make a Ctrl-C/error hook that stops all notes
-
+* demo song
 * make an examples directory with some more musical songs in it
-
-* we need a method that the API *must* call that validates patterns and transforms (slots) on save.
-
 * API docs for web page
-
-* demo script at launch should ask user to input their MIDI device name from a list
-
-* test API save/load
-
+* fix/test API save/load
 * set up website publishing
-
 * upload a track to soundcloud
-
 * enable patreon page (= discord access)
 
 FUTURE/IDEAS
 ============
 
+* web interface
 * REST-ish JSON API with background thread
-
 * callbacks for when clips start to play, scenes, other events
-
-* nice to have: the Roman notation class should be able to do IV7 and IV9 and not just IV, iv, etc. (still can 4:M7)
-
+* websocket notification callbacks to light up playing clips/patterns
+* transform mode that has an auto length and only applies divide to chords
+* web ui auto generation of interesting patterns in different types
+* alternate pattern directions
 * mod events that can reshuffle patterns?
+* web UI ships with demo tracks that showcase lots of interesting features

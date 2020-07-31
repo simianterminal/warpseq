@@ -66,8 +66,6 @@ class MultiPlayer(BaseObject):
     def add_clip(self, clip):
 
         # starts a clip playing, including stopping any already on the same track
-        # FIXME: move this into the callbacks system (among other events)
-
         self.callbacks.on_clip_start(clip)
 
         clip.reset()
