@@ -57,7 +57,5 @@ api.clips.add(name='melody to bassline', scene='scene_5', track='lead', scales=[
 api.clips.add(name='melody octave adjustment, then stutter', scene='scene_6', track='lead', scales=['C-major'], patterns=['basic'], transforms=['octave ramp', 'stutter'], repeat=2, auto_scene_advance=True)
 api.clips.add(name='stacked transforms', scene='scene_7', track='lead', scales=['C-major'], patterns=['basic'], transforms=[['octave ramp','stutter'],'bassline',['octave arp','basic arp']], repeat=3,  auto_scene_advance=True)
 
-# play
-api.player.play_scene('scene_1')
-for x in range(0,128000):
-    api.player.advance(5)
+# play starting on the first scene - Ctrl+C to exit.
+api.player.loop('scene_1')

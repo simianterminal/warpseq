@@ -365,14 +365,21 @@ class Player(object):
     def advance(self, milliseconds=2):
         self.multi_player.advance(milliseconds)
 
-    def loop(self, scene_name, abort=True):
+    def loop(self, scene_name, abort=True, stop_if_empty=True):
+
+        self.multi_player.stop_if_empty = stop_if_empty
         self.play_scene(scene_name)
 
         try:
             while True:
                 self.advance(2)
         except KeyboardInterrupt:
+            self.public_api._callbacks.keyboard_interrupt()
             self.stop()
+            if abort:
+                sys.exit(0)
+        except AllClipsDone:
+            self.public_api._callbacks.all_clips_done()
             if abort:
                 sys.exit(0)
 
@@ -399,10 +406,11 @@ class Api(object):
 
     def __init__(self, default_callbacks=True):
         self._reset()
+        self._callbacks = Callbacks()
 
         if default_callbacks:
-            Callbacks().clear()
-            Callbacks().register(DefaultCallback())
+            self._callbacks.clear()
+            self._callbacks.register(DefaultCallback())
 
     def _reset(self):
 

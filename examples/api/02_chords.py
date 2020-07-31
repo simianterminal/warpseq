@@ -51,7 +51,5 @@ api.clips.add(name='s3c', scene='scene_3', track='lead', scales=['C-major'], pat
 api.clips.add(name='s4c', scene='scene_4', track='lead', scales=['C-major'], patterns=['chords_with_ties_and_notes','quiet'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s5c', scene='scene_5', track='lead', scales=['C-major'], patterns=['all_chord_types','quiet'], repeat=1, auto_scene_advance=True)
 
-# play
-api.player.play_scene('scene_1')
-for x in range(0,128000):
-    api.player.advance(5)
+# play starting on the first scene - Ctrl+C to exit.
+api.player.loop('scene_1')

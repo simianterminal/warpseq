@@ -104,7 +104,7 @@ class Player(BaseObject):
                 # before removing it
 
                 self.stop()
-                self._multiplayer.remove_clip(self.clip)
+                removed = False
 
                 if self.clip.auto_scene_advance:
 
@@ -112,7 +112,14 @@ class Player(BaseObject):
 
                     new_scene = self.song.next_scene(self.clip.scene)
                     if new_scene:
+                        self._multiplayer.remove_clip(self.clip, add_pending=True)
+
+                        new_clips = new_scene.clips(self.song)
+                        if (len(new_clips) == 0) and self.stop_if_empty:
+                            raise AllClipsDone()
+
                         self._multiplayer.play_scene(new_scene)
+                        removed = True
                         return
 
                 if self.clip.next_clip is not None:
@@ -120,8 +127,13 @@ class Player(BaseObject):
                     # the clip didn't name a new scene but did name a new clip
 
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
+                    self._multiplayer.remove_clip(self.clip, add_pending=True)
                     self._multiplayer.add_clip(new_clip)
+                    removed = True
                     return
+
+                if not removed:
+                    self._multiplayer.remove_clip(self.clip)
 
     def stop(self):
         """

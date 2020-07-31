@@ -61,7 +61,5 @@ api.clips.add(name='ending',
               repeat=2,
               rate=0.25)
 
-# play
-api.player.play_scene('scene_1')
-for x in range(0,128000):
-    api.player.advance(5)
+# play starting on the first scene - Ctrl+C to exit.
+api.player.loop('scene_1')

@@ -63,7 +63,5 @@ api.clips.add(name='s6c', scene='scene_6', track='lead', scales=['A-akebono'], p
 api.clips.add(name='s7c', scene='scene_7', track='lead', scales=['C-major','G-minor','A-akebono'], patterns=['down'], repeat=3, auto_scene_advance=True)
 api.clips.add(name='s8c', scene='scene_8', track='lead', scales=['F-user1', 'F-user2'], patterns=['down'], repeat=2, auto_scene_advance=True)
 
-# play
-api.player.play_scene('scene_1')
-for x in range(0,64000):
-    api.player.advance(2)
+# play starting on the first scene - Ctrl+C to exit.
+api.player.loop('scene_1')

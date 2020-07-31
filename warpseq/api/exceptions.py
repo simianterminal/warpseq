@@ -9,6 +9,9 @@
 class WarpException(Exception):
     pass
 
+class AllClipsDone(WarpException):
+    pass
+
 class NotFound(WarpException):
     pass
 

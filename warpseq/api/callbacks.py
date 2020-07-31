@@ -38,6 +38,12 @@ class DefaultCallback(Class):
     def on_note_off(self, event):
         pass
 
+    def all_clips_done(self):
+        print("> all clips done")
+
+    def keyboard_interrupt(self):
+        print("> keyboard interrupt")
+
 class WebCallback(Class):
     pass
 
@@ -88,4 +94,13 @@ class Callbacks(object):
         for cb in Callbacks.CALLBACKS:
             cb.on_note_off(event)
 
+    @classmethod
+    def all_clips_done(cls):
+        for cb in Callbacks.CALLBACKS:
+            cb.all_clips_done()
+
+    @classmethod
+    def keyboard_interrupt(cls):
+        for cb in Callbacks.CALLBACKS:
+            cb.keyboard_interrupt()
 

@@ -14,6 +14,7 @@ from . player import TIME_INTERVAL
 import time
 import ctypes
 from warpseq.api.callbacks import Callbacks
+from warpseq.api.exceptions import AllClipsDone
 
 class MultiPlayer(BaseObject):
 
@@ -25,6 +26,7 @@ class MultiPlayer(BaseObject):
     clips = Field(type=list)
     players = Field(type=dict)
     callbacks = Field()
+    stop_if_empty = Field(type=bool, default=False)
 
     def on_init(self):
         self.clips = []
@@ -100,7 +102,7 @@ class MultiPlayer(BaseObject):
             player._multiplayer = self
             player.start()
 
-    def remove_clip(self, clip):
+    def remove_clip(self, clip, add_pending=False):
         """
         Stops a clip and removes the player for it.
         """
@@ -113,4 +115,7 @@ class MultiPlayer(BaseObject):
         player.stop()
         del self.players[clip.name]
         self.clips = [ c for c in self.clips if c.name != clip.name ]
+
+        if not add_pending and len(self.clips) == 0 and self.stop_if_empty:
+            raise AllClipsDone()
 
