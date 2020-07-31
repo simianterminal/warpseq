@@ -45,7 +45,7 @@ class Clip(ReferenceObject):
     # -------
 
     # FIXME: do we need this anymore? Not an input parameter.
-    length = Field(type=int, default=None, required=False, nullable=True)
+    # length = Field(type=int, default=None, required=False, nullable=True)
 
     # basically internal, not exposed in the public API, use 'rate' instead
     # might be used later to implement some note length mods
@@ -112,7 +112,6 @@ class Clip(ReferenceObject):
         result = dict(
             obj_id = self.obj_id,
             name = self.name,
-            length = self.length,
             repeat = self.repeat,
             slot_length = self.slot_length,
             next_clip = self.next_clip,
@@ -182,7 +181,6 @@ class Clip(ReferenceObject):
             name = data['name'],
             scales = [ song.find_scale(x) for x in data['scales'] ],
             patterns = [ song.find_pattern(x) for x in data['patterns'] ],
-            length = data['length'],
             transforms = [],
             repeat = data['repeat'],
             track = song.find_track(data['track']),
@@ -251,31 +249,8 @@ class Clip(ReferenceObject):
         """
         total = 0
         for pattern in self.patterns:
-            total = total + self.slot_duration(song, pattern) * self.actual_length(pattern)
+            total = total + self.slot_duration(song, pattern) * len(pattern.slots)
         return total
-
-
-    # FIXME: OBSOLETE
-    # def actual_length(self, pattern=None):
-    #    """
-    #    Returns the total number of slots in all patterns in the clip.
-    #    """
-    #    if self.length:
-    #        return self.length
-    #
-    #    patterns = self.patterns
-    #    if pattern is not None:
-    #        patterns = [ pattern ]
-    #
-    #
-    #    new_len = 0
-    #    for pattern in patterns:
-    #        pl = pattern.length
-    #        if not pl:
-    #           pl = len(pattern.slots)
-    #        new_len = new_len + pl
-    #
-    #    return new_len
 
     def get_notes(self, song):
         """
@@ -313,12 +288,6 @@ class Clip(ReferenceObject):
             # convert expressions in "slots" into arrays of notes
             notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
 
-            # FIXME: obsolete
-            # if the length was set on the clip, trim the slots on the pattern to just include those notes.
-            #use_length = self.actual_length()
-            #if use_length < len(slots):
-            #    slots = slots[0:use_length]
-
             notes = [ notation.do(self, expression) for expression in slots ]
 
             # the smart expressions may output chords, so map them back into notes
@@ -341,11 +310,6 @@ class Clip(ReferenceObject):
 
             # if the length of the pattern (or the clip) is shorter than the symbols provided, trim the pattern
             # to just contain the first part
-
-            # FIXME: this isn't particularly useful now because the length would be applied to *ALL* patterns and the
-            # pattern lists may be of different lengths. I think we should remove this parameter.
-            if self.length and self.length < len(notes):
-                notes = notes[0:self.length]
 
             # apply any transforms to this pattern - there may be more than one
             if transform:
