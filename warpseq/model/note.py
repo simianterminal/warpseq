@@ -9,7 +9,7 @@
 
 from . base import BaseObject
 from classforge import Class, Field
-
+from warpseq.api.exceptions import *
 from . import note_table
 
 from functools import total_ordering
@@ -128,7 +128,7 @@ class Note(BaseObject):
             index = index + 1
 
         if not found:
-            raise Exception("unexpected scale_transpose error (1): note not in scale: (%s, %s, %s)" % (scale.name, note.name, note.octave))
+            raise UnexpectedError("unexpected scale_transpose error (1): note not in scale: (%s, %s, %s)" % (scale.name, note.name, note.octave))
 
         new_index = index + steps
 
@@ -138,7 +138,7 @@ class Note(BaseObject):
                 return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
             find_index = find_index + 1
 
-        raise Exception("unexpected scale transpose error (2)")
+        raise UnexpectedError("unexpected scale transpose error (2)")
 
     def with_velocity(self, velocity):
         """
@@ -237,7 +237,7 @@ def note(st):
          return st
      match = NOTE_SHORTCUT_REGEX.match(st)
      if not match:
-         raise Exception("cannot form note from: %s" % st)
+         raise InvalidNote("cannot form note from: %s" % st)
      name = match.group(1)
      octave = match.group(2)
      if octave == '' or octave is None:

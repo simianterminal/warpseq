@@ -16,6 +16,7 @@ import rtmidi as rtmidi
 from warpseq.model.registers import register_playing_note, unregister_playing_note
 from  ... notation.mod import ModExpression
 from warpseq.api.callbacks import Callbacks
+from warpseq.api.exceptions import *
 
 MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
@@ -86,7 +87,7 @@ class RealtimeEngine(BaseObject):
         if self.midi_port is None:
 
             # FIXME: custom exception type here
-            raise Exception("MIDI device named (%s) not found, available choices: %s" % (self.device.name, ports))
+            raise MIDIConfigError("MIDI device named (%s) not found, available choices: %s" % (self.device.name, ports))
 
         self.midi_out.open_port(self.midi_port)
 

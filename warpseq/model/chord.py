@@ -13,6 +13,7 @@ from classforge import Class, Field
 from .transform import Transform
 from .scale import Scale
 from .note import Note, note
+from warpseq.api.exceptions import *
 
 # https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 # minor 2nd - 2 semitones
@@ -71,12 +72,12 @@ class Chord(BaseObject):
         """
 
         if self.notes and self.root:
-            raise Exception("notes and root are mutually exclusive")
+            raise InvalidChord("notes and root are mutually exclusive")
         if self.notes is None and self.root is None:
-            raise Exception("specify either notes or root")
+            raise InvalidChord("specify either notes or root")
 
         if self.root and self.chord_type is None:
-            raise Exception("chord_type is required when using root=")
+            raise InvalidChord("chord_type is required when using root=")
 
         if isinstance(self.root, str):
             self.root = note(root)

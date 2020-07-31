@@ -9,6 +9,7 @@
 
 from .. model.chord import Chord, chord
 from .. model.scale import Scale, scale
+from warpseq.api.exceptions import *
 
 CHORD_SYMBOLS = dict(
    I   = [ 1, 'major' ],
@@ -78,7 +79,7 @@ class Roman(object):
         chord_data = CHORD_SYMBOLS.get(sym, None)
         if chord_data is None:
            # FIXME: convert to custom exception types
-           raise Exception("do not know how to parse chord symbol: %s" % sym)
+           raise InvalidSymbol("do not know how to parse chord symbol: %s" % sym)
 
         if chord_data == 'REST':
             return None

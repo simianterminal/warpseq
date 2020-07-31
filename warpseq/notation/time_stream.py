@@ -13,6 +13,7 @@ NOTE_GAP = 0.01
 from .. model.event import Event, NOTE_ON, NOTE_OFF
 from .. model.chord import Chord
 from .. model.note import Note
+from warpseq.api.exceptions import *
 
 def evaluate_ties(note_list):
 
@@ -128,7 +129,7 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
             # an arp can sometimes generate chords from raw notes
             my_notes = in_note.notes
         else:
-            raise Exception("unexpected input: %s" % note)
+            raise UnexpectedError("unexpected input: %s" % note)
 
         for note in my_notes:
 

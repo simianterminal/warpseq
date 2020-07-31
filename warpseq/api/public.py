@@ -64,7 +64,7 @@ class Devices(CollectionApi):
 
     def add(self, name):
         if name not in self.list_available():
-            raise InvalidInput("MIDI device named (%s) is not available on this computer" % name)
+            raise MIDIConfigError("MIDI device named (%s) is not available on this computer" % name)
         return self._generic_add(name, locals())
 
     def auto_add_discovered(self):
@@ -315,7 +315,7 @@ class Clips(CollectionApi):
 
         obj = self.song.get_clip_for_scene_and_track(scene, track)
         if obj is None:
-            raise NotFound("clip not found for scene (%s) and track (%s)" % (scene.name, track.name))
+            raise InvalidInput("clip not found for scene (%s) and track (%s)" % (scene.name, track.name))
 
         for (k,v) in params.items():
             if k == 'self':
@@ -447,7 +447,7 @@ class Api(object):
 
     def save(self):
         if not self._filename:
-            raise Exception("no filename set, use save_as")
+            raise InvalidUsage("no filename set, use save_as")
         data = self._song.to_json()
         fh = open(self._filename, "w+")
         fh.write(data)

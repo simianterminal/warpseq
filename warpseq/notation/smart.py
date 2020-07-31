@@ -15,7 +15,7 @@ from .. model.note import Note
 from classforge import Class, Field
 
 import traceback
-
+from warpseq.api.exceptions import *
 
 class ExpressionEvaluationError(Exception):
     pass
@@ -111,7 +111,7 @@ class SmartExpression(Class):
         # if neither of the above worked, we have to give up
         if not notes:
             # FIXME: raise a specific exception type
-            raise Exception("evaluation failed: (%s)" %  sym)
+            raise InvalidSymbol("evaluation failed: (%s)" %  sym)
 
         # assign a length to all the notes based on the clip settings
         # this may be modified later by the arp selection (if set)

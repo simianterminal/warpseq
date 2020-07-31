@@ -10,6 +10,7 @@
 import random
 from . mod_expressions import *
 from . mod_util import *
+from warpseq.api.exceptions import  *
 
 # ----------------------------------------------------------------------------------------------------------------------
 # EXPRESSION TABLE
@@ -83,7 +84,7 @@ def perform(parser, note, operations, what, how):
         what = '$'
 
     if not what in operations:
-        raise Exception("unknown mod expression: (%s)" % what)
+        raise InvalidExpression("unknown mod expression: (%s)" % what)
 
     routine = operations[what]
     result = routine(parser, note, how, extra_info)
@@ -133,7 +134,7 @@ def process_expr(parser, input, expr, deferred=False):
         return perform(parser, input, operations, tokens[0], tokens[1])
 
     else:
-        raise Exception("unknown expr! (%s)" % expr)
+        raise InvalidExpression("unknown expr! (%s)" % expr)
 
 def is_deferred_expr(expr):
     expr = expr.lower()

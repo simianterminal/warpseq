@@ -24,4 +24,25 @@ class InvalidInput(WarpException):
 class RequiredInput(WarpException):
     pass
 
+class InvalidExpression(InvalidInput):
+    pass
+
+class InvalidNote(InvalidInput):
+    pass
+
+class InvalidChord(InvalidInput):
+    pass
+
+class UnexpectedError(WarpException):
+    pass
+
+class ConfigError(WarpException):
+    pass
+
+class MIDIConfigError(WarpException):
+    pass
+
+class InvalidUsage(WarpException):
+    pass
+
 # TODO: add more here where exceptions are raised throughout - invalid symbols, etc
