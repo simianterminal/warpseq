@@ -176,6 +176,7 @@ class Song(ReferenceObject):
 
         format_version = data.get('FORMAT_VERSION', 0)
         if format_version > FORMAT_VERSION:
+            # FIXME:  change exception type
             print("can not open data from a newer version of this program")
 
         COUNTER = data['OBJ_COUNTER']

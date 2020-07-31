@@ -10,6 +10,9 @@ def roller(alist):
     """
     Returns a generator that keeps looping around a pattern
     """
+    if alist is None or len(alist) == 0:
+        while True:
+            yield None
     while True:
         for item in alist:
             yield item

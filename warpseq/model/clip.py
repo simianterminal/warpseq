@@ -91,7 +91,7 @@ class Clip(ReferenceObject):
         if self.transforms is not None:
             self._transform_roller = utils.roller(self.transforms)
         else:
-            self._transform_roller = None
+            self._transform_roller = utils.roller([ None ])
 
     def scenes(self, song):
         """
@@ -268,6 +268,7 @@ class Clip(ReferenceObject):
 
         t_start = 0.0
 
+
         # loop over each pattern in the list, all must play for one "repeat" of the clip
         for pattern in self.patterns:
 
@@ -278,6 +279,7 @@ class Clip(ReferenceObject):
             octave_shift = pattern.octave_shift + self.track.instrument.base_octave
 
             slot_duration = self.slot_duration(song, pattern)
+
             scale = self.get_actual_scale(song, pattern, self._scale_roller)
 
             # the list of transforms loops each time we move between patterns in the clip
@@ -341,6 +343,7 @@ class Clip(ReferenceObject):
         """
         Return an instance of Player that can play this clip.
         """
+
         player = Player(
             clip=self,
             song=song,

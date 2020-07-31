@@ -99,6 +99,7 @@ class MultiPlayer(BaseObject):
 
         matched = [ c for c in self.clips if c.name == clip.name ]
         if not len(matched):
+
             self.clips.append(clip)
             player = clip.get_player(self.song, self.engine_class)
             self.players[clip.name] = player

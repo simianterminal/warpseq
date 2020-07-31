@@ -422,7 +422,6 @@ class Api(object):
             self._callbacks.register(DefaultCallback())
 
     def _reset(self):
-
         self._filename = None
         self._song = Song(name='')
         self._setup_api()
