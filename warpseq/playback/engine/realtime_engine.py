@@ -12,13 +12,11 @@
 import rtmidi as rtmidi
 from classforge import Field
 
-from warpseq.api.callbacks import Callbacks
-from warpseq.api.exceptions import *
-from warpseq.model.base import BaseObject
-from warpseq.model.event import NOTE_OFF, NOTE_ON
-from warpseq.model.registers import (register_playing_note,
-                                     unregister_playing_note)
-
+from ...api.callbacks import Callbacks
+from ...api.exceptions import *
+from ...model.base import BaseObject
+from ...model.event import NOTE_OFF, NOTE_ON
+from ...model.registers import register_playing_note, unregister_playing_note
 from ...notation.mod import ModExpression
 
 MIDI_NOTE_OFF = 0x80

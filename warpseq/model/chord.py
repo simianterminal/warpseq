@@ -9,8 +9,7 @@
 
 from classforge import Class, Field
 
-from warpseq.api.exceptions import *
-
+from ..api.exceptions import *
 from .base import BaseObject
 from .note import Note, note
 from .pattern import Pattern

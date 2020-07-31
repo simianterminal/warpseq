@@ -10,8 +10,7 @@
 
 from classforge import Field
 
-from warpseq.api.callbacks import Callbacks
-
+from ..api.callbacks import Callbacks
 from ..model.base import BaseObject
 from ..model.event import NOTE_OFF, NOTE_ON, Event
 

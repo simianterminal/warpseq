@@ -10,8 +10,7 @@
 # a small gap between notes that ensures the off notes fire before the on notes
 NOTE_GAP = 0.01
 
-from warpseq.api.exceptions import *
-
+from ..api.exceptions import *
 from ..model.chord import Chord
 from ..model.event import NOTE_OFF, NOTE_ON, Event
 from ..model.note import Note

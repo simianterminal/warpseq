@@ -12,8 +12,7 @@ from functools import total_ordering
 
 from classforge import Class, Field
 
-from warpseq.api.exceptions import *
-
+from ..api.exceptions import *
 from ..utils.utils import roll_left, roll_right
 from . import note_table
 from .base import BaseObject

@@ -12,8 +12,7 @@ import traceback
 
 from classforge import Class, Field
 
-from warpseq.api.exceptions import *
-
+from ..api.exceptions import *
 from ..model.note import Note
 from .literal import Literal
 from .mod import ModExpression

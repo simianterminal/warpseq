@@ -9,8 +9,7 @@
 
 import random
 
-from warpseq.api.exceptions import *
-
+from ..api.exceptions import *
 from .mod_expressions import *
 from .mod_util import *
 

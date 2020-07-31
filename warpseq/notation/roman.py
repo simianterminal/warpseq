@@ -7,8 +7,7 @@
 # this class evaluates symbols like "I", "IV", and "1" or "4" and returns
 # the notes and chords in the current scale. Contrast with literal.py
 
-from warpseq.api.exceptions import *
-
+from ..api.exceptions import *
 from ..model.chord import Chord, chord
 from ..model.scale import Scale, scale
 
