@@ -4,6 +4,7 @@ NOTES
 RELEASE GATES
 =============
 
+* in clip.py why doesn't the pattern reset when .reset() is called?
 * the default song should have a scale in it - C4 major should be fine. Let the user add more.
 * review/update comments
 * make a Ctrl-C/error hook that stops all notes

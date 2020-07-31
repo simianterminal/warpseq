@@ -67,6 +67,12 @@ class Clip(ReferenceObject):
         self.reset()
 
     def reset(self):
+        """
+        Resetting a clip (restarting it) moves all rolling positions in
+        scales and so on to the first position in those lists.
+        """
+
+        # FIXME: why does this not reset the pattern?
 
         if self.tempo_shifts:
             self._tempo_roller = utils.roller(self.tempo_shifts)
@@ -84,13 +90,25 @@ class Clip(ReferenceObject):
             self._transform_roller = None
 
     def scenes(self, song):
+        """
+        Returns all scenes this clip is in.  While the code technically allows more than one
+        the PublicApi does not - so this should return 0 or 1 scenes. We are leaving the implementation
+        this way in case we want to implement symlinked clips (and not just patterns) later - which
+        will keep from breaking song files between versions of the program.
+        """
         return [ song.find_scene(x) for x in self.scene_ids ]
 
     def tracks(self, song):
+        """
+        Returns all tracks this clip is in. Like scenes() this should really just return 0 or 1
+        tracks.
+        """
         return [ song.find_track(x) for x in self.track_ids ]
 
     def to_dict(self):
-
+        """
+        Return a dictionary representation of the clip.
+        """
         result = dict(
             obj_id = self.obj_id,
             name = self.name,
@@ -127,6 +145,11 @@ class Clip(ReferenceObject):
         return result
 
     def _save_transforms(self):
+        """
+        support function to save transforms, which can be a flat list or can contain lists of transforms:
+        ex: [t1, [t2,t3], t4, [t5,t6]].  Stacked transforms indicate multiple MIDI effects to be applied
+        to a pattern at once.
+        """
         if not self.transforms:
             return []
         results = []
@@ -138,7 +161,9 @@ class Clip(ReferenceObject):
         return results
 
     def _load_transforms(self, data):
-
+        """
+        inverse of _save_transforms
+        """
         results = []
         for x in data:
             if type(x) == list:
@@ -149,6 +174,9 @@ class Clip(ReferenceObject):
 
     @classmethod
     def from_dict(cls, song, data):
+        """
+        Used to load a clip from a datastructure.
+        """
         clip = Clip(
             obj_id = data['obj_id'],
             name = data['name'],
@@ -170,6 +198,11 @@ class Clip(ReferenceObject):
 
     def get_actual_scale(self, song, pattern, roller):
 
+        """
+        The scale can be set on the clip, as a list of scales to be used in series, and if not set
+        there will be taken from the scene, then the pattern, the song.
+        """
+
         from . scale import Scale
         from . note import Note
 
@@ -181,10 +214,17 @@ class Clip(ReferenceObject):
             return self.scene.scale
         if song.scale:
             return song.scale
+
+        # FIXME: we should make the song object create this scale if not set on the constructor
+        # and remove this logic below:
+
         print("-- WARNING -- DEFAULT TO CHROMATIC SCALE -- EXPECTED?")
         return Scale(root=Note(name="C", octave=5), scale_type='chromatic')
 
     def actual_tempo(self, song, pattern):
+        """
+        The current tempo is the song's tempo after all multipliers and the current tempo shift is applied.
+        """
         return int(song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)
 
     def sixteenth_note_duration(self, song, pattern):
