@@ -197,7 +197,6 @@ class Clip(ReferenceObject):
         return clip
 
     def get_actual_scale(self, song, pattern, roller):
-
         """
         The scale can be set on the clip, as a list of scales to be used in series, and if not set
         there will be taken from the scene, then the pattern, the song.
@@ -228,11 +227,18 @@ class Clip(ReferenceObject):
         return int(song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)
 
     def sixteenth_note_duration(self, song, pattern):
+        """
+        A sixteenth note at 120 bpm is 125 ms. From this, we calculate all slot lengths.
+        Unless "ratio" is set, all slots without ties are considered 1/16th notes.
+        """
         tempo_ratio = (120 / self.actual_tempo(song, pattern))
         return tempo_ratio * 125
 
     def slot_duration(self, song, pattern):
-
+        """
+        Returns the slot duration in milliseconds - how long is each slot in a pattern before
+        any transforms might be applied?
+        """
         assert pattern is not None
         snd = self.sixteenth_note_duration(song, pattern)
         slot_ratio = self.slot_length / (1/16.0)
@@ -240,66 +246,63 @@ class Clip(ReferenceObject):
         return slot_duration
 
     def get_clip_duration(self, song):
-
+        """
+        Returns the total length of the clip in milliseconds, which includes all patterns.
+        """
         total = 0
         for pattern in self.patterns:
             total = total + self.slot_duration(song, pattern) * self.actual_length(pattern)
         return total
 
 
-    def actual_length(self, pattern=None):
-
-        if self.length:
-            return self.length
-
-        patterns = self.patterns
-        if pattern is not None:
-            patterns = [ pattern ]
-
-        new_len = 0
-        for pattern in patterns:
-            pl = pattern.length
-            if not pl:
-               pl = len(pattern.slots)
-            new_len = new_len + pl
-
-        return new_len
+    # FIXME: OBSOLETE
+    # def actual_length(self, pattern=None):
+    #    """
+    #    Returns the total number of slots in all patterns in the clip.
+    #    """
+    #    if self.length:
+    #        return self.length
+    #
+    #    patterns = self.patterns
+    #    if pattern is not None:
+    #        patterns = [ pattern ]
+    #
+    #
+    #    new_len = 0
+    #    for pattern in patterns:
+    #        pl = pattern.length
+    #        if not pl:
+    #           pl = len(pattern.slots)
+    #        new_len = new_len + pl
+    #
+    #    return new_len
 
     def get_notes(self, song):
+        """
+        Evaluates the clip to return a list of notes
+        """
 
-        # FIXME: this is long, clean it up.
+        # FIXME: this is long, split into smaller functions
 
-        c1 = time.time()
-
-
+        # store the result here
         all_notes = []
 
         t_start = 0.0
 
-
-
-
-
-        # arp = None
-
-        if self.transforms:
-            transform_roller = utils.roller(self.transforms)
-        else:
-            transform_roller = None
-
-        pat_index = 0
-
+        # loop over each pattern in the list, all must play for one "repeat" of the clip
         for pattern in self.patterns:
 
+            # see if we need to nudge the tempo (default is no)
             self._current_tempo_shift = next(self._tempo_roller)
 
-            pat_index = pat_index + 1
-
+            # any scale notes will be shifted by the amount set on the pattern and instrument
             octave_shift = pattern.octave_shift + self.track.instrument.base_octave
 
             slot_duration = self.slot_duration(song, pattern)
             scale = self.get_actual_scale(song, pattern, self._scale_roller)
 
+            # the list of transforms loops each time we move between patterns in the clip
+            # each "item" may be a list of one or more stacked transforms
             if self._transform_roller:
                 transform = next(self._transform_roller)
             else:
@@ -307,22 +310,28 @@ class Clip(ReferenceObject):
 
             slots = pattern.slots
 
-            # convert expressions into arrays of notes
+            # convert expressions in "slots" into arrays of notes
             notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
 
-            use_length = self.actual_length()
-
-            if use_length < len(slots):
-                slots = slots[0:use_length]
-
-            # expression evaluator will need to grow smarter for intra-track and humanizer fun
-            # create a list of list of notes per step... ex: [ [ c4, e4, g4 ], [ c4 ] ]
+            # FIXME: obsolete
+            # if the length was set on the clip, trim the slots on the pattern to just include those notes.
+            #use_length = self.actual_length()
+            #if use_length < len(slots):
+            #    slots = slots[0:use_length]
 
             notes = [ notation.do(self, expression) for expression in slots ]
+
+            # the smart expressions may output chords, so map them back into notes
+            # "notes" now looks like: [[n1, n2, n3], [n4], [], [n5], [n6]]
             notes = chord_list_to_notes(notes)
+            # use ties to lengthen note events
             notes = evaluate_ties(notes)
+            # now apply any octave shifts.
+            # FIXME: Support for scale shifts is obsolete and this function can take less parameters
             notes = evaluate_shifts(notes, octave_shift, 0, scale, 0)
 
+            # compute the start and end times of each note
+            # FIXME: move this into another function
             for slot in notes:
                 for note in slot:
                     note.start_time = round(t_start)
@@ -332,40 +341,43 @@ class Clip(ReferenceObject):
 
             # if the length of the pattern (or the clip) is shorter than the symbols provided, trim the pattern
             # to just contain the first part
+
+            # FIXME: this isn't particularly useful now because the length would be applied to *ALL* patterns and the
+            # pattern lists may be of different lengths. I think we should remove this parameter.
             if self.length and self.length < len(notes):
                 notes = notes[0:self.length]
 
+            # apply any transforms to this pattern - there may be more than one
             if transform:
                 # transforms can be in lists like: [t0, [t1, t2], t3, [ t4, t5, t6]]
                 if type(transform) != list:
                     transform = [ transform ]
                 for tform in transform:
                     notes = tform.process(song, scale, self.track, notes)
-            all_notes.extend(notes)
 
-        c2 = time.time()
-        # temporary debug to make sure pattern computation is efficient and doesn't cause audible gaps
-        print(c2 - c1)
+            all_notes.extend(notes)
 
         return all_notes
 
 
     def get_events(self, song):
+        """
+        Return the list of events for use by the player class.  Events are basically note objects
+        but are split by ON and OFF events.
+        """
         notes = self.get_notes(song)
         events = notes_to_events(self, notes)
         return events
 
     def get_player(self, song, engine_class):
-
-        # the player needs the scale so it can process mod events in track grabs
-        # we need to fix this so instead the note knows the scale.
-
+        """
+        Return an instance of Player that can play this clip.
+        """
         player = Player(
             clip=self,
             song=song,
             engine=engine_class(song=song, track=self.track, clip=self),
         )
-
         return player
 
 
