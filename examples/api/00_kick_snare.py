@@ -50,8 +50,4 @@ api.clips.add(name='s2k1', scene='scene_2', track='kick', patterns=['kick_alt'],
 api.clips.add(name='s2s1', scene='scene_2', track='snare', patterns=['snare_alt'], repeat=4)
 
 # play starting on the first scene - Ctrl+C to exit.
-# api.player.loop('scene_1')
-
-api.save_as("/tmp/test.json")
-api.load("/tmp/test.json")
 api.player.loop('scene_1')

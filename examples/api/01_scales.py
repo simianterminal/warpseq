@@ -64,9 +64,4 @@ api.clips.add(name='s7c', scene='scene_7', track='lead', scales=['C-major','G-mi
 api.clips.add(name='s8c', scene='scene_8', track='lead', scales=['F-user1', 'F-user2'], patterns=['down'], repeat=2, auto_scene_advance=True)
 
 # play starting on the first scene - Ctrl+C to exit.
-#api.player.loop('scene_1')
-
-
-api.save_as("/tmp/test.json")
-api.load("/tmp/test.json")
 api.player.loop('scene_1')
