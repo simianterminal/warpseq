@@ -5,7 +5,8 @@
 # ------------------------------------------------------------------
 
 # this class contains play-head logic to support processing events
-# into MIDI notes.
+# into MIDI notes. This class isn't meant to be used directly,
+# use Multiplayer as shown in api/public.py instead.
 
 from .. model.base import BaseObject
 from classforge import Field
@@ -34,6 +35,12 @@ class Player(BaseObject):
 
     def on_init(self):
 
+        """
+        When we start a player we ask clips for all the events between a start
+        time and a hypothethical start time. The player class can then walk through
+        them in steps.
+        """
+
         self.clip_length_in_ms = self.clip.get_clip_duration(self.song)
         self.events = self.clip.get_events(self.song)
         self.repeat_count = self.clip.repeat
@@ -41,10 +48,16 @@ class Player(BaseObject):
         self.start()
 
     def queue_size(self):
+        """
+        How many events are not yet played?
+        """
         return len(self.left_to_play)
 
     def _still_on_this_clip(self):
-
+        """
+        We are due to still be playing this clip if the clip has infinite repeats
+        or the repeats are expired.
+        """
         if self.clip.repeat is None:
             return True
         self.repeat_count = self.repeat_count - 1
@@ -53,12 +66,13 @@ class Player(BaseObject):
         return True
 
 
-    # TODO: we might want to consider a callback type API to send events when clips start and stop playing
-
     def advance(self, milliseconds=TIME_INTERVAL):
+        """
+        Advances the playhead a number of milliseconds and plays all the notes
+        between those two points.
+        """
 
         self.time_index += milliseconds
-        self.engine.note_time_index(self.time_index)
 
         while True:
 
@@ -67,7 +81,7 @@ class Player(BaseObject):
                 first = self.left_to_play[-1]
                 if first.time < self.time_index:
                     self.engine.play(first)
-                    discard = self.left_to_play.pop()
+                    _ = self.left_to_play.pop()
                 else:
                     # we aren't ready to play this yet
                     break
@@ -75,35 +89,54 @@ class Player(BaseObject):
                 break
 
         if self.time_index >= self.clip_length_in_ms:
+            # the playhead has advanced beyond the end of the clip
 
             if self._still_on_this_clip():
+                # the clip is due to repeat again...
+
                 self.callbacks.on_clip_restart(self.clip)
                 # recompute events so randomness can change
                 self.events = self.clip.get_events(self.song)
                 self.start()
 
             else:
+                # the clip isn't due to repeat again, make sure we have played any note off events
+                # before removing it
+
                 self.stop()
                 self._multiplayer.remove_clip(self.clip)
 
                 if self.clip.auto_scene_advance:
+
+                    # see if the clip says to go play a new scene
+
                     new_scene = self.song.next_scene(self.clip.scene)
                     if new_scene:
                         self._multiplayer.play_scene(new_scene)
                         return
 
                 if self.clip.next_clip is not None:
+
+                    # the clip didn't name a new scene but did name a new clip
+
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
                     self._multiplayer.add_clip(new_clip)
                     return
 
     def stop(self):
+        """
+        Stop this clip/player making sure to send any midi off events
+        """
         for event in self.left_to_play:
             if event.type == NOTE_OFF:
                 self.engine.play(event)
         self.left_to_play = []
 
     def start(self):
+        """
+        Stop the clip if already playing, then configure the play head to read from the start of the clip.
+        This isn't a directly usable API, use MultiPlayer instead.
+        """
         if self.left_to_play is not None:
             self.stop()
         self.time_index = 0

@@ -59,10 +59,13 @@ class RealtimeEngine(BaseObject):
     count_off = Field(default=0)
 
     # informational/state
-    time_index = Field(type=int)
     callbacks = Field()
 
     def on_init(self):
+
+        """
+        Creates a handle to our MIDI library and verifies the device.
+        """
 
         self.instrument = self.track.instrument
         self.channel = self.instrument.channel
@@ -79,33 +82,38 @@ class RealtimeEngine(BaseObject):
                 break
             index = index + 1
 
-        # FIXME: custom exception type here
 
         if self.midi_port is None:
-            print("available devices:")
-            for p in ports:
-                print("%s" % p)
-            raise Exception("device named (%s) not found" % self.device.name)
 
+            # FIXME: custom exception type here
+            raise Exception("MIDI device named (%s) not found, available choices: %s" % (self.device.name, ports))
 
         self.midi_out.open_port(self.midi_port)
 
-        self.time_index = 0
-        pass
-
     def _note_data(self, event):
+        """
+        return the note number and velocity for an event.
+        use the default track velocity if not provided
+        """
+        # FIXME: velocity should be subject to min/max checking
         velocity = event.note.velocity
         if velocity is None:
             velocity = self.track.instrument.default_velocity
         return (event.note.note_number(), velocity)
 
     def channel_message(self, command, *data, ch=None):
-        """Send a MIDI channel mode message."""
+        """
+        send a MIDI channel mode message.
+        """
         command = (command & 0xf0) | ((ch if ch else self.channel) - 1 & 0xf)
         msg = [command] + [value & 0x7f for value in data]
         self.midi_out.send_message(msg)
 
     def _control_change(self, cc, value):
+        """
+        send a MIDI control change
+        FIXME: this should have min/max logic here
+        """
         self.channel_message(MIDI_CONTROLLER_CHANGE, cc, value)
 
     def _send_message(self, msg):
@@ -113,11 +121,17 @@ class RealtimeEngine(BaseObject):
 
 
     def play(self, event):
-        # TODO: refactor
+
+        # TODO: refactor into smaller functions
 
         from ... model.chord import Chord
         from ... model.event import Event, NOTE_OFF, NOTE_ON
 
+        # deferred events happen when there are intra-track events such as replacing the note
+        # with the currently playing note from a guide track (see docs). In this case we must
+        # re-evaluate all mod expressions... we do not need to re-evaluate the track expressions
+        # because the mod expression does throw away the note value and capture the value from
+        # the guide track...
 
         if event.type == NOTE_ON and event.note.flags['deferred'] == True:
             exprs = event.note.flags['deferred_expressions']
@@ -126,6 +140,9 @@ class RealtimeEngine(BaseObject):
                 if value is None:
                     return
                 event.note = value
+
+        # it is possible for mod expressions to take notes and return Chords. We have to do
+        # cleanup here to turn this back into a list of notes.
 
         if type(event.note) == Chord:
             for x in event.note.notes:
@@ -136,6 +153,7 @@ class RealtimeEngine(BaseObject):
             return
 
         if not event.note:
+            # mod expressions might result in a silence event
             return
 
         if event.type == NOTE_ON:
@@ -147,16 +165,17 @@ class RealtimeEngine(BaseObject):
 
             if not self.track.muted and not self.track.instrument.muted:
 
-                # TODO: CC should min/max within bounds, error checking on values
                 for (channel, value) in event.note.flags['cc'].items():
                     channel = int(channel)
                     self._control_change(channel, value)
 
-                # TODO: velocity should min/max within bounds, error checking on values
                 result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
                 self._send_message(result)
 
         elif event.type == NOTE_OFF:
+
+            # similar logic to the above: there is a chance we have an event tied to a chord, and we then need to silence
+            # all notes in that chord separately.
 
             if type(event.on_event.note) == Chord:
                 for x in event.on_event.note.notes:
@@ -175,6 +194,4 @@ class RealtimeEngine(BaseObject):
             result = [ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity]
             self._send_message(result)
 
-    def note_time_index(self, time_index):
-        self.time_index = time_index
 

@@ -32,14 +32,26 @@ class MultiPlayer(BaseObject):
         self.callbacks = Callbacks()
 
     def stop(self):
+        """
+        Stops all clips.
+        """
+
+        # stop all players that are attached
         for (n, p) in self.players.items():
             p.stop()
-
             assert p.queue_size() == 0
+
+        # clear the list of things that are playing, in case we start more
         self.clips = []
         self.players = {}
 
     def advance(self, milliseconds=TIME_INTERVAL):
+
+        """
+        return all events from now to TIME_INTERVAL and then move the time index up by that amount.
+        the multiplayer doesn't keep track of the time indexes themselves, the clips do, and they may
+        all run at different speeds.
+        """
 
         my_players = [ p for p in self.players.values() ]
 
@@ -49,14 +61,16 @@ class MultiPlayer(BaseObject):
         for p in my_players:
             p.advance(milliseconds=milliseconds)
 
+        # time.sleep is unreliable - so we burn clock instead, giving us much nicer timing.
         x = time.perf_counter() + (milliseconds/1000.0)
         while time.perf_counter() < x:
             pass
 
     def play_scene(self, scene):
-
+        """
+        Plays all clips in a scene, first stopping all clips that might be playing elsewhere.
+        """
         self.stop()
-
         self.callbacks.on_scene_start(scene)
         clips = scene.clips(self.song)
         for c in clips:
@@ -64,6 +78,9 @@ class MultiPlayer(BaseObject):
 
 
     def add_clip(self, clip):
+        """
+        Adds a clip to be playing by creating a Player for it.
+        """
 
         # starts a clip playing, including stopping any already on the same track
         self.callbacks.on_clip_start(clip)
@@ -84,6 +101,10 @@ class MultiPlayer(BaseObject):
             player.start()
 
     def remove_clip(self, clip):
+        """
+        Stops a clip and removes the player for it.
+        """
+
         self.callbacks.on_clip_stop(clip)
         if clip.name not in self.players:
             # clip was already removed/stopped ?
