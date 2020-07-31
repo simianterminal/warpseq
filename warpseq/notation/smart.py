@@ -4,6 +4,10 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# uses the code in smart.py or literal.py to evaluate a symbol that
+# might be supported by either of those other classes. Also processes
+# any mod expressions after those symbols.  Used in clip evaluation.
+
 from . literal import Literal
 from . roman  import Roman
 from . mod import ModExpression

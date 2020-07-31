@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# tests basic conversion of symbols into notes and chords
+
 from warpseq.model.note import note
 from warpseq.model.chord import chord
 from warpseq.notation.roman import Roman, roman

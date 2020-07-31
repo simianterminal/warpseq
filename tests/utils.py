@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# some limited tests of utility functions
+
 from warpseq.utils.utils import roll_left, roll_right, roller
 
 def test_roll_left():

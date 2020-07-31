@@ -1,7 +1,7 @@
 # -------------------------------------------------------------
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
-# --------------------------------------------------------------
+# -------------------------------------------------------------
 #
 # this demo shows a basic 4/4 kick/snare pattern using absolute
 # notes. It will not be adjusted by a scale change, which is

@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# a scene is a set of clips that usually play together at the same time.
+
 from . base import ReferenceObject
 from classforge import Class, Field
 

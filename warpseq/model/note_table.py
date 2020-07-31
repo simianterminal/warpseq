@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# this is some support code for Note that can really be folded back into
+# Note.
+
 NOTE_TABLE = [
     ['C',0], ['Db',0], ['D',0], ['Eb',0], ['E',0], ['F',0], ['Gb',0], ['G',0], ['Ab',0], ['A',0], ['Bb',0], ['B',0],
     ['C',1], ['Db',1], ['D',1], ['Eb',1], ['E',1], ['F',1], ['Gb',1], ['G',1], ['Ab',1], ['A',1], ['Bb',1], ['B',1],

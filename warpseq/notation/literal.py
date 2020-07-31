@@ -4,27 +4,10 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# this class allows note entry of symbols like "C4" and "Eb4"
 
 from .. model.note import note
 from .. model.chord import chord, Chord
-
-CHORD_SYMBOLS = dict(
-    I=[1, 'major'],
-    II=[2, 'major'],
-    III=[3, 'major'],
-    IV=[4, 'major'],
-    V=[5, 'major'],
-    VI=[6, 'major'],
-    VII=[7, 'major'],
-    i=[1, 'minor'],
-    ii=[2, 'minor'],
-    iii=[3, 'minor'],
-    iv=[4, 'minor'],
-    v=[5, 'minor'],
-    vi=[6, 'minor'],
-    vii=[7, 'minor'],
-)
-
 
 class Literal(object):
 

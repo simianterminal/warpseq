@@ -4,9 +4,10 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# This is the class that evaluates mod expressions to return output.
+
 from .. model.registers import get_first_playing_note
 from . mod_parser import process_expr, is_deferred_expr
-
 
 class ModExpression(object):
 

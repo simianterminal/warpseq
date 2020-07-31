@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# an instrument adds a channel number to a MIDI device and has some
+# parameters around supported note ranges. It can also be muted.
+
 from .base import ReferenceObject
 from classforge import Class, Field
 from .device import Device

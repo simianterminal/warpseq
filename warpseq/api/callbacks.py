@@ -1,3 +1,12 @@
+# ------------------------------------------------------------------
+# Warp Sequencer
+# (C) 2020 Michael DeHaan <michael@michaeldehaan.net> & contributors
+# Apache2 Licensed
+# ------------------------------------------------------------------
+
+# allows an application to hook certain events in the code without
+# subclassing
+
 from classforge import Class, Field
 
 

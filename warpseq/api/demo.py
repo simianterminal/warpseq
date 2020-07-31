@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# these are functions useful for a demo of the Python API
+# but are less useful for a UI.
+
 import os
 import sys
 

@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# the song is the fundamental unit of saving/loading in Warp and contains
+# all object types.
+
 from . base import ReferenceObject
 from classforge import Class, Field
 from .scale import Scale

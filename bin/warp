@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# this is unused for now - home for a future app entry point
+
 from warpseq.cli.console import ConsoleCli
 ConsoleCli().run()
 

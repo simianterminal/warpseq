@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# this class contains play-head logic to support processing events
+# into MIDI notes.
+
 from .. model.base import BaseObject
 from classforge import Field
 from .. model.event import Event, NOTE_ON, NOTE_OFF

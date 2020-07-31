@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# basic modelling of chords as an array of notes, or a root note
+# with a chord type.
+
 from .base import BaseObject
 from .pattern import Pattern
 from classforge import Class, Field

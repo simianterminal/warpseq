@@ -4,6 +4,10 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# the multi-player class contains high level methods for playing
+# clips and scenes, as such the individual (track-specific) interface,
+# player.py, is a less public API than this one.
+
 from .. model.base import BaseObject
 from classforge import Field
 from . player import TIME_INTERVAL

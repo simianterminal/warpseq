@@ -4,6 +4,11 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# this class is used by the player code to send MIDI events to hardware
+# it contains some logic to convert chords to note events and must also
+# process deferred mod-expressions caused by late-binding intra-track
+# events.
+
 from classforge import Field
 from warpseq.model.base import BaseObject
 from warpseq.model.event import NOTE_ON, NOTE_OFF

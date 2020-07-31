@@ -4,12 +4,13 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# this file is NOT meant for showing of the WarpSeq API but more so
+# testing the general I/O functions for accuracy. For better examples,
+# see "examples/api/*.py".
+
 from warpseq.api.public import Api
 from warpseq.api.exceptions import *
 import sys
-
-# THIS TEST IS NOT MEANT FOR TEACHING WARPSEQ.  Instead, See examples/api/*.py for musical API tutorials.
-# This mostly tests I/O and edit commands.
 
 DEVICE = 'IAC Driver IAC Bus 1'
 

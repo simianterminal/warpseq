@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# various functions around mod expressions to mostly support parsing out
+# their argument values
+
 import random
 
 VARIABLES = dict()

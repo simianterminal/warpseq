@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# a device represents a physical or virtual MIDI interface
+
 from .base import ReferenceObject
 from classforge import Class, Field
 

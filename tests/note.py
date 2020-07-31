@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# tests the basic math of the Note class
+
 from warpseq.model.note import Note, NOTES, note
 
 class TestNote(object):

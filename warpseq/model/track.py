@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# a track is a vertical row of clips that share a common instrument.
+# a track can also be muted.
+
 from . base import ReferenceObject
 from classforge import Class, Field
 from . instrument import Instrument

@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# modelling of notes, including step math necessary for creating
+# chords and understanding scales.
+
 from . base import BaseObject
 from classforge import Class, Field
 

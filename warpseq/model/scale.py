@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# logic behind scale math, allowing for computing of intervals within
+# a scale.
+
 from . base import ReferenceObject
 from classforge import Class, Field
 from . note import Note, note

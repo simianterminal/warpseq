@@ -4,6 +4,10 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# an event represents starting or stopping a note, and some associated
+# data so the program can handle the note and other processing in context.
+# for instance the scale is needed for processing deferred events.
+
 import copy
 from classforge import Field
 from .base import BaseObject

@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# custom exception types for easier capture of specific errors
+
 class WarpException(Exception):
     pass
 

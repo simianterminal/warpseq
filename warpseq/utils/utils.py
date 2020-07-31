@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# miscellaneous utility functions used throughout the program.
+
 def roller(alist):
     """
     Returns a generator that keeps looping around a pattern

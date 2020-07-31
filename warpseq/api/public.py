@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# this implements the public Python API for WarpSeq.
+# see examples/api/*.py for usage
+
 import rtmidi
 
 from .. model.song import Song
@@ -22,8 +25,6 @@ from .. playback.engine.realtime_engine import RealtimeEngine
 from . callbacks import Callbacks, DefaultCallback
 from . exceptions import  *
 from . support import BaseApi
-
-# FIXME: TODO: there should be a callback system to notify of these error events, as well as playing clips and patterns therein
 
 # =====================================================================================================================
 

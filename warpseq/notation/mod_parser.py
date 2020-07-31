@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# the parser decides what mod expressions are used and returns
+# the appropriate functions to evaluate them.
+
 import random
 from . mod_expressions import *
 from . mod_util import *

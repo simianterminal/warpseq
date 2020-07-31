@@ -4,6 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# tests the basic math of the Chord class
+
 from warpseq.model.note import Note, note
 from warpseq.model.chord import Chord, chord
 

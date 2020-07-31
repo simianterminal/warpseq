@@ -4,9 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
-from . exceptions import *
-
 # code supporting public API boilerplate reduction - a bit too much meta-programming but ah well
+
+from . exceptions import *
 
 class BaseApi(object):
 

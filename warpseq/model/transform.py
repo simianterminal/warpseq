@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# a transform is a list of modifier expressions that can be used
+# to build MIDI effects including Arps.
+
 from . base import ReferenceObject
 from classforge import Class, Field
 from .. utils.utils import roller

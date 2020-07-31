@@ -4,11 +4,11 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
-#NOTE_RESOLUTION = .02
+# various low level functions broken out of clip.py for clip evaluation
+# (these could use some cleanup)
 
 # a small gap between notes that ensures the off notes fire before the on notes
 NOTE_GAP = 0.01
-
 
 from .. model.event import Event, NOTE_ON, NOTE_OFF
 from .. model.chord import Chord

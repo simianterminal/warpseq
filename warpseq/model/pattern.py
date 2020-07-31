@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# a Pattern is a list of symbols/expressions that will eventually
+# evaluate into Chords/Notes.
+
 from .base import ReferenceObject
 from classforge import Class, Field
 from .scale import Scale

@@ -4,7 +4,8 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
-# the registry keeps track of currently playing events to allow intra-track modifiers
+# the registry keeps track of currently playing events to allow intra-track
+# processing
 
 PLAYING_BY_TRACK = dict()
 LAST_BY_TRACK = dict()

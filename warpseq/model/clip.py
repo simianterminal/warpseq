@@ -4,6 +4,9 @@
 # Apache2 Licensed
 # ------------------------------------------------------------------
 
+# a clip is a set of patterns and other details at the intersection
+# of a scene and track
+
 from .base import ReferenceObject
 from .pattern import Pattern
 from classforge import Class, Field
