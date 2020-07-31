@@ -8,10 +8,12 @@
 # into MIDI notes. This class isn't meant to be used directly,
 # use Multiplayer as shown in api/public.py instead.
 
-from .. model.base import BaseObject
 from classforge import Field
-from .. model.event import Event, NOTE_ON, NOTE_OFF
+
 from warpseq.api.callbacks import Callbacks
+
+from ..model.base import BaseObject
+from ..model.event import NOTE_OFF, NOTE_ON, Event
 
 TIME_INTERVAL = 10
 

@@ -33,4 +33,3 @@ def roll_right(x):
     first = new_list.pop()
     new_list.insert(0, first)
     return new_list
-

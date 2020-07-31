@@ -8,13 +8,16 @@
 # clips and scenes, as such the individual (track-specific) interface,
 # player.py, is a less public API than this one.
 
-from .. model.base import BaseObject
-from classforge import Field
-from . player import TIME_INTERVAL
-import time
 import ctypes
-from warpseq.api.callbacks import Callbacks
-from warpseq.api.exceptions import AllClipsDone
+import time
+
+from classforge import Field
+
+from ..api.callbacks import Callbacks
+from ..api.exceptions import AllClipsDone
+from ..model.base import BaseObject
+from .player import TIME_INTERVAL
+
 
 class MultiPlayer(BaseObject):
 
@@ -118,4 +121,3 @@ class MultiPlayer(BaseObject):
 
         if not add_pending and len(self.clips) == 0 and self.stop_if_empty:
             raise AllClipsDone()
-

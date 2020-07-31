@@ -6,11 +6,12 @@
 
 # tests basic conversion of symbols into notes and chords
 
-from warpseq.model.note import note
 from warpseq.model.chord import chord
-from warpseq.notation.roman import Roman, roman
-from warpseq.notation.literal import Literal
+from warpseq.model.note import note
 from warpseq.model.scale import Scale, scale
+from warpseq.notation.literal import Literal
+from warpseq.notation.roman import Roman, roman
+
 
 class TestRoman(object):
 

@@ -6,8 +6,8 @@
 
 # this file contains the implementation of all Mod Expression symbols.
 
-from . mod_util import *
-from .. model.registers import get_first_playing_note
+from ..model.registers import get_first_playing_note
+from .mod_util import *
 
 # ----------------------------------------------------------------------------------------------------------------------
 # SPECIAL (these do not take parameters)

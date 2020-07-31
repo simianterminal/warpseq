@@ -10,6 +10,7 @@
 import os
 import sys
 
+
 def suggest_device(api, device):
 
     # look at all available MIDI devices

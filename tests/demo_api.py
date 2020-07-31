@@ -8,9 +8,10 @@
 # testing the general I/O functions for accuracy. For better examples,
 # see "examples/api/*.py".
 
-from warpseq.api.public import Api
-from warpseq.api.exceptions import *
 import sys
+
+from warpseq.api.exceptions import *
+from warpseq.api.public import Api
 
 DEVICE = 'IAC Driver IAC Bus 1'
 
@@ -165,4 +166,3 @@ print(api.clips.list())
 #api.player.stop()
 
 # TODO: add tests for save/load...
-

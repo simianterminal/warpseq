@@ -7,10 +7,12 @@
 # a transform is a list of modifier expressions that can be used
 # to build MIDI effects including Arps.
 
-from . base import ReferenceObject
 from classforge import Class, Field
-from .. utils.utils import roller
-from .. notation.mod import ModExpression
+
+from ..notation.mod import ModExpression
+from ..utils.utils import roller
+from .base import ReferenceObject
+
 
 class Transform(ReferenceObject):
 
@@ -113,4 +115,3 @@ class Transform(ReferenceObject):
         # [[n1],[n2],[n3],[n4],[n5]]
 
         return new_note_list
-

@@ -6,8 +6,9 @@
 
 # This is the class that evaluates mod expressions to return output.
 
-from .. model.registers import get_first_playing_note
-from . mod_parser import process_expr, is_deferred_expr
+from ..model.registers import get_first_playing_note
+from .mod_parser import is_deferred_expr, process_expr
+
 
 class ModExpression(object):
 

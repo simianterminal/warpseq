@@ -6,8 +6,9 @@
 
 # this class allows note entry of symbols like "C4" and "Eb4"
 
-from .. model.note import note
-from .. model.chord import chord, Chord
+from ..model.chord import Chord, chord
+from ..model.note import note
+
 
 class Literal(object):
 

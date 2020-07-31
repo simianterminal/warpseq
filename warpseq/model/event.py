@@ -9,7 +9,9 @@
 # for instance the scale is needed for processing deferred events.
 
 import copy
+
 from classforge import Field
+
 from .base import BaseObject
 
 NOTE_ON = 1

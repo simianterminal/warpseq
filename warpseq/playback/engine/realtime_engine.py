@@ -9,14 +9,17 @@
 # process deferred mod-expressions caused by late-binding intra-track
 # events.
 
-from classforge import Field
-from warpseq.model.base import BaseObject
-from warpseq.model.event import NOTE_ON, NOTE_OFF
 import rtmidi as rtmidi
-from warpseq.model.registers import register_playing_note, unregister_playing_note
-from  ... notation.mod import ModExpression
+from classforge import Field
+
 from warpseq.api.callbacks import Callbacks
 from warpseq.api.exceptions import *
+from warpseq.model.base import BaseObject
+from warpseq.model.event import NOTE_OFF, NOTE_ON
+from warpseq.model.registers import (register_playing_note,
+                                     unregister_playing_note)
+
+from ...notation.mod import ModExpression
 
 MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
@@ -194,5 +197,3 @@ class RealtimeEngine(BaseObject):
             unregister_playing_note(self.track, event.on_event.note)
             result = [ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity]
             self._send_message(result)
-
-

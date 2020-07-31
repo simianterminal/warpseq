@@ -7,9 +7,10 @@
 # logic behind scale math, allowing for computing of intervals within
 # a scale.
 
-from . base import ReferenceObject
 from classforge import Class, Field
-from . note import Note, note
+
+from .base import ReferenceObject
+from .note import Note, note
 
 SCALE_TYPES = dict(
    major              = [ 1, 2, 3, 4, 5, 6, 7 ],

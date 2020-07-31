@@ -7,24 +7,26 @@
 # this implements the public Python API for WarpSeq.
 # see examples/api/*.py for usage
 
-import rtmidi
-from .. model.song import Song
-from .. model.device import Device
-from .. model.instrument import Instrument
-from .. model.scale import Scale, scale_types
-from .. model.pattern import Pattern
-from .. model.transform  import Transform
-from .. model.track import Track
-from .. model.scene import Scene
-from .. model.clip import Clip
-from .. model.note import Note
-from .. playback.multi_player import MultiPlayer
-from .. playback.engine.realtime_engine import RealtimeEngine
-from . callbacks import Callbacks, DefaultCallback
-from . exceptions import  *
-from . support import BaseApi
 import sys
 import traceback
+
+import rtmidi
+
+from ..model.clip import Clip
+from ..model.device import Device
+from ..model.instrument import Instrument
+from ..model.note import Note
+from ..model.pattern import Pattern
+from ..model.scale import Scale, scale_types
+from ..model.scene import Scene
+from ..model.song import Song
+from ..model.track import Track
+from ..model.transform import Transform
+from ..playback.engine.realtime_engine import RealtimeEngine
+from ..playback.multi_player import MultiPlayer
+from .callbacks import Callbacks, DefaultCallback
+from .exceptions import *
+from .support import BaseApi
 
 # =====================================================================================================================
 
@@ -463,4 +465,3 @@ class Api(object):
     def save_as(self, filename:str):
         self._filename = filename
         self.save()
-

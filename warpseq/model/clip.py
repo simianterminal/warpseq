@@ -7,16 +7,20 @@
 # a clip is a set of patterns and other details at the intersection
 # of a scene and track
 
+import time
+
+from classforge import Class, Field
+
+from ..notation.smart import SmartExpression
+from ..notation.time_stream import (chord_list_to_notes, evaluate_shifts,
+                                    evaluate_ties, notes_to_events)
+from ..playback.player import Player
+from ..utils import utils
 from .base import ReferenceObject
 from .pattern import Pattern
-from classforge import Class, Field
-from .transform import Transform
 from .scale import Scale
-from ..notation.smart import SmartExpression
-from ..notation.time_stream import evaluate_ties, chord_list_to_notes, notes_to_events, evaluate_shifts
-from ..playback.player import Player
-from .. utils import utils
-import time
+from .transform import Transform
+
 
 class Clip(ReferenceObject):
 
@@ -343,5 +347,3 @@ class Clip(ReferenceObject):
             engine=engine_class(song=song, track=self.track, clip=self),
         )
         return player
-
-

@@ -8,8 +8,8 @@
 # it also shows how to use ties ("-").
 
 
-from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo
+from warpseq.api.public import Api as WarpApi
 
 # setup API and song
 api = WarpApi()

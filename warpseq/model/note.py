@@ -7,14 +7,16 @@
 # modelling of notes, including step math necessary for creating
 # chords and understanding scales.
 
-from . base import BaseObject
-from classforge import Class, Field
-from warpseq.api.exceptions import *
-from . import note_table
-
-from functools import total_ordering
 import re
-from .. utils.utils import roll_left, roll_right
+from functools import total_ordering
+
+from classforge import Class, Field
+
+from warpseq.api.exceptions import *
+
+from ..utils.utils import roll_left, roll_right
+from . import note_table
+from .base import BaseObject
 
 DEFAULT_VELOCITY = 120
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
@@ -244,4 +246,3 @@ def note(st):
         octave = 4
      octave = int(octave)
      return Note(name=name, octave=octave, length=None)
-

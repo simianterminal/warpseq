@@ -7,8 +7,8 @@
 # scale changes and puts together some concepts mentioned
 # in earlier demos
 
-from warpseq.api.public import Api as WarpApi
 from warpseq.api import demo
+from warpseq.api.public import Api as WarpApi
 
 # setup API and song
 api = WarpApi()

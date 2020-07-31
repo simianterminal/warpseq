@@ -12,9 +12,9 @@
 #
 # try changing the patterns and adding a third scene.
 
-from warpseq.api.public import Api as WarpApi
-from warpseq.api.callbacks import Callbacks, DefaultCallback
 from warpseq.api import demo
+from warpseq.api.callbacks import Callbacks, DefaultCallback
+from warpseq.api.public import Api as WarpApi
 
 # setup API and song
 api = WarpApi()

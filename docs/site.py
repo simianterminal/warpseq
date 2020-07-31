@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
-from rockchisel import Builder
 import os
+
+from rockchisel import Builder
 
 path = os.path.dirname(os.path.realpath(__file__))
 

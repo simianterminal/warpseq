@@ -7,8 +7,9 @@
 # a Pattern is a list of symbols/expressions that will eventually
 # evaluate into Chords/Notes.
 
-from .base import ReferenceObject
 from classforge import Class, Field
+
+from .base import ReferenceObject
 from .scale import Scale
 from .transform import Transform
 

@@ -8,6 +8,7 @@
 
 from warpseq.utils.utils import roll_left, roll_right, roller
 
+
 def test_roll_left():
     assert roll_left([1,2,3,4,5]) == [2,3,4,5,1]
 
@@ -29,4 +30,3 @@ def test_roller():
 
     assert next(generator) == 1
     assert next(generator) == 2
-

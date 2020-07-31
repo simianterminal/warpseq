@@ -66,4 +66,3 @@ def get_variable(what):
 def set_variable(what, value):
     global VARIABLES
     VARIABLES[what] = value
-

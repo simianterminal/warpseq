@@ -44,5 +44,3 @@ class ReferenceObject(BaseObject):
     def on_init(self):
         if self.obj_id == '0':
             self.obj_id = self.new_object_id()
-
-

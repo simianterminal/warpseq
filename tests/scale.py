@@ -6,9 +6,10 @@
 
 # some basic tests of the scale class
 
-from warpseq.model.note import note
 from warpseq.model.chord import chord
+from warpseq.model.note import note
 from warpseq.model.scale import Scale, scale
+
 
 class TestScale(object):
 

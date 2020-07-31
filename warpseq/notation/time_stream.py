@@ -10,10 +10,12 @@
 # a small gap between notes that ensures the off notes fire before the on notes
 NOTE_GAP = 0.01
 
-from .. model.event import Event, NOTE_ON, NOTE_OFF
-from .. model.chord import Chord
-from .. model.note import Note
 from warpseq.api.exceptions import *
+
+from ..model.chord import Chord
+from ..model.event import NOTE_OFF, NOTE_ON, Event
+from ..model.note import Note
+
 
 def evaluate_ties(note_list):
 
@@ -155,4 +157,3 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
     events.sort(key=sorter)
 
     return events
-

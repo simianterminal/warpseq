@@ -7,13 +7,15 @@
 # basic modelling of chords as an array of notes, or a root note
 # with a chord type.
 
-from .base import BaseObject
-from .pattern import Pattern
 from classforge import Class, Field
-from .transform import Transform
-from .scale import Scale
-from .note import Note, note
+
 from warpseq.api.exceptions import *
+
+from .base import BaseObject
+from .note import Note, note
+from .pattern import Pattern
+from .scale import Scale
+from .transform import Transform
 
 # https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 # minor 2nd - 2 semitones

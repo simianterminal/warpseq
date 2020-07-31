@@ -8,14 +8,17 @@
 # might be supported by either of those other classes. Also processes
 # any mod expressions after those symbols.  Used in clip evaluation.
 
-from . literal import Literal
-from . roman  import Roman
-from . mod import ModExpression
-from .. model.note import Note
+import traceback
+
 from classforge import Class, Field
 
-import traceback
 from warpseq.api.exceptions import *
+
+from ..model.note import Note
+from .literal import Literal
+from .mod import ModExpression
+from .roman import Roman
+
 
 class ExpressionEvaluationError(Exception):
     pass

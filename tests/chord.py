@@ -6,8 +6,9 @@
 
 # tests the basic math of the Chord class
 
-from warpseq.model.note import Note, note
 from warpseq.model.chord import Chord, chord
+from warpseq.model.note import Note, note
+
 
 class TestChord(object):
 

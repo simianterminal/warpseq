@@ -45,4 +45,3 @@ def offset(note, tones):
     n1.name = lookup[0]
     n1.octave = lookup[1]
     return n1
-

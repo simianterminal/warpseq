@@ -6,8 +6,10 @@
 
 # a device represents a physical or virtual MIDI interface
 
-from .base import ReferenceObject
 from classforge import Class, Field
+
+from .base import ReferenceObject
+
 
 class Device(ReferenceObject):
 

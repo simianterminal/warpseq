@@ -6,7 +6,8 @@
 
 # code supporting public API boilerplate reduction - a bit too much meta-programming but ah well
 
-from . exceptions import *
+from .exceptions import *
+
 
 class BaseApi(object):
 
@@ -160,4 +161,3 @@ class BaseApi(object):
         obj = self.lookup(name, require=True)
         self.fn_remove(obj)
         return self._ok()
-

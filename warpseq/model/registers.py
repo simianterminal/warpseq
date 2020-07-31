@@ -53,4 +53,3 @@ def get_first_playing_note(track):
 
     rc = LAST_BY_TRACK.get(track, None)
     return rc
-

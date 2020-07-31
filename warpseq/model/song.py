@@ -7,11 +7,13 @@
 # the song is the fundamental unit of saving/loading in Warp and contains
 # all object types.
 
-from . base import ReferenceObject
-from classforge import Class, Field
-from .scale import Scale
-from ..api import exceptions
 import json
+
+from classforge import Class, Field
+
+from ..api import exceptions
+from .base import ReferenceObject
+from .scale import Scale
 
 FORMAT_VERSION = 0.1
 

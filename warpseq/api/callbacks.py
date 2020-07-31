@@ -103,4 +103,3 @@ class Callbacks(object):
     def keyboard_interrupt(cls):
         for cb in Callbacks.CALLBACKS:
             cb.keyboard_interrupt()
-

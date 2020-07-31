@@ -6,7 +6,8 @@
 
 # tests the basic math of the Note class
 
-from warpseq.model.note import Note, NOTES, note
+from warpseq.model.note import NOTES, Note, note
+
 
 class TestNote(object):
 

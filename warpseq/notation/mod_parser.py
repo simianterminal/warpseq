@@ -8,9 +8,11 @@
 # the appropriate functions to evaluate them.
 
 import random
-from . mod_expressions import *
-from . mod_util import *
-from warpseq.api.exceptions import  *
+
+from warpseq.api.exceptions import *
+
+from .mod_expressions import *
+from .mod_util import *
 
 # ----------------------------------------------------------------------------------------------------------------------
 # EXPRESSION TABLE
