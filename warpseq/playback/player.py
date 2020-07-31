@@ -14,9 +14,6 @@ from warpseq.api.callbacks import Callbacks
 
 TIME_INTERVAL = 10
 
-
-# FIXME: this whole player logic might be rather off and will need some debugging
-
 class Player(BaseObject):
 
     # input
@@ -78,8 +75,7 @@ class Player(BaseObject):
                 break
 
         if self.time_index >= self.clip_length_in_ms:
-            # FIXME: move this into the callbacks system (among other events)
-            print("clip (%s) done : %s >= %s" % (self.clip.name, self.time_index, self.clip_length_in_ms))
+
             if self._still_on_this_clip():
                 self.callbacks.on_clip_restart(self.clip)
                 # recompute events so randomness can change
@@ -93,17 +89,13 @@ class Player(BaseObject):
                 if self.clip.auto_scene_advance:
                     new_scene = self.song.next_scene(self.clip.scene)
                     if new_scene:
-                        # FIXME: move this into the callbacks system (among other events)
                         self._multiplayer.play_scene(new_scene)
                         return
 
                 if self.clip.next_clip is not None:
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
-                    # FIXME: move this into the callbacks system (among other events)
-                    print("auto advancing clip to: %s" % new_clip.name)
                     self._multiplayer.add_clip(new_clip)
                     return
-
 
     def stop(self):
         for event in self.left_to_play:
@@ -111,12 +103,9 @@ class Player(BaseObject):
                 self.engine.play(event)
         self.left_to_play = []
 
-
     def start(self):
         if self.left_to_play is not None:
             self.stop()
         self.time_index = 0
         self.left_to_play = [ n for n in self.events ]
         self.left_to_play.reverse()
-
-

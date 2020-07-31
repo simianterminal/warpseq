@@ -48,7 +48,6 @@ class Literal(object):
         """
         Same as do() but always get back an array of notes.
         """
-        # DRY: duplication with Roman.py - FIXME
         if sym == '-':
             # REST
             return []

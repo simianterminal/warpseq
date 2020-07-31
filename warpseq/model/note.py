@@ -201,8 +201,8 @@ class Note(BaseObject):
         """
         What order is this note on the keyboard?
         """
-        # FIXME: when does this happen? ties maybe? does it still happen?
         if self.name is None:
+            # FIXME: when does this happen? ties maybe? does it still happen?
             return None
         nn = NOTES.index(self.name) + (12 * self.octave)
         return nn
@@ -226,7 +226,6 @@ class Note(BaseObject):
          return "%s%s" % (self.name, self.octave)
 
     def __repr__(self):
-         # FIXME: simplify and remove CTR
          return "Note<%s%s,LEN=%s,s=%s,e=%s,cc=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time, self.flags['cc'])
 
 def note(st):

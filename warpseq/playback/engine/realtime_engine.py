@@ -113,6 +113,7 @@ class RealtimeEngine(BaseObject):
 
 
     def play(self, event):
+        # TODO: refactor
 
         from ... model.chord import Chord
         from ... model.event import Event, NOTE_OFF, NOTE_ON
@@ -138,7 +139,7 @@ class RealtimeEngine(BaseObject):
             return
 
         if event.type == NOTE_ON:
-            # FIXME: move this into the callbacks system (among other events)
+
             self.callbacks.on_note_on(event)
             (note_number, velocity) = self._note_data(event)
             self.count_on = self.count_on + 1
@@ -146,10 +147,12 @@ class RealtimeEngine(BaseObject):
 
             if not self.track.muted and not self.track.instrument.muted:
 
+                # TODO: CC should min/max within bounds, error checking on values
                 for (channel, value) in event.note.flags['cc'].items():
                     channel = int(channel)
                     self._control_change(channel, value)
 
+                # TODO: velocity should min/max within bounds, error checking on values
                 result = [ MIDI_NOTE_ON | self.channel - 1, note_number, velocity]
                 self._send_message(result)
 
@@ -158,16 +161,12 @@ class RealtimeEngine(BaseObject):
             if type(event.on_event.note) == Chord:
                 for x in event.on_event.note.notes:
                     evt = event.copy()
-
                     assert type(x) != Chord
                     evt.on_event = Event(time = event.on_event.time, scale=event.scale, note = x, type=event.on_event.type, on_event=None)
-
-
                     self.play(evt)
                 return
 
             self.callbacks.on_note_off(event)
-
 
             (note_number, velocity) = self._note_data(event.on_event)
             self.count_off = self.count_off + 1

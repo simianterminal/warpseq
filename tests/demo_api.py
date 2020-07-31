@@ -20,7 +20,6 @@ api = Api()
 
 # ----------------------------------------------------------------------------------------------------------------------
 # setup MIDI devices
-# FIXME: make a method that checks an environment variable?
 
 print("---")
 print("available MIDI devices:")
@@ -89,7 +88,6 @@ api.scales.remove(name='C-major')
 
 # verify we can't pass in both scale_type and slots together
 api.scales.edit(name='C-user', slots=[1,2,3,4])
-# FIXME: why did that work?
 
 print(api.scales.details(name='Eb-natural-minor'))
 print(api.scales.details(name='C-user'))
@@ -109,9 +107,6 @@ api.patterns.edit(name='chords', slots="I V IV I", tempo=100, scale='Eb-natural-
 #api.patterns.remove(name='up')
 print(api.patterns.details('chords'))
 print(api.patterns.list())
-
-
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Transforms
@@ -133,12 +128,8 @@ api.scenes.edit(name='s2', auto_advance=True)
 print(api.scenes.details('s1'))
 print(api.scenes.list())
 
-# FIXME: we should have a way to reorder the scenes by name
-# FIXME: adding a scene without a name should be legal and result in an automatic scene name (same for tracks?)- maybe
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Tracks
-
+# TODO: we should have a way to reorder the scenes by name
+# TODO: adding a scene without a name should be legal and result in an automatic scene name (same for tracks?)- maybe
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Clips
@@ -148,39 +139,13 @@ api.clips.add(name='_', scene='s1', track='track1', patterns=['chords'], auto_sc
 api.clips.add(name='a', scene='s2', track='track1', patterns=['up'], repeat=None)
 api.clips.add(name='_', scene='s2', track='track2', patterns=['up'])
 
-# complex example
-#api.clips.add(name='does_not_matter',
-#              scene='s2',
-#              track='track1',
-#              patterns=['down','chords'],
-#              octave_shifts=[1,0,-1],
-#              degree_shifts=[0,0,0],
-#              tempo_shifts=[0,0,0],
-#              scale_note_shifts=[0,0,0],
-#              next_clip=None,
-#              transforms=['a1','a2','a4'],
-#              tempo=60,
-#              repeat=3,
-#              auto_scene_advance=False)
-#api.clips.edit(scene='s2', track='track1',
-#               new_name='does_not_matter2',
-#               patterns=['down','chords'],
-#               octave_shifts=[1,0,-1],
-#               degree_shifts=[0,0,0],
-#               tempo_shifts=[0,10,20],
-#               scale_note_shifts=[0,0,0],
-#               next_clip='does_not_matter',
-#               transforms=['a1','a2'],
-#               tempo=60,
-#               repeat=3,
-#               auto_scene_advance=False)
 
 #api.clips.remove(scene='s1', track='track1')
 
 print(api.clips.list())
 #print(api.clips.details('does_not_matter2'))
 
-# FIXME: probably want to add a method that returns the clip grid
+# TODO: probably want to add a method that returns the clip grid
 # + currently playing clips
 # + currently playing patterns in that clip?
 
@@ -199,8 +164,5 @@ print(api.clips.list())
 #
 #api.player.stop()
 
-# FIXME: api.save_as('/tmp/warpseq_test.json')
-# api.save()
-# api.load('/tmp/warpseq_test.json')
-# api.state()
+# TODO: add tests for save/load...
 

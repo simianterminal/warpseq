@@ -18,15 +18,13 @@ from . mod_util import *
 INCREMENTS = {
     "o"  : expr_octave_up,
     "s"  : expr_scale_note_up,
-    "d"  : expr_degree_up,
-    "$"  : expr_variable_up,
+    "d"  : expr_degree_up
 }
 
 DECREMENTS = {
     "o"  : expr_octave_down,
     "s"  : expr_scale_note_down,
-    "d"  : expr_degree_down,
-    "$"  : expr_variable_up
+    "d"  : expr_degree_down
 }
 
 ASSIGNMENTS = {
@@ -126,7 +124,6 @@ def process_expr(parser, input, expr, deferred=False):
         tokens = expr.split('-=',1)
         return perform(parser, input, operations, tokens[0], tokens[1])
     elif "-" in expr:
-        # FIXME: duplicate code
         operations = table['decrements']
         tokens = expr.split('-',1)
         return perform(parser, input, operations, tokens[0], tokens[1])

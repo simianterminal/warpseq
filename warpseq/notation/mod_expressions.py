@@ -81,18 +81,6 @@ def expr_cc_set(parser, input, how, extra_info):
 # ----------------------------------------------------------------------------------------------------------------------
 # VARIABLES
 
-# FIXME: do we want to support this?
-def expr_variable_up(parser, input, how, extra_info):
-    how = evaluate_params(how, want_int=True)
-    set_variable(extra_info, get_variable(extra_info) + how)
-    return input
-
-# FIXME: do we want to support this?
-def expr_variable_down(parser, input, how, extra_info):
-    how = evaluate_params(how, want_int=True)
-    set_variable(extra_info, get_variable(extra_info) - how)
-    return input
-
 def expr_variable_set(parser, input, how, extra_info):
     how = evaluate_params(how, want_string=True)
     set_variable(extra_info, how)

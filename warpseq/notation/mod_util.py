@@ -67,12 +67,3 @@ def set_variable(what, value):
     global VARIABLES
     VARIABLES[what] = value
 
-# FIXME: are these used
-def increment_variable(what, value):
-    global VARIABLES
-    VARIABLES[what] = VARIABLES[what] + value
-
-# FIXME: ditto
-def decrement_variable(what, value):
-    global VARIABLES
-    VARIABLES[what] = VARIABLES[what] - value
