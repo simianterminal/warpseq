@@ -25,6 +25,7 @@ from .. playback.engine.realtime_engine import RealtimeEngine
 from . callbacks import Callbacks, DefaultCallback
 from . exceptions import  *
 from . support import BaseApi
+import sys
 
 # =====================================================================================================================
 
@@ -363,6 +364,17 @@ class Player(object):
 
     def advance(self, milliseconds=2):
         self.multi_player.advance(milliseconds)
+
+    def loop(self, scene_name, abort=True):
+        self.play_scene(scene_name)
+
+        try:
+            while True:
+                self.advance(2)
+        except KeyboardInterrupt:
+            self.stop()
+            if abort:
+                sys.exit(0)
 
 # =====================================================================================================================
 

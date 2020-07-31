@@ -4,14 +4,12 @@ NOTES
 RELEASE GATES
 =============
 
-* in clip.py why doesn't the pattern reset when .reset() is called?
-* the default song should have a scale in it - C4 major should be fine. Let the user add more.
-* review/update comments
-* make a Ctrl-C/error hook that stops all notes
+* fix/test API save/load
+* a flag on loop() that stops the system if no notes are triggered in N seconds
+* convert all "raise Exception() / except" code to use specific exception classes
 * demo song
 * make an examples directory with some more musical songs in it
-* API docs for web page
-* fix/test API save/load
+* some very basic API docs for webpage so people are interested in surfing BitBucket
 * set up website publishing
 * upload a track to soundcloud
 * enable patreon page (= discord access)

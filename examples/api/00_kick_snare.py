@@ -45,18 +45,9 @@ api.scenes.add(name='scene_2', scale='C-major', auto_advance=True)
 # setup clips
 api.clips.add(name='s1k1', scene='scene_1', track='kick', patterns=['kick_4_4'], repeat=4, auto_scene_advance=True)
 api.clips.add(name='s1s1', scene='scene_1', track='snare', patterns=['snare_4_4'], repeat=4)
-api.clips.add(name='s2k1', scene='scene_2', track='kick', patterns=['kick_alt'], repeat=4, auto_scene_advance=True)
-api.clips.add(name='s2s1', scene='scene_2', track='snare', patterns=['snare_alt'], repeat=4)
+# change the drum pattern, repeat=None implies infinite repeat.
+api.clips.add(name='s2k1', scene='scene_2', track='kick', patterns=['kick_alt'], repeat=None, auto_scene_advance=True)
+api.clips.add(name='s2s1', scene='scene_2', track='snare', patterns=['snare_alt'], repeat=None)
 
-# play
-
-
-
-#api.save_as("/tmp/test.json")
-#api.save()
-#api.load("/tmp/test.json")
-#print(api._song.to_json())
-
-api.player.play_scene('scene_1')
-for x in range(0,64000):
-    api.player.advance(2)
+# play starting on the first scene - Ctrl+C to exit.
+api.player.loop('scene_1')
