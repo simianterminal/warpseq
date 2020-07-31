@@ -28,18 +28,18 @@ class Literal(object):
         Accepts symbols like C4-major or C4,E4,G4
         or note symbols like 'C4'
         """
-        # The dash is a bit of a notation hack, it's there because "C4 major"
-        # would look like two symbols, so we need to have no whitespace
-        # between them
 
-        if ' ' in sym:
-            sym = sym.replace(' ','-')
         if sym is None or sym == '-':
-            # REST:
+            # an empty symbol or a dash is a rest
             return chord([])
         if '-' in sym:
+            # this allows things like "C4-major" to work in a pattern.
+            # the use of spaces in the Chord class is somewhat a leftover from an earlier program.
+            # FIXME: the docs don't really show this syntax and it hasn't been used recently.
             return chord(sym.replace("-", " "))
         elif "," in sym:
+            # this allows chords like C4,E4,G4 to be explictly implemented this way.
+            # FIXME: the docs don't really show this syntax and it hasn't been used recently.
             return chord(sym.split(","))
         else:
             return note(sym)

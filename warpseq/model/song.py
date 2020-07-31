@@ -32,6 +32,9 @@ class Song(ReferenceObject):
     patterns = Field(type=dict, required=False, nullable=False)
 
     def on_init(self):
+        """
+        Creates a new (mostly empty) song.
+        """
         super().on_init()
         self.reset(clear=False)
 
@@ -54,15 +57,28 @@ class Song(ReferenceObject):
             self.patterns = dict()
 
     def find_device(self, obj_id):
+        """
+        Returns the device with the given object ID.
+        This method and others like this are used for save/load support.
+        """
         return self.devices.get(obj_id, None)
 
     def find_instrument(self, obj_id):
+        """
+        Returns the instrument with the given object ID.
+        """
         return self.instruments.get(str(obj_id), None)
 
     def find_scale(self, obj_id):
+        """
+        Returns the scale with the given object ID.
+        """
         return self.scales.get(str(obj_id), None)
 
     def find_scene(self, obj_id):
+        """
+        Returns the scene with the given object ID.
+        """
         assert obj_id is not None
         assert type(obj_id) in [str,int]
         matching = [ x for x in self.scenes if str(x.obj_id) == str(obj_id) ]
@@ -72,6 +88,9 @@ class Song(ReferenceObject):
         return matching[0]
 
     def find_track(self, obj_id):
+        """
+        Returns the track with the given object ID.
+        """
         assert obj_id is not None
         assert type(obj_id) in [str,int]
         matching = [ x for x in self.tracks if str(x.obj_id) == str(obj_id) ]
@@ -81,23 +100,39 @@ class Song(ReferenceObject):
         return matching[0]
 
     def find_clip(self, obj_id):
+        """
+        Returns the clip with the given object ID.
+        """
         return self.clips.get(str(obj_id), None)
 
     def find_clip_by_name(self, name):
+        """
+        Returns the clip with the given name.
+        """
         for (k,v) in self.clips.items():
             if v.name == name:
                 return v
         return None
 
     def find_transform(self, obj_id):
+        """
+        Returns the transform with the given object ID.
+        """
         x = self.transforms.get(str(obj_id), None)
         assert x is not None
         return x
 
     def find_pattern(self, obj_id):
+        """
+        Returns the pattern with the given object ID.
+        """
         return self.patterns.get(str(obj_id), None)
 
     def to_dict(self):
+        """
+        Returns the data for the entire song file.
+        This can be reversed with from_dict.
+        """
         from . base import COUNTER
         result = dict(
             obj_id = self.obj_id,
@@ -121,10 +156,17 @@ class Song(ReferenceObject):
         return result
 
     def to_json(self):
+        """
+        Returns a saveable JSON version of the song file.
+        """
         return json.dumps(self.to_dict(), sort_keys=True, indent=4)
 
     @classmethod
     def from_dict(cls, data):
+        """
+        Loads a song from a dictionary.
+        This must support PAST but not FUTURE versions of the program.
+        """
 
         song = Song(name=data['name'])
 
@@ -164,6 +206,10 @@ class Song(ReferenceObject):
         return song
 
     def next_scene(self, scene):
+        """
+        Returns the scene that is positioned after this one in the song.
+        This uses the scene array, implying (FIMXE) we need a method to reorder scenes.
+        """
         index = None
         for (i,x) in enumerate(self.scenes):
             if x.obj_id == scene.obj_id:
@@ -176,16 +222,26 @@ class Song(ReferenceObject):
 
     @classmethod
     def from_json(cls, data):
+        """
+        Loads the song from JSON data, such as from a save file.
+        """
         data = json.loads(data)
         return Song.from_dict(data)
 
     def _get_clip_index(self, scene=None, track=None):
+        """
+        Internal storage of clip uses a dict where the key is the combination of
+        the scene and track object IDs.
+        """
         assert scene is not None
         assert track is not None
         index = "%s/%s" % (scene.obj_id, track.obj_id)
         return index
 
     def add_clip(self, scene=None, track=None, clip=None):
+        """
+        Adds a clip at the intersection of a scene and track.
+        """
 
         # calling code must *COPY* the clip before assigning, because a clip must be added
         # to the clip list and *ALSO* knows its scene and track.
@@ -217,6 +273,9 @@ class Song(ReferenceObject):
         return clip
 
     def remove_clip(self, scene=None, track=None):
+        """
+        Deletes a clip.  The name isn't used - specify the scene and track.
+        """
 
         # removing a clip returns a clip object that can be used with *assign* to add the
         # clip back.
@@ -239,9 +298,15 @@ class Song(ReferenceObject):
         return clip
 
     def get_clips_for_scene(self, scene=None):
+        """
+        Returns all clips in a given scene.
+        """
         return scene.clips()
 
     def get_clip_for_scene_and_track(self, scene=None, track=None):
+        """
+        Returns the clip at the intersection of the scene and track.
+        """
         assert scene is not None
         assert track is not None
         results = []
@@ -252,49 +317,91 @@ class Song(ReferenceObject):
         return self.one(results)
 
     def add_devices(self, devices):
+        """
+        Adds some device objects to the song.
+        """
         for x in devices:
             self.devices[str(x.obj_id)] = x
 
     def remove_device(self, device):
+        """
+        Removes a device from the song.
+        """
         del self.devices[str(device.obj_id)]
 
     def add_instruments(self, instruments):
+        """
+        Adds some instrument objects to the song
+        """
         for x in instruments:
             self.instruments[str(x.obj_id)] = x
 
     def remove_instrument(self, instrument):
+        """
+        Removes an instrument object from the song.
+        """
         del self.instruments[str(instrument.obj_id)]
 
     def add_scales(self, scales):
+        """
+        Adds some scale objects to a song.
+        """
         for x in scales:
             self.scales[str(x.obj_id)] = x
 
     def remove_scale(self, scale):
+        """
+        Removes a scale object from the song.
+        """
         del self.scales[str(scale.obj_id)]
 
     def add_tracks(self, tracks):
+        """
+        Adds some track objects to the song.
+        """
         self.tracks.extend(tracks)
 
     def remove_track(self, track):
+        """
+        Remove a track object from the song.
+        """
         self.tracks = [ t for t in self.tracks if t.obj_id != track.obj_id ]
 
     def add_scenes(self, scenes):
+        """
+        Adds some scene objects to the song.
+        """
         self.scenes.extend(scenes)
 
     def remove_scene(self, scene):
+        """
+        Removes a scene object from the song.
+        """
         self.scenes = [ s for s in self.scenes if s.obj_id != scene.obj_id ]
 
     def add_patterns(self, patterns):
+        """
+        Adds some pattern objects to the song.
+        """
         for x in patterns:
             self.patterns[str(x.obj_id)] = x
 
     def remove_pattern(self, pattern):
+        """
+        Removes a pattern object from the song.
+        """
         del self.patterns[str(pattern.obj_id)]
 
     def add_transforms(self, transforms):
+        """
+        Adds some transform objects to the song.
+        """
         assert type(transforms) == list
         for x in transforms:
             self.transforms[str(x.obj_id)] = x
 
     def remove_transform(self, transform):
+        """
+        Removes a transform object from the song.
+        """
         del self.transforms[str(transform.obj_id)]

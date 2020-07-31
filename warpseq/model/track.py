@@ -22,20 +22,32 @@ class Track(ReferenceObject):
     clip_ids = Field(type=list, default=None, required=False, nullable=False)
 
     def on_init(self):
+        """
+        Allocates internal storage so the track can know what clips are included.
+        """
         if self.clip_ids is None:
             self.clip_ids = []
         super().on_init()
 
     def has_clip(self, clip):
+        """
+        Is this clip part of this track?
+        """
         assert clip is not None
         return clip.obj_id in self.clip_ids
 
     def add_clip(self, clip):
+        """
+        Adds a clip to a track.  Use from song.py - not directly.
+        """
         assert clip is not None
         if clip.obj_id not in self.clip_ids:
             self.clip_ids.append(clip.obj_id)
 
     def remove_clip(self, clip):
+        """
+        Remove a clip from this track. Use from song.py - not directly.
+        """
         assert clip is not None
         self.clip_ids = [ c for c in self.clip_ids if c != clip.obj_id ]
 

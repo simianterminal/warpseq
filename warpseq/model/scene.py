@@ -22,26 +22,44 @@ class Scene(ReferenceObject):
     clip_ids = Field(type=list, default=None, required=False, nullable=False)
 
     def on_init(self):
+        """
+        A scene needs to know what clips are attached. This is handled by song.py.
+        Initialize the internal storage on construction.
+        """
         if self.clip_ids is None:
             self.clip_ids = []
         super().on_init()
 
     def clips(self, song):
+        """
+        Return the clips in the scene.
+        """
         results = [ song.find_clip(x) for x in self.clip_ids ]
         results = [ r for r in results if r is not None ]
         return results
 
     def add_clip(self, clip):
+        """
+        Add a clip to the scene.  This is used by song.py and should not
+        be called directly.
+        """
         assert clip is not None
         if clip.obj_id not in self.clip_ids:
             assert clip.obj_id is not None
             self.clip_ids.append(clip.obj_id)
 
     def has_clip(self, clip):
+        """
+        Is a clip part of this scene?
+        """
         assert clip is not None
         return clip.obj_id in self.clip_ids
 
     def remove_clip(self, clip):
+        """
+        Disassociate a clip from this scene.  This is used by song.py and should
+        not be used directly.
+        """
         assert clip is not None
         self.clip_ids = [ c for c in self.clip_ids if c != clip.obj_id ]
 
