@@ -8,7 +8,6 @@
 # see examples/api/*.py for usage
 
 import rtmidi
-
 from .. model.song import Song
 from .. model.device import Device
 from .. model.instrument import Instrument
@@ -21,11 +20,11 @@ from .. model.clip import Clip
 from .. model.note import Note
 from .. playback.multi_player import MultiPlayer
 from .. playback.engine.realtime_engine import RealtimeEngine
-
 from . callbacks import Callbacks, DefaultCallback
 from . exceptions import  *
 from . support import BaseApi
 import sys
+import traceback
 
 # =====================================================================================================================
 
@@ -380,6 +379,14 @@ class Player(object):
                 sys.exit(0)
         except AllClipsDone:
             self.public_api._callbacks.all_clips_done()
+            if abort:
+                sys.exit(0)
+        except WarpException:
+            traceback.print_exc()
+            try:
+                self.stop()
+            except:
+                pass
             if abort:
                 sys.exit(0)
 
