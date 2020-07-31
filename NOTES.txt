@@ -4,9 +4,6 @@ NOTES
 RELEASE GATES
 =============
 
-* fix/test API save/load
-* a flag on loop() that stops the system if no notes are triggered in N seconds
-* convert all "raise Exception() / except" code to use specific exception classes
 * demo song
 * make an examples directory with some more musical songs in it
 * some very basic API docs for webpage so people are interested in surfing BitBucket
