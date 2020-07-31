@@ -1,26 +1,16 @@
 Warp
 ====
 
-WARP is a MIDI sequencer inspired by popular hardware sequencers, arps, and software trackers.
+Warp is an advanced music-theory-aware MIDI sequencer.
 
-Status
-======
+Documentation, sample tracks, installation instructions, and community resources are available on the website.
 
-early development
+[http://warpseq.com/][http://warpseq.com]
 
-Installation (Pending)
-======================
+License
+=======
 
-brew install python3
-pip3 -r requirements.txt
-# in a tab
-python3 bin/warp-driver
-# in another tab
-python3 bin/warp-console
+Warp is provided to you under an Apache 2 license.
 
-License/Copyright
-=================
+(C) 2016-2020 Michael DeHaan <michael@michaeldehaan.net> and All Project Contributors.
 
-Created by Michael DeHaan, 2020 <michael@michaeldehaan.net>
-
-Under development. All Rights Reserved - For Now.
