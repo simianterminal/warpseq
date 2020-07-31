@@ -14,12 +14,10 @@ from . import note_table
 
 from functools import total_ordering
 import re
+from .. utils.utils import roll_left, roll_right
 
 DEFAULT_VELOCITY = 120
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
-
-# ours
-from .. utils.utils import roll_left, roll_right
 
 NOTES          = [ 'C',  'Db', 'D', 'Eb', 'E',  'F',  'Gb', 'G',  'Ab', 'A', 'Bb', 'B' ]
 EQUIVALENCE    = [ 'C',  'C#', 'D', 'D#', 'E',  'F',  'F#', 'G',  'G#', 'A', 'A#', 'B' ]
@@ -57,6 +55,10 @@ class Note(BaseObject):
     from_scale = Field(default=None)
 
     def on_init(self):
+        """
+        Correctly populates some optional fields when the note is constructed.
+        """
+
         self.name =  self._equivalence(self.name)
         if self.flags is None:
             self.flags = {}
@@ -66,6 +68,9 @@ class Note(BaseObject):
         super().on_init()
 
     def copy(self):
+        """
+        Returns a new Note with the same data as the current Note
+        """
         n1 = Note(name=self.name,
                     octave=self.octave,
                     tie=self.tie,
@@ -80,6 +85,9 @@ class Note(BaseObject):
         return n1
 
     def chordify(self, chord_type):
+        """
+        Returns a chord of a given type using this note as the root note.
+        """
         from . chord import Chord
         return Chord(root=self.copy(), chord_type=chord_type, from_scale=self.from_scale)
 
@@ -88,7 +96,6 @@ class Note(BaseObject):
         Normalize note names on input, C# -> Db, etc
         Internally everything uses flats.
         """
-
         if name in EQUIVALENCE:
             return NOTES[EQUIVALENCE.index(name)]
         return name
@@ -103,6 +110,9 @@ class Note(BaseObject):
 
 
     def scale_transpose(self, scale, steps):
+        """
+        Return the note N steps up (or down) within the current scale.
+        """
 
         assert scale is not None
         assert steps is not None
@@ -131,28 +141,34 @@ class Note(BaseObject):
         raise Exception("unexpected scale transpose error (2)")
 
     def with_velocity(self, velocity):
+        """
+        Return a copy of this note with the set velocity
+        """
         n1 = self.copy()
         n1.velocity = velocity
         return n1
 
-    def adjust_velocity(self, mod):
-        n1 = self.copy()
-        if n1.velocity is None:
-            n1.velocity = 120 # FIXME: use a constant
-        n1.velocity = n1.velocity + mod
-        return n1
-
     def with_octave(self, octave):
+        """
+        Return a copy of this note with the set octave.
+        """
         n1 = self.copy()
         n1.octave = octave
         return n1
 
     def with_cc(self, channel, value):
+        """
+        Return a copy of the note with the set MIDI CC value.
+        """
         n1 = self.copy()
         n1.flags["cc"][str(channel)] = value
         return n1
 
-    def offset(self, semitones):
+    def _offset(self, semitones):
+        """
+        Calls into the note table for note math - whose code we should probably rewrite
+        """
+        # FIXME: rewrite/eliminate
         return note_table.offset(self, semitones)
 
     def transpose(self, steps=0, semitones=0, degrees=None, octaves=0):
@@ -164,7 +180,6 @@ class Note(BaseObject):
         degrees - scale degrees, to keep scale definition somewhat music literate.  "3" is a third, "b3" is a flat third, "3#" is an augmented third, etc.
         You can combine all of them at the same time if you really want (why?), in which case they are additive.
         """
-        # FIXME: implement without offset to not need the note_table, then delete the note_table
 
         if degrees is not None:
             degrees = str(degrees)
@@ -183,19 +198,10 @@ class Note(BaseObject):
         result = self.copy()
 
         if steps:
-            result = self.offset(steps)
+            result = self._offset(steps)
         if octaves:
             result.octave = result.octave + octaves
         return result
-
-    def expand_notes(self):
-        return [ self ]
-
-    def _numeric_name(self):
-        """
-        Give a number for the note - used by internals only
-        """
-        return NOTES.index(self.name)
 
     def note_number(self):
         """
@@ -215,18 +221,13 @@ class Note(BaseObject):
 
     def __lt__(self, other):
         """
-        Are two notes the same?
+        Compare note ordering
         """
         return self.note_number() < other.note_number()
 
-    def short_name(self):
-         """
-         Returns a string like Eb4
-         """
-         return "%s%s" % (self.name, self.octave)
-
     def __repr__(self):
-         return "Note<%s%s,LEN=%s,s=%s,e=%s,cc=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time, self.flags['cc'])
+        # FIXME: simplify as this is no longer used for debug
+        return "Note<%s%s,LEN=%s,s=%s,e=%s,cc=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time, self.flags['cc'])
 
 def note(st):
      """

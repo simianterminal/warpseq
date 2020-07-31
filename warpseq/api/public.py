@@ -56,6 +56,9 @@ class Devices(CollectionApi):
         self.auto_add_discovered()
 
     def list_available(self):
+        """
+        Return the names of all available MIDI devices the program can use.
+        """
         return MIDI_PORTS
 
     def add(self, name):

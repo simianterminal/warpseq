@@ -41,9 +41,6 @@ class DefaultCallback(Class):
 class WebCallback(Class):
     pass
 
-
-
-
 class Callbacks(object):
 
     CALLBACKS = []

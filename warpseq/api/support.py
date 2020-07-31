@@ -24,6 +24,10 @@ class BaseApi(object):
         self.public_fields = self.__class__.public_fields
 
     def lookup(self, name, require=False):
+        """
+        See if an object with the given name is in the collection. If 'require' is True,
+        raise an exception if it is not found, instead of returning None.
+        """
         coll = self._get_collection()
         if type(coll) == dict:
             for (k,v) in coll.items():
@@ -38,6 +42,10 @@ class BaseApi(object):
         return None
 
     def list(self):
+        """
+        Return information about all objects in the collection - usually just the names, but this is
+        overridden for clips because the scene and track is used as a primary key instead of the name.
+        """
         coll = self._get_collection()
         data = []
         if type(coll) == dict:
@@ -48,9 +56,18 @@ class BaseApi(object):
         return data
 
     def _short_details(self, obj):
+        """
+        Used by list to decide what information to return for each object in the collection.
+        Usually just returns the name except for Clip.
+        Use .details() for specifics.
+        """
         return obj.name
 
     def details(self, name):
+        """
+        Returns all the public field information about the object, suitable for display in a web
+        interface. Omits any internal state variables.
+        """
         obj = self.lookup(name)
         if obj is None:
             raise NotFound("\"%s\" not found" % name)
@@ -69,20 +86,37 @@ class BaseApi(object):
         return new_data
 
     def _update_details(self, details, obj):
+        """
+        This is a hook that allows a subclass to add or remove items before returning information in
+        .details() to the caller.
+        """
         pass
 
     def _get_collection(self):
+        """
+        This pulls the object collection out of the song object.  The result could be a list or dict.
+        """
         return getattr(self.song, self.__class__.song_collection)
 
     def _require_input(self, what, params):
+        """
+        Verifies that certain required parameters are passed in.
+        """
         for k in what:
             if params[k] is None:
                 raise RequiredInput("%s is required" % k)
 
     def _ok(self):
+        """
+        A placeholder for methods returning a consistent response when there is no information to return.
+        Not really meaningful at this point.
+        """
         return True
 
     def _generic_add(self, name, params):
+        """
+        Support code for adding new objects to a collection.
+        """
         obj = self.lookup(name)
         del params['self']
         del params['name']
@@ -95,6 +129,9 @@ class BaseApi(object):
             raise AlreadyExists()
 
     def _generic_edit(self, name, params):
+        """
+        Support code for editing existing objects in a collection.
+        """
         obj = self.lookup(name)
         if not obj:
             raise NotFound("%s not found" % name)
@@ -117,6 +154,9 @@ class BaseApi(object):
         return self._ok()
 
     def _generic_remove(self, name):
+        """
+        Support code for removing objects from a collection.
+        """
         obj = self.lookup(name, require=True)
         self.fn_remove(obj)
         return self._ok()

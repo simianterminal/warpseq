@@ -20,3 +20,5 @@ class InvalidInput(WarpException):
 
 class RequiredInput(WarpException):
     pass
+
+# TODO: add more here where exceptions are raised throughout - invalid symbols, etc

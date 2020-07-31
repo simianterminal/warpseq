@@ -29,6 +29,9 @@ class ReferenceObject(BaseObject):
     """
     A reference object is a BaseObject that can be saved as part of a song file.
     The key difference is the self-assigned object ID.
+
+    We use integer IDs as 'primary keys' to objects to allow easier renames - but names ARE required to be unique
+    and this is enforced by the PublicApi class.
     """
 
     obj_id = Field(type=str, nullable=False, default='0', required=False)
