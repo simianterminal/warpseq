@@ -4,8 +4,7 @@
 Soon, Warp will have a performance-and-composition-oriented web interface usable by musicians without requiring anyone to code.</p>
 
 <p>
-Until then (Fall 2020), the
-Python API is available to those wanting to use, explore, and extend Warp.  Even once the UI is available, the API will allow programatically generated compositions
+Until then (Fall 2020), the public Python API is available to those wanting to use, explore, and extend Warp.  Even once the UI is available, the API will allow programmatically generated compositions
 and can be very powerful, and will be able to generate song files that can be loaded with the UI.
 </p>
 
@@ -14,7 +13,7 @@ API examples are part of the project repo, but you can also browse them on <A HR
 </p>
 
 <p>
-The public API is considered (fairly) stable and isolates users from internal code changes within warp.  Methods outside of "public.py" are subject to change.
+The public API is considered (mostly) stable and isolates users from internal code changes within warp.  Methods outside of "public.py" are subject to change.
 </p>
 
 <h2>Running the API Example Demos</h2>
@@ -54,3 +53,90 @@ In addition to reading, trying, and tweaking the example code, we recommend read
 In particular, the API examples only show *some* of the interesting things you can do with the expressions language and transforms.  As you explore the docs,
 you will be able to use the API to construct more interesting and varied compositions.
 </p>
+
+<h2>API Walkthrough</h2>
+
+Here's a step by step walkthrough of the "00_kick_snare.py" example from the examples folder.  We start off with some python imports so remember
+to set the environment variable <i>PYTHONPATH</i> so you can find Warp's checkout directory.
+
+{{ begin_code() }}from warpseq.api import demo
+from warpseq.api.callbacks import Callbacks, DefaultCallback
+from warpseq.api.public import Api as WarpApi
+{{ end_code() }}
+
+Now we create an API handle and set the tempo:
+
+{{ begin_code() }}# setup API and song
+api = WarpApi()
+api.song.edit(tempo=120)
+{{ end_code() }}
+
+We define what instruments we want to use by device and MIDI channel.  The "suggest_device" method takes
+the midi channel from the "WARP_MIDI_DEVICE" environment variable if the default device isn't found:
+
+{{ begin_code() }}# setup instruments
+DEVICE = demo.suggest_device(api, 'IAC Driver IAC Bus 1')
+api.instruments.add('kick_inst', device=DEVICE, channel=1, min_octave=0, base_octave=0, max_octave=10)
+api.instruments.add('snare_inst', device=DEVICE, channel=2, min_octave=0, base_octave=0, max_octave=10)
+{{ end_code() }}
+
+Now that we have instruments, we add the instruments to tracks.
+
+{{ begin_code() }}# setup tracks
+api.tracks.add(name='kick', instrument='kick_inst', muted=False)
+api.tracks.add(name='snare', instrument='snare_inst', muted=False)
+{{ end_code() }}
+
+We can add any number of built-in or user scales.  As this is a drum example, we're not really
+going to use them though, so see the other examples for scale demos:
+
+{{ begin_code() }}# setup scales
+api.scales.add(name='C-major', note='C', octave=3, scale_type='major')
+{{ end_code() }}
+
+Now we lay out some drum patterns - patterns are just simple arrays:
+
+{{ begin_code() }}# setup patterns
+api.patterns.add(name='kick_4_4',  slots="C1 . .  . C1 . .  . C1 . .  . C1 . .  .".split())
+api.patterns.add(name='snare_4_4', slots=".  . D1 . . .  D1 . .  . D1 . .  . D1 .".split())
+api.patterns.add(name='kick_alt',  slots="C1 . C1 . C1 . .  . C1 . .  . C1 . .  .".split())
+api.patterns.add(name='snare_alt', slots=".  . D1 . .  . D1 D1 .  D1 D1 . .  D1 D1 .".split())
+{{ end_code() }}
+
+Now we add some scenes:
+
+{{ begin_code() }}# setup scenes
+api.scenes.add(name='scene_1', scale='C-major', auto_advance=True)
+api.scenes.add(name='scene_2', scale='C-major', auto_advance=True)
+{{ end_code() }}
+
+And some clips, which sit at the intersection of "scenes" and "tracks" in our virtual grid:
+
+{{ begin_code() }}# setup clips
+api.clips.add(name='s1k1', scene='scene_1', track='kick', patterns=['kick_4_4'], repeat=4, auto_scene_advance=True)
+api.clips.add(name='s1s1', scene='scene_1', track='snare', patterns=['snare_4_4'], repeat=4)
+# change the drum pattern, repeat=None implies infinite repeat.
+api.clips.add(name='s2k1', scene='scene_2', track='kick', patterns=['kick_alt'], repeat=4, auto_scene_advance=True)
+api.clips.add(name='s2s1', scene='scene_2', track='snare', patterns=['snare_alt'], repeat=4)
+{{ end_code() }}
+
+And we set the track playing... it will complete when finished or you can hit Ctrl+C to stop it.
+
+{{ begin_code() }}# play starting on the first scene - Ctrl+C to exit.
+api.player.loop('scene_1')
+{{ end_code() }}
+
+This is just a simple drum pattern, so it will sound best if you put a kick drum sound on Track 1, and a snare
+sound on Track 2.  The rest of the <A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">API Examples</A>
+are more melodic and show off more features, though it seemed best to start with the basics.
+
+{{ begin_info_block() }}
+The API above will always be available for generative composition - but will also be used to power the backend of
+our web interface, which is next up in development!  As mentioned, look for the first release of the web interface
+sometime in the Fall of 2020 - but feel free to enjoy and compose tracks with the API today!
+{{ end_info_block() }}
+
+<h2>Next Steps!</h2>
+
+Please browse the <A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">other API examples</A> for more of what you can do, and the rest
+of the document for features regarding patterns, transforms, and mod expressions - where the true power of Warp really comes in!
