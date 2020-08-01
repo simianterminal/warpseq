@@ -1,19 +1,20 @@
 <h1>Frequently Asked Questions</h1>
 
-<h3>Is Warp Free?</h3>
+<h3>Is Warp free?</h3>
 
 <p>
-Yes. Warp is free and open source software.  See {{ doc('contributing') }} for details on how to help with development, if you are interested. See {{ doc('club') }} for some awesome user community opportunities.
+Yes. Warp is free software licensed to you under the Apache2 license.  See {{ doc('contributing') }} for details on how to help with development, if you are interested. See {{ doc('club') }} for some awesome user community opportunities
+and information.
 </p>
 
-<h3>What's Coming Next?</h3>
+<h3>Is Warp for any particular genre of music?</h3>
 
 <p>
-Right now Warp is in a developer-beta release mode where only the Python API is available.  We are going to be releasing a web interface in the Fall of 2020, and can talk more about future plans beyond the UI then.
-See {{ doc('ui') }} for a rough sketch of what the UI will include.  Song files created today should be loadable by the UI.
+Warp can be used from anything from metal to techno to rock, ambient, and experimental generative music.  Warp will however detect attempts to create country music and will immediately shut down after formatting
+your hard drive. Actually we're just kidding on that last one ... for now.
 </p>
 
-<h3>Does Warp work with Hardware or Software Synths?</h3>
+<h3>Does Warp work with hardware or software synths?</h3>
 
 <p>Warp works with both. To use software synths, you may need to create a virtual bus.  See "<A HREF="<A HREF="https://help.ableton.com/hc/en-us/articles/209774225-How-to-setup-a-virtual-MIDI-bus">How To Setup A Virtual MIDI Bus [Ableton.com]</A>",
 of which most is generic.
@@ -27,14 +28,28 @@ using a MIDI splitter, like a <A HREF="https://kentonuk.com/product/thru-5/">Ken
 to use more of an audio recording program - or even a tape deck.  This is up to you.
 </p>
 
-<h3>How Do I Use My DAW with Warp?</h3>
+<h3>How do I use my DAW with Warp?</h3>
 
-<p>You want to set up MIDI tracks for all of your software synths, accepting input on the proper channels (such as an "IAC" or virtual bus) and not "Omni" channels.  To receive incoming MIDI, be sure to arm your tracks.
-You do not need to make MIDI tracks in your DAW for hardware synths if you don't want to, audio only tracks are fine.</p>
+<p>You want to set up MIDI tracks for all of your software synths, accepting input on the proper channels (such as an "IAC" or virtual bus) and have them listen on specific channel numbers and not "Omni" channels.
+To receive incoming MIDI, be sure to arm your tracks. You do not need to make MIDI tracks in your DAW for hardware synths if you don't want to, audio only tracks are fine.</p>
 
 <h3>Does Warp have arpeggiators?</h3>
 
-<p>Yes, you can build a simple arpeggiator with a transform. Just set the divide time to 3. This is covered in {{ doc('expr_transforms') }}.</p>
+<p>Yes, you can build a simple arpeggiator with a transform.  For triads, just set the divide time to 3. This is covered in {{ doc('expr_transforms') }}.</p>
+
+<h3>Does Warp output MIDI files?</h3>
+
+<p>Right now, Warp outputs realtime (live) MIDI events as it plays, and to create a MIDI file you would need to record the MIDI in an external program. A MIDI Export feature may be added in the future.</p>
+
+<h3>How do I stop Warp from playing?</h3>
+
+<p>For the API examples, just hit Ctrl+C and Warp will stop and shut off any playing notes.</p>
+
+<h3>What's coming next?</h3>
+
+<p>
+Right now Warp is in a developer-beta release mode where only the Python API is available.  We are going to be releasing a web interface in the Fall of 2020, and can talk more about future plans beyond the UI then.
+See {{ doc('ui') }} for a rough sketch of what the UI will include.  Song files created today should be loadable by the UI.
+</p>
 
 <h3>More To Come...</h3>
-

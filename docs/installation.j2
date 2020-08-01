@@ -1,18 +1,17 @@
 <h1>Installation</h1>
 
-<i>First off, thank you for interest in trying out Warp!</i>
+Thank you for interest in trying out Warp!
 
 {{ begin_info_block() }}
-Warp is in a developer-only beta phase through Fall 2020 as we work on the user interface.  The instructions below cover
-setting up the API and will include full install instructions later. For now, we will assume some basic Python development and
-command line skills.  As we evolve, these instructions will evolve to make them more accessible to everyone. If you would like
-to help improve our documentation, see {{ doc('contributing','contributing') }}.
+Warp is in a API-only beta phase through Fall 2020 as we work to build the performance-oriented user interface.  The instructions below cover
+setting up the API and will include install instructions for the UI once released. For now, we will assume some basic Python development and
+command line skills. If you know another programming language, you should find Python easy to learn, and Warp requires only a small amount of Python knowledge.
 {{ end_info_block() }}
 
 <h2>Requirements</h2>
 
 <p>
-Warp should work on most any commputer. First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, we recommend installing <i>python3</i> from homebrew:
+Warp should work on most any computer. First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, we recommend installing these from <A HREF="https://brew.sh/">homebrew</A>:
 </p>
 
 {{ begin_code(language='bash') }}
@@ -42,8 +41,8 @@ Now install the dependencies:
 <h2>Creating a Virtual Bus</h2>
 
 <p>
-If you want to use Warp with software synthesizers, you will need to create a Virtual Bus in your operating system to talk to them if you do not already have one.
-Ableton has already written some great documentation on this, so we suggest following those:
+If you want to use Warp with software synthesizers, you will need to create a Virtual Bus in your operating system if you do not already have one.
+Ableton has already written some great documentation on creating them:
 </p>
 
 <p>
@@ -51,14 +50,15 @@ Ableton has already written some great documentation on this, so we suggest foll
 </p>
 
 <p>
-You can skip step 5 in the above document unless you also use Ableton and haven't already set that up.
+You can skip step 5 in the above document -- it's Ableton specific.  Further, if you want to just use hardware, and don't need to route MIDI
+through your DAW, you can also choose to not set up a virtual bus.
 </p>
 
 <h2>Ready?</h2>
 
 <p>
-We are ready to go.  At the current state of development, only the python API is available.  The UI is coming soon.
-To try out Warpseq from the API, run one of the examples:
+We are ready to go.  At this point of the Warp beta, only the python API is available.  The UI is coming soon in the Fall of 2020.
+To try out Warpseq from the API, we will use python to run one of the examples:
 </p>
 
 {{ begin_code(language='bash') }}cd examples/api
@@ -66,7 +66,8 @@ python3 tests/00_kick_snare.py
 {{ end_code() }}
 
 <p>
-The program may prompt you about selecting a MIDI interface.
+The program may prompt you about selecting a MIDI device name.  If the demo sounds strange, you probably need to choose
+some different instruments.
 </p>
 
 <p>
@@ -76,15 +77,16 @@ When the UI is available, there will just be a few more install steps for Web UI
 <h2>Next Steps</h2>
 
 <p>
-With everything installed, you are ready to try some of the {{ doc('api') }} examples.  However we also recommend
+With everything installed, you are ready to try some more of the {{ doc('api') }} examples.  However we also recommend
 you read through the "Concepts" and "Expression Language" sections (on the left) to get a better feel of what
-the examples are sharing.
+the examples are teaching.
 </p>
 
 <p>
 The API examples are only the start, what you create is up to your imagination and can
 get rather advanced as you start incorporating concepts like "transforms".  Have fun trying out the examples and
-exploring the docs!</p>
+exploring the docs!
+</p>
 
 <p>
 If you get stuck or have a question, we're trying to refine our

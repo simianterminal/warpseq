@@ -156,29 +156,29 @@
 <h1>Song</h1>
 
 <p>
-This chapter will explain some terms in Warp, and compare them a bit to what you may expect with audio production tools you may be familiar with.
+This chapter will explain some terms in Warp, and compare them a bit to what you may expect with music production tools you may be familiar with.
 </p>
 
 <p>
 <ul>
-<li>Each Warp file is called a song.  Each song definition is self contained.  There is no "computer specific" setup in Warp.</li>
-<li>A song must define a default tempo, though this may be overriden in a <A HREF="./scene.html">Scene</a> or <A HREF="./clip.html">Clip</a>. The default is 120. Change it.</li>
-<li>A song may define a default <A HREF="./scale.html">Scale</a>, though this may also be overriden in a <A HREF="./scene.html">Scene</a> or <A HREF="./clip.html">Clip</a>.</li>
-<li>Songs can be saved and loaded to files, and files should be openable by any future version of Warp.</li>
-<li>Songs are technically JSON files, but you hand edit them at your own risk.  If that seems appealing, see the <A HREF="./api.html">Python API</a></li>
+<li>Each Warp file is called a Song. Each song definition is self contained in terms of configuration, so there is no equivalent to a "setup" or "preferences" menu in Warp.</li>
+<li>A song must define a default tempo, which may be overriden in a <A HREF="./scene.html">Scene</a> or <A HREF="./clip.html">Clip</a>. The default is 120. Change it.</li>
+<li>A song may define a default <A HREF="./scale.html">Scale</a>, which may be overriden in a <A HREF="./scene.html">Scene</a> or <A HREF="./clip.html">Clip</a>.</li>
+<li>Songs can be saved to and loaded from files, and files should be compatible with any future version of Warp.</li>
+<li>Songs are technically JSON files, but hand edit them at your own risk. Instead, for working with songs programmatically, see the <A HREF="./api.html">Python API</a></li>
 </ul>
 </p>
 
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
-If you don't want to set up each <A HREF="./device.html">Device</a> or <A HREF="./instrument.html">Instrument</a> each time, a good idea is to make an empty
-Warp song called "template.warp". This is also a good place to keep your favorite user <A HREF="./scale.html">Scale</a> definitions.
+If you don't want to set up each <A HREF="./device.html">Device</a> or <A HREF="./instrument.html">Instrument</a> each time, a good idea would be to make an empty
+Warp song called "template.warp" and start projects by opening this file. This is also a good place to keep your favorite user <A HREF="./scale.html">Scale</a> definitions.
 </div>
 
 <h2>In Context</h2>
 
 <p>
-The diagram below, copied from the <A HREF="./api.html">API Docs</a> shows how all the objects in Warp are related.  The remainder of this section
+The diagram below, copied from the <A HREF="./api.html">API Docs</a>, shows how all the objects in Warp are related. The remainder of this section
 will provide more detail about each of these.</p>
 
 <p>

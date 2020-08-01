@@ -1,22 +1,25 @@
 <h1>Scales</h1>
 
 <p>
-A scale represents a named musical scale, having a scale type (aka "mode"), and starting from a certain note (aka a "root")".
+A scale represents a named musical scale, having a scale type (aka "mode"), and starting from a certain note (aka "root").
+In general, Warp suggests defining notes and chords as relative scale intervals versus absolute notes, except for percussion tracks.
+Scales are fundamental to Warp as the program was largely created due to flaws in the "force to scale" paradigm commonly used in other tools.
 <p>
-
-{{ begin_info_block() }}
-Warp does not require that you care about scales in your compositions, as you COULD input literal note names and octaves everywhere, if you so wish, but as Warp supports the concept of scale
-changes in so many places, it is rather useful to use scale notes except when laying out percussion tracks. Most examples in these documents will use scale intervals and chords in
-scales rather than specific note names. To use scales you have to add them to your {{ doc('song', 'Songs') }} - the scales can themselves be modified, so if you namea  scale "intro", and decide
-to make a key change later, you don't have to update everywhere "intro" is referred in your song".
-{{ end_info_block() }}
 
 <p>
 <ul>
-<li>Warp ships with many pre-defined MIDI scales</li>
-<li>Users may also define their own scales by interval: 1, 2, b3 ("flat third"), 5 ("perfect fifth"), etc.</li>
-<li>Scales are effectively symbolic links to the scale definition, so when you edit a named scale, they change the scale everywhere scale is used.</li>
-<li>Built in scale types include:
+<li>Warp ships with many pre-defined MIDI scale types</li>
+<li>Users can also define their own scales by typing in a list of interval symbols: 1, 2, b3 ("flat third"), 5 ("perfect fifth"), etc.</li>
+<li>Scale names used in patterns are effectively symbolic links to the scale definition, so when you edit the parameters of a named scale, they change the scale everywhere that name is used.</li>
+<li>A given scale type can be used with any root note.</li>
+<li>A scale may be set the {{ doc('song') }}, or overriden on the {{ doc('scene') }} or {{ doc('clip') }}.
+</ul>
+</p>
+
+{{ begin_info_block() }}
+
+<p>Built in scale types include:</p>
+
 <ul>
 <li>major (aka: ionian)</li>
 <li>pentatonic</li>
@@ -36,8 +39,7 @@ to make a key change later, you don't have to update everywhere "intro" is refer
 <li>phyrigian</li>
 <li>akebono</li>
 </ul>
-</li>
-<li>A given scale type can be used with any root note.</li>
-<li>A scale may be set the {{ doc('song') }}, or overriden on the {{ doc('scene') }} or {{ doc('clip') }}.
-</ul>
-</p>
+
+<p>More built-in scales will be added in future versions</p>
+
+{{ end_info_block() }}
