@@ -10,8 +10,6 @@
 import re
 from functools import total_ordering
 
-from classforge import Class, Field
-
 from ..api.exceptions import *
 from ..utils.utils import roll_left, roll_right
 from . import note_table
@@ -43,30 +41,38 @@ SCALE_DEGREES_TO_STEPS = {
 }
 
 @total_ordering
-class Note(BaseObject):
+class Note(object):
 
-    name = Field(type=str)
-    octave = Field(type=int, default=4, nullable=True)
-    tie = Field(type=bool, default=False)
-    length = Field(type=int, default=None)
-    start_time = Field(type=int, default=None)
-    end_time = Field(type=int, default=None)
-    flags = Field(type=dict, default=None, required=False)
-    velocity = Field(type=int, default=DEFAULT_VELOCITY, required=False)
-    from_scale = Field(default=None)
+    __SLOTS__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale ']
 
-    def on_init(self):
-        """
-        Correctly populates some optional fields when the note is constructed.
-        """
+    #name = Field(type=str)
+    #octave = Field(type=int, default=4, nullable=True)
+    #tie = Field(type=bool, default=False)
+    ##length = Field(type=int, default=None)
+    #start_time = Field(type=int, default=None)
+    #end_time = Field(type=int, default=None)
+    #flags = Field(type=dict, default=None, required=False)
+    #velocity = Field(type=int, default=DEFAULT_VELOCITY, required=False)
+    #from_scale = Field(default=None)
 
-        self.name =  self._equivalence(self.name)
-        if self.flags is None:
-            self.flags = {}
-            self.flags['deferred'] = False
-            self.flags['deferred_expressions'] = []
-            self.flags['cc'] = dict()
-        super().on_init()
+    def __init__(self, name=None, octave=None, tie=None, length=None, start_time=None, end_time=None, flags=None, velocity=None, from_scale=None):
+         self.name = name
+         self.octave = octave
+         self.tie = tie
+         self.length = length
+         self.start_time = start_time
+         self.end_time = end_time
+         self.flags = flags
+         self.velocity = velocity
+         self.from_scale = from_scale
+
+         self.name =  self._equivalence(self.name)
+         if self.flags is None:
+             self.flags = {}
+             self.flags['deferred'] = False
+             self.flags['deferred_expressions'] = []
+             self.flags['cc'] = dict()
+         # super().on_init()
 
     def copy(self):
         """
@@ -90,7 +96,7 @@ class Note(BaseObject):
         Returns a chord of a given type using this note as the root note.
         """
         from . chord import Chord
-        return Chord(root=self.copy(), chord_type=chord_type, from_scale=self.from_scale)
+        return Chord(root=self, chord_type=chord_type, from_scale=self.from_scale)
 
     def _equivalence(self, name):
         """
@@ -121,6 +127,7 @@ class Note(BaseObject):
         index = 0
         found = False
         snn = self.note_number()
+
         for note in scale.generate(length=145):
             nn = note.note_number()
             if nn > snn:

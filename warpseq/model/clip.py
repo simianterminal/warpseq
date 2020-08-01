@@ -268,7 +268,6 @@ class Clip(ReferenceObject):
 
         t_start = 0.0
 
-
         # loop over each pattern in the list, all must play for one "repeat" of the clip
         for pattern in self.patterns:
 
@@ -305,7 +304,9 @@ class Clip(ReferenceObject):
             # FIXME: Support for scale shifts is obsolete and this function can take less parameters
             notes = evaluate_shifts(notes, octave_shift, 0, scale, 0)
 
-            # compute the start and end times of each note
+
+            # compute the start and end
+            # times of each note
             # FIXME: move this into another function
             for slot in notes:
                 for note in slot:
@@ -317,6 +318,8 @@ class Clip(ReferenceObject):
             # if the length of the pattern (or the clip) is shorter than the symbols provided, trim the pattern
             # to just contain the first part
 
+            #d1 = time.time()
+
             # apply any transforms to this pattern - there may be more than one
             if transform:
                 # transforms can be in lists like: [t0, [t1, t2], t3, [ t4, t5, t6]]
@@ -324,6 +327,9 @@ class Clip(ReferenceObject):
                     transform = [ transform ]
                 for tform in transform:
                     notes = tform.process(song, scale, self.track, notes)
+
+            #d2 = time.time()
+            #print("D=%s" % (d2-d1))
 
             all_notes.extend(notes)
 
@@ -335,9 +341,12 @@ class Clip(ReferenceObject):
         Return the list of events for use by the player class.  Events are basically note objects
         but are split by ON and OFF events.
         """
-        notes = self.get_notes(song)
-        events = notes_to_events(self, notes)
-        return events
+        c1 = time.time()
+        rc = notes_to_events(self, self.get_notes(song))
+        c2 = time.time()
+        print("TIME=%s" % (c2-c1))
+        return rc
+
 
     def get_player(self, song, engine_class):
         """

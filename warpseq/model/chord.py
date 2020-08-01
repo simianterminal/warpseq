@@ -7,8 +7,6 @@
 # basic modelling of chords as an array of notes, or a root note
 # with a chord type.
 
-from classforge import Class, Field
-
 from ..api.exceptions import *
 from .base import BaseObject
 from .note import Note, note
@@ -49,12 +47,12 @@ CHORD_TYPES = dict(
 
 CHORD_TYPE_KEYS = [x for x in CHORD_TYPES.keys()]
 
-class Chord(BaseObject):
+class Chord(object):
 
-    notes = Field(type=list, required=False, nullable=True)
-    root = Field(type=Note, required=False, nullable=True)
-    chord_type = Field(type=str, required=False, choices=CHORD_TYPE_KEYS, default=None, nullable=True)
-    from_scale = Field(default=None)
+    #notes = Field(type=list, required=False, nullable=True)
+    #root = Field(type=Note, required=False, nullable=True)
+    #chord_type = Field(type=str, required=False, choices=CHORD_TYPE_KEYS, default=None, nullable=True)
+    #from_scale = Field(default=None)
 
     """
     Constructs a chord, in different ways:
@@ -66,11 +64,12 @@ class Chord(BaseObject):
     chord = Chord(root='C4', chord_type='major')
     """
 
-    def on_init(self):
-        """
-        Validate the input and calculate what notes are part of the chord.
-        Once created, we mostly use ".notes" and do not need the chord type again.
-        """
+    def __init__(self, notes=None, root=None, chord_type=None, from_scale=None):
+
+        self.notes = notes
+        self.root = root
+        self.chord_type = chord_type
+        self.from_scale = from_scale
 
         if self.notes and self.root:
             raise InvalidChord("notes and root are mutually exclusive")

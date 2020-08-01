@@ -17,7 +17,7 @@ from ..model.note import Note
 from .literal import Literal
 from .mod import ModExpression
 from .roman import Roman
-
+import time
 
 class ExpressionEvaluationError(Exception):
     pass
@@ -50,6 +50,7 @@ class SmartExpression(Class):
 
         # if the input isn't a list - make it one
         # FIXME: do we need this, or is it *always* a list?
+        #a1 = time.time()
 
         items = None
         if type(sym) == list:
@@ -60,11 +61,18 @@ class SmartExpression(Class):
         all_notes = []
         for x in items:
             all_notes.extend(self._do_single(clip, x))
+
+        #a2 = time.time()=
+        #print("A=%s" % (a2-a1))
+
+
         return all_notes
 
     # FIXME: the clip should not need to be a parameter below since it is available as self.clip
 
     def _do_single(self, clip, sym):
+
+
         """
         Processes a single expression and returns an array of notes.
         The symbol might represent a note or chord and may contain one or more mod expressions.
@@ -130,5 +138,6 @@ class SmartExpression(Class):
             if mod_expressions is not None:
                 new_note = self._mod.do(new_note, self.scale, self.track, mod_expressions)
             new_notes.append(new_note)
+
 
         return new_notes
