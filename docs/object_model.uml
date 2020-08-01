@@ -1,0 +1,63 @@
+# made with PlantText.com
+
+@startuml
+
+
+object Song
+object Instrument
+object Device
+object Track
+object Scene
+object Pattern
+object Transform
+object Scale
+object Clip
+
+Song --* Instrument
+Instrument *-- Device
+Track *-- Instrument
+Scene --* Pattern
+Scene -- Scale
+Song -- Scale
+Song --* Track
+Song --* Scene
+Pattern --* Scale
+Clip --* Pattern
+Clip --* Transform
+Scene --* Clip
+Track --* Clip
+
+Song : name
+Song : tempo (bpm)
+Clip : name
+Clip : rate (float)
+Clip : repeat (count)
+Clip : next_clip (name)
+Clip : tempo_shifts (list of ints)
+Clip : auto_scene_advance (bool)
+Device : name
+Instrument : name
+Instrument : channel (int)
+Instrument : min/base/max octave (int)
+Instrument : default velocity (int)
+Instrument : muted (bool)
+Track : name
+Track : muted (bool)
+Scale : name
+Scale : root (note/octave)
+Scale : scale_type (string)
+Scale : slots (user scales)
+Scene : name
+Scene : auto_advance (bool)
+Scene : rate (float)
+Transform : name
+Transform : divide (float)
+Transform : slots
+Pattern : name
+Pattern : octave_shift (int)
+Pattern : rate (float)
+Pattern : tempo_shifts
+Pattern : slots
+
+
+@enduml

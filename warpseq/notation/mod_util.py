@@ -60,9 +60,11 @@ def is_variable(what):
     return what.startswith("$")
 
 def get_variable(what):
+    what = what.lower()
     name = what.replace("$","")
     return VARIABLES[name]
 
 def set_variable(what, value):
+    what = what.lower()
     global VARIABLES
     VARIABLES[what] = value

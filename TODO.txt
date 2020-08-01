@@ -6,7 +6,6 @@ RELEASE GATES
 
 * demo song
 * make an examples directory with some more musical songs in it
-* some very basic API docs for webpage so people are interested in surfing BitBucket
 * set up website publishing
 * upload a track to soundcloud
 * enable patreon page (= discord access)

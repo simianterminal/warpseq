@@ -155,38 +155,40 @@
 
 <h1>API</h1>
 
-<p>
-Soon, Warp will have a performance-and-composition-oriented web interface usable by musicians without requiring anyone to code.</p>
+<h2>When To Use The API</h2>
 
 <p>
-Until then (Fall 2020), the public Python API is available to those wanting to use, explore, and extend Warp.  Even once the UI is available, the API will allow programmatically generated compositions
-and can be very powerful, and will be able to generate song files that can be loaded with the UI.
+Soon, Warp will have a performance-and-composition-oriented web interface without requiring any programming.
 </p>
 
 <p>
-API examples are part of the project repo, but you can also browse them on <A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">BitBucket.</A>
+Until then (Fall 2020), the public Python API is available to those wanting to use, explore, and extend Warp.  Even once the UI is available, the API will be useful for creating programmatically generated compositions.
+We suspect this will be popular in generative/AI Computer Music audiences, but also for anyone who wants to see and edit their compositions with a text editor.
 </p>
 
+<h2>Diving In</h2>
+
 <p>
-The public API is considered (mostly) stable and isolates users from internal code changes within warp.  Methods outside of "public.py" are subject to change.
+Focused API examples are part of the project repo under examples/, and you can also browse them on <A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">BitBucket</A>.  These examples may
+not be musically interesting, but illustrate basic concepts in Warp. In addition to the API examples, there are also full song files generated with Warp, as featured on our <A HREF="/">homepage</A>.  While these
+files mostly explain themselves, we should detail how to run them and a little bit more about the Warp object system.
 </p>
 
 <h2>Running the API Example Demos</h2>
 
 <p>
-The API demos are live demos that send MIDI events to your software, hardware, or DAW.  Listening to them will require you set up some
-tracks or devices that can receive MIDI.  To run them:
+The API demos are realtime MIDI programs that send MIDI events to your software or hardware. Listening to them will require you set up some
+tracks or devices that can receive MIDI.  To run them, <A HREF="./installation.html">checkout warp</a> and then just run then as Python3 programs from your console:
 </p>
 
-<div class='codeblock'><pre><code class="language-python">cd checkout_location
+<div class='codeblock'><pre><code class="language-python">cd warp_checkout_location
 cd examples/api/
 PYTHONPATH=. python3 any_example.py
 </code></pre></div>
 
-
 <p>
-<A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">The API demos</A> are written to use a specific MIDI interface but if you don't have yours named the same as ours, you can set an environment variable.
-On a MAC, this is done as follows:
+<A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/">The API demos</A> are written to use a specific MIDI interface. If you don't have yours named the same as ours, you can set an environment variable
+to make the demos easy to run, rather than changing the script. On a MAC, this is done as follows:
 </p>
 
 <div class='codeblock'><pre><code class="language-python">WARP_MIDI_DEVICE="My Device Name" PYTHONPATH=. python3 any_example.py
@@ -199,20 +201,31 @@ PYTHONPATH=. python3 any_example.py
 </code></pre></div>
 
 <p>
-Most of the examples use one or two MIDI tracks.  Just search for "tracks' in the code and see what gets set up, and try to choose some instruments that sound like a good
-match.  If you need to tweak the track numbers in the instrument definitions in those files, that's also fine.
+Most of the included examples use one or two MIDI tracks.  Just search for "tracks' in the code and see what is set up, and try to configure some instruments (in your DAW or hardware) that sound like a good
+match. If you need to tweak the track numbers in the instrument definitions in those files, that's also fine.  The drum example should use a kick and a snare drum, but the other demos will sound fine with
+any polyphonic synth with a short enough decay and release time. A piano instrument would also be fine.
 </p>
 
 <p>
-In addition to reading, trying, and tweaking the example code, we recommend reading the other documentation sections, so you will know what sort of variations to try out in the API.
+In addition to reading, trying, and tweaking the example code, we recommend reading the other documentation sections, so you can have an idea of sort of variations to try out in the API.
 In particular, the API examples only show *some* of the interesting things you can do with the expressions language and transforms.  As you explore the docs,
 you will be able to use the API to construct more interesting and varied compositions.
 </p>
 
+<h2>Object Model</h2>
+
+<IMG SRC="./object_model.svg">
+
 <h2>API Walkthrough</h2>
 
+<p>
+The best way to explore the API is to look at the various examples and start tweaking them, but it may help to provide a bit more explanation to them.
+</p>
+
+<p>
 Here's a step by step walkthrough of the "00_kick_snare.py" example from the examples folder.  We start off with some python imports so remember
 to set the environment variable <i>PYTHONPATH</i> so you can find Warp's checkout directory.
+</p>
 
 <div class='codeblock'><pre><code class="language-python">from warpseq.api import demo
 from warpseq.api.callbacks import Callbacks, DefaultCallback
