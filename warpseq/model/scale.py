@@ -7,9 +7,7 @@
 # logic behind scale math, allowing for computing of intervals within
 # a scale.
 
-from classforge import Class, Field
-
-from .base import ReferenceObject
+from .base import NewReferenceObject
 from .note import Note, note
 
 SCALE_TYPES = dict(
@@ -45,15 +43,26 @@ def scale_types():
     values = [ x for x in SCALE_TYPES.keys() ]
     return values
 
-class Scale(ReferenceObject):
+class Scale(NewReferenceObject):
 
     from . note import Note
 
-    name = Field(type=str, required=False, nullable=False)
-    root = Field(type=Note, required=False, nullable=True)
-    scale_type = Field(type=str, required=False, nullable=True, default=None, choices=SCALE_TYPE_NAMES)
-    slots = Field(type=list, required=False, nullable=True, default=None)
-    _cached = Field(type=list, required=False)
+    __SLOTS__ = ['name', 'root', 'scale_type', 'slots', '_cached', 'obj_id']
+
+    #name = Field(type=str, required=False, nullable=False)
+    #root = Field(type=Note, required=False, nullable=True)
+    #scale_type = Field(type=str, required=False, nullable=True, default=None, choices=SCALE_TYPE_NAMES)
+    #slots = Field(type=list, required=False, nullable=True, default=None)
+    #_cached = Field(type=list, required=False)
+
+    def __init__(self, name=None, root=None, scale_type=None, slots=None, obj_id=None):
+        self.name = name
+        self.root = root
+        self.scale_type = scale_type
+        self.slots = slots
+        self.obj_id = obj_id
+        self._cached = None
+        super(Scale, self).__init__()
 
     def to_dict(self):
         data = dict(

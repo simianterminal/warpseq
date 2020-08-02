@@ -78,33 +78,35 @@ class MultiPlayer(BaseObject):
         self.stop()
         self.callbacks.on_scene_start(scene)
         clips = scene.clips(self.song)
-        for c in clips:
-            self.add_clip(c)
+        self.add_clips(clips)
 
-
-    def add_clip(self, clip):
+    def add_clips(self, clips):
         """
         Adds a clip to be playing by creating a Player for it.
         """
 
-        # starts a clip playing, including stopping any already on the same track
-        self.callbacks.on_clip_start(clip)
+        for clip in clips:
 
-        clip.reset()
-        assert clip.track is not None
+            # starts a clip playing, including stopping any already on the same track
+            self.callbacks.on_clip_start(clip)
 
-        need_to_stop = [ c for c in self.clips if clip.track.obj_id == c.track.obj_id ]
-        for c in need_to_stop:
-            self.remove_clip(c)
+            clip.reset()
+            assert clip.track is not None
 
-        matched = [ c for c in self.clips if c.name == clip.name ]
-        if not len(matched):
+            need_to_stop = [ c for c in self.clips if clip.track.obj_id == c.track.obj_id ]
+            for c in need_to_stop:
+                self.remove_clip(c)
 
-            self.clips.append(clip)
-            player = clip.get_player(self.song, self.engine_class)
-            self.players[clip.name] = player
-            player._multiplayer = self
-            player.start()
+            matched = [ c for c in self.clips if c.name == clip.name ]
+            if not len(matched):
+
+                self.clips.append(clip)
+                player = clip.get_player(self.song, self.engine_class)
+                self.players[clip.name] = player
+                player._multiplayer = self
+
+        for (k,v) in self.players.items():
+            v.start()
 
     def remove_clip(self, clip, add_pending=False):
         """

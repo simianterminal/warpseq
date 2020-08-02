@@ -352,8 +352,7 @@ class Player(object):
 
     def play_clips(self, clips):
         clips = [ c for c in self.public_api.clips.lookup(c, require=True) ]
-        for c in clips:
-            self.multi_player.add_clip(c)
+        self.multi_player.add_clips(clips)
 
     def stop_clips(self, clips):
         clips = [ c for c in self.public_api.clips.lookup(c, require=True) ]

@@ -7,19 +7,23 @@
 # a transform is a list of modifier expressions that can be used
 # to build MIDI effects including Arps.
 
-from classforge import Class, Field
-
 from ..notation.mod import ModExpression
 from ..utils.utils import roller
-from .base import ReferenceObject
+from .base import NewReferenceObject
 
+class Transform(NewReferenceObject):
 
-class Transform(ReferenceObject):
+    __SLOTS__ = [ 'name', 'slots', 'octave_slots', 'divide', 'obj_id' ]
 
-    name = Field(type=str, required=True, nullable=False)
-    slots = Field(type=list, required=True, default=None)
-    octave_slots = Field(type=list, default=None)
-    divide = Field(type=int, default=1, nullable=False)
+    def __init__(self, name=None, slots=None, octave_slots=None, divide=1, obj_id=None):
+        self.name = name
+        self.slots = slots
+        self.octave_slots = octave_slots
+        self.divide = divide
+        self.obj_id = obj_id
+
+        super(Transform, self).__init__()
+
 
     def to_dict(self):
         return dict(

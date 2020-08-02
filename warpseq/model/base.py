@@ -44,3 +44,24 @@ class ReferenceObject(BaseObject):
     def on_init(self):
         if self.obj_id == '0':
             self.obj_id = self.new_object_id()
+
+class NewReferenceObject(object):
+
+    # FIXME: in the process of moving some objects to use this pattern as it is faster than classforge
+    # because it is more direct
+
+    def one(self, alist):
+        length = len(alist)
+        if length == 0:
+            return None
+        assert length == 1
+        return alist[0]
+
+    def new_object_id(self):
+        global COUNTER
+        COUNTER = COUNTER + 1
+        return str(COUNTER)
+
+    def __init__(self):
+        if self.obj_id in [ None, '0' ]:
+            self.obj_id = self.new_object_id()

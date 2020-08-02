@@ -10,8 +10,6 @@
 
 import traceback
 
-from classforge import Class, Field
-
 from ..api.exceptions import *
 from ..model.note import Note
 from .literal import Literal
@@ -22,20 +20,18 @@ import time
 class ExpressionEvaluationError(Exception):
     pass
 
-class SmartExpression(Class):
+class SmartExpression(object):
 
-    scale = Field(type=str, required=True, nullable=False)
-    song = Field(required=True, nullable=False)
-    clip = Field(required=True, nullable=False)
-    track = Field(required=True, nullable=False)
-    pattern = Field(required=True, nullable=False)
+    __SLOTS__ = [ 'scale', 'song', 'clip', 'track', 'pattern', '_roman', '_literal', '_mod', '_slot_duration']
 
-    _roman = Field()
-    _literal = Field()
-    _mod = Field()
-    _slot_duration = Field()
+    def __init__(self, scale=None, song=None, clip=None, track=None, pattern=None):
+        self.scale = scale
+        self.song = song
+        self.clip = clip
+        self.track = track
+        self.pattern = pattern
 
-    def on_init(self):
+
         self._roman = Roman(self.scale)
         self._literal = Literal()
         self._mod = ModExpression(defer=False)

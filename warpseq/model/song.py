@@ -387,6 +387,7 @@ class Song(ReferenceObject):
         Adds some pattern objects to the song.
         """
         for x in patterns:
+            assert x.obj_id is not None
             self.patterns[str(x.obj_id)] = x
 
     def remove_pattern(self, pattern):

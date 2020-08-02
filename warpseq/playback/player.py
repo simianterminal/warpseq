@@ -129,7 +129,7 @@ class Player(BaseObject):
 
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
                     self._multiplayer.remove_clip(self.clip, add_pending=True)
-                    self._multiplayer.add_clip(new_clip)
+                    self._multiplayer.add_clips([new_clip])
                     removed = True
                     return
 

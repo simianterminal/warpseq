@@ -9,7 +9,7 @@
 
 from classforge import Class, Field
 
-from .base import ReferenceObject
+from .base import NewReferenceObject
 from .scale import Scale
 from .transform import Transform
 
@@ -21,16 +21,20 @@ DIRECTIONS = [
     REVERSE
 ]
 
-class Pattern(ReferenceObject):
+class Pattern(NewReferenceObject):
 
-    name = Field(required=True, nullable=False)
-    slots = Field(type=list, required=True, nullable=False)
-    octave_shift = Field(type=int, default=0, nullable=False)
-    rate  = Field(type=float, default=1, nullable=False)
-    scale = Field(type=Scale, default=None, nullable=True)
+    __SLOTS__ = [ 'name', 'slots', 'octave_shift', 'rate', 'scale', 'obj_id' ]
 
-    def on_init(self):
-        super().on_init()
+    def __init__(self, name=None, slots=None, octave_shift=0, rate=1, scale=None, obj_id=None):
+
+        self.name = name
+        self.slots = slots
+        self.octave_shift = octave_shift
+        self.rate = rate
+        self.scale = scale
+        self.obj_id = obj_id
+
+        super(Pattern, self).__init__()
 
     def to_dict(self):
         result = dict(
