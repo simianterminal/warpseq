@@ -8,12 +8,16 @@
 
 from classforge import Class, Field
 
-from .base import ReferenceObject
+from .base import NewReferenceObject
 
+class Device(NewReferenceObject):
 
-class Device(ReferenceObject):
+    __slots__ = [ 'name', 'obj_id' ]
 
-    name = Field(type=str, required=True)
+    def __init__(self, name=None, obj_id=None):
+        self.name = name
+        self.obj_id = obj_id
+        super(Device,self).__init__()
 
     def to_dict(self):
         return dict(
