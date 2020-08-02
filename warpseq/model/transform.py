@@ -13,7 +13,7 @@ from .base import NewReferenceObject
 
 class Transform(NewReferenceObject):
 
-    __SLOTS__ = [ 'name', 'slots', 'octave_slots', 'divide', 'obj_id' ]
+    __SLOTS__ = [ 'name', 'slots', 'octave_slots', 'divide', 'obj_id', "_mod" ]
 
     def __init__(self, name=None, slots=None, octave_slots=None, divide=1, obj_id=None):
         self.name = name
@@ -21,6 +21,7 @@ class Transform(NewReferenceObject):
         self.octave_slots = octave_slots
         self.divide = divide
         self.obj_id = obj_id
+        self._mod = ModExpression(defer=False)
 
         super(Transform, self).__init__()
 
@@ -49,8 +50,6 @@ class Transform(NewReferenceObject):
         a new list of notes or chords.
         """
 
-        mod_expr = ModExpression(defer=False)
-
         # notes is like: [n1, n2, n3], [n4], [], [n5, n6]
         # for each slot, we divide it by _divide_
         # record the first note start time and first note end time
@@ -73,13 +72,13 @@ class Transform(NewReferenceObject):
             new_notes = []
 
             if len(notes) == 0:
-                new_note_list.append([])
+                new_note_list.append(new_notes)
                 continue
 
             # compute the new time information for the divided notes
             old_delta = notes[0].end_time - notes[0].start_time
             new_delta = round(old_delta / divide)
-            assert new_delta > 0
+            #assert new_delta > 0
 
             # roll_notes picks values off the incoming note/chord list, it happens once each time a 'divide'
             # is looped through
@@ -101,7 +100,7 @@ class Transform(NewReferenceObject):
                 which_slot = next(slot_modifications)
 
                 # calculate the new note using the mod expression
-                final_note = mod_expr.do(which_note, scale, track, which_slot)
+                final_note = self._mod.do(which_note, scale, track, which_slot)
                 if final_note is None:
                     continue
 
