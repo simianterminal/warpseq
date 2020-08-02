@@ -14,15 +14,15 @@ from ..api.exceptions import *
 from ..model.note import Note
 from .literal import Literal
 from .mod import ModExpression
-from .roman import Roman
+from .chord_scale import ChordScale
 import time
 
 class ExpressionEvaluationError(Exception):
     pass
 
-class SmartExpression(object):
+class NoteParser(object):
 
-    __SLOTS__ = [ 'scale', 'song', 'clip', 'track', 'pattern', '_roman', '_literal', '_mod', '_slot_duration']
+    __SLOTS__ = [ 'scale', 'song', 'clip', 'track', 'pattern', '_chord_scale', '_literal', '_mod', '_slot_duration']
 
     def __init__(self, scale=None, song=None, clip=None, track=None, pattern=None):
         self.scale = scale
@@ -34,7 +34,7 @@ class SmartExpression(object):
 
 
     def setup(self):
-        self._roman = Roman(self.scale)
+        self._chord_scale = ChordScale(self.scale)
         self._literal = Literal()
         self._mod = ModExpression(defer=False)
         self._slot_duration = self.clip.slot_duration(self.song, self.pattern)
@@ -101,9 +101,11 @@ class SmartExpression(object):
         # ready to figure out what notes we are going to return for this expression
         notes = None
 
-        # first try roman numeral notation (chords are roman, scale notes are arabic)
+        # FIXME: combine processing to be less exception based
+
+        # try to process chord notes then literal notes
         try:
-            notes = self._roman.do_notes(sym)
+            notes = self._chord_scale.do_notes(sym)
         except Exception:
             # FIXME: we should have specific exception types here
             pass

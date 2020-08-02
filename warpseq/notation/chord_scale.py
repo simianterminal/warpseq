@@ -29,7 +29,7 @@ CHORD_SYMBOLS = dict(
 )
 CHORD_SYMBOLS['-'] = 'REST'
 
-class Roman(object):
+class ChordScale(object):
 
     def __init__(self, scale=None):
 
@@ -121,9 +121,9 @@ class Roman(object):
         else:
             return [ note_or_chord ]
 
-def roman(scale_pattern):
+def chord_scale(scale_pattern):
     """
     Quickly generate a Roman numeral interpreter.
     Ex: r = roman("C4 major")
     """
-    return Roman(scale=scale(scale_pattern))
+    return ChordScale(scale=scale(scale_pattern))

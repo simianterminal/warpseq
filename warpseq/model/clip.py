@@ -11,7 +11,7 @@ import time
 
 from classforge import Class, Field
 
-from ..notation.smart import SmartExpression
+from ..notation.note_parser import NoteParser
 from ..notation.time_stream import (chord_list_to_notes, evaluate_shifts,
                                     evaluate_ties, notes_to_events)
 from ..playback.player import Player
@@ -88,7 +88,7 @@ class Clip(NewReferenceObject):
         self.scene = scene
         self.slot_length = slot_length
         self._current_tempo_shift = 0
-        self._notation = SmartExpression(clip=self)
+        self._notation = NoteParser(clip=self)
 
         super(Clip, self).__init__()
         self.reset()
