@@ -27,11 +27,11 @@ api.scales.add(name='C-major', note='C', octave=0, scale_type='major')
 api.scales.add(name='C-minor', note='C', octave=0, scale_type='natural_minor')
 
 # setup patterns
-api.patterns.add(name='quiet', slots=['','','','','','','',''])
+api.patterns.add(name='quiet', slots=['','',])
 api.patterns.add(name='major_chords', slots=['I', 'IV', 'V', ])
 api.patterns.add(name='minor_chords', slots=['i', 'iv', 'v', ])
-api.patterns.add(name='chords_with_silence_and_then_notes', slots = [ 'I', ' ', ' ', ' ', 1, 2, 3, 4, 5, 6 ])
-api.patterns.add(name='chords_with_ties_and_notes', slots = [ 'I', '-', '-', '-', 1, 2, 3, 4, 5, 6,])
+api.patterns.add(name='chords_with_silence_and_then_notes', slots = [ 'I', ' ', 1, 2, 3, 4, 5, 6 ])
+api.patterns.add(name='chords_with_ties_and_notes', slots = [ 'I', '-', 1, 2, 3, 4, 5, 6,])
 api.patterns.add(name='all_chord_types', slots = [
     '1 ch=major','2 ch=minor','3 ch=dim','4 ch=aug','1 ch=sus4','2 ch=sus2','3 ch=fourth',
     '4 ch=fifth','1 ch=M6','2 ch=m6','3 ch=dom7','4 ch=aug7','1 ch=dim7','1 ch=mM7'

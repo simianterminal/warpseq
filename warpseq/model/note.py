@@ -128,12 +128,16 @@ class Note(object):
 
         scale_notes = scale.generate(length=120)
         note_numbers = [ x.note_number() for x in scale_notes ]
+        #print("NN=%s" % note_numbers)
         index = note_numbers.index(snn)
+
+        #print("INDEX=%s" % index)
 
         if not index:
             raise UnexpectedError("unexpected scale_transpose error (1): note not in scale: (%s, %s, %s)" % (scale.name, note.name, note.octave))
 
         new_index = index + steps
+        #print("NEW INDEX=%s" % index)
 
         scale_note = scale_notes[new_index]
         return Note(name=scale_note.name, octave=scale_note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)

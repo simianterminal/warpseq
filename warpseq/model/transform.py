@@ -13,7 +13,7 @@ from .base import NewReferenceObject
 
 class Transform(NewReferenceObject):
 
-    __slots__ = [ 'name', 'slots', 'octave_slots', 'divide', 'obj_id', "_mod" ]
+    __slots__ = [ 'name', 'slots', 'octave_slots', 'divide', 'obj_id', "_mod", "_slot_mods" ]
 
     def __init__(self, name=None, slots=None, octave_slots=None, divide=1, obj_id=None):
         self.name = name
@@ -22,6 +22,7 @@ class Transform(NewReferenceObject):
         self.divide = divide
         self.obj_id = obj_id
         self._mod = ModExpression(defer=False)
+        self._slot_mods = roller(slots)
 
         super(Transform, self).__init__()
 
@@ -68,7 +69,7 @@ class Transform(NewReferenceObject):
         # TODO: consider a roller option that does not reset at the pattern boundary, but survives between patterns?
         # could be musically interesting for odd lengths
 
-        slot_modifications = roller(self.slots)
+        #slot_modifications = roller(self.slots)
 
         for notes in note_list:
 
@@ -100,7 +101,7 @@ class Transform(NewReferenceObject):
                 which_note.length = new_delta
 
                 # grab the next mod expression from this transform
-                which_slot = next(slot_modifications)
+                which_slot = next(self._slot_mods)
 
                 # calculate the new note using the mod expression
                 final_note = self._mod.do(which_note, which_slot)

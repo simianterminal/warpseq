@@ -43,8 +43,7 @@ class Roman(object):
 
         assert scale is not None
         self.scale = scale
-
-        self._note_buffer = [ n for n in self.scale.generate(length=150) ]
+        self._note_buffer = self.scale.generate(length=150)
 
     def chord(self, sym):
         """
@@ -59,26 +58,24 @@ class Roman(object):
         if ":" in sym:
            (sym, override_typ) = sym.split(":",1)
 
-        # while this isn't really common notation, I wanted a way to describe
-        # inversions, as such, I' means first inversion of I, and I'' means
-        # second inversion, we'll optionally invert a bit further down
-        inversion = 0
-        if sym.endswith("''''"):
-            inversion = 3
-            sym = sym.replace("'''","")
-        elif sym.endswith("''"):
-            inversion = 2
-            sym = sym.replace("''","")
-        elif sym.endswith("'"):
-            inversion = 1
-            sym = sym.replace("'","")
+        # inversion syntax is disabled, use a mod expression instead (TODO)
+        #
+        #inversion = 0
+        #if sym.endswith("''''"):
+        #    inversion = 3
+        #    sym = sym.replace("'''","")
+        #elif sym.endswith("''"):
+        #    inversion = 2
+        #    sym = sym.replace("''","")
+        #elif sym.endswith("'"):
+        #    inversion = 1
+        #    sym = sym.replace("'","")
 
         # here's where we figure out what roman numbers are which, and if the
         # roman number implies a chord type (it does - but it might be overridden
         # above).
         chord_data = CHORD_SYMBOLS.get(sym, None)
         if chord_data is None:
-           # FIXME: convert to custom exception types
            raise InvalidSymbol("do not know how to parse chord symbol: %s" % sym)
 
         if chord_data == 'REST':
@@ -91,10 +88,7 @@ class Roman(object):
 
         # now return the built chord, of the right type, inverting if required
         base_note = self.note(scale_num)
-        chord = Chord(root=base_note, chord_type=typ)
-        if inversion != 0:
-            chord = chord.invert(amount=inversion)
-        return chord
+        return Chord(root=base_note, chord_type=typ)
 
 
     def note(self, sym):
