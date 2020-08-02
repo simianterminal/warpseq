@@ -116,7 +116,7 @@ class Note(object):
         return SCALE_DEGREES_TO_STEPS[str(input)]
 
 
-    def scale_transpose(self, scale, steps):
+    def scale_transpose(self, scale_obj, steps):
         """
         Return the note N steps up (or down) within the current scale.
         """
@@ -126,21 +126,24 @@ class Note(object):
 
         snn = self.note_number()
 
-        scale_notes = scale.generate(length=120)
+        scale_notes = scale_obj.generate(length=120)
+        #print("SCALE_NOTES=%s" % scale_notes)
         note_numbers = [ x.note_number() for x in scale_notes ]
         #print("NN=%s" % note_numbers)
-        index = note_numbers.index(snn)
+        #print("NN=%s" % note_numbers)
+        #print("SNN=%s" % snn)
 
-        #print("INDEX=%s" % index)
-
-        if not index:
-            raise UnexpectedError("unexpected scale_transpose error (1): note not in scale: (%s, %s, %s)" % (scale.name, note.name, note.octave))
+        index = None
+        for (i,x) in enumerate(note_numbers):
+            if snn >= x:
+                index = i
 
         new_index = index + steps
         #print("NEW INDEX=%s" % index)
 
         scale_note = scale_notes[new_index]
-        return Note(name=scale_note.name, octave=scale_note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
+        return Note(name=scale_note.name, octave=scale_note.octave, length=self.length, start_time=self.start_time,
+                    end_time=self.end_time, tie=self.tie, flags=self.flags, from_scale=scale_obj)
 
 
     def with_velocity(self, velocity):

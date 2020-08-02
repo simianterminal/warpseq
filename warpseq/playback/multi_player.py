@@ -17,6 +17,7 @@ from ..api.callbacks import Callbacks
 from ..api.exceptions import AllClipsDone
 from ..model.base import BaseObject
 from .player import TIME_INTERVAL
+import time
 
 
 class MultiPlayer(BaseObject):
@@ -66,6 +67,7 @@ class MultiPlayer(BaseObject):
         # time.sleep is unreliable - so we burn clock instead, giving us much nicer timing.
         x = time.perf_counter() + (milliseconds/1000.0)
         while time.perf_counter() < x:
+            time.sleep(0.00005)
             pass
 
     def play_scene(self, scene):

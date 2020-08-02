@@ -43,8 +43,8 @@ api.scenes.add(name='scene_1', scale='C-major', auto_advance=True)
 #api.scenes.add(name='scene_2', scale='C-major', auto_advance=True)
 
 # setup clips
-api.clips.add(name='s1k1', scene='scene_1', track='kick', patterns=['kick_4_4'], repeat=4, auto_scene_advance=True)
-api.clips.add(name='s1s1', scene='scene_1', track='snare', patterns=['snare_4_4'], repeat=4)
+api.clips.add(name='s1k1', scene='scene_1', track='kick', patterns=['kick_4_4'], repeat=100, auto_scene_advance=True)
+api.clips.add(name='s1s1', scene='scene_1', track='snare', patterns=['snare_4_4'], repeat=100)
 # change the drum pattern, repeat=None implies infinite repeat.
 #api.clips.add(name='s2k1', scene='scene_2', track='kick', patterns=['kick_alt'], repeat=4, auto_scene_advance=True)
 #api.clips.add(name='s2s1', scene='scene_2', track='snare', patterns=['snare_alt'], repeat=4)
