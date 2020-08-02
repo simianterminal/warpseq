@@ -43,7 +43,7 @@ SCALE_DEGREES_TO_STEPS = {
 @total_ordering
 class Note(object):
 
-    __SLOTS__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale ']
+    __slots__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale' ]
 
     #name = Field(type=str)
     #octave = Field(type=int, default=4, nullable=True)

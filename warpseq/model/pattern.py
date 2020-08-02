@@ -23,7 +23,7 @@ DIRECTIONS = [
 
 class Pattern(NewReferenceObject):
 
-    __SLOTS__ = [ 'name', 'slots', 'octave_shift', 'rate', 'scale', 'obj_id' ]
+    __slots__ = [ 'name', 'slots', 'octave_shift', 'rate', 'scale', 'obj_id' ]
 
     def __init__(self, name=None, slots=None, octave_shift=0, rate=1, scale=None, obj_id=None):
 

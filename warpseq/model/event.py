@@ -17,15 +17,25 @@ from .base import BaseObject
 NOTE_ON = 1
 NOTE_OFF = 0
 
-class Event(BaseObject):
+class Event(object):
+
+
+    __slots__ = [ 'type', 'note', 'time', 'on_event', 'scale' ]
 
     from . note import Note
 
-    type = Field(type=int, required=True, choices=[NOTE_ON, NOTE_OFF])
-    note = Field(type=Note, required=True, nullable=False)
-    time = Field(type=float, required=True, nullable=False)
-    on_event = Field(required=False, default=None, nullable=True)
-    scale = Field(required=False, default=None)
+    #type = Field(type=int, required=True, choices=[NOTE_ON, NOTE_OFF])
+    #note = Field(type=Note, required=True, nullable=False)
+    #time = Field(type=float, required=True, nullable=False)
+    #on_event = Field(required=False, default=None, nullable=True)
+    #scale = Field(required=False, default=None)
+
+    def __init__(self, type=None, note=None, time=None, on_event=None, scale=None):
+        self.type = type
+        self.note = note
+        self.time = time
+        self.on_event = on_event
+        self.scale = scale
 
     def __repr__(self):
         return "Event<Note=%s, type=%s, time=%s>" % (self.note, self.type, self.time)

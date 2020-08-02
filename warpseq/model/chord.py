@@ -64,7 +64,7 @@ class Chord(object):
     chord = Chord(root='C4', chord_type='major')
     """
 
-    __SLOTS__ = [ "notes", "root", "chord_type", "from_scale" ]
+    __slots__ = [ "notes", "root", "chord_type", "from_scale" ]
 
     def __init__(self, notes=None, root=None, chord_type=None, from_scale=None):
 
