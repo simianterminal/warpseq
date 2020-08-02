@@ -66,8 +66,8 @@ class Note(object):
          self.velocity = velocity
          self.from_scale = from_scale
 
-         if self.octave and self.octave > 15:
-            raise Exception("WHAT HAPPENED")
+         #if self.octave and self.octave > 15:
+         #   raise Exception("WHAT HAPPENED")
 
          self.name =  self._equivalence(self.name)
          if self.flags is None:

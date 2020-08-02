@@ -374,10 +374,10 @@ class Clip(NewReferenceObject):
         Return the list of events for use by the player class.  Events are basically note objects
         but are split by ON and OFF events.
         """
-        #c1 = time.time()
+        c1 = time.time()
         rc = notes_to_events(self, self.get_notes(song))
-        #c2 = time.time()
-        #print("TIME=%s" % (c2-c1))
+        c2 = time.time()
+        print("TIME=%s" % (c2-c1))
         return rc
 
 
