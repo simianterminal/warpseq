@@ -116,7 +116,7 @@ class Player(BaseObject):
                         self._multiplayer.remove_clip(self.clip, add_pending=True)
 
                         new_clips = new_scene.clips(self.song)
-                        if (len(new_clips) == 0) and self.stop_if_empty:
+                        if (len(new_clips) == 0) and self._multiplayer.stop_if_empty:
                             raise AllClipsDone()
 
                         self._multiplayer.play_scene(new_scene)
