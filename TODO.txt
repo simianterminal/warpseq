@@ -13,6 +13,7 @@ RELEASE GATES
 FUTURE/IDEAS
 ============
 
+* notation symbol parser should take 'x' as '.'
 * mod expression for chord inversions (already implemented functions!)
 * flag on transform to reset when pattern resets
 

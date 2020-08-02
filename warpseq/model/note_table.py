@@ -41,7 +41,11 @@ def offset(note, tones):
     n1 = note.copy()
     note_index = n1.note_number()
     new_note_index = note_index + steps
-    lookup = NOTE_TABLE[new_note_index]
+    try:
+        lookup = NOTE_TABLE[new_note_index]
+    except IndexError:
+        print("FAILED INDEX: %s" % new_note_index)
+        return note
     n1.name = lookup[0]
     n1.octave = lookup[1]
     return n1
