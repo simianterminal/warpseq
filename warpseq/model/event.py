@@ -10,8 +10,6 @@
 
 import copy
 
-from classforge import Field
-
 from .base import BaseObject
 
 NOTE_ON = 1

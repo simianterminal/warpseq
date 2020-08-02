@@ -8,8 +8,6 @@
 # into MIDI notes. This class isn't meant to be used directly,
 # use Multiplayer as shown in api/public.py instead.
 
-from classforge import Field
-
 from ..api.callbacks import Callbacks
 from ..api.exceptions import *
 from ..model.base import BaseObject
@@ -17,32 +15,23 @@ from ..model.event import NOTE_OFF, NOTE_ON, Event
 
 TIME_INTERVAL = 10
 
-class Player(BaseObject):
+class Player(object):
 
-    # input
-    clip   = Field(required=True, nullable=False)
-    song   = Field(required=True, nullable=False)
-    engine = Field(required=False, nullable=False)
+    __slots__ = [ 'clip', 'song', 'engine', 'left_to_play', 'time_index', 'repeat_count', 'clip_length_in_ms', 'events', '_multiplayer', 'callbacks' ]
 
-    # state
-    left_to_play = Field(type=list, nullable=False)
-    time_index = Field(type=int, default=0, nullable=False)
-    repeat_count = Field(type=int, default=0, nullable=True)
 
-    # calculated
-    clip_length_in_ms = Field(type=int, required=False, nullable=False)
-    events = Field(type=list, required=False, nullable=False)
-    _multiplayer = Field()
-    callbacks = Field()
-
-    def on_init(self):
-
+    def __init__(self, clip=None, song=None, engine=None):
         """
         When we start a player we ask clips for all the events between a start
         time and a hypothethical start time. The player class can then walk through
         them in steps.
         """
 
+        self.clip = clip
+        self.song = song
+        self.engine = engine
+
+        self.left_to_play = None
         self.clip_length_in_ms = self.clip.get_clip_duration(self.song)
         self.events = self.clip.get_events(self.song)
         self.repeat_count = self.clip.repeat

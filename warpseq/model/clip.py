@@ -9,8 +9,6 @@
 
 import time
 
-from classforge import Class, Field
-
 from ..notation.note_parser import NoteParser
 from ..notation.time_stream import (chord_list_to_notes, evaluate_shifts,
                                     evaluate_ties, notes_to_events)

@@ -7,8 +7,6 @@
 # an instrument adds a channel number to a MIDI device and has some
 # parameters around supported note ranges. It can also be muted.
 
-from classforge import Class, Field
-
 from .base import NewReferenceObject
 from .device import Device
 

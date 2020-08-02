@@ -45,16 +45,6 @@ class Note(object):
 
     __slots__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale' ]
 
-    #name = Field(type=str)
-    #octave = Field(type=int, default=4, nullable=True)
-    #tie = Field(type=bool, default=False)
-    ##length = Field(type=int, default=None)
-    #start_time = Field(type=int, default=None)
-    #end_time = Field(type=int, default=None)
-    #flags = Field(type=dict, default=None, required=False)
-    #velocity = Field(type=int, default=DEFAULT_VELOCITY, required=False)
-    #from_scale = Field(default=None)
-
     def __init__(self, name=None, octave=None, tie=None, length=None, start_time=None, end_time=None, flags=None, velocity=None, from_scale=None):
          self.name = name
          self.octave = octave

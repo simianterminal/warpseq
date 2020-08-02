@@ -6,12 +6,9 @@
 
 # base classes for model objects
 
-
-from classforge import Class, Field
-
 COUNTER = 0
 
-class BaseObject(Class):
+class BaseObject(object):
 
     """
     All base classes inherit from this.
@@ -24,31 +21,7 @@ class BaseObject(Class):
         assert length == 1
         return alist[0]
 
-class ReferenceObject(BaseObject):
-
-    """
-    A reference object is a BaseObject that can be saved as part of a song file.
-    The key difference is the self-assigned object ID.
-
-    We use integer IDs as 'primary keys' to objects to allow easier renames - but names ARE required to be unique
-    and this is enforced by the PublicApi class.
-    """
-
-    obj_id = Field(type=str, nullable=False, default='0', required=False)
-
-    def new_object_id(self):
-        global COUNTER
-        COUNTER = COUNTER + 1
-        return str(COUNTER)
-
-    def on_init(self):
-        if self.obj_id == '0':
-            self.obj_id = self.new_object_id()
-
 class NewReferenceObject(object):
-
-    # FIXME: in the process of moving some objects to use this pattern as it is faster than classforge
-    # because it is more direct
 
     def one(self, alist):
         length = len(alist)

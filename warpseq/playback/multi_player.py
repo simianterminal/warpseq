@@ -11,8 +11,6 @@
 import ctypes
 import time
 
-from classforge import Field
-
 from ..api.callbacks import Callbacks
 from ..api.exceptions import AllClipsDone
 from ..model.base import BaseObject
@@ -20,19 +18,14 @@ from .player import TIME_INTERVAL
 import time
 
 
-class MultiPlayer(BaseObject):
+class MultiPlayer(object):
 
-    # input
-    song = Field()
-    engine_class = Field()
+    __slots__ = [ 'song', 'engine_class', 'clips', 'players', 'callbacks', 'stop_if_empty' ]
 
-    # state
-    clips = Field(type=list)
-    players = Field(type=dict)
-    callbacks = Field()
-    stop_if_empty = Field(type=bool, default=False)
+    def __init__(self, song=None, engine_class=None):
+        self.song = song
+        self.engine_class = engine_class
 
-    def on_init(self):
         self.clips = []
         self.players = {}
         self.callbacks = Callbacks()

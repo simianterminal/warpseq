@@ -9,8 +9,6 @@
 
 import json
 
-from classforge import Class, Field
-
 from ..api import exceptions
 from .base import NewReferenceObject
 from .scale import Scale

@@ -6,10 +6,7 @@
 
 # a scene is a set of clips that usually play together at the same time.
 
-from classforge import Class, Field
-
 from .base import NewReferenceObject
-
 
 class Scene(NewReferenceObject):
 

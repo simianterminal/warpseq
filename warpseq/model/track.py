@@ -7,11 +7,8 @@
 # a track is a vertical row of clips that share a common instrument.
 # a track can also be muted.
 
-from classforge import Class, Field
-
 from .base import NewReferenceObject
 from .instrument import Instrument
-
 
 class Track(NewReferenceObject):
 
