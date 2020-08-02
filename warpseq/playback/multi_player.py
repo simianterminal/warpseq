@@ -60,9 +60,6 @@ class MultiPlayer(BaseObject):
 
         my_players = [ p for p in self.players.values() ]
 
-        if len(my_players) == 0:
-            return
-
         for p in my_players:
             p.advance(milliseconds=milliseconds)
 
