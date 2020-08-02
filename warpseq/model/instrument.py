@@ -9,21 +9,27 @@
 
 from classforge import Class, Field
 
-from .base import ReferenceObject
+from .base import NewReferenceObject
 from .device import Device
 
 
-class Instrument(ReferenceObject):
+class Instrument(NewReferenceObject):
 
-    name = Field(type=str, required=True, nullable=False)
-    channel = Field(type=int, required=True)
-    device = Field(type=Device, required=False)
+    __slots__ = [ 'name', 'channel', 'device', 'min_octave', 'base_octave', 'max_octave', 'default_velocity', 'muted' ]
 
-    min_octave = Field(type=int, required=False, default=0, nullable=False)
-    base_octave = Field(type=int, required=True, default=3, nullable=False)
-    max_octave = Field(type=int, required=True, default=8, nullable=False)
-    default_velocity = Field(type=int, required=False, default=120, nullable=False)
-    muted = Field(type=bool, required=False, default=False, nullable=False)
+    def __init__(self, name=None, channel=None, device=None, min_octave=0, base_octave=3, max_octave=10, default_velocity=120, muted=False, obj_id=None):
+        self.name = name
+        self.channel = channel
+        self.device = device
+        self.min_octave = min_octave
+        self.base_octave = base_octave
+        self.max_octave = max_octave
+        self.default_velocity = default_velocity
+        self.muted = muted
+        self.obj_id = obj_id
+
+        super(Instrument,self).__init__()
+
 
     def to_dict(self):
         result = dict(

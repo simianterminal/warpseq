@@ -21,20 +21,6 @@ class Song(NewReferenceObject):
 
     __slots__ = [ 'name', 'clips', 'scale', 'tempo', 'devices', 'instruments', 'scales', 'scenes', 'tracks', 'transforms', 'patterns', 'obj_id' ]
 
-    #name = Field(type=str, required=True, nullable=False)
-    #scale = Field(type=Scale, required=False, nullable=True)
-    #tempo = Field(type=int, default=120, required=False, nullable=False)
-
-    # mostly internal state, use add_remove to access
-    #devices = Field(type=dict, required=False, nullable=False)
-    #instruments = Field(type=dict, required=False, nullable=False)
-    #scales = Field(type=dict, required=False, nullable=False)
-    #scenes = Field(type=list, required=False, nullable=False)
-    #tracks = Field(type=list, required=False, nullable=False)
-    #clips = Field(type=dict, required=False, nullable=False)
-    #transforms = Field(type=dict, required=False, nullable=False)
-    #patterns = Field(type=dict, required=False, nullable=False)
-
     def __init__(self, name=None, clips = None, scale=None, tempo=120, devices=None, instruments=None, scales=None, scenes=None, tracks=None, transforms=None, patterns=None, obj_id=None):
 
         self.name = name

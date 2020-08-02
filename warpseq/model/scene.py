@@ -8,29 +8,28 @@
 
 from classforge import Class, Field
 
-from .base import ReferenceObject
+from .base import NewReferenceObject
 
 
-class Scene(ReferenceObject):
+class Scene(NewReferenceObject):
 
     from . scale import Scale
 
-    name = Field(type=str, required=True, nullable=False)
-    scale = Field(type=Scale, default=None, nullable=True)
-    auto_advance = Field(type=bool, default=True, nullable=False)
-    rate = Field(type=float, default=1, nullable=False)
+    __slots__ = [ 'scene', 'name', 'scale', 'auto_advance', 'rate', 'clip_ids', 'obj_id' ]
 
-    # internal state
-    clip_ids = Field(type=list, default=None, required=False, nullable=False)
+    def __init__(self, name=None, scene=None, scale=None, auto_advance=False, rate=1, clip_ids=None, obj_id=None):
+        self.name = name
+        self.scene = scene
+        self.scale = scale
+        self.auto_advance = auto_advance
+        self.rate = rate
+        self.clip_ids = clip_ids
+        self.obj_id = obj_id
 
-    def on_init(self):
-        """
-        A scene needs to know what clips are attached. This is handled by song.py.
-        Initialize the internal storage on construction.
-        """
         if self.clip_ids is None:
             self.clip_ids = []
-        super().on_init()
+
+        super(Scene, self).__init__()
 
     def clips(self, song):
         """

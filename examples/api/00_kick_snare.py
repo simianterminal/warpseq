@@ -33,8 +33,8 @@ api.tracks.add(name='snare', instrument='snare_inst', muted=False)
 api.scales.add(name='C-major', note='C', octave=3, scale_type='major')
 
 # setup patterns
-api.patterns.add(name='kick_4_4',  slots="C1 . .  . C1 . .  . C1 . .  . C1 . .  .".split())
-api.patterns.add(name='snare_4_4', slots=".  . D1 . . .  D1 . .  . D1 . .  . D1 .".split())
+api.patterns.add(name='kick_4_4',  slots="C1 . . . C1 . . . C1 . . . C1 . . .".split())
+api.patterns.add(name='snare_4_4', slots=". . D1 . . . D1 . . . D1 . . . D1 .".split())
 api.patterns.add(name='kick_alt',  slots="C1 . C1 . C1 . .  . C1 . .  . C1 . .  .".split())
 api.patterns.add(name='snare_alt', slots=".  . D1 . .  . D1 D1 .  D1 D1 . .  D1 D1 .".split())
 
