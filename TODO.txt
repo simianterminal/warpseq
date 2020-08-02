@@ -9,12 +9,14 @@ RELEASE GATES
 * set up website publishing
 * upload a track to soundcloud
 * enable patreon page (= discord access)
+* notation symbol parser should take 'x' as well as '.'
 
 FUTURE/IDEAS
 ============
 
-* notation symbol parser should take 'x' as '.'
 * mod expression for chord inversions (already implemented functions!)
+* mod expressions for reverse/reshuffle pattern
+* mod expression for use previous note value (use with p=0.5/p=0.25x)
 * flag on transform to reset when pattern resets
 
 * web interface
