@@ -16,13 +16,13 @@ from ..notation.time_stream import (chord_list_to_notes, evaluate_shifts,
                                     evaluate_ties, notes_to_events)
 from ..playback.player import Player
 from ..utils import utils
-from .base import ReferenceObject
+from .base import NewReferenceObject
 from .pattern import Pattern
 from .scale import Scale
 from .transform import Transform
 
 
-class Clip(ReferenceObject):
+class Clip(NewReferenceObject):
 
     from . track import Track
     from . scene import Scene
@@ -32,19 +32,19 @@ class Clip(ReferenceObject):
     # THIS SECTION: USER EDITABLE
 
     # PRIMARY FEATURES
-    name = Field(type=str, required=True, nullable=False)
-    scales = Field(type=list, required=False, nullable=True, default=None)
-    patterns = Field(type=list, required=True, nullable=False)
-    transforms = Field(type=list, default=None, nullable=True)
+    #name = Field(type=str, required=True, nullable=False)
+    #scales = Field(type=list, required=False, nullable=True, default=None)
+    #patterns = Field(type=list, required=True, nullable=False)
+    #transforms = Field(type=list, default=None, nullable=True)
 
     # COLUMN TWO
-    rate = Field(type=float, default=1, nullable=False)
-    repeat = Field(type=int, default=-1, nullable=True)
+    #rate = Field(type=float, default=1, nullable=False)
+    #repeat = Field(type=int, default=-1, nullable=True)
     # these next two are mutually exclusive, if ASA is true, next_clip is ignored
-    auto_scene_advance = Field(type=bool, default=False, nullable=False)
-    next_clip = Field(required=False, nullable=True)
+    #auto_scene_advance = Field(type=bool, default=False, nullable=False)
+    #next_clip = Field(required=False, nullable=True)
 
-    tempo_shifts = Field(type=list, default=None, required=False, nullable=True)
+    #tempo_shifts = Field(type=list, default=None, required=False, nullable=True)
 
     # -------
 
@@ -53,21 +53,44 @@ class Clip(ReferenceObject):
 
     # basically internal, not exposed in the public API, use 'rate' instead
     # might be used later to implement some note length mods
-    slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
+    #slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
 
     # internal state - not exposed
-    track = Field(type=Track, default=None, required=False, nullable=True)
-    scene = Field(type=Scene, default=None, required=False, nullable=True)
-    _current_tempo_shift = Field(type=int, default=0, nullable=False)
-    _tempo_roller = Field()
-    _scale_roller = Field()
-    _degree_roller = Field()
-    _octave_roller = Field()
-    _scale_note_roller = Field()
-    _transform_roller = Field()
+    #track = Field(type=Track, default=None, required=False, nullable=True)
+    #scene = Field(type=Scene, default=None, required=False, nullable=True)
+    #_current_tempo_shift = Field(type=int, default=0, nullable=False)
+    #_tempo_roller = Field()
+    #_scale_roller = Field()
+    #_degree_roller = Field()
+    #_octave_roller = Field()
+    #_scale_note_roller = Field()
+    #_transform_roller = Field()
 
-    def on_init(self):
-        super().on_init()
+    __slots__ = [
+        'name', 'scales', 'patterns', 'transforms', 'rate', 'repeat', 'auto_scene_advance', 'next_clip', 'tempo_shifts'
+        'obj_id',
+        'slot_length',
+        'track','scene','_current_tempo_shift','_tempo_roller','_transform_roller','_notation'
+    ]
+
+    def __init__(self, name=None, scales=None, patterns=None, transforms=None,  rate=1, repeat=-1, auto_scene_advance=False, next_clip=None, tempo_shifts=None, track=None, scene=None, slot_length=0.0625, obj_id=None):
+        self.name = name
+        self.scales = scales
+        self.patterns = patterns
+        self.transforms = transforms
+        self.rate = rate
+        self.repeat = repeat
+        self.auto_scene_advance = auto_scene_advance
+        self.next_clip = next_clip
+        self.tempo_shifts = tempo_shifts
+        self.obj_id = obj_id
+        self.track = track
+        self.scene = scene
+        self.slot_length = slot_length
+        self._current_tempo_shift = 0
+        self._notation = SmartExpression(clip=self)
+
+        super(Clip, self).__init__()
         self.reset()
 
     def reset(self):
@@ -268,6 +291,8 @@ class Clip(ReferenceObject):
 
         t_start = 0.0
 
+
+
         # loop over each pattern in the list, all must play for one "repeat" of the clip
         for pattern in self.patterns:
 
@@ -291,7 +316,15 @@ class Clip(ReferenceObject):
             slots = pattern.slots
 
             # convert expressions in "slots" into arrays of notes
-            notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
+            #notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
+
+            notation = self._notation
+
+            notation.scale = scale
+            notation.song = song
+            notation.track = self.track
+            notation.pattern = pattern
+            notation.setup()
 
             notes = [ notation.do(self, expression) for expression in slots ]
 
@@ -321,15 +354,15 @@ class Clip(ReferenceObject):
             #d1 = time.time()
 
             # apply any transforms to this pattern - there may be more than one
+
             if transform:
                 # transforms can be in lists like: [t0, [t1, t2], t3, [ t4, t5, t6]]
                 if type(transform) != list:
                     transform = [ transform ]
                 for tform in transform:
-                    notes = tform.process(song, scale, self.track, notes)
+                    notes = tform.process(scale, self.track, notes)
 
             #d2 = time.time()
-            #print("D=%s" % (d2-d1))
 
             all_notes.extend(notes)
 

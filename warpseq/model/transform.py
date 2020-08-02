@@ -13,7 +13,7 @@ from .base import NewReferenceObject
 
 class Transform(NewReferenceObject):
 
-    __SLOTS__ = [ 'name', 'slots', 'octave_slots', 'divide', 'obj_id', "_mod" ]
+    __slots__ = [ 'name', 'slots', 'octave_slots', 'divide', 'obj_id', "_mod" ]
 
     def __init__(self, name=None, slots=None, octave_slots=None, divide=1, obj_id=None):
         self.name = name
@@ -43,12 +43,15 @@ class Transform(NewReferenceObject):
             octave_slots = data['slots']
         )
 
-    def process(self, song, scale, track, note_list):
+    def process(self, scale, track, note_list):
 
         """
         Given a list of notes or chords, apply the transform expressions in *slots* to produce
         a new list of notes or chords.
         """
+
+        self._mod.scale = scale
+        self._mod.track = track
 
         # notes is like: [n1, n2, n3], [n4], [], [n5, n6]
         # for each slot, we divide it by _divide_
@@ -89,7 +92,7 @@ class Transform(NewReferenceObject):
             for _ in range(0, divide):
 
                 # grab a note that is playing from all notes that are playing
-                which_note = next(roll_notes).copy()
+                which_note = next(roll_notes) # .copy()
 
                 # apply the new time information
                 which_note.start_time = start_time
@@ -100,7 +103,7 @@ class Transform(NewReferenceObject):
                 which_slot = next(slot_modifications)
 
                 # calculate the new note using the mod expression
-                final_note = self._mod.do(which_note, scale, track, which_slot)
+                final_note = self._mod.do(which_note, which_slot)
                 if final_note is None:
                     continue
 

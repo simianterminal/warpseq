@@ -372,7 +372,7 @@ class Player(object):
 
         try:
             while True:
-                self.advance(2)
+                self.advance(1)
         except KeyboardInterrupt:
             self.public_api._callbacks.keyboard_interrupt()
             self.stop()

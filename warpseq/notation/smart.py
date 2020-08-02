@@ -32,6 +32,8 @@ class SmartExpression(object):
         self.pattern = pattern
 
 
+
+    def setup(self):
         self._roman = Roman(self.scale)
         self._literal = Literal()
         self._mod = ModExpression(defer=False)
@@ -132,7 +134,9 @@ class SmartExpression(object):
         for note in notes:
             new_note = note.copy()
             if mod_expressions is not None:
-                new_note = self._mod.do(new_note, self.scale, self.track, mod_expressions)
+                self._mod.scale = self.scale
+                self._mod.track = self.track
+                new_note = self._mod.do(new_note, mod_expressions)
             new_notes.append(new_note)
 
 

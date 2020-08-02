@@ -9,27 +9,26 @@
 
 from classforge import Class, Field
 
-from .base import ReferenceObject
+from .base import NewReferenceObject
 from .instrument import Instrument
 
 
-class Track(ReferenceObject):
+class Track(NewReferenceObject):
 
-    name = Field(type=str, required=True, nullable=False)
+    __slots__ = [ 'name', 'muted', 'instrument', 'clip_ids', 'obj_id' ]
 
-    muted = Field(type=bool, required=False, default=False)
-    instrument = Field(type=Instrument, required=True, nullable=False)
+    def __init__(self, name=None, muted=False, instrument=None, clip_ids=None, obj_id=None):
+        self.name = name
+        self.muted = muted
+        self.instrument = instrument
+        self.clip_ids = clip_ids
+        self.obj_id = obj_id
 
-    # internal state
-    clip_ids = Field(type=list, default=None, required=False, nullable=False)
 
-    def on_init(self):
-        """
-        Allocates internal storage so the track can know what clips are included.
-        """
         if self.clip_ids is None:
             self.clip_ids = []
-        super().on_init()
+
+        super(Track, self).__init__()
 
     def has_clip(self, clip):
         """

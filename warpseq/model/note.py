@@ -8,12 +8,12 @@
 # chords and understanding scales.
 
 import re
-from functools import total_ordering
 
 from ..api.exceptions import *
 from ..utils.utils import roll_left, roll_right
 from . import note_table
 from .base import BaseObject
+import functools
 
 DEFAULT_VELOCITY = 120
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
@@ -40,7 +40,7 @@ SCALE_DEGREES_TO_STEPS = {
    '8'  : 6
 }
 
-@total_ordering
+
 class Note(object):
 
     __slots__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale' ]
@@ -121,38 +121,29 @@ class Note(object):
         Return the note N steps up (or down) within the current scale.
         """
 
-        assert scale is not None
-        assert steps is not None
+        #assert scale is not None
+        #assert steps is not None
 
-        index = 0
-        found = False
         snn = self.note_number()
 
-        for note in scale.generate(length=145):
-            nn = note.note_number()
-            if nn > snn:
-                found = True
-                break
-            index = index + 1
+        scale_notes = scale.generate(length=120)
+        note_numbers = [ x.note_number() for x in scale_notes ]
+        index = note_numbers.index(snn)
 
-        if not found:
+        if not index:
             raise UnexpectedError("unexpected scale_transpose error (1): note not in scale: (%s, %s, %s)" % (scale.name, note.name, note.octave))
 
         new_index = index + steps
 
-        find_index = 0
-        for note in scale.generate(length=145):
-            if find_index == new_index:
-                return Note(name=note.name, octave=note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
-            find_index = find_index + 1
+        scale_note = scale_notes[new_index]
+        return Note(name=scale_note.name, octave=scale_note.octave, length=self.length, start_time=self.start_time, end_time=self.end_time, tie=self.tie, flags=self.flags)
 
-        raise UnexpectedError("unexpected scale transpose error (2)")
 
     def with_velocity(self, velocity):
         """
         Return a copy of this note with the set velocity
         """
-        n1 = self.copy()
+        n1 = self # .copy()
         n1.velocity = velocity
         return n1
 
@@ -160,7 +151,7 @@ class Note(object):
         """
         Return a copy of this note with the set octave.
         """
-        n1 = self.copy()
+        n1 = self # .copy()
         n1.octave = octave
         return n1
 
@@ -168,7 +159,7 @@ class Note(object):
         """
         Return a copy of the note with the set MIDI CC value.
         """
-        n1 = self.copy()
+        n1 = self # .copy()
         n1.flags["cc"][str(channel)] = value
         return n1
 

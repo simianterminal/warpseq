@@ -12,20 +12,25 @@ from .mod_parser import is_deferred_expr, process_expr
 
 class ModExpression(object):
 
-    def __init__(self, defer=False):
+    __slots__ = [ 'defer', 'execute_next', 'scale', 'track' ]
+
+    def __init__(self, scale=None, track=None, defer=False):
         self.defer = defer
         self.execute_next = True
-        self.scale = None
-
-    def do(self, note, scale, track, expressions):
-
+        #assert scale is not None
+        #assert track is not None
         self.scale = scale
+        self.track = track
+
+    def do(self, note, expressions):
+
+        # self.scale = scale
 
         if type(expressions) != list:
             expressions = str(expressions)
             expressions = expressions.split()
 
-        input_note = note.copy()
+        input_note = note #.copy()
 
         if not self.defer:
 
@@ -67,11 +72,13 @@ class ModExpression(object):
                 return input_note
 
         from ..model.note import Note
-        from ..model.chord import Chord
+        #from ..model.chord import Chord
+
 
         if type(input_note) == Note:
             input_note.from_scale = self.scale
-        elif type(input_note) == Chord:
+        else:
+            # Chord
             for x in input_note.notes:
                 x.from_scale = x
 

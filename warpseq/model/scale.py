@@ -9,6 +9,7 @@
 
 from .base import NewReferenceObject
 from .note import Note, note
+import functools
 
 SCALE_TYPES = dict(
    major              = [ 1, 2, 3, 4, 5, 6, 7 ],
@@ -90,12 +91,14 @@ class Scale(NewReferenceObject):
         return s
 
     # FIXME: remove the length param
+    @functools.lru_cache(maxsize=5)
     def generate(self, length=None):
 
         if self._cached is None:
             self._generate(length=145)
         else:
-            return [ r.copy() for r in self._cached ]
+            #return [ r.copy() for r in self._cached ]
+            return self._cached
 
         index = 0
 
@@ -107,8 +110,7 @@ class Scale(NewReferenceObject):
                 return result
             index = index + 1
 
-        return [r.copy() for r in result]
-
+        return set(result)
 
     def _generate(self, length=None):
         """

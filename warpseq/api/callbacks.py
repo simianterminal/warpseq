@@ -12,24 +12,30 @@ from classforge import Class, Field
 
 class DefaultCallback(Class):
 
+    __slots__ = []
+
     def on_init(self):
         pass
 
     def on_scene_start(self, scene):
-        print("> starting scene: %s (%s)" % (scene.name, scene.obj_id))
+        #print("> starting scene: %s (%s)" % (scene.name, scene.obj_id))
         pass
 
     def on_clip_start(self, clip):
-        print("> starting clip: %s (%s)" % (clip.name, clip.obj_id))
+        #print("> starting clip: %s (%s)" % (clip.name, clip.obj_id))
+        pass
 
     def on_clip_stop(self, clip):
-        print("> stopping clip: %s (%s)" % (clip.name, clip.obj_id))
+        #print("> stopping clip: %s (%s)" % (clip.name, clip.obj_id))
+        pass
 
     def on_clip_restart(self, clip):
-        print("> restarting clip: %s (%s)" % (clip.name, clip.obj_id))
+        #print("> restarting clip: %s (%s)" % (clip.name, clip.obj_id))
+        pass
 
     def on_pattern_start(self, clip, pattern):
-        print("> starting pattern: %s (%s)/%s (%s)" % (clip.name, clip.obj_id, pattern.name, pattern.obj_id))
+        #print("> starting pattern: %s (%s)/%s (%s)" % (clip.name, clip.obj_id, pattern.name, pattern.obj_id))
+        pass
 
     def on_note_on(self, event):
         #print("> play: %s" % event)
@@ -39,15 +45,19 @@ class DefaultCallback(Class):
         pass
 
     def all_clips_done(self):
-        print("> all clips done")
+        #print("> all clips done")
+        pass
 
     def keyboard_interrupt(self):
-        print("> keyboard interrupt")
+        #print("> keyboard interrupt")
+        pass
 
 class WebCallback(Class):
     pass
 
 class Callbacks(object):
+
+    __slots__ = []
 
     CALLBACKS = []
 

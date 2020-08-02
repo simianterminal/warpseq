@@ -48,10 +48,13 @@ def expr_octave_set(parser, input, how, extra_info):
 def expr_scale_note_up(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
     return input.scale_transpose(parser.scale, how)
+    #return input
 
 def expr_scale_note_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
     return input.scale_transpose(parser.scale, -how)
+    #return input
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # SCALE DEGREES
