@@ -44,8 +44,11 @@ def offset(note, tones):
     try:
         lookup = NOTE_TABLE[new_note_index]
     except IndexError:
+        #print("N1=%s" % note)
+        #print("NN=%s" % (n1.note_number))
+        #print("S=%s" % steps)
         print("FAILED INDEX: %s" % new_note_index)
-        return note
+        raise
     n1.name = lookup[0]
     n1.octave = lookup[1]
     return n1

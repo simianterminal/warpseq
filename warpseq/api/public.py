@@ -197,7 +197,7 @@ class Transforms(CollectionApi):
 class Patterns(CollectionApi):
 
     object_class    = Pattern
-    public_fields   = [ 'name', 'slots', 'octave_shift', 'scale' ]
+    public_fields   = [ 'name', 'slots', 'octave_shift', 'scale', 'rate' ]
     song_collection = 'patterns'
     add_method      = 'add_patterns'
     add_required    = [ 'slots' ]
@@ -205,7 +205,7 @@ class Patterns(CollectionApi):
     remove_method   = 'remove_pattern'
     nullable_edits   = [ 'tempo', 'scale ']
 
-    def add(self, name, slots:list=None):
+    def add(self, name, slots:list=None, rate=1):
         params = locals()
         return self._generic_add(name, params)
 

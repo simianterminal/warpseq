@@ -18,11 +18,11 @@ class DefaultCallback(Class):
         pass
 
     def on_scene_start(self, scene):
-        #print("> starting scene: %s (%s)" % (scene.name, scene.obj_id))
+        print("> starting scene: %s (%s)" % (scene.name, scene.obj_id))
         pass
 
     def on_clip_start(self, clip):
-        #print("> starting clip: %s (%s)" % (clip.name, clip.obj_id))
+        print("> starting clip: %s (%s)" % (clip.name, clip.obj_id))
         pass
 
     def on_clip_stop(self, clip):

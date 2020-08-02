@@ -66,6 +66,9 @@ class Note(object):
          self.velocity = velocity
          self.from_scale = from_scale
 
+         if self.octave and self.octave > 15:
+            raise Exception("WHAT HAPPENED")
+
          self.name =  self._equivalence(self.name)
          if self.flags is None:
              self.flags = {}
@@ -150,7 +153,7 @@ class Note(object):
         """
         Return a copy of this note with the set velocity
         """
-        n1 = self # .copy()
+        n1 = self.copy()
         n1.velocity = velocity
         return n1
 
@@ -158,7 +161,7 @@ class Note(object):
         """
         Return a copy of this note with the set octave.
         """
-        n1 = self # .copy()
+        n1 = self.copy()
         n1.octave = octave
         return n1
 
@@ -166,7 +169,7 @@ class Note(object):
         """
         Return a copy of the note with the set MIDI CC value.
         """
-        n1 = self # .copy()
+        n1 = self.copy()
         n1.flags["cc"][str(channel)] = value
         return n1
 
@@ -202,9 +205,8 @@ class Note(object):
         steps = steps + (semitones * 0.5) + degree_steps
 
         result = self.copy()
-
         if steps:
-            result = self._offset(steps)
+            result = result._offset(steps)
         if octaves:
             result.octave = result.octave + octaves
         return result

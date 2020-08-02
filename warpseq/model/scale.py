@@ -93,13 +93,13 @@ class Scale(NewReferenceObject):
 
     # FIXME: remove the length param
     @functools.lru_cache(maxsize=5)
+
     def generate(self, length=None):
 
         if self._cached is None:
-            self._generate(length=145)
+            self._generate(length=50)
         else:
-            #return [ r.copy() for r in self._cached ]
-            return self._cached
+            return [ r.copy() for r in self._cached ]
 
         index = 0
 
@@ -113,7 +113,7 @@ class Scale(NewReferenceObject):
 
         return result
 
-    def _generate(self, length=None):
+    def _generate(self, length=50):
         """
         Allows traversal of a scale in a forward direction.
         Example:
@@ -121,6 +121,8 @@ class Scale(NewReferenceObject):
            print(note)
         """
 
+        if length > 50:
+            raise Exception("NO")
 
         assert length is not None
 
@@ -135,14 +137,18 @@ class Scale(NewReferenceObject):
 
         self._cached = []
 
+        #print("GENERATE SCALE FROM: %s" % self.root)
+
         while (length is None or length > 0):
 
             if index == len(scale_data):
                index = 0
                octave_shift = octave_shift + 1
 
+
             try:
                 result = self.root.transpose(degrees=scale_data[index], octaves=octave_shift)
+                #print("RES=%s" % result)
             except IndexError:
                 return
 

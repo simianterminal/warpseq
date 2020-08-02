@@ -30,7 +30,7 @@ class ModExpression(object):
             expressions = str(expressions)
             expressions = expressions.split()
 
-        input_note = note #.copy()
+        input_note = note.copy()
 
         if not self.defer:
 

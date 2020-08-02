@@ -43,7 +43,8 @@ class ChordScale(object):
 
         assert scale is not None
         self.scale = scale
-        self._note_buffer = self.scale.generate(length=150)
+        self._note_buffer = self.scale.generate(length=50)
+        #print("BUF=%s" % self._note_buffer)
 
     def chord(self, sym):
         """

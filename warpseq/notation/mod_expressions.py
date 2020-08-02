@@ -22,13 +22,13 @@ def flat(input):
     return input.transpose(semitones=-1)
 
 def same(input):
-    return input
+    return input.copy()
 
 # ----------------------------------------------------------------------------------------------------------------------
 # IGNORE EXPRESSIONS (used for defer events in non-deferral mode)
 
 def expr_ignore(parser, input, how, extra_info):
-    return input
+    return input.copy()
 
 # ----------------------------------------------------------------------------------------------------------------------
 # OCTAVES
@@ -51,13 +51,10 @@ def expr_octave_set(parser, input, how, extra_info):
 def expr_scale_note_up(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
     return input.scale_transpose(parser.scale, how)
-    #return input
 
 def expr_scale_note_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
     return input.scale_transpose(parser.scale, -how)
-    #return input
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 # SCALE DEGREES
