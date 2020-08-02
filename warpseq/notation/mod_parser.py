@@ -92,19 +92,27 @@ def perform(parser, note, operations, what, how):
     return result
 
 
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # interface used by mod.py (ModExpression class)
 
+FAST_MAP = {
+    "_": silence,
+    "x": silence,
+    "0": silence,
+    "#": sharp,
+    "b": flat,
+    "1": same,
+    ".": same,
+}
+
 def process_expr(parser, input, expr, deferred=False):
 
-    if expr in [ "_", 'x', "0" ]:
-        return silence(input)
-    elif expr in ["." , "1", ]:
-        return input
-    elif expr == "#":
-        return sharp(input)
-    elif expr == "b":
-        return flat(input)
+
+    fn = FAST_MAP.get(expr, None)
+    if fn is not None:
+        return fn(input)
 
     global OPERATIONS
 
@@ -112,28 +120,15 @@ def process_expr(parser, input, expr, deferred=False):
     if deferred:
         table = OPERATIONS['deferred']
 
-    if "+=" in expr:
-        operations = table['increments']
-        tokens = expr.split("+=",1)
-        return perform(parser, input, operations, tokens[0], tokens[1])
-    elif "+" in expr:
-        # DUPLICATE CODE
-        operations = table['increments']
-        tokens = expr.split("+",1)
-        return perform(parser, input, operations, tokens[0], tokens[1])
-    elif "-=" in expr:
-        operations = table['decrements']
-        tokens = expr.split('-=',1)
-        return perform(parser, input, operations, tokens[0], tokens[1])
+    if "+" in expr:
+        tokens = expr.replace("+=","+").split("+",1)
+        return perform(parser, input, table['increments'], tokens[0], tokens[1])
     elif "-" in expr:
-        operations = table['decrements']
-        tokens = expr.split('-',1)
-        return perform(parser, input, operations, tokens[0], tokens[1])
+        tokens = expr.replace("-=","-").split('-',1)
+        return perform(parser, input,  table['decrements'], tokens[0], tokens[1])
     elif "=" in expr:
-        operations = table['assignments']
         tokens = expr.split("=",1)
-        return perform(parser, input, operations, tokens[0], tokens[1])
-
+        return perform(parser, input, table['assignments'], tokens[0], tokens[1])
     else:
         raise InvalidExpression("unknown expr! (%s)" % expr)
 

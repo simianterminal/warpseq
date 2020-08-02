@@ -21,6 +21,9 @@ def sharp(input):
 def flat(input):
     return input.transpose(semitones=-1)
 
+def same(input):
+    return input
+
 # ----------------------------------------------------------------------------------------------------------------------
 # IGNORE EXPRESSIONS (used for defer events in non-deferral mode)
 
