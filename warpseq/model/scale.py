@@ -64,6 +64,7 @@ class Scale(NewReferenceObject):
         self.obj_id = obj_id
         self._cached = None
         super(Scale, self).__init__()
+        self.generate(length=140)
 
     def to_dict(self):
         data = dict(
@@ -110,7 +111,7 @@ class Scale(NewReferenceObject):
                 return result
             index = index + 1
 
-        return set(result)
+        return result
 
     def _generate(self, length=None):
         """
