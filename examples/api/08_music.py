@@ -32,39 +32,38 @@ api.tracks.add(name='snare', instrument='snare_inst', muted=False)
 api.tracks.add(name='lead', instrument='lead_inst', muted=False)
 
 # setup scales
-api.scales.add(name='C-major', note='C', octave=3, scale_type='major')
+api.scales.add(name='main', note='C', octave=3, slots=[1, 'b3', 4, 'b5', 5, 'b7'])
 
 # setup patterns
 api.patterns.add(name='kick_4_4',  slots="C1 . . . C1 . . . C1 . . . C1 . . .".split())
 api.patterns.add(name='snare_4_4', slots=". . D1 . . . D1 . . . D1 . . . D1 .".split())
-api.patterns.add(name='L1', slots=[1,2,'4 O+=0,1,2',1,2,5,'1 S+=2,2,3,4,5',6,5,4,2,1,5])
+api.patterns.add(name='L1', slots=[1,2,6,1,2,7,1,2,5,1,2,4])
+api.patterns.add(name='L2', slots=[1,2,5,1,2,5,1,6,'4 O+1',5,2,1])
+api.patterns.add(name='L3', slots=[1,2,'6 O+1',1,2,'7 O+1',1,2,5,1,2,4])
+
+
 api.patterns.add(name='C1', slots=['I','IV','V','VI','I'])
 
 # setup transforms
-api.transforms.add(name='A1', slots=['1','S+2','S+3'], divide=3)
+api.transforms.add(name='A1', slots=['1','O+1','O-1'], divide=3)
 
 # setup scenes
-api.scenes.add(name='scene_1', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_2', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_3', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_4', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_5', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_6', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_7', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_8', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_9', scale='C-major', auto_advance=True)
-api.scenes.add(name='scene_10', scale='C-major', auto_advance=True)
+api.scenes.add(name='scene_1', scale='main', auto_advance=True)
+api.scenes.add(name='scene_2', scale='main', auto_advance=True)
+api.scenes.add(name='scene_3', scale='main', auto_advance=True)
+api.scenes.add(name='scene_4', scale='main', auto_advance=True)
+
 
 #api.scenes.add(name='scene_2', scale='C-major', auto_advance=True)
 
 # setup clips
-api.clips.add(name='s1k1', scene='scene_1', track='kick', patterns=['kick_4_4'], repeat=None, auto_scene_advance=True)
+api.clips.add(name='s1k1', scene='scene_1', track='kick', patterns=['kick_4_4'], repeat=None)
 api.clips.add(name='s1s1', scene='scene_1', track='snare', patterns=['snare_4_4'], repeat=None)
-api.clips.add(name='s1L1', scene='scene_1', track='lead', patterns=['L1'], repeat=None)
+api.clips.add(name='s1L1', scene='scene_1', track='lead', patterns=['L1','L2','L1','L3'], transforms=[], repeat=2, auto_scene_advance=True)
 
 api.clips.add(name='s1k2', scene='scene_2', track='kick', patterns=['kick_4_4'], repeat=None, auto_scene_advance=True)
 api.clips.add(name='s1s2', scene='scene_2', track='snare', patterns=['snare_4_4'], repeat=None)
-api.clips.add(name='s1L2', scene='scene_2', track='lead', patterns=['C1'], transforms=['A1'], repeat=None)
+api.clips.add(name='s1L2', scene='scene_2', track='lead', patterns=['L1','L2','L1','L3'], transforms=['A1'], repeat=2, auto_scene_advance=True)
 
 # play starting on the first scene - Ctrl+C to exit.
 api.player.loop('scene_1')
