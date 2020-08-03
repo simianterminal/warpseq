@@ -122,6 +122,7 @@ class RealtimeEngine(object):
             register_playing_note(self.track, event.note)
 
             if self.track.muted or self.instrument.muted:
+                #print("MUTED: %s" % self.track.name)
                 return
 
             for (channel, value) in event.note.flags['cc'].items():
@@ -129,6 +130,7 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
+            #print("NOTE ON: %s/%s" % (note_number, self.channel))
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
 
         elif event.type == NOTE_OFF:
@@ -153,5 +155,10 @@ class RealtimeEngine(object):
             #self.count_off = self.count_off + 1
 
             unregister_playing_note(self.track, event.on_event.note)
+
+            if self.track.muted or self.instrument.muted:
+                #print("MUTED: %s" % self.track.name)
+                return
+
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
 

@@ -240,7 +240,7 @@ class Clip(NewReferenceObject):
         # and remove this logic below:
 
         print("-- WARNING -- DEFAULT TO CHROMATIC SCALE -- EXPECTED?")
-        return Scale(root=Note(name="C", octave=5), scale_type='chromatic')
+        return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
 
     def actual_tempo(self, song, pattern):
         """
@@ -287,8 +287,6 @@ class Clip(NewReferenceObject):
         all_notes = []
 
         t_start = 0.0
-
-
 
         # loop over each pattern in the list, all must play for one "repeat" of the clip
         for pattern in self.patterns:

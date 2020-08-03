@@ -64,7 +64,14 @@ class Scale(NewReferenceObject):
         self.obj_id = obj_id
         self._cached = None
         super(Scale, self).__init__()
-        self.generate(length=140)
+        self._internal_generate()
+
+    def get_notes(self):
+        return self._cached
+
+    def get_note_numbers(self):
+        return self._cached_numbers
+
 
     def to_dict(self):
         data = dict(
@@ -91,38 +98,20 @@ class Scale(NewReferenceObject):
             s.root = Note(name=data['root'][0], octave=data['root'][1])
         return s
 
-    # FIXME: remove the length param
-    @functools.lru_cache(maxsize=5)
 
-    def generate(self, length=None):
 
-        if self._cached is None:
-            self._generate(length=50)
-        else:
-            return [ r.copy() for r in self._cached ]
+    def _internal_generate(self):
 
-        index = 0
+        self._cached = self._generate_cache()
+        self._cached_numbers = [ x.note_number() for x in self._cached ]
 
-        result = []
-        while (index < length):
-            try:
-                result.append(self._cached[index])
-            except IndexError:
-                return result
-            index = index + 1
-
-        return result
-
-    def _generate(self, length=50):
+    def _generate_cache(self, length=140):
         """
         Allows traversal of a scale in a forward direction.
         Example:
         for note in scale.generate(length=7):
            print(note)
         """
-
-        if length > 50:
-            raise Exception("NO")
 
         assert length is not None
 
@@ -135,28 +124,26 @@ class Scale(NewReferenceObject):
         octave_shift = 0
         index = 0
 
-        self._cached = []
-
-        #print("GENERATE SCALE FROM: %s" % self.root)
+        cache = []
 
         while (length is None or length > 0):
 
-            if index == len(scale_data):
+            if index >= len(scale_data):
                index = 0
                octave_shift = octave_shift + 1
 
-
             try:
                 result = self.root.transpose(degrees=scale_data[index], octaves=octave_shift)
-                #print("RES=%s" % result)
             except IndexError:
                 return
 
-            self._cached.append(result)
+            cache.append(result)
 
             index = index + 1
             if length is not None:
                 length = length - 1
+
+        return cache
 
 def scale(input):
     """

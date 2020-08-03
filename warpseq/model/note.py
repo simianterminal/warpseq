@@ -119,9 +119,9 @@ class Note(object):
 
         snn = self.note_number()
 
-        scale_notes = scale_obj.generate(length=120)
+        scale_notes = scale_obj.get_notes()
         #print("SCALE_NOTES=%s" % scale_notes)
-        note_numbers = [ x.note_number() for x in scale_notes ]
+        note_numbers = scale_obj.get_note_numbers()
         #print("NN=%s" % note_numbers)
         #print("NN=%s" % note_numbers)
         #print("SNN=%s" % snn)
@@ -131,10 +131,16 @@ class Note(object):
             if snn >= x:
                 index = i
 
+        #print("CURRENT INDEX=%s" % index)
+        #print("WHICH IS=%s" % scale_notes[index])
+
         new_index = index + steps
         #print("NEW INDEX=%s" % index)
+        #print("WHICH IS=%s"%  scale_notes[new_index])
+
 
         scale_note = scale_notes[new_index]
+
         return Note(name=scale_note.name, octave=scale_note.octave, length=self.length, start_time=self.start_time,
                     end_time=self.end_time, tie=self.tie, flags=self.flags, from_scale=scale_obj)
 
