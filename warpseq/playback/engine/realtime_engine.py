@@ -54,7 +54,7 @@ class RealtimeEngine(object):
         self.instrument = self.track.instrument
         self.channel = self.instrument.channel
         self.device = self.instrument.device
-        self.mod_expressions = ModExpression(defer=True)
+        self.mod_expressions = ModExpression(defer=True, track=self.track)
         self.midi_out = rtmidi.MidiOut()
         self.callbacks = Callbacks()
 
@@ -83,11 +83,15 @@ class RealtimeEngine(object):
         # the guide track...
 
 
-
         if event.type == NOTE_ON and event.note.flags['deferred'] == True:
+
+            self.mod_expressions.scale = event.scale
+
             exprs = event.note.flags['deferred_expressions']
             for expr in exprs:
-                value = self.mod_expressions.do(event.note, event.scale, self.track, expr)
+
+                #value = self.mod_expressions.do(event.note, event.scale, self.track, expr)
+                value = self.mod_expressions.do(event.note, expr)
                 if value is None:
                     return
                 event.note = value
@@ -116,6 +120,9 @@ class RealtimeEngine(object):
             note_number = event.note.note_number()
 
             register_playing_note(self.track, event.note)
+
+            if self.track.muted or self.instrument.muted:
+                return
 
             for (channel, value) in event.note.flags['cc'].items():
                 channel = int(channel)

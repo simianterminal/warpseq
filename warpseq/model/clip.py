@@ -10,8 +10,7 @@
 import time
 
 from ..notation.note_parser import NoteParser
-from ..notation.time_stream import (chord_list_to_notes, evaluate_shifts,
-                                    evaluate_ties, notes_to_events)
+from ..notation.time_stream import (chord_list_to_notes, evaluate_ties, notes_to_events)
 from ..playback.player import Player
 from ..utils import utils
 from .base import NewReferenceObject
@@ -313,9 +312,6 @@ class Clip(NewReferenceObject):
 
             slots = pattern.slots
 
-            # convert expressions in "slots" into arrays of notes
-            #notation = SmartExpression(scale=scale, song=song, clip=self, track=self.track, pattern=pattern)
-
             notation = self._notation
 
             notation.scale = scale
@@ -324,7 +320,7 @@ class Clip(NewReferenceObject):
             notation.pattern = pattern
             notation.setup()
 
-            notes = [ notation.do(self, expression) for expression in slots ]
+            notes = [ notation.do(self, expression, octave_shift) for expression in slots ]
 
             # the smart expressions may output chords, so map them back into notes
             # "notes" now looks like: [[n1, n2, n3], [n4], [], [n5], [n6]]
@@ -332,8 +328,10 @@ class Clip(NewReferenceObject):
             # use ties to lengthen note events
             notes = evaluate_ties(notes)
             # now apply any octave shifts.
+
             # FIXME: Support for scale shifts is obsolete and this function can take less parameters
-            notes = evaluate_shifts(notes, octave_shift, 0, scale, 0)
+            # FIXME: this function is now obsolete.
+            #notes = evaluate_shifts(notes, octave_shift, 0, scale, 0)
 
 
             # compute the start and end

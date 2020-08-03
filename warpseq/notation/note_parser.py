@@ -39,7 +39,7 @@ class NoteParser(object):
         self._mod = ModExpression(defer=False)
         self._slot_duration = self.clip.slot_duration(self.song, self.pattern)
 
-    def do(self, clip, sym):
+    def do(self, clip, sym, octave_shift):
         """
         Converts a symbol or list of symbols into an array of chords or notes.
         This uses a combination of the 'literal' and 'smart' evaluator and therefore
@@ -58,17 +58,13 @@ class NoteParser(object):
 
         all_notes = []
         for x in items:
-            all_notes.extend(self._do_single(clip, x))
-
-        #a2 = time.time()=
-        #print("A=%s" % (a2-a1))
-
+            all_notes.extend(self._do_single(clip, x, octave_shift))
 
         return all_notes
 
     # FIXME: the clip should not need to be a parameter below since it is available as self.clip
 
-    def _do_single(self, clip, sym):
+    def _do_single(self, clip, sym, octave_shift):
 
 
         """
@@ -101,7 +97,7 @@ class NoteParser(object):
         # ready to figure out what notes we are going to return for this expression
         notes = None
 
-        # FIXME: combine processing to be less exception based
+        # TODO: FIXME: combine processing to be less exception based
 
         # try to process chord notes then literal notes
         try:
@@ -120,15 +116,16 @@ class NoteParser(object):
 
         # if neither of the above worked, we have to give up
         if not notes:
-            # FIXME: raise a specific exception type
             raise InvalidSymbol("evaluation failed: (%s)" %  sym)
 
+        # apply octave shifts AND ...
         # assign a length to all the notes based on the clip settings
         # this may be modified later by the arp selection (if set)
         assert self.pattern is not None
         slot_duration = clip.slot_duration(self.song, self.pattern)
         for note in notes:
             note.length = round(slot_duration)
+            note.octave = note.octave + octave_shift
 
         # if the note was trailed by any mod expressions, apply them to all notes
         # to be returned

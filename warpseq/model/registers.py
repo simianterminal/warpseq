@@ -31,7 +31,8 @@ def register_playing_note(track, note):
 
     item.append(note)
 
-    LAST_BY_TRACK[track] = note
+    if note is not None:
+        LAST_BY_TRACK[track] = note
 
 def unregister_playing_note(track, note):
 
@@ -46,10 +47,7 @@ def unregister_playing_note(track, note):
     PLAYING_BY_TRACK[track] = [ x for x in item if x != note ]
 
 def get_first_playing_note(track):
-
-    track = _name(track)
-
     global LAST_BY_TRACK
-
+    track = _name(track)
     rc = LAST_BY_TRACK.get(track, None)
     return rc

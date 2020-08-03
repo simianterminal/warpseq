@@ -3,14 +3,16 @@
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # -------------------------------------------------------------
 #
-# this demo shows a basic 4/4 kick/snare pattern using absolute
-# notes. It will not be adjusted by a scale change, which is
-# important when talking to drum hardware and soft synths.
+# https://soundcloud.com/mpdehaan
+# https://soundcloud.com/mpdehaan/warp-demo-1-spoilers
 #
-# after the basic pattern plays, the pattern changes up,
-# showing how to advance a clip.
+# this file created a short teaser promo track for Warp
 #
-# try changing the patterns and adding a third scene.
+# channel 1: default kick drum from Kick 2 by Sonic Academy
+# channel 2: snare from Kick 2
+# channel 3/4: Plogue Chipsounds
+#
+# processing: Universal Audio Struder + Studio D Chorus, U-He Satin
 
 from warpseq.api import demo
 from warpseq.api.callbacks import Callbacks, DefaultCallback
@@ -39,7 +41,7 @@ api.scales.add(name='alt', note='C', octave=0, slots=[1, 2, 'b3', 3, 5, 6 ]) # m
 api.scales.add(name='alt2', note='C', octave=0, scale_type='minor')
 
 # patterns can of course be generated programmatically
-f1 = [1,4,6,5,4,3,2,1,4,3,2,5,3,2]
+f1 = ['1 O-2 S+2',4,6,5,4,3,2,1,4,3,2,5,3,2]
 f2 = f1.copy()
 f2.reverse()
 f3 = ['1 O+1,2','4 S+0,2',6,'5 S+0,2']

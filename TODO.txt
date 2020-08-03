@@ -4,6 +4,11 @@ NOTES
 RELEASE GATES
 =============
 
+* the instrument base octave and pattern octave shift should be added at note construction time, not in the end
+  so that S- and O- scale operations don't risk existing the scale
+* transpositions that fail should not return None, but should return the same note so as to not crash programs
+  octave math should set at bounds.
+
 * demo song
 * make an examples directory with some more musical songs in it
 * set up website publishing

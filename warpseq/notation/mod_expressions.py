@@ -103,9 +103,7 @@ def expr_track_grab(parser, input, how, extra_info):
 
     how = evaluate_params(how, want_string=True)
     playing = get_first_playing_note(how)
-    if playing is None:
-        pass
-    else:
+    if playing is not None:
         input = input.copy()
         input.octave = playing.octave
         input.name = playing.name

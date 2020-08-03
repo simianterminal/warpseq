@@ -47,26 +47,6 @@ def evaluate_ties(note_list):
 
     return results
 
-def evaluate_shifts(note_list, octave_shift, degree_shift, scale, scale_shift):
-    if octave_shift == 0 and degree_shift == 0 and scale_shift == 0:
-        #print("BAILING!")
-        return note_list
-    results = []
-    for chord in note_list:
-        chord_items = []
-        for note in chord:
-            n1 = None
-            if octave_shift or scale_shift:
-                n1 = note.transpose(octaves=octave_shift, degrees=degree_shift)
-            if scale_shift:
-                n1 = note.scale_transpose(scale, scale_shift)
-            chord_items.append(n1)
-        results.append(chord_items)
-    return results
-
-def round_partial(value, resolution):
-    return round(value / resolution) * resolution
-
 def chord_list_to_notes(old_list):
 
     results = []
@@ -114,7 +94,6 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
     #
     # with a finer granularity than the original input stream based on NOTE_RESOLUTION
 
-    results = []
     note_list = flatten(note_list)
     events = []
 

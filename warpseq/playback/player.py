@@ -68,9 +68,6 @@ class Player(object):
 
         while True:
 
-            if clip.track.muted or clip.track.instrument.muted:
-                return
-
             # consume any events we need to off the time queue
             if len(self.left_to_play):
                 first = self.left_to_play[-1]
