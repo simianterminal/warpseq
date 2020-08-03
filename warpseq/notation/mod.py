@@ -17,8 +17,6 @@ class ModExpression(object):
     def __init__(self, scale=None, track=None, defer=False):
         self.defer = defer
         self.execute_next = True
-        #assert scale is not None
-        #assert track is not None
         self.scale = scale
         self.track = track
 

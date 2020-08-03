@@ -118,8 +118,18 @@ def expr_probability_set(parser, input, how, extra_info):
     how = evaluate_params(how, want_string=True)
     how = float(how)
     rn = random.random()
-    if rn < how:
+
+    # example: p=0.1
+    #
+    # event should only happen in 1 in 10 times
+    # random number chosen is 0.9
+    # rn is higher than the threshold
+    # the event should NOT happen
+    #
+    # random number chosen is 0.02
+    # rn is LOWER than the threshold
+    # the event should happen
+
+    if rn > how:
         parser.execute_next = False
-    else:
-        pass
     return input
