@@ -38,7 +38,7 @@ class DefaultCallback(Class):
         pass
 
     def on_note_on(self, event):
-        #print("> note on: %s" % event)
+        print("> note on: %s" % event)
         pass
 
     def on_note_off(self, event):

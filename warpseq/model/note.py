@@ -231,7 +231,7 @@ class Note(object):
 
     def __repr__(self):
         # FIXME: simplify as this is no longer used for debug
-        return "Note<%s%s,LEN=%s,s=%s,e=%s,cc=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time, self.flags['cc'])
+        return "Note<%s%s,cc=%s>" % (self.name, self.octave, self.flags['cc'])
 
 def note(st):
      """

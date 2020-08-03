@@ -67,10 +67,10 @@ class Scale(NewReferenceObject):
         self._internal_generate()
 
     def get_notes(self):
-        return self._cached
+        return [x.copy() for x in self._cached]
 
     def get_note_numbers(self):
-        return self._cached_numbers
+        return [x for x in self._cached_numbers]
 
 
     def to_dict(self):
