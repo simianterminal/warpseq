@@ -90,6 +90,9 @@ class RealtimeEngine(object):
             exprs = event.note.flags['deferred_expressions']
             for expr in exprs:
 
+                assert event.note.from_scale is not None
+                self.mod_expressions.scale = event.note.from_scale
+
                 #value = self.mod_expressions.do(event.note, event.scale, self.track, expr)
                 value = self.mod_expressions.do(event.note, expr)
                 if value is None:

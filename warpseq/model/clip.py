@@ -322,7 +322,8 @@ class Clip(NewReferenceObject):
 
             # the smart expressions may output chords, so map them back into notes
             # "notes" now looks like: [[n1, n2, n3], [n4], [], [n5], [n6]]
-            notes = chord_list_to_notes(notes)
+            assert scale is not None
+            notes = chord_list_to_notes(notes, scale)
             # use ties to lengthen note events
             notes = evaluate_ties(notes)
             # now apply any octave shifts.

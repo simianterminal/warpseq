@@ -78,6 +78,7 @@ class Note(object):
                     start_time=self.start_time,
                     end_time=self.end_time,
                     velocity=self.velocity,
+                    from_scale=self.from_scale,
                     flags={})
         n1.flags['deferred'] = self.flags['deferred']
         n1.flags['deferred_expressions'] = self.flags['deferred_expressions'].copy()
