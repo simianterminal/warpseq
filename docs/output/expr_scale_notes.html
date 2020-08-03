@@ -30,81 +30,37 @@
                
                <li>
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
-                   
-                        <li><a href="./index.html">Home</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
-                        <li><a href="./installation.html">Installation</a></li>
-                   
-                        <li><a href="./ui.html">Web UI</a></li>
-                   
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
                    <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
                    <ul class="collapse list-unstyled" id="navMenuConcepts">
+                   
+                        <li><a href="./scene.html">Scene</a></li>
+                   
+                        <li><a href="./transform.html">Transform</a></li>
                    
                         <li><a href="./song.html">Song</a></li>
                    
                         <li><a href="./scale.html">Scale</a></li>
                    
-                        <li><a href="./device.html">Device</a></li>
+                        <li><a href="./pattern.html">Pattern</a></li>
+                   
+                        <li><a href="./clip.html">Clip</a></li>
                    
                         <li><a href="./instrument.html">Instrument</a></li>
                    
-                        <li><a href="./pattern.html">Pattern</a></li>
-                   
-                        <li><a href="./transform.html">Transform</a></li>
-                   
-                        <li><a href="./scene.html">Scene</a></li>
-                   
                         <li><a href="./track.html">Track</a></li>
                    
-                        <li><a href="./clip.html">Clip</a></li>
+                        <li><a href="./device.html">Device</a></li>
                    
                    </ul>
                </li>
            
                
-               <li class="active">
+               <li>
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
+                   <ul class="collapse list-unstyled" id="navMenuAbout">
                    
-                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
-                   
-                        <li><a href="./expr_literal.html">Literal Notes</a></li>
-                   
-                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
-                   
-                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
-                   
-                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
-                   
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
-                   
-                        <li><a href="./expr_random.html">More Randomness</a></li>
-                   
-                        <li><a href="./expr_track.html">Guide Tracks</a></li>
-                   
-                        <li><a href="./expr_variables.html">Variables</a></li>
+                        <li><a href="./index.html">Home</a></li>
                    
                    </ul>
                </li>
@@ -118,6 +74,50 @@
                         <li><a href="./club.html">Warp Club</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li class="active">
+               
+                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   
+                        <li><a href="./expr_intro.html">Intro to Expressions</a></li>
+                   
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
+                   
+                        <li><a href="./expr_literal.html">Literal Notes</a></li>
+                   
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
+                   
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
+                   
+                        <li><a href="./expr_random.html">More Randomness</a></li>
+                   
+                        <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
+                   
+                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                   
+                        <li><a href="./expr_variables.html">Variables</a></li>
                    
                    </ul>
                </li>
@@ -213,7 +213,19 @@ More advanced types can be represented using their base notes and chord type:
 4 ch=power
 </code></pre></div>
 
-This is a bit of a spoiler as this refers to "Mod Expressions", covered immediately below.
+<p>
+This is a bit of a spoiler as this refers to using <A HREF="./expr_mod.html">Mod Expressions</a>.
+</p>
+
+<p>
+An easier shorthand for accessing the full list of chord types is also available:
+</p>
+
+<div class='codeblock'><pre><code class="language-python">
+I:sus4
+II:major
+IV:power
+</code></pre></div>
 
 For reference the built-in chord types you can use this way are:
 
