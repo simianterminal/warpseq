@@ -56,12 +56,9 @@ def evaluate_ties(note_list):
 def _add_note_to_bucket(this_bucket, note, scale, t_start):
     note.from_scale = scale
     note.start_time = t_start
-    #print("TS======%s" % note.start_time)
     note.end_time = round(t_start + note.length)
-    #print("NS=%s/%s" % (note.start_time, note.end_time))
     note.from_scale = scale
     this_bucket.append(note)
-
 
 def standardize_notes(old_list, scale, slot_duration, t_start):
 
@@ -94,8 +91,10 @@ def standardize_notes(old_list, scale, slot_duration, t_start):
                 raise Exception("unexpected: %s" % obj)
 
         if is_tie:
+            #print("IS TIE!")
             for p in previous_notes:
                 p.length = p.length + slot_duration
+                p.end_time = p.end_time + slot_duration
         else:
             previous_notes = this_bucket
 
