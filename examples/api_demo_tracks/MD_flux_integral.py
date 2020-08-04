@@ -12,6 +12,9 @@
 # Synth processing: UAD Struder
 # Drum processing: UAD Distressor
 # no MIDI CC or velocity usage from Warp, though that might have been interesting
+#
+# variable handling is a little different now than when recorded (on a development version),
+# so it won't quite sound the same
 
 from warpseq.api import demo
 from warpseq.api.callbacks import Callbacks, DefaultCallback
