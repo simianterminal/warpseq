@@ -70,7 +70,7 @@ api.clips.add(name='s3_lead', scene='scene_3', track='bass', patterns=['odd'], r
 # now the lead track slowly plays a chord based on the silent guide track while the bass track forms a bassline around it.
 api.clips.add(name='s4_guide', scene='scene_4', track='guide', patterns=['a','b','a','b'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s4_bass', scene='scene_4', track='lead', patterns=['chords'], rate=0.5, repeat=None) # repeat=None means infinite
-api.clips.add(name='s4_lead', scene='scene_4', track='bass', patterns=['parrot'], rate=2, transforms=['bassline'], repeat=None)
+api.clips.add(name='s4_lead', scene='scene_4', track='bass', patterns=['parrot'], rate=1, transforms=['bassline'], repeat=None)
 
 # play starting on the first scene - Ctrl+C to exit.
 api.player.loop('scene_1')

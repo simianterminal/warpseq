@@ -133,7 +133,6 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
-            #print("NOTE ON: %s/%s" % (note_number, self.channel))
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
 
         elif event.type == NOTE_OFF:

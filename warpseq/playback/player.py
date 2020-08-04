@@ -32,17 +32,15 @@ class Player(object):
         self.engine = engine
 
         self.left_to_play = None
+
         self.clip_length_in_ms = self.clip.get_clip_duration(self.song)
+
         self.events = self.clip.get_events(self.song)
+
+
         self.repeat_count = self.clip.repeat
         self.callbacks = Callbacks()
         self.start()
-
-    def queue_size(self):
-        """
-        How many events are not yet played?
-        """
-        return len(self.left_to_play)
 
     def _still_on_this_clip(self):
         """
@@ -56,7 +54,6 @@ class Player(object):
             return False
         return True
 
-
     def advance(self, milliseconds=TIME_INTERVAL):
         """
         Advances the playhead a number of milliseconds and plays all the notes
@@ -66,19 +63,23 @@ class Player(object):
         self.time_index += milliseconds
         clip = self.clip
 
-        while True:
+        #while True:
 
-            # consume any events we need to off the time queue
-            if len(self.left_to_play):
-                first = self.left_to_play[-1]
-                if first.time < self.time_index:
-                    self.engine.play(first)
-                    _ = self.left_to_play.pop()
-                else:
-                    # we aren't ready to play this yet
-                    break
-            else:
-                break
+
+        # consume any events we need to off the time queue
+        if len(self.left_to_play):
+
+            due = [ x for x in self.left_to_play if x.time < self.time_index ]
+            not_due = [x for x in self.left_to_play if x not in due ]
+
+            for x in due:
+                if x.type == NOTE_OFF:
+                    self.engine.play(x)
+            for x in due:
+                if x.type == NOTE_ON:
+                    self.engine.play(x)
+
+            self.left_to_play = not_due
 
         if self.time_index >= self.clip_length_in_ms:
             # the playhead has advanced beyond the end of the clip

@@ -38,7 +38,7 @@ class MultiPlayer(object):
         # stop all players that are attached
         for (n, p) in self.players.items():
             p.stop()
-            assert p.queue_size() == 0
+            #assert p.queue_size() == 0
 
         # clear the list of things that are playing, in case we start more
         self.clips = []
@@ -115,4 +115,5 @@ class MultiPlayer(object):
         self.clips = [ c for c in self.clips if c.name != clip.name ]
 
         if not add_pending and len(self.clips) == 0 and self.stop_if_empty:
+            print("-- all clips done --")
             raise AllClipsDone()

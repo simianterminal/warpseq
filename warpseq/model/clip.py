@@ -12,7 +12,7 @@ import functools
 import itertools
 
 from ..notation.note_parser import NoteParser
-from ..notation.time_stream import (chord_list_to_notes, notes_to_events)
+from ..notation.time_stream import (standardize_notes, notes_to_events)
 from ..playback.player import Player
 from ..utils import utils
 from .base import NewReferenceObject
@@ -244,9 +244,6 @@ class Clip(NewReferenceObject):
         return total
 
     def _process_pattern(self, song, t_start, pattern):
-
-        # return a list of steps (each step is a list of notes)
-
         self._current_tempo_shift = next(self._tempo_roller)
         octave_shift = pattern.octave_shift + self.track.instrument.base_octave
         slot_duration = self.slot_duration(song, pattern)
@@ -264,7 +261,7 @@ class Clip(NewReferenceObject):
         notation.setup()
 
         notes = [notation.do(expression, octave_shift) for expression in pattern.slots]
-        notes = chord_list_to_notes(notes, scale, slot_duration, t_start)
+        notes = standardize_notes(notes, scale, slot_duration, t_start)
 
         if transform:
             if type(transform) != list:
@@ -278,37 +275,26 @@ class Clip(NewReferenceObject):
         """
         Evaluates the clip to return a list of notes
         """
-
         t_start = 0
         results = []
         for pattern in self.patterns:
             results.extend(self._process_pattern(song, t_start, pattern))
         return results
 
-        #return itertools.chain([ self._process_pattern(song, t_start, pattern) for pattern in self.patterns])
-
-        #for pattern in self.patterns:
-        #    all_notes.extend(self._process_pattern(t_start, pattern))
-        #return all_notes
-
-
     def get_events(self, song):
         """
         Return the list of events for use by the player class.  Events are basically note objects
         but are split by ON and OFF events.
         """
-        c1 = time.time()
-        rc = notes_to_events(self, self.get_notes(song))
-        c2 = time.time()
-        print("TIME: %s" % (c2-c1))
-        return rc
-
+        #c1 = time.time()
+        return notes_to_events(self, self.get_notes(song))
+        #c2 = time.time()
+        #print("TIME: %s" % (c2-c1))
 
     def get_player(self, song, engine_class):
         """
         Return an instance of Player that can play this clip.
         """
-
         return Player(
             clip=self,
             song=song,

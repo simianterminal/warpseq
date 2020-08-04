@@ -61,7 +61,7 @@ def _add_note_to_bucket(this_bucket, note, scale, t_start):
     note.from_scale = scale
 
 
-def chord_list_to_notes(old_list, scale, slot_duration, t_start):
+def standardize_notes(old_list, scale, slot_duration, t_start):
 
     results = []
     previous_notes = []
@@ -145,7 +145,8 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
                         note.octave = min_o
                     events.append(event1)
 
-                    event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, scale=note.from_scale, on_event=event1)
+                    event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
                     events.append(event2)
+
 
     return events
