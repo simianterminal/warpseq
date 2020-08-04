@@ -48,12 +48,6 @@ class Scale(NewReferenceObject):
 
     __SLOTS__ = ['name', 'root', 'scale_type', 'slots', '_cached', 'obj_id']
 
-    #name = Field(type=str, required=False, nullable=False)
-    #root = Field(type=Note, required=False, nullable=True)
-    #scale_type = Field(type=str, required=False, nullable=True, default=None, choices=SCALE_TYPE_NAMES)
-    #slots = Field(type=list, required=False, nullable=True, default=None)
-    #_cached = Field(type=list, required=False)
-
     def __init__(self, name=None, root=None, scale_type=None, slots=None, obj_id=None):
         self.name = name
         self.root = root
@@ -69,7 +63,6 @@ class Scale(NewReferenceObject):
 
     def get_note_numbers(self):
         return [x for x in self._cached_numbers]
-
 
     def to_dict(self):
         data = dict(
@@ -141,15 +134,5 @@ class Scale(NewReferenceObject):
             if length is not None:
                 length = length - 1
 
-<<<<<<< HEAD
-
-=======
         return cache
 
-def scale(input):
-    """
-    Shortcut: scale(['C major') -> Scale object
-    """
-    (root, scale_type) = input.split()
-    return Scale(root=note(root), scale_type=scale_type)
->>>>>>> d595f71ff12fce8c3efbebcf3791c1959eb1fc8c
