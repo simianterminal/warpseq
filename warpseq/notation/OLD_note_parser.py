@@ -66,7 +66,6 @@ class NoteParser(object):
 
     def _do_single(self, clip, sym, octave_shift):
 
-
         """
         Processes a single expression and returns an array of notes.
         The symbol might represent a note or chord and may contain one or more mod expressions.
@@ -99,6 +98,17 @@ class NoteParser(object):
 
         # TODO: FIXME: combine processing to be less exception based
 
+        # HACK: if the note incoming is negative it will jump off our scale math, so
+        # instead convert it to a transposition.
+
+        if sym is not None and ((type(sym) == int) or sym.startswith("-")):
+            x = int(sym)
+            if x < 0:
+                sym = 1
+                if mod_expressions is None:
+                    mod_expressions = ""
+                mod_expressions.append("S%s" % x)
+
         # try to process chord notes then literal notes
         try:
             notes = self._chord_scale.do_notes(sym)
@@ -106,8 +116,7 @@ class NoteParser(object):
             # FIXME: we should have specific exception types here
             pass
 
-        # if roman numerals failed, try literals like C4 or C4major
-        if not notes:
+        if not notes and not is_int:
             try:
                 notes = self._literal.do_notes(sym)
             except Exception:

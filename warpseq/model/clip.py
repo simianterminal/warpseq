@@ -240,7 +240,7 @@ class Clip(NewReferenceObject):
         # and remove this logic below:
 
         print("-- WARNING -- DEFAULT TO CHROMATIC SCALE -- EXPECTED?")
-        return Scale(root=Note(name="C", octave=5), scale_type='chromatic')
+        return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
 
     def actual_tempo(self, song, pattern):
         """
@@ -288,8 +288,6 @@ class Clip(NewReferenceObject):
 
         t_start = 0.0
 
-
-
         # loop over each pattern in the list, all must play for one "repeat" of the clip
         for pattern in self.patterns:
 
@@ -324,7 +322,8 @@ class Clip(NewReferenceObject):
 
             # the smart expressions may output chords, so map them back into notes
             # "notes" now looks like: [[n1, n2, n3], [n4], [], [n5], [n6]]
-            notes = chord_list_to_notes(notes)
+            assert scale is not None
+            notes = chord_list_to_notes(notes, scale)
             # use ties to lengthen note events
             notes = evaluate_ties(notes)
             # now apply any octave shifts.

@@ -38,10 +38,11 @@ class DefaultCallback(Class):
         pass
 
     def on_note_on(self, event):
-        #print("> play: %s" % event)
+        #print("> note on: %s" % event)
         pass
 
     def on_note_off(self, event):
+        #print("> note off: %s" % event)
         pass
 
     def all_clips_done(self):

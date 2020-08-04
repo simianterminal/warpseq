@@ -4,9 +4,10 @@ NOTES
 RELEASE GATES
 =============
 
-* transpositions that fail should not return None, but should return the same note so as to not crash programs
-  octave math should set at bounds. use a callback to note the error.
+* rewrite note parser to be cleaner / better error handling of symbols / error reporting on invalid symbols 
+* implement MIDI panic to stop all notes on Ctrl-C
 
+* code cleanup
 * demo song
 * set up website publishing
 * upload a track to soundcloud

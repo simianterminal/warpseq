@@ -62,7 +62,8 @@ def is_variable(what):
 def get_variable(what):
     what = what.lower()
     name = what.replace("$","")
-    return VARIABLES[name]
+   # print("GV=%s=>%s" % (name, VARIABLES[name]))
+    return VARIABLES.get(name, 0)
 
 def set_variable(what, value):
     what = what.lower()

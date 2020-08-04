@@ -40,7 +40,7 @@ api.scales.add(name='F-user1', note='F', octave=0, slots = [1, 'b2', 'b3', '5', 
 api.scales.add(name='F-user2', note='F', octave=1, slots = [1, 'b2', 'b3', '5', 6 ])
 
 # setup patterns
-api.patterns.add(name='up', slots=['1','2','3','4','5','6','7','8'])
+api.patterns.add(name='up', slots=['1','2','3','4','5','6','7','8','9',10,11,12,13,14,15,16])
 api.patterns.add(name='down', slots=['8','7','6','5','4','3','2','1'])
 
 # setup scenes

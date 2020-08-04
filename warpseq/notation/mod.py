@@ -43,6 +43,7 @@ class ModExpression(object):
             if has_deferred:
                 input_note.flags['deferred'] = True
                 input_note.flags['deferred_expressions'] = expressions
+                return input_note
 
         # execute next is a boolean toggled by probability events
         self.execute_next = True

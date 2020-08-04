@@ -35,7 +35,8 @@ def expr_ignore(parser, input, how, extra_info):
 
 def expr_octave_up(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    return input.transpose(octaves=how)
+    res = input.transpose(octaves=how)
+    return res
 
 def expr_octave_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
@@ -43,14 +44,17 @@ def expr_octave_down(parser, input, how, extra_info):
 
 def expr_octave_set(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    return input.with_octave(how)
+    res = input.with_octave(how)
+    return res
 
 # ----------------------------------------------------------------------------------------------------------------------
 # SCALE NOTES
 
 def expr_scale_note_up(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    return input.scale_transpose(parser.scale, how)
+    ns = input.scale_transpose(parser.scale, how)
+    return ns
+
 
 def expr_scale_note_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)

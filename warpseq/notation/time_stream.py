@@ -47,25 +47,34 @@ def evaluate_ties(note_list):
 
     return results
 
-def chord_list_to_notes(old_list):
+def chord_list_to_notes(old_list, scale):
 
     results = []
+    assert scale is  not None
+
     for x in old_list:
 
         bucket = []
 
         if type(x) == Chord:
             bucket = x.notes
+            for y in x.notes:
+                y.from_scale = scale
 
         elif type(x) == list:
 
             for value in x:
                 if type(value) == Chord:
+                    for x in value.notes:
+                        x.from_scale = scale
                     bucket.extend(value.notes)
                 else:
+                    if value is not None:
+                        value.from_scale = scale
                     bucket.append(value)
 
         elif type(x) == Note:
+            x.from_scale = scale
             bucket.append(x)
 
         results.append(bucket)
