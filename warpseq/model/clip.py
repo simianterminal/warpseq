@@ -8,6 +8,7 @@
 # of a scene and track
 
 import time
+import functools
 
 from ..notation.note_parser import NoteParser
 from ..notation.time_stream import (chord_list_to_notes, evaluate_ties, notes_to_events)
@@ -220,6 +221,7 @@ class Clip(NewReferenceObject):
         tempo_ratio = (120 / self.actual_tempo(song, pattern))
         return tempo_ratio * 125
 
+    @functools.lru_cache(maxsize=128)
     def slot_duration(self, song, pattern):
         """
         Returns the slot duration in milliseconds - how long is each slot in a pattern before
@@ -230,6 +232,7 @@ class Clip(NewReferenceObject):
         slot_duration = snd * slot_ratio
         return slot_duration
 
+    @functools.lru_cache(maxsize=1)
     def get_clip_duration(self, song):
         """
         Returns the total length of the clip in milliseconds, which includes all patterns.

@@ -76,8 +76,14 @@ class NoteParser(object):
 
         for sym in items:
 
-            (strategy, sym, mod_expressions) = self._get_strategy(sym)
+            if sym is None:
+                sym = ""
+            sym = str(sym).strip()
+            tokens = sym.split(None)
+            sym = tokens[0]
+            mod_expressions = tokens[1:]
 
+            strategy = self._get_strategy(sym)
             res = strategy(sym)
 
             if not res:
@@ -108,29 +114,21 @@ class NoteParser(object):
         # FIXME: a rest should be a real note and not NONE because we can affix other
         # mod expressions to it.  We could consider it being a note with velocity 0?
 
-        sym = str(sym).strip()
-
         if sym is None or sym in [ "" , "_", "."]:
             # "x", "_", "", None, etc
-            return (self._rest_strategy, sym, [])
-
-        tokens = sym.split(None)
-        sym = tokens[0]
-        mod_expr = tokens[1:]
-
-        if sym == "-":
+            return self._rest_strategy
+        elif sym == "-":
             # "-"
-            return (self._tie_strategy, sym, mod_expr)
+            return self._tie_strategy
         elif sym in INTEGERS: # INT_REGEX.match(sym):
             # 1, 4, -2
-            return (self._scale_note_strategy, sym, mod_expr)
+            return self._scale_note_strategy
         elif sym in CHORD_SYMBOLS.keys() or ":" in sym:
             # I, IV, ivv, 3:major
-            return (self._scale_chord_strategy, sym, mod_expr)
-
+            return self._scale_chord_strategy
         elif NOTE_SHORTCUT_REGEX.match(sym):
             # C4, Eb4, F#
-            return (self._literal_note_strategy, sym, mod_expr)
+            return self._literal_note_strategy
 
         raise InvalidExpression(sym)
 

@@ -4,7 +4,8 @@ NOTES
 RELEASE GATES
 =============
 
-* code cleanup
+* rests should be Note objects
+* code cleanup (timestream, mod parser)
 * implement MIDI panic to stop all notes on Ctrl-C
 * update webpages for demo songs
 * set up website publishing
