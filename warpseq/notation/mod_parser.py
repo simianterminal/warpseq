@@ -138,6 +138,6 @@ def is_deferred_expr(expr):
     #    chk = "%s=" % k
     #    if expr.startswith(chk):
     #        return True
-    if expr.startswith("T=")  or '$x' in expr:
+    if expr.startswith("T=")  or '$' in expr:
         return True
     return False

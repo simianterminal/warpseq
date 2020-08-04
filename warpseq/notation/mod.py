@@ -71,8 +71,6 @@ class ModExpression(object):
                 return input_note
 
         from ..model.note import Note
-        #from ..model.chord import Chord
-
 
         if type(input_note) == Note:
             input_note.from_scale = self.scale

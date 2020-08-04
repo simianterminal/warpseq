@@ -104,6 +104,7 @@ class Transform(NewReferenceObject):
                 which_slot = next(self._slot_mods)
 
                 # calculate the new note using the mod expression
+
                 final_note = self._mod.do(which_note, which_slot)
                 if final_note is None:
                     continue
