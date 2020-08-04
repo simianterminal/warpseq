@@ -18,50 +18,19 @@ from .pattern import Pattern
 from .scale import Scale
 from .transform import Transform
 
+DEFAULT_SCALE = None
+
+def get_default_scale():
+    from .note import Note
+    global DEFAULT_SCALE
+    if DEFAULT_SCALE is None:
+        DEFAULT_SCALE = Scale(root=Note(name="C", octave=0), scale_type='chromatic')
+    return DEFAULT_SCALE
 
 class Clip(NewReferenceObject):
 
     from . track import Track
     from . scene import Scene
-
-    # -----
-
-    # THIS SECTION: USER EDITABLE
-
-    # PRIMARY FEATURES
-    #name = Field(type=str, required=True, nullable=False)
-    #scales = Field(type=list, required=False, nullable=True, default=None)
-    #patterns = Field(type=list, required=True, nullable=False)
-    #transforms = Field(type=list, default=None, nullable=True)
-
-    # COLUMN TWO
-    #rate = Field(type=float, default=1, nullable=False)
-    #repeat = Field(type=int, default=-1, nullable=True)
-    # these next two are mutually exclusive, if ASA is true, next_clip is ignored
-    #auto_scene_advance = Field(type=bool, default=False, nullable=False)
-    #next_clip = Field(required=False, nullable=True)
-
-    #tempo_shifts = Field(type=list, default=None, required=False, nullable=True)
-
-    # -------
-
-    # FIXME: do we need this anymore? Not an input parameter.
-    # length = Field(type=int, default=None, required=False, nullable=True)
-
-    # basically internal, not exposed in the public API, use 'rate' instead
-    # might be used later to implement some note length mods
-    #slot_length = Field(type=float, default=0.0625, required=False, nullable=False)
-
-    # internal state - not exposed
-    #track = Field(type=Track, default=None, required=False, nullable=True)
-    #scene = Field(type=Scene, default=None, required=False, nullable=True)
-    #_current_tempo_shift = Field(type=int, default=0, nullable=False)
-    #_tempo_roller = Field()
-    #_scale_roller = Field()
-    #_degree_roller = Field()
-    #_octave_roller = Field()
-    #_scale_note_roller = Field()
-    #_transform_roller = Field()
 
     __slots__ = [
         'name', 'scales', 'patterns', 'transforms', 'rate', 'repeat', 'auto_scene_advance', 'next_clip', 'tempo_shifts'
@@ -229,18 +198,13 @@ class Clip(NewReferenceObject):
 
         if roller:
             return next(roller)
-        if pattern and pattern.scale:
+        elif pattern and pattern.scale:
             return pattern.scale
-        if self.scene.scale:
+        elif self.scene.scale:
             return self.scene.scale
-        if song.scale:
+        elif song.scale:
             return song.scale
-
-        # FIXME: we should make the song object create this scale if not set on the constructor
-        # and remove this logic below:
-
-        print("-- WARNING -- DEFAULT TO CHROMATIC SCALE -- EXPECTED?")
-        return Scale(root=Note(name="C", octave=0), scale_type='chromatic')
+        return get_default_scale()
 
     def actual_tempo(self, song, pattern):
         """
@@ -322,7 +286,6 @@ class Clip(NewReferenceObject):
 
             # the smart expressions may output chords, so map them back into notes
             # "notes" now looks like: [[n1, n2, n3], [n4], [], [n5], [n6]]
-            assert scale is not None
             notes = chord_list_to_notes(notes, scale)
             # use ties to lengthen note events
             notes = evaluate_ties(notes)

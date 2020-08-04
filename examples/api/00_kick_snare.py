@@ -30,7 +30,7 @@ api.tracks.add(name='kick', instrument='kick_inst', muted=False)
 api.tracks.add(name='snare', instrument='snare_inst', muted=False)
 
 # setup scales
-api.scales.add(name='C-major', note='C', octave=3, scale_type='major')
+# api.scales.add(name='C-major', note='C', octave=3, scale_type='major')
 
 # setup patterns
 api.patterns.add(name='kick_4_4',  slots="C1 . . . C1 . . . C1 . . . C1 . . .".split())
@@ -39,7 +39,7 @@ api.patterns.add(name='kick_alt',  slots="C1 . C1 . C1 . .  . C1 . .  . C1 . .  
 api.patterns.add(name='snare_alt', slots=".  . D1 . .  . D1 D1 .  D1 D1 . .  D1 D1 .".split())
 
 # setup scenes
-api.scenes.add(name='scene_1', scale='C-major', auto_advance=True)
+api.scenes.add(name='scene_1', scale=None, auto_advance=True)
 #api.scenes.add(name='scene_2', scale='C-major', auto_advance=True)
 
 # setup clips
