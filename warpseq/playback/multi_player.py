@@ -115,5 +115,6 @@ class MultiPlayer(object):
         self.clips = [ c for c in self.clips if c.name != clip.name ]
 
         if not add_pending and len(self.clips) == 0 and self.stop_if_empty:
-            print("-- all clips done --")
+            #print("-- all clips done --")
+            time.sleep(0.5)
             raise AllClipsDone()

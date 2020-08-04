@@ -13,7 +13,7 @@ from warpseq.api.public import Api as WarpApi
 
 # setup API and song
 api = WarpApi()
-api.song.edit(tempo=160)
+api.song.edit(tempo=120)
 
 # setup instruments
 DEVICE = demo.suggest_device(api, 'IAC Driver IAC Bus 1')

@@ -42,6 +42,14 @@ class Player(object):
         self.callbacks = Callbacks()
         self.start()
 
+    def inject_off_event(self, event):
+        event2 = event.copy()
+        event2.type = NOTE_OFF
+        event2.off_event = None
+        event2.on_event = event
+        event2.time = event.time + event.note.length
+        self.left_to_play.append(event2)
+
     def _still_on_this_clip(self):
         """
         We are due to still be playing this clip if the clip has infinite repeats
@@ -61,25 +69,34 @@ class Player(object):
         """
 
         self.time_index += milliseconds
-        clip = self.clip
-
-        #while True:
-
+        # clip = self.clip
 
         # consume any events we need to off the time queue
         if len(self.left_to_play):
 
             due = [ x for x in self.left_to_play if x.time < self.time_index ]
-            not_due = [x for x in self.left_to_play if x not in due ]
+
+            # if there is both an ON and OFF event in the same time slice, this means
+            # that the note was retriggered, and OFF should happen and then ON
+
+            #if len(due):
+            #    print("---")
+            #    print("t=%s" % self.time_index)
 
             for x in due:
+            #    print("off: %s" % x)
                 if x.type == NOTE_OFF:
                     self.engine.play(x)
-            for x in due:
-                if x.type == NOTE_ON:
-                    self.engine.play(x)
 
-            self.left_to_play = not_due
+
+            for x in due:
+            #    print("on: %s" % x)
+                if x.type == NOTE_ON:
+                   self.engine.play(x)
+
+
+
+            self.left_to_play = [ x for x in self.left_to_play if x not in due ]
 
         if self.time_index >= self.clip_length_in_ms:
             # the playhead has advanced beyond the end of the clip

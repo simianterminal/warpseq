@@ -36,6 +36,8 @@ MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
 MIDI_NOTE_ON = 0x90
 
+
+
 class RealtimeEngine(object):
 
     from ... model.song import Song
@@ -43,19 +45,21 @@ class RealtimeEngine(object):
     from ... model.clip import Clip
     from ... model.scale import Scale
 
-    __slots__ = ['song','track','clip','channel','device','midi_out','instrument','midi_port','mod_expressions','callbacks']
+    __slots__ = ['song','track','clip','channel','device','midi_out','instrument','midi_port','mod_expressions','callbacks','on_count','player']
 
-    def __init__(self, song=None, track=None, clip=None):
+    def __init__(self, song=None, track=None, clip=None, player=None):
 
         self.song = song
         self.track = track
         self.clip = clip
+        self.on_count = 0
 
         self.instrument = self.track.instrument
         self.channel = self.instrument.channel
         self.device = self.instrument.device
         self.mod_expressions = ModExpression(defer=True, track=self.track)
         self.midi_out = rtmidi.MidiOut()
+        self.player = player
         self.callbacks = Callbacks()
 
         ports = self.midi_out.get_ports()
@@ -85,6 +89,9 @@ class RealtimeEngine(object):
 
         if event.type == NOTE_ON and event.note.flags['deferred'] == True:
 
+            # we have to process deferred expressions twice because of the mod events
+            # UNLESS we pair the off event.
+
             self.mod_expressions.scale = event.scale
 
             exprs = event.note.flags['deferred_expressions']
@@ -97,7 +104,10 @@ class RealtimeEngine(object):
                 value = self.mod_expressions.do(event.note, expr)
                 if value is None:
                     return
+
                 event.note = value
+                event.off_event.note = value
+
 
         # it is possible for mod expressions to take notes and return Chords. We have to do
         # cleanup here to turn this back into a list of notes.
@@ -108,6 +118,8 @@ class RealtimeEngine(object):
                 evt.note = x
                 evt.note.flags['deferred'] = False
                 self.play(evt)
+                self.player.inject_off_event(evt)
+
             return
 
         if not event.note:
@@ -133,6 +145,7 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
+            self.on_count = self.on_count + 1
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
 
         elif event.type == NOTE_OFF:
@@ -162,5 +175,7 @@ class RealtimeEngine(object):
                 #print("MUTED: %s" % self.track.name)
                 return
 
+            self.on_count = self.on_count - 1
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
 
+        #print("RT=%s" % self.on_count)

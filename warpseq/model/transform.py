@@ -44,6 +44,8 @@ class Transform(NewReferenceObject):
             octave_slots = data['slots']
         )
 
+    #notes = tform.process(scale, self.track, notes)
+
     def process(self, scale, track, note_list):
 
         """
@@ -98,6 +100,7 @@ class Transform(NewReferenceObject):
                 # apply the new time information
                 which_note.start_time = start_time
                 which_note.end_time = start_time + new_delta
+                #print("NS2=%s/%s" %(start_time, start_time+new_delta))
                 which_note.length = new_delta
 
                 # grab the next mod expression from this transform

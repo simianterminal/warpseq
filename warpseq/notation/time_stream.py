@@ -55,10 +55,12 @@ def evaluate_ties(note_list):
 
 def _add_note_to_bucket(this_bucket, note, scale, t_start):
     note.from_scale = scale
-    this_bucket.append(note)
     note.start_time = t_start
+    #print("TS======%s" % note.start_time)
     note.end_time = round(t_start + note.length)
+    #print("NS=%s/%s" % (note.start_time, note.end_time))
     note.from_scale = scale
+    this_bucket.append(note)
 
 
 def standardize_notes(old_list, scale, slot_duration, t_start):
@@ -98,7 +100,8 @@ def standardize_notes(old_list, scale, slot_duration, t_start):
             previous_notes = this_bucket
 
         results.append(this_bucket)
-        t_start = round(t_start + slot_duration)
+
+        t_start = t_start + slot_duration
 
     return results
 
@@ -147,6 +150,8 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
 
                     event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
                     events.append(event2)
+
+                    event1.off_event = event2
 
 
     return events

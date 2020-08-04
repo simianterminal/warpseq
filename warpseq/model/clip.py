@@ -260,14 +260,17 @@ class Clip(NewReferenceObject):
         notation.pattern = pattern
         notation.setup()
 
+        #print("SL=%s" % pattern.slots)
         notes = [notation.do(expression, octave_shift) for expression in pattern.slots]
-        notes = standardize_notes(notes, scale, slot_duration, t_start)
 
         if transform:
             if type(transform) != list:
                 transform = [transform]
             for tform in transform:
                 notes = tform.process(scale, self.track, notes)
+
+        #print("OIN=%s" % notes)
+        notes = standardize_notes(notes, scale, slot_duration, t_start)
 
         return notes
 
@@ -295,8 +298,10 @@ class Clip(NewReferenceObject):
         """
         Return an instance of Player that can play this clip.
         """
-        return Player(
+        player = Player(
             clip=self,
             song=song,
             engine=engine_class(song=song, track=self.track, clip=self),
         )
+        player.engine.player = player
+        return player
