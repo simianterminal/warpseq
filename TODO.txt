@@ -4,9 +4,10 @@ NOTES
 RELEASE GATES
 =============
 
-* rests should be Note objects
+* fix tie code - what is up?
+* verify intra-track example?
 * code cleanup (timestream, mod parser)
-* implement MIDI panic to stop all notes on Ctrl-C
+
 * update webpages for demo songs
 * set up website publishing
 * enable patreon page (= discord access)
@@ -18,6 +19,7 @@ FUTURE/IDEAS
 * mod expression for chord inversions (already implemented functions!)
 * mod expressions for reverse/reshuffle pattern
 * flag on transform to reset when pattern resets (?)
+* code cleanup - if rests were note objects they could have mod expressions attached
 
 * web interface
 * REST-ish JSON API with background thread
