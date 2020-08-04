@@ -8,7 +8,7 @@
 # a scale.
 
 from .base import NewReferenceObject
-from .note import Note, note
+from .note import Note
 import functools
 
 SCALE_TYPES = dict(
@@ -45,8 +45,6 @@ def scale_types():
     return values
 
 class Scale(NewReferenceObject):
-
-    from . note import Note
 
     __SLOTS__ = ['name', 'root', 'scale_type', 'slots', '_cached', 'obj_id']
 
@@ -158,9 +156,4 @@ class Scale(NewReferenceObject):
             if length is not None:
                 length = length - 1
 
-def scale(input):
-    """
-    Shortcut: scale(['C major') -> Scale object
-    """
-    (root, scale_type) = input.split()
-    return Scale(root=note(root), scale_type=scale_type)
+

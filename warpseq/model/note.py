@@ -16,7 +16,6 @@ from .base import BaseObject
 import functools
 
 DEFAULT_VELOCITY = 120
-NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
 
 NOTES          = [ 'C',  'Db', 'D', 'Eb', 'E',  'F',  'Gb', 'G',  'Ab', 'A', 'Bb', 'B' ]
 EQUIVALENCE    = [ 'C',  'C#', 'D', 'D#', 'E',  'F',  'F#', 'G',  'G#', 'A', 'A#', 'B' ]
@@ -227,18 +226,4 @@ class Note(object):
         # FIXME: simplify as this is no longer used for debug
         return "Note<%s%s,LEN=%s,s=%s,e=%s,cc=%s>" % (self.name, self.octave, self.length,self.start_time, self.end_time, self.flags['cc'])
 
-def note(st):
-     """
-     note('Db3') -> Note(name='Db', octave=3)
-     """
-     if type(st) == Note:
-         return st
-     match = NOTE_SHORTCUT_REGEX.match(st)
-     if not match:
-         raise InvalidNote("cannot form note from: %s" % st)
-     name = match.group(1)
-     octave = match.group(2)
-     if octave == '' or octave is None:
-        octave = 4
-     octave = int(octave)
-     return Note(name=name, octave=octave, length=None)
+

@@ -9,7 +9,7 @@
 
 from ..api.exceptions import *
 from .base import BaseObject
-from .note import Note, note
+from .note import Note
 from .pattern import Pattern
 from .scale import Scale
 from .transform import Transform
@@ -172,15 +172,15 @@ class Chord(object):
             new_chord.notes[2] = new_chord.notes[2].transpose(octaves=octaves)
         return new_chord
 
-def chord(input):
-    """
-    Shortcut: chord(['C5', 'E5', 'G5') -> Chord object
-    Shortcut: chord('C5 dim') -> Chord object
-    """
-    if type(input) == list:
-        notes = [ note(n) for n in input ]
-        return Chord(notes=notes)
-    else:
-        tokens = input.split()
-        assert len(tokens) == 2, "invalid chord expression: %s" % input
-        return Chord(root=note(tokens[0]), chord_type=tokens[1])
+#def chord(input):
+#    """
+#    Shortcut: chord(['C5', 'E5', 'G5') -> Chord object
+#   Shortcut: chord('C5 dim') -> Chord object
+#   """
+#   if type(input) == list:
+#        notes = [ note(n) for n in input ]
+#        return Chord(notes=notes)
+#    else:
+#        tokens = input.split()
+#        assert len(tokens) == 2, "invalid chord expression: %s" % input
+#        return Chord(root=note(tokens[0]), chord_type=tokens[1])
