@@ -10,7 +10,7 @@
 
 from ..api.exceptions import *
 from ..model.note import Note, NOTES, EQUIVALENCE
-from ..model.chord import CHORD_TYPES
+from ..model.chord import Chord, CHORD_TYPES
 from .mod import ModExpression
 
 import functools
@@ -19,7 +19,7 @@ import re
 import time
 
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
-INT_REGEX = re.compile("^[0-9]+$")
+#INT_REGEX = re.compile("^[0-9]+$")
 
 CHORD_SYMBOLS = dict(
    I   = [ 1, 'major' ],
@@ -39,6 +39,8 @@ CHORD_SYMBOLS = dict(
 )
 
 
+INTEGERS = set([ str(x) for x in range(-40,40) ])
+
 class ExpressionEvaluationError(Exception):
     pass
 
@@ -55,7 +57,7 @@ class NoteParser(object):
 
     def setup(self):
         self._mod = ModExpression(defer=False)
-        self._slot_duration = self.clip.slot_duration(self.song, self.pattern)
+        self._slot_duration = round(self.clip.slot_duration(self.song, self.pattern))
 
     def do(self, sym, octave_shift):
         """
@@ -73,79 +75,75 @@ class NoteParser(object):
         all_notes = []
 
         for sym in items:
-            (strategy, mod_expressions) = self._get_strategy(sym)
-            notes = strategy(sym)
-            self._apply_lengths_and_octaves(clip, notes, octave_shift)
+
+            (strategy, sym, mod_expressions) = self._get_strategy(sym)
+
+            res = strategy(sym)
+
+            if not res:
+                all_notes.extend([None])
+                continue
+
+            if type(res) == Chord:
+                notes = res.notes
+            else:
+                notes = [ res ]
+
+            for note in notes:
+                if note:
+                    note.length = self._slot_duration
+                    if not note.tie:
+                        note.octave = note.octave + octave_shift
+
             notes = self._process_mod_expressions(notes, mod_expressions)
+
             all_notes.extend(notes)
 
         return all_notes
 
-    @functools.lru_cache(maxsize=256)
-    def _is_rest(self, sym):
-        return sym is None or sym in [ "" , "_", "."]
-
-    @functools.lru_cache(maxsize=256)
-    def _is_tie(self, sym):
-        return sym == "-"
-
-    @functools.lru_cache(maxsize=256)
-    def _is_scale_note(self, sym):
-        return NOTE_SHORTCUT_REGEX.match(sym)
-
-    @functools.lru_cache(maxsize=256)
-    def _is_scale_chord(self, sym):
-        print("SYM=%s" % sym)
-        print("CHORD_SYMBOLS=%s" % CHORD_SYMBOLS.keys())
-        if sym in CHORD_SYMBOLS.keys() or ":" in sym:
-            print("OK!")
-            return True
-        else:
-            return False
-
-    @functools.lru_cache(maxsize=256)
-    def _is_literal_note(self, sym):
-        return NOTE_SHORTCUT_REGEX.match(sym)
 
     @functools.lru_cache(maxsize=256)
     def _get_strategy(self, sym):
 
+        # FIXME: a rest should be a real note and not NONE because we can affix other
+        # mod expressions to it.  We could consider it being a note with velocity 0?
+
         sym = str(sym).strip()
+
+        if sym is None or sym in [ "" , "_", "."]:
+            # "x", "_", "", None, etc
+            return (self._rest_strategy, sym, [])
+
         tokens = sym.split(None)
         sym = tokens[0]
         mod_expr = tokens[1:]
 
-        if self._is_rest(sym):
-            # "x", "_", "", None, etc
-            return (self._rest_strategy, mod_expr)
-        elif self._is_tie(sym):
+        if sym == "-":
             # "-"
-            return (self._tie_strategy, mod_expr)
-        elif self._is_scale_chord(sym):
-            # I, IV, ivv, 3:major
-            return (self._scale_chord_strategy, mod_expr)
-        elif self._is_scale_note(sym):
+            return (self._tie_strategy, sym, mod_expr)
+        elif sym in INTEGERS: # INT_REGEX.match(sym):
             # 1, 4, -2
-            return (self._scale_note_strategy, mod_expr)
-        elif self._is_literal_note(sym):
+            return (self._scale_note_strategy, sym, mod_expr)
+        elif sym in CHORD_SYMBOLS.keys() or ":" in sym:
+            # I, IV, ivv, 3:major
+            return (self._scale_chord_strategy, sym, mod_expr)
+
+        elif NOTE_SHORTCUT_REGEX.match(sym):
             # C4, Eb4, F#
-            return (self._literal_note_strategy, mod_expr)
+            return (self._literal_note_strategy, sym, mod_expr)
 
         raise InvalidExpression(sym)
 
     def _rest_strategy(self, sym):
-        return [ None ]
+        return None
 
     def _tie_strategy(self, sym):
-        return [ Note(tie=True, name=None, octave=None, length=int(self._slot_duration)) ]
+        return Note(tie=True, name=None, octave=None, length=int(self._slot_duration))
 
     def _scale_note_strategy(self, sym):
-        print("SNS: %s" % sym)
-        position = int(sym) - 1
-        return self.scale.get_notes()[position].copy()
+        return self.scale.get_notes()[int(sym)-1].copy()
 
     def _scale_chord_strategy(self, sym):
-        print("SCS")
         override_typ = None
         if ":" in sym:
            (sym, override_typ) = sym.split(":",1)
@@ -155,15 +153,13 @@ class NoteParser(object):
         (scale_num, typ) = chord_data
         if override_typ is not None:
             typ = override_type
-
         pos = int(scale_num) - 1
         buffer = self.scale.get_notes()
-        base_note = buffer[pos].copy()
-        return Chord(root=base_note, chord_type=typ)
+        return Chord(root=buffer[pos].copy(), chord_type=typ)
 
     def _literal_note_strategy(self, sym):
 
-        match = NOTE_SHORTCUT_REGEX.match(st)
+        match = NOTE_SHORTCUT_REGEX.match(sym)
 
         name = match.group(1)
         octave = match.group(2)
@@ -172,13 +168,6 @@ class NoteParser(object):
         else:
             octave = 4
         return Note(name=name, octave=octave, length=None)
-
-
-    def _apply_lengths_and_octaves(self, clip, notes, octave_shift):
-        slot_duration = clip.slot_duration(self.song, self.pattern)
-        for note in notes:
-            note.length = round(slot_duration)
-            note.octave = note.octave + octave_shift
 
     def _process_mod_expressions(self, notes, mod_expressions):
         new_notes = []
@@ -191,3 +180,4 @@ class NoteParser(object):
                 new_notes.append(new_note)
             else:
                 new_notes.append(note)
+        return new_notes

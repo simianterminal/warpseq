@@ -9,7 +9,7 @@
 
 import time
 
-from ..notation.note_parser2 import NoteParser
+from ..notation.note_parser import NoteParser
 from ..notation.time_stream import (chord_list_to_notes, evaluate_ties, notes_to_events)
 from ..playback.player import Player
 from ..utils import utils
