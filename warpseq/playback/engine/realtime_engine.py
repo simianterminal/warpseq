@@ -100,7 +100,6 @@ class RealtimeEngine(object):
                 assert event.note.from_scale is not None
                 self.mod_expressions.scale = event.note.from_scale
 
-                #value = self.mod_expressions.do(event.note, event.scale, self.track, expr)
                 value = self.mod_expressions.do(event.note, expr)
                 if value is None:
                     return
@@ -137,7 +136,6 @@ class RealtimeEngine(object):
             register_playing_note(self.track, event.note)
 
             if self.track.muted or self.instrument.muted:
-                #print("MUTED: %s" % self.track.name)
                 return
 
             for (channel, value) in event.note.flags['cc'].items():
@@ -167,15 +165,12 @@ class RealtimeEngine(object):
                 velocity = self.instrument.default_velocity
             note_number = event.note.note_number()
 
-            #self.count_off = self.count_off + 1
 
             unregister_playing_note(self.track, event.on_event.note)
 
             if self.track.muted or self.instrument.muted:
-                #print("MUTED: %s" % self.track.name)
                 return
 
             self.on_count = self.on_count - 1
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
 
-        #print("RT=%s" % self.on_count)

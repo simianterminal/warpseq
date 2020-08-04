@@ -230,7 +230,6 @@ class Note(object):
         return self.note_number() < other.note_number()
 
     def __repr__(self):
-        # FIXME: simplify as this is no longer used for debug
         return "Note<%s|%s,len=%s,cc=%s,tie=%s>" % (self.name, self.octave, self.length, self.flags['cc'], self.tie)
 
 

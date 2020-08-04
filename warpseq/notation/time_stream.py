@@ -140,8 +140,6 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
                 if note is not None and not note.tie:
 
                     event1 = Event(type=NOTE_ON, note=note, time=note.start_time, scale=note.from_scale)
-                    #print("event1=%s" % note)
-                    #print("tie?=%s" % note.tie)
                     if note.octave > max_o:
                         note.octave = max_o
                     if note.octave < min_o:

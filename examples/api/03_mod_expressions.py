@@ -69,4 +69,4 @@ api.clips.add(name='s11c', scene='scene_11', track='lead', scales=['C-major'], p
 api.clips.add(name='s12c', scene='scene_12', track='lead', scales=['C-major'], patterns=['many things also with chords'], repeat=4, auto_scene_advance=True)
 
 # play starting on the first scene - Ctrl+C to exit.
-api.player.loop('scene_8')
+api.player.loop('scene_1')

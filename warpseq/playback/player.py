@@ -30,6 +30,7 @@ class Player(object):
         self.clip = clip
         self.song = song
         self.engine = engine
+        self.time_index = 0
 
         self.left_to_play = None
 
@@ -43,6 +44,7 @@ class Player(object):
         self.start()
 
     def inject_off_event(self, event):
+
         event2 = event.copy()
         event2.type = NOTE_OFF
         event2.off_event = None
@@ -69,7 +71,6 @@ class Player(object):
         """
 
         self.time_index += milliseconds
-        # clip = self.clip
 
         # consume any events we need to off the time queue
         if len(self.left_to_play):
@@ -79,47 +80,36 @@ class Player(object):
             # if there is both an ON and OFF event in the same time slice, this means
             # that the note was retriggered, and OFF should happen and then ON
 
-            #if len(due):
-            #    print("---")
-            #    print("t=%s" % self.time_index)
-
             for x in due:
-            #    print("off: %s" % x)
                 if x.type == NOTE_OFF:
                     self.engine.play(x)
 
-
             for x in due:
-            #    print("on: %s" % x)
                 if x.type == NOTE_ON:
                    self.engine.play(x)
-
 
 
             self.left_to_play = [ x for x in self.left_to_play if x not in due ]
 
         if self.time_index >= self.clip_length_in_ms:
-            # the playhead has advanced beyond the end of the clip
+
+            # the play-head has advanced beyond the end of the clip
 
             if self._still_on_this_clip():
                 # the clip is due to repeat again...
-
                 self.callbacks.on_clip_restart(self.clip)
                 # recompute events so randomness can change
                 self.events = self.clip.get_events(self.song)
                 self.start()
-
             else:
                 # the clip isn't due to repeat again, make sure we have played any note off events
                 # before removing it
 
                 self.stop()
-                removed = False
 
                 if self.clip.auto_scene_advance:
 
                     # see if the clip says to go play a new scene
-
                     new_scene = self.song.next_scene(self.clip.scene)
                     if new_scene:
                         self._multiplayer.remove_clip(self.clip, add_pending=True)
@@ -129,26 +119,23 @@ class Player(object):
                             raise AllClipsDone()
 
                         self._multiplayer.play_scene(new_scene)
-                        removed = True
                         return
 
                 if self.clip.next_clip is not None:
 
                     # the clip didn't name a new scene but did name a new clip
-
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
                     self._multiplayer.remove_clip(self.clip, add_pending=True)
                     self._multiplayer.add_clips([new_clip])
-                    removed = True
                     return
 
-                if not removed:
-                    self._multiplayer.remove_clip(self.clip)
+                self._multiplayer.remove_clip(self.clip)
 
     def stop(self):
         """
         Stop this clip/player making sure to send any midi off events
         """
+
         for event in self.left_to_play:
             if event.type == NOTE_OFF:
                 self.engine.play(event)
@@ -159,6 +146,7 @@ class Player(object):
         Stop the clip if already playing, then configure the play head to read from the start of the clip.
         This isn't a directly usable API, use MultiPlayer instead.
         """
+
         if self.left_to_play is not None:
             self.stop()
         self.time_index = 0

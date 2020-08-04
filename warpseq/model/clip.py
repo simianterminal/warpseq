@@ -244,6 +244,7 @@ class Clip(NewReferenceObject):
         return total
 
     def _process_pattern(self, song, t_start, pattern):
+
         self._current_tempo_shift = next(self._tempo_roller)
         octave_shift = pattern.octave_shift + self.track.instrument.base_octave
         slot_duration = self.slot_duration(song, pattern)
@@ -260,7 +261,6 @@ class Clip(NewReferenceObject):
         notation.pattern = pattern
         notation.setup()
 
-        #print("SL=%s" % pattern.slots)
         notes = [notation.do(expression, octave_shift) for expression in pattern.slots]
 
         if transform:
@@ -269,7 +269,6 @@ class Clip(NewReferenceObject):
             for tform in transform:
                 notes = tform.process(scale, self.track, notes)
 
-        #print("OIN=%s" % notes)
         notes = standardize_notes(notes, scale, slot_duration, t_start)
 
         return notes
