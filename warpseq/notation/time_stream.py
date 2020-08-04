@@ -16,6 +16,8 @@ from ..model.event import NOTE_OFF, NOTE_ON, Event
 from ..model.note import Note
 
 
+# TODO: we can merge this with chord_list_to_notes and create less arrays
+JUNK="""
 def evaluate_ties(note_list):
 
     # note_list is like [[ n1, n2, n3], [n4], [n5, n6]]
@@ -28,8 +30,10 @@ def evaluate_ties(note_list):
 
         if n is None or len(n) == 0:
             results.append([])
+
         elif n[0] is None:
             results.append([])
+
         elif n[0].tie:
             is_tie = True
 
@@ -39,6 +43,7 @@ def evaluate_ties(note_list):
             else:
                 continue
             results.append([])
+
         else:
             results.append(n)
 
@@ -46,50 +51,58 @@ def evaluate_ties(note_list):
             previous_notes = n
 
     return results
+"""
 
-def chord_list_to_notes(old_list, scale):
+def _add_note_to_bucket(this_bucket, note, scale, t_start):
+    note.from_scale = scale
+    this_bucket.append(note)
+    note.start_time = t_start
+    note.end_time = round(t_start + note.length)
+    note.from_scale = scale
+
+
+def chord_list_to_notes(old_list, scale, slot_duration, t_start):
 
     results = []
+    previous_notes = []
 
-    for x in old_list:
+    # incoming is a list of things that happen in each slots (each is a list)
+    # each item may be a list of notes
+    # or a chord
+    # or a list containing ONE chord - which must be broken into notes
 
-        bucket = []
+    for slot in old_list:
 
-        if type(x) == Chord:
-            bucket = x.notes
-            for y in x.notes:
-                y.from_scale = scale
+        this_bucket = []
+        is_tie = False
 
-        elif type(x) == list:
+        for obj in slot:
 
-            for value in x:
-                if type(value) == Chord:
-                    for x in value.notes:
-                        x.from_scale = scale
-                    bucket.extend(value.notes)
+            if type(obj) == Chord:
+                for note in obj.notes:
+                    _add_note_to_bucket(this_bucket, note, scale, t_start)
+
+            elif type(obj) == Note:
+                if not obj.tie:
+                    _add_note_to_bucket(this_bucket, obj, scale, t_start)
                 else:
-                    if value is not None:
-                        value.from_scale = scale
-                    bucket.append(value)
+                    is_tie = True
 
-        elif type(x) == Note:
-            x.from_scale = scale
-            bucket.append(x)
+            elif obj is not None:
+                raise Exception("unexpected: %s" % obj)
 
-        results.append(bucket)
+        if is_tie:
+            for p in previous_notes:
+                p.length = p.length + slot_duration
+        else:
+            previous_notes = this_bucket
+
+        results.append(this_bucket)
+        t_start = round(t_start + slot_duration)
 
     return results
 
-def flatten(old_list):
 
-    # incoming is a list of notes: [n1, n2, n3], [n4], [], [n5, n6]
-    # output: [ n1, n2, n3, n4, n5, n6 ]
-
-    results = []
-    for x in old_list:
-        for y in x:
-            results.append(y)
-    return results
 
 def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
 
@@ -99,47 +112,40 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
     # and returns a event list like:
     #
     # [e1_on, e2_on, e3_on], [], [], [e1_off, e2_off, e3_off], [], ...
-    #
-    # with a finer granularity than the original input stream based on NOTE_RESOLUTION
 
-    note_list = flatten(note_list)
+    from ..model.chord import Chord
+    from ..model.note import Note
+
     events = []
 
-    for in_note in note_list:
+    max_o = clip.track.instrument.max_octave
+    min_o = clip.track.instrument.min_octave
 
-        from .. model.chord import Chord
-        from .. model.note import Note
+    for slot in note_list:
 
-        my_notes = None
-        if type(in_note) == Note:
-            my_notes = [ in_note ]
-        elif type(in_note) == Chord:
-            # an arp can sometimes generate chords from raw notes
-            my_notes = in_note.notes
-        else:
-            raise UnexpectedError("unexpected input: %s" % note)
+        for in_note in slot:
 
-        for note in my_notes:
+            if not in_note:
+                my_notes = []
+            elif type(in_note) == Note:
+                my_notes = [ in_note ]
+            else: # assume Chord
+                my_notes = in_note.notes
 
-            event1 = Event(type=NOTE_ON, note=note, time=note.start_time, scale=note.from_scale)
+            for note in my_notes:
 
-            if event1.note.octave > clip.track.instrument.max_octave:
-                event1.note.octave = clip.track.instrument.max_octave
-            if event1.note.octave < clip.track.instrument.min_octave:
-                event1.note.octave = clip.track.instrument.min_octave
+                if note is not None and not note.tie:
 
-            events.append(event1)
+                    event1 = Event(type=NOTE_ON, note=note, time=note.start_time, scale=note.from_scale)
+                    #print("event1=%s" % note)
+                    #print("tie?=%s" % note.tie)
+                    if note.octave > max_o:
+                        note.octave = max_o
+                    if note.octave < min_o:
+                        note.octave = min_o
+                    events.append(event1)
 
-            event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, scale=note.from_scale, on_event=event1)
-            events.append(event2)
-
-    def sorter(event):
-
-        if event.type == NOTE_OFF:
-            return event.time - 0.0001
-
-        return event.time
-
-    events.sort(key=sorter)
+                    event2 = Event(type=NOTE_OFF, note=note, time=note.end_time - NOTE_GAP, scale=note.from_scale, on_event=event1)
+                    events.append(event2)
 
     return events

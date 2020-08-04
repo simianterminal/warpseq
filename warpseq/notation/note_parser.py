@@ -78,10 +78,16 @@ class NoteParser(object):
 
             if sym is None:
                 sym = ""
+
             sym = str(sym).strip()
             tokens = sym.split(None)
-            sym = tokens[0]
-            mod_expressions = tokens[1:]
+
+            if sym:
+                sym = tokens[0]
+                mod_expressions = tokens[1:]
+            else:
+                sym = ''
+                mod_expressions = ''
 
             strategy = self._get_strategy(sym)
             res = strategy(sym)

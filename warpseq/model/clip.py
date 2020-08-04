@@ -9,9 +9,10 @@
 
 import time
 import functools
+import itertools
 
 from ..notation.note_parser import NoteParser
-from ..notation.time_stream import (chord_list_to_notes, evaluate_ties, notes_to_events)
+from ..notation.time_stream import (chord_list_to_notes, notes_to_events)
 from ..playback.player import Player
 from ..utils import utils
 from .base import NewReferenceObject
@@ -242,91 +243,53 @@ class Clip(NewReferenceObject):
             total = total + self.slot_duration(song, pattern) * len(pattern.slots)
         return total
 
+    def _process_pattern(self, song, t_start, pattern):
+
+        # return a list of steps (each step is a list of notes)
+
+        self._current_tempo_shift = next(self._tempo_roller)
+        octave_shift = pattern.octave_shift + self.track.instrument.base_octave
+        slot_duration = self.slot_duration(song, pattern)
+        scale = self.get_actual_scale(song, pattern, self._scale_roller)
+        if self._transform_roller:
+            transform = next(self._transform_roller)
+        else:
+            transform = None
+
+        notation = self._notation
+        notation.scale = scale
+        notation.song = song
+        notation.track = self.track
+        notation.pattern = pattern
+        notation.setup()
+
+        notes = [notation.do(expression, octave_shift) for expression in pattern.slots]
+        notes = chord_list_to_notes(notes, scale, slot_duration, t_start)
+
+        if transform:
+            if type(transform) != list:
+                transform = [transform]
+            for tform in transform:
+                notes = tform.process(scale, self.track, notes)
+
+        return notes
+
     def get_notes(self, song):
         """
         Evaluates the clip to return a list of notes
         """
 
-        # FIXME: this is long, split into smaller functions
-
-        # store the result here
-        all_notes = []
-
-        t_start = 0.0
-
-        # loop over each pattern in the list, all must play for one "repeat" of the clip
+        t_start = 0
+        results = []
         for pattern in self.patterns:
+            results.extend(self._process_pattern(song, t_start, pattern))
+        return results
 
-            # see if we need to nudge the tempo (default is no)
-            self._current_tempo_shift = next(self._tempo_roller)
+        #return itertools.chain([ self._process_pattern(song, t_start, pattern) for pattern in self.patterns])
 
-            # any scale notes will be shifted by the amount set on the pattern and instrument
-            octave_shift = pattern.octave_shift + self.track.instrument.base_octave
-
-            slot_duration = self.slot_duration(song, pattern)
-
-            scale = self.get_actual_scale(song, pattern, self._scale_roller)
-
-            # the list of transforms loops each time we move between patterns in the clip
-            # each "item" may be a list of one or more stacked transforms
-            if self._transform_roller:
-                transform = next(self._transform_roller)
-            else:
-                transform = None
-
-            slots = pattern.slots
-
-            notation = self._notation
-
-            notation.scale = scale
-            notation.song = song
-            notation.track = self.track
-            notation.pattern = pattern
-            notation.setup()
-
-            notes = [ notation.do(expression, octave_shift) for expression in slots ]
-
-            # the smart expressions may output chords, so map them back into notes
-            # "notes" now looks like: [[n1, n2, n3], [n4], [], [n5], [n6]]
-            notes = chord_list_to_notes(notes, scale)
-            # use ties to lengthen note events
-            notes = evaluate_ties(notes)
-            # now apply any octave shifts.
-
-            # FIXME: Support for scale shifts is obsolete and this function can take less parameters
-            # FIXME: this function is now obsolete.
-            #notes = evaluate_shifts(notes, octave_shift, 0, scale, 0)
-
-
-            # compute the start and end
-            # times of each note
-            # FIXME: move this into another function
-            for slot in notes:
-                for note in slot:
-                    note.start_time = round(t_start)
-                    note.end_time = round(t_start + note.length)
-                    note.from_scale = scale
-                t_start = t_start + slot_duration
-
-            # if the length of the pattern (or the clip) is shorter than the symbols provided, trim the pattern
-            # to just contain the first part
-
-            #d1 = time.time()
-
-            # apply any transforms to this pattern - there may be more than one
-
-            if transform:
-                # transforms can be in lists like: [t0, [t1, t2], t3, [ t4, t5, t6]]
-                if type(transform) != list:
-                    transform = [ transform ]
-                for tform in transform:
-                    notes = tform.process(scale, self.track, notes)
-
-            #d2 = time.time()
-
-            all_notes.extend(notes)
-
-        return all_notes
+        #for pattern in self.patterns:
+        #    all_notes.extend(self._process_pattern(t_start, pattern))
+        #return all_notes
 
 
     def get_events(self, song):
@@ -337,7 +300,7 @@ class Clip(NewReferenceObject):
         c1 = time.time()
         rc = notes_to_events(self, self.get_notes(song))
         c2 = time.time()
-        print("TIME=%s" % (c2-c1))
+        print("TIME: %s" % (c2-c1))
         return rc
 
 
@@ -346,9 +309,8 @@ class Clip(NewReferenceObject):
         Return an instance of Player that can play this clip.
         """
 
-        player = Player(
+        return Player(
             clip=self,
             song=song,
             engine=engine_class(song=song, track=self.track, clip=self),
         )
-        return player

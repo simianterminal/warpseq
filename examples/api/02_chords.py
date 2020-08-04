@@ -28,6 +28,10 @@ api.scales.add(name='C-minor', note='C', octave=0, scale_type='natural_minor')
 
 # setup patterns
 api.patterns.add(name='quiet', slots=['','',])
+api.patterns.add(name='major_hold', slots=['I', '-', '-', '-', '-', '-'])
+api.patterns.add(name='major_gap', slots=['I', '_', '_', '_', '_', '_'])
+
+
 api.patterns.add(name='major_chords', slots=['I', 'IV', 'V', ])
 api.patterns.add(name='minor_chords', slots=['i', 'iv', 'v', ])
 api.patterns.add(name='chords_with_silence_and_then_notes', slots = [ 'I', ' ', 1, 2, 3, 4, 5, 6 ])
@@ -38,6 +42,7 @@ api.patterns.add(name='all_chord_types', slots = [
 ])
 
 # setup scenes
+api.scenes.add(name='scene_0', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_1', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_2', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_3', rate=0.5, auto_advance=True)
@@ -45,6 +50,7 @@ api.scenes.add(name='scene_4', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_5', rate=0.5, auto_advance=True)
 
 # setup clips
+api.clips.add(name='s0c', scene='scene_0', track='lead', scales=['C-major'], patterns=['major_hold', 'quiet'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s1c', scene='scene_1', track='lead', scales=['C-major'], patterns=['major_chords','quiet'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s2c', scene='scene_2', track='lead', scales=['C-major'], patterns=['minor_chords','quiet'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s3c', scene='scene_3', track='lead', scales=['C-major'], patterns=['chords_with_silence_and_then_notes','quiet'], repeat=1, auto_scene_advance=True)
@@ -52,4 +58,4 @@ api.clips.add(name='s4c', scene='scene_4', track='lead', scales=['C-major'], pat
 api.clips.add(name='s5c', scene='scene_5', track='lead', scales=['C-major'], patterns=['all_chord_types','quiet'], repeat=1, auto_scene_advance=True)
 
 # play starting on the first scene - Ctrl+C to exit.
-api.player.loop('scene_1')
+api.player.loop('scene_0')

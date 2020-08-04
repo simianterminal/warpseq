@@ -44,7 +44,7 @@ class Note(object):
 
     __slots__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale' ]
 
-    def __init__(self, name=None, octave=None, tie=None, length=None, start_time=None, end_time=None, flags=None, velocity=None, from_scale=None):
+    def __init__(self, name=None, octave=None, tie=False, length=None, start_time=None, end_time=None, flags=None, velocity=None, from_scale=None):
          self.name = name
          self.octave = octave
          self.tie = tie
@@ -231,6 +231,6 @@ class Note(object):
 
     def __repr__(self):
         # FIXME: simplify as this is no longer used for debug
-        return "Note<%s%s,cc=%s>" % (self.name, self.octave, self.flags['cc'])
+        return "Note<%s|%s,len=%s,cc=%s,tie=%s>" % (self.name, self.octave, self.length, self.flags['cc'], self.tie)
 
 

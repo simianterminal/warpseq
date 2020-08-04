@@ -61,7 +61,7 @@ api.clips.add(name='kitchen sink',
               patterns=['up', 'down'],
               # each time we play a new pattern we will walk through and choose a new set of transforms
               # from this list. After the FOURTH pattern this will loop around
-              transforms=[['octave up'],['octave up', 'stutter'],['octave hop', 'every third note up 5th'], ['chance octave jump']],
+              transforms=[['octave up'],['octave up','stutter'],['octave hop', 'every third note up 5th'], ['chance octave jump']],
               # each pattern goes a little faster than the previous (for a while, anyway, then it cycles)
               tempo_shifts = [0, 5, 10, 15, 20, 25, 30 ],
               # we'll play this same clip for a long time. Each repeat includes playing all of the patterns
