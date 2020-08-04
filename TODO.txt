@@ -4,13 +4,10 @@ NOTES
 RELEASE GATES
 =============
 
-* rewrite note parser to be cleaner / better error handling of symbols / error reporting on invalid symbols 
-* implement MIDI panic to stop all notes on Ctrl-C
-
 * code cleanup
-* demo song
+* implement MIDI panic to stop all notes on Ctrl-C
+* update webpages for demo songs
 * set up website publishing
-* upload a track to soundcloud
 * enable patreon page (= discord access)
 * notation symbol parser should take 'x' as well as '.'
 
