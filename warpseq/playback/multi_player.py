@@ -59,9 +59,11 @@ class MultiPlayer(object):
 
         # time.sleep is unreliable - so we burn clock instead, giving us much nicer timing.
         x = time.perf_counter() + (milliseconds/1000.0)
+        y = 0
         while time.perf_counter() < x:
-            time.sleep(0.00005)
-            pass
+            y = y + 1
+            if y > 100:
+                y = 0
 
     def play_scene(self, scene):
         """
