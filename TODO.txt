@@ -4,13 +4,10 @@ NOTES
 RELEASE GATES
 =============
 
-* the instrument base octave and pattern octave shift should be added at note construction time, not in the end
-  so that S- and O- scale operations don't risk existing the scale
 * transpositions that fail should not return None, but should return the same note so as to not crash programs
-  octave math should set at bounds.
+  octave math should set at bounds. use a callback to note the error.
 
 * demo song
-* make an examples directory with some more musical songs in it
 * set up website publishing
 * upload a track to soundcloud
 * enable patreon page (= discord access)
@@ -21,8 +18,7 @@ FUTURE/IDEAS
 
 * mod expression for chord inversions (already implemented functions!)
 * mod expressions for reverse/reshuffle pattern
-* mod expression for use previous note value (use with p=0.5/p=0.25x)
-* flag on transform to reset when pattern resets
+* flag on transform to reset when pattern resets (?)
 
 * web interface
 * REST-ish JSON API with background thread
