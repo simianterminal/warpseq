@@ -230,6 +230,6 @@ class Note(object):
         return self.note_number() < other.note_number()
 
     def __repr__(self):
-        return "Note<%s|%s,len=%s,cc=%s,tie=%s>" % (self.name, self.octave, self.length, self.flags['cc'], self.tie)
+        return "Note<%s|%s,len=%s,time=%s/%s,cc=%s,tie=%s>" % (self.name, self.octave, self.length, self.start_time, self.end_time, self.flags['cc'], self.tie)
 
 

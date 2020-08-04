@@ -44,7 +44,7 @@ class Transform(NewReferenceObject):
             octave_slots = data['slots']
         )
 
-    def process(self, scale, track, note_list):
+    def process(self, scale, track, note_list, t_start):
 
         """
         Given a list of notes or chords, apply the transform expressions in *slots* to produce
@@ -71,6 +71,10 @@ class Transform(NewReferenceObject):
 
         #slot_modifications = roller(self.slots)
 
+        #slot_duration = clip.
+
+        start_time = t_start
+
         for notes in note_list:
 
             new_notes = []
@@ -80,6 +84,8 @@ class Transform(NewReferenceObject):
                 continue
 
             # compute the new time information for the divided notes
+
+
             old_delta = notes[0].end_time - notes[0].start_time
             new_delta = round(old_delta / divide)
 
@@ -87,7 +93,7 @@ class Transform(NewReferenceObject):
             # is looped through
             roll_notes = roller(notes)
 
-            start_time = notes[0].start_time
+            #start_time = notes[0].start_time
 
             for _ in range(0, divide):
 
@@ -95,9 +101,7 @@ class Transform(NewReferenceObject):
                 which_note = next(roll_notes) # .copy()
 
                 # apply the new time information
-                which_note.start_time = start_time
-                which_note.end_time = start_time + new_delta
-                which_note.length = new_delta
+
 
                 # grab the next mod expression from this transform
                 which_slot = next(self._slot_mods)
@@ -107,6 +111,10 @@ class Transform(NewReferenceObject):
                 final_note = self._mod.do(which_note, which_slot)
                 if final_note is None:
                     continue
+
+                final_note.start_time = start_time
+                final_note.end_time = start_time + new_delta
+                final_note.length = new_delta
 
                 start_time = start_time + new_delta
 

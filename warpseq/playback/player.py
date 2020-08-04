@@ -15,6 +15,16 @@ from ..model.event import NOTE_OFF, NOTE_ON, Event
 
 TIME_INTERVAL = 10
 
+def event_sorter(evt):
+
+
+    if evt.type == NOTE_OFF:
+        return evt.time + .000001
+        #return evt.time - .000001
+    else:
+        return evt.time
+        #return evt.time
+
 class Player(object):
 
     __slots__ = [ 'clip', 'song', 'engine', 'left_to_play', 'time_index', 'repeat_count', 'clip_length_in_ms', 'events', '_multiplayer', 'callbacks' ]
@@ -77,19 +87,21 @@ class Player(object):
 
             due = [ x for x in self.left_to_play if x.time < self.time_index ]
 
-            # if there is both an ON and OFF event in the same time slice, this means
-            # that the note was retriggered, and OFF should happen and then ON
+            if len(due):
 
-            for x in due:
-                if x.type == NOTE_OFF:
+                # if there is both an ON and OFF event in the same time slice, this means
+                # that the note was retriggered, and OFF should happen and then ON
+
+                due = sorted(due, key=event_sorter)
+
+                for x in due:
                     self.engine.play(x)
 
-            for x in due:
-                if x.type == NOTE_ON:
-                   self.engine.play(x)
+            #for x in due:
+            #    if x.type == NOTE_ON:
+            #       self.engine.play(x)
 
-
-            self.left_to_play = [ x for x in self.left_to_play if x not in due ]
+                self.left_to_play = [ x for x in self.left_to_play if x not in due ]
 
         if self.time_index >= self.clip_length_in_ms:
 

@@ -263,15 +263,23 @@ class Clip(NewReferenceObject):
 
         notes = [notation.do(expression, octave_shift) for expression in pattern.slots]
 
+        # if this is here we get stuck notes - why does this fix them?
+        notes = standardize_notes(notes, scale, slot_duration, t_start)
+
         if transform:
             if type(transform) != list:
                 transform = [transform]
+            i = 0
             for tform in transform:
-                notes = tform.process(scale, self.track, notes)
-
-        notes = standardize_notes(notes, scale, slot_duration, t_start)
+                i = i + 1
+                #assert notes[0][0].start_time is not None
+                #assert notes[0][0].end_time is not None
+                notes = tform.process(scale, self.track, notes, t_start)
 
         return notes
+
+
+
 
     def get_notes(self, song):
         """
