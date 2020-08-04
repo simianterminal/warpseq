@@ -50,7 +50,6 @@ def evaluate_ties(note_list):
 def chord_list_to_notes(old_list, scale):
 
     results = []
-    assert scale is  not None
 
     for x in old_list:
 

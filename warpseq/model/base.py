@@ -10,10 +10,6 @@ COUNTER = 0
 
 class BaseObject(object):
 
-    """
-    All base classes inherit from this.
-    """
-
     def one(self, alist):
         length = len(alist)
         if length == 0:
@@ -21,14 +17,7 @@ class BaseObject(object):
         assert length == 1
         return alist[0]
 
-class NewReferenceObject(object):
-
-    def one(self, alist):
-        length = len(alist)
-        if length == 0:
-            return None
-        assert length == 1
-        return alist[0]
+class NewReferenceObject(BaseObject):
 
     def new_object_id(self):
         global COUNTER

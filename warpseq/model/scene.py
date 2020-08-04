@@ -41,16 +41,13 @@ class Scene(NewReferenceObject):
         Add a clip to the scene.  This is used by song.py and should not
         be called directly.
         """
-        assert clip is not None
         if clip.obj_id not in self.clip_ids:
-            assert clip.obj_id is not None
             self.clip_ids.append(clip.obj_id)
 
     def has_clip(self, clip):
         """
         Is a clip part of this scene?
         """
-        assert clip is not None
         return clip.obj_id in self.clip_ids
 
     def remove_clip(self, clip):
@@ -58,7 +55,6 @@ class Scene(NewReferenceObject):
         Disassociate a clip from this scene.  This is used by song.py and should
         not be used directly.
         """
-        assert clip is not None
         self.clip_ids = [ c for c in self.clip_ids if c != clip.obj_id ]
 
     def to_dict(self):

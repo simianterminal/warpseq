@@ -225,7 +225,6 @@ class Clip(NewReferenceObject):
         Returns the slot duration in milliseconds - how long is each slot in a pattern before
         any transforms might be applied?
         """
-        assert pattern is not None
         snd = self.sixteenth_note_duration(song, pattern)
         slot_ratio = self.slot_length / (1/16.0)
         slot_duration = snd * slot_ratio
