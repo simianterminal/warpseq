@@ -112,6 +112,8 @@ class Transform(NewReferenceObject):
                 if final_note is None:
                     continue
 
+                #print("NEW DELTA=%s" % new_delta)
+
                 final_note.start_time = start_time
                 final_note.end_time = start_time + new_delta
                 final_note.length = new_delta

@@ -145,10 +145,9 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
                         note.octave = min_o
                     events.append(event1)
 
-                    event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
-                    events.append(event2)
-
-                    event1.off_event = event2
+                    #event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
+                    #events.append(event2)
+                    #event1.off_event = event2
 
 
     return events

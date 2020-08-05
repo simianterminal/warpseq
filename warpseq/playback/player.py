@@ -10,20 +10,21 @@
 
 from ..api.callbacks import Callbacks
 from ..api.exceptions import *
-from ..model.base import BaseObject
 from ..model.event import NOTE_OFF, NOTE_ON, Event
+import time
+from .. notation.time_stream import NOTE_GAP
 
 TIME_INTERVAL = 10
 
-def event_sorter(evt):
-
-
-    if evt.type == NOTE_OFF:
-        return evt.time + .000001
-        #return evt.time - .000001
-    else:
-        return evt.time
-        #return evt.time
+#def event_sorter(evt):
+#
+#
+#    if evt.type == NOTE_OFF:
+#        return evt.time + .000001
+#        #return evt.time - .000001
+#    else:
+#        return evt.time
+#        #return evt.time
 
 class Player(object):
 
@@ -59,7 +60,8 @@ class Player(object):
         event2.type = NOTE_OFF
         event2.off_event = None
         event2.on_event = event
-        event2.time = event.time + event.note.length
+        print("INJECT OFF EVENT: %s" % (event.time + event.note.length - NOTE_GAP))
+        event2.time = event.time + event.note.length - NOTE_GAP
         self.left_to_play.append(event2)
 
     def _still_on_this_clip(self):
@@ -92,10 +94,16 @@ class Player(object):
                 # if there is both an ON and OFF event in the same time slice, this means
                 # that the note was retriggered, and OFF should happen and then ON
 
-                due = sorted(due, key=event_sorter)
+                #due = sorted(due, key=event_sorter)
+
+                print("DUE=%s" % due)
 
                 for x in due:
+                    #if x.type == NOTE_OFF:
                     self.engine.play(x)
+                #for x in due:
+                #    if x.type == NOTE_ON:
+                #        self.engine.play(x)
 
             #for x in due:
             #    if x.type == NOTE_ON:
@@ -111,7 +119,10 @@ class Player(object):
                 # the clip is due to repeat again...
                 self.callbacks.on_clip_restart(self.clip)
                 # recompute events so randomness can change
+                t1 = time.perf_counter()
                 self.events = self.clip.get_events(self.song)
+                t2 = time.perf_counter()
+                print("EVENTS=%s" % (t2-t1))
                 self.start()
             else:
                 # the clip isn't due to repeat again, make sure we have played any note off events

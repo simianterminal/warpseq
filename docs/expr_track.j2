@@ -1,5 +1,11 @@
 <h1>Intra-Track Expressions</h1>
 
+{{ begin_warn_block() }}
+Intra-track events are considered experimental at this point in development.  They may work, but timing implementations
+may result in some abnormal results.
+{{ end_warn_block() }}
+
+
 <p>
 Warpseq allows tracks to choose what they are doing based on what is happening on other tracks. We may call these tracks
 "guide tracks", and often, they might even be muted tracks that are not themselves playing notes.

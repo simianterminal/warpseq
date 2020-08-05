@@ -102,7 +102,6 @@ class RealtimeEngine(object):
                     return
 
                 event.note = value
-                event.off_event.note = value
 
 
         # it is possible for mod expressions to take notes and return Chords. We have to do
@@ -114,7 +113,6 @@ class RealtimeEngine(object):
                 evt.note = x
                 evt.note.flags['deferred'] = False
                 self.play(evt)
-                self.player.inject_off_event(evt)
 
             return
 
@@ -140,8 +138,15 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
+            print("ON: %s" % event.note)
             self.on_count = self.on_count + 1
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
+
+            self.player.inject_off_event(event)
+            # event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
+            # events.append(event2)
+            # event1.off_event = event2
+
 
         elif event.type == NOTE_OFF:
 
@@ -160,13 +165,15 @@ class RealtimeEngine(object):
             velocity = event.note.velocity
             if velocity is None:
                 velocity = self.instrument.default_velocity
-            note_number = event.note.note_number()
+            note_number = event.on_event.note.note_number()
 
 
             unregister_playing_note(self.track, event.on_event.note)
 
             if self.track.muted or self.instrument.muted:
                 return
+
+            print("OFF: %s" % event.on_event.note)
 
             self.on_count = self.on_count - 1
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])

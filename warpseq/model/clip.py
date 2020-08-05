@@ -212,6 +212,7 @@ class Clip(NewReferenceObject):
         """
         The current tempo is the song's tempo after all multipliers and the current tempo shift is applied.
         """
+        #print("R=%s,%s,%s,%s,%s" % (song.tempo, self.rate, pattern.rate, self.scene.rate, self._current_tempo_shift))
         return int(song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)
 
     def sixteenth_note_duration(self, song, pattern):
@@ -222,7 +223,7 @@ class Clip(NewReferenceObject):
         tempo_ratio = (120 / self.actual_tempo(song, pattern))
         return tempo_ratio * 125
 
-    @functools.lru_cache(maxsize=128)
+    #@functools.lru_cache(maxsize=128)
     def slot_duration(self, song, pattern):
         """
         Returns the slot duration in milliseconds - how long is each slot in a pattern before
@@ -233,7 +234,7 @@ class Clip(NewReferenceObject):
         slot_duration = snd * slot_ratio
         return slot_duration
 
-    @functools.lru_cache(maxsize=1)
+    #@functools.lru_cache(maxsize=1)
     def get_clip_duration(self, song):
         """
         Returns the total length of the clip in milliseconds, which includes all patterns.
