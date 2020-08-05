@@ -140,9 +140,10 @@ class RealtimeEngine(object):
 
             print("ON: %s" % event.note)
             self.on_count = self.on_count + 1
+            self.player.inject_off_event(event)
+
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
 
-            self.player.inject_off_event(event)
             # event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
             # events.append(event2)
             # event1.off_event = event2
