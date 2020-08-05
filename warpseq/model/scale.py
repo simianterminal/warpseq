@@ -46,7 +46,7 @@ def scale_types():
 
 class Scale(NewReferenceObject):
 
-    __SLOTS__ = ['name', 'root', 'scale_type', 'slots', '_cached', 'obj_id']
+    __slots__ = ['name', 'root', 'scale_type', 'slots', '_cached', 'obj_id']
 
     def __init__(self, name=None, root=None, scale_type=None, slots=None, obj_id=None):
         self.name = name

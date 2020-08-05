@@ -46,7 +46,7 @@ class ExpressionEvaluationError(Exception):
 
 class NoteParser(object):
 
-    __SLOTS__ = [ 'scale', 'song', 'clip', 'track', 'pattern', '_chord_scale', '_literal', '_mod', '_slot_duration']
+    __slots__ = [ 'scale', 'song', 'clip', 'track', 'pattern', '_chord_scale', '_literal', '_mod', '_slot_duration']
 
     def __init__(self, scale=None, song=None, clip=None, track=None, pattern=None):
         self.scale = scale

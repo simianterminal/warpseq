@@ -13,8 +13,6 @@ import rtmidi as rtmidi
 
 from ...api.callbacks import Callbacks
 from ...api.exceptions import *
-from ...model.base import BaseObject
-from ...model.event import NOTE_OFF, NOTE_ON
 from ...model.registers import register_playing_note, unregister_playing_note
 from ...notation.mod import ModExpression
 
@@ -35,7 +33,6 @@ MIDI_PITCH_BEND = 0xE0
 MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
 MIDI_NOTE_ON = 0x90
-
 
 
 class RealtimeEngine(object):

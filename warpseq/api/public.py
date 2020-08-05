@@ -11,6 +11,7 @@ import sys
 import traceback
 
 import rtmidi
+import gc
 
 from ..model.clip import Clip
 from ..model.device import Device
@@ -27,6 +28,8 @@ from ..playback.multi_player import MultiPlayer
 from .callbacks import Callbacks, DefaultCallback
 from .exceptions import *
 from .support import BaseApi
+
+gc.disable()
 
 # =====================================================================================================================
 

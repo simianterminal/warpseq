@@ -16,7 +16,7 @@ from ..api.exceptions import AllClipsDone
 from ..model.base import BaseObject
 from .player import TIME_INTERVAL
 import time
-
+import gc
 
 class MultiPlayer(object):
 
@@ -78,6 +78,8 @@ class MultiPlayer(object):
         """
         Adds a clip to be playing by creating a Player for it.
         """
+
+        gc.collect()
 
         for clip in clips:
 

@@ -106,7 +106,7 @@ lead_slots4 = [
 
 lead_slots5 = [
     4,
-    "4"
+    "4",
     "2 S+$x",
     "2",
 
