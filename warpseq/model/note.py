@@ -19,6 +19,7 @@ DEFAULT_VELOCITY = 120
 
 NOTES          = [ 'C',  'Db', 'D', 'Eb', 'E',  'F',  'Gb', 'G',  'Ab', 'A', 'Bb', 'B' ]
 EQUIVALENCE    = [ 'C',  'C#', 'D', 'D#', 'E',  'F',  'F#', 'G',  'G#', 'A', 'A#', 'B' ]
+EQUIVALENCE_SET = set(EQUIVALENCE)
 UP_HALF_STEP   = roll_left(NOTES)
 DOWN_HALF_STEP = roll_right(NOTES)
 
@@ -43,8 +44,8 @@ class Note(object):
 
     __slots__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale' ]
 
-    def __init__(self, name=None, octave=None, tie=False, length=None, start_time=None, end_time=None, flags=None, velocity=None, from_scale=None):
-         self.name = name
+    def __init__(self, name=None, octave=None, tie=False, length=None, start_time=None, end_time=None, flags=None, velocity=DEFAULT_VELOCITY, from_scale=None):
+
          self.octave = octave
          self.tie = tie
          self.length = length
@@ -54,19 +55,22 @@ class Note(object):
          self.velocity = velocity
          self.from_scale = from_scale
 
-         self.name =  self._equivalence(self.name)
+         if name in EQUIVALENCE_SET:
+             name = NOTES[EQUIVALENCE.index(name)]
+         self.name = name
+
          if self.flags is None:
-             self.flags = {}
-             self.flags['deferred'] = False
-             self.flags['deferred_expressions'] = []
-             self.flags['cc'] = dict()
-         # super().on_init()
+             self.flags = {
+                'deferred' : False,
+                'deferred_expressions' : [],
+                'cc' : {}
+             }
 
     def copy(self):
         """
         Returns a new Note with the same data as the current Note
         """
-        n1 = Note(name=self.name,
+        return Note(name=self.name,
                     octave=self.octave,
                     tie=self.tie,
                     length=self.length,
@@ -74,11 +78,12 @@ class Note(object):
                     end_time=self.end_time,
                     velocity=self.velocity,
                     from_scale=self.from_scale,
-                    flags={})
-        n1.flags['deferred'] = self.flags['deferred']
-        n1.flags['deferred_expressions'] = self.flags['deferred_expressions'].copy()
-        n1.flags['cc'] = self.flags['cc'].copy()
-        return n1
+                    flags={
+                        'deferred' : self.flags['deferred'],
+                        'deferred_expressions' : self.flags['deferred_expressions'].copy(),
+                        'cc' : self.flags['cc'].copy()
+                    }
+        )
 
     def chordify(self, chord_type):
         """
@@ -152,13 +157,6 @@ class Note(object):
         n1.flags["cc"][str(channel)] = value
         return n1
 
-    def _offset(self, semitones):
-        """
-        Calls into the note table for note math - whose code we should probably rewrite
-        """
-        # FIXME: rewrite/eliminate
-        return note_table.offset(self, semitones)
-
     def transpose(self, steps=0, semitones=0, degrees=None, octaves=0):
         """
         Returns a note a given number of steps or octaves or (other things) higher.
@@ -175,18 +173,13 @@ class Note(object):
             degree_steps = self._scale_degrees_to_steps(degrees)
         else:
             degree_steps = 0
-        if steps is None:
-            steps = 0
-        if octaves is None:
-            octaves = 0
-        if semitones is None:
-            semitones = 0
 
         steps = steps + (semitones * 0.5) + degree_steps
 
         result = self.copy()
         if steps:
-            result = result._offset(steps)
+            # this is in an in-place edit because the note was already copied
+            note_table.offset(result, steps)
         if octaves:
             result.octave = result.octave + octaves
         return result
@@ -196,18 +189,6 @@ class Note(object):
         What order is this note on the keyboard?
         """
         return NOTES.index(self.name) + (12 * self.octave)
-
-    #def __eq__(self, other):
-    #    """
-    #    Are two notes the same?
-    #    """
-    #    return self.note_number() == other.note_number()
-
-    #def __lt__(self, other):
-    #    """
-    #    Compare note ordering
-    #    """
-    #    return self.note_number() < other.note_number()
 
     def __repr__(self):
         return "Note<%s|%s,len=%s,time=%s/%s,cc=%s,tie=%s>" % (self.name, self.octave, self.length, self.start_time, self.end_time, self.flags['cc'], self.tie)

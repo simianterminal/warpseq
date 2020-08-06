@@ -58,7 +58,6 @@ class Scale(NewReferenceObject):
         super(Scale, self).__init__()
         self._internal_generate()
 
-
     def get_notes(self):
         return self._cached
 
@@ -90,22 +89,15 @@ class Scale(NewReferenceObject):
             s.root = Note(name=data['root'][0], octave=data['root'][1])
         return s
 
+    def _internal_generate(self, length=120):
 
 
-    def _internal_generate(self):
-
-        self._cached = self._generate_cache()
-        self._cached_numbers = [ x.note_number() for x in self._cached ]
-
-    def _generate_cache(self, length=140):
         """
         Allows traversal of a scale in a forward direction.
         Example:
         for note in scale.generate(length=7):
            print(note)
         """
-
-        assert length is not None
 
         scale_data = self.slots
 
@@ -135,5 +127,5 @@ class Scale(NewReferenceObject):
             if length is not None:
                 length = length - 1
 
-        return cache
-
+        self._cached = cache
+        self._cached_numbers = [ x.note_number() for x in self._cached ]

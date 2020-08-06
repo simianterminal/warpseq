@@ -8,7 +8,7 @@
 # (these could use some cleanup)
 
 # a small gap between notes that ensures the off notes fire before the on notes
-NOTE_GAP = 0.01
+NOTE_GAP = 0 # 0.01
 
 from ..api.exceptions import *
 from ..model.chord import Chord
@@ -145,11 +145,9 @@ def notes_to_events(clip, note_list): #, resolution=NOTE_RESOLUTION):
                         note.octave = max_o
                     if note.octave < min_o:
                         note.octave = min_o
+
                     events.append(event1)
 
-                    #event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
-                    #events.append(event2)
-                    #event1.off_event = event2
 
 
     return events

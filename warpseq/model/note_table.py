@@ -31,15 +31,14 @@ NOTE_TABLE = [
 def offset(note, tones):
 
     # this supports fractional semitones, like 1.5
-
     # FIXME: this implementation is **TEMPORARY** and can be implemented without the table - when removed, delete this file
+    # does not copy the input note - calling function has already made a copy
 
     if tones == 0:
         return note
     steps = 2 * tones
     steps = int(steps)
-    n1 = note.copy()
-    note_index = n1.note_number()
+    note_index = note.note_number()
     new_note_index = note_index + steps
     try:
         lookup = NOTE_TABLE[new_note_index]
@@ -49,6 +48,5 @@ def offset(note, tones):
         #print("S=%s" % steps)
         print("FAILED INDEX: %s" % new_note_index)
         raise
-    n1.name = lookup[0]
-    n1.octave = lookup[1]
-    return n1
+    note.name = lookup[0]
+    note.octave = lookup[1]

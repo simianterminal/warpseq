@@ -34,7 +34,6 @@ def expr_ignore(parser, input, how, extra_info):
 # OCTAVES
 
 def expr_octave_up(parser, input, how, extra_info):
-    #print("OU:%s/%s" % (input, how))
     how = evaluate_params(how, want_int=True)
     res = input.transpose(octaves=how)
     return res
@@ -54,28 +53,23 @@ def expr_octave_set(parser, input, how, extra_info):
 
 def expr_scale_note_up(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    res = input.scale_transpose(parser.scale, how)
-    return res
+    return input.scale_transpose(parser.scale, how)
 
 
 def expr_scale_note_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    res = input.scale_transpose(parser.scale, -how)
-    return res
-
+    return input.scale_transpose(parser.scale, -how)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # SCALE DEGREES
 
 def expr_degree_up(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    res = input.transpose(degrees=how)
-    return res
+    return input.transpose(degrees=how)
 
 def expr_degree_down(parser, input, how, extra_info):
     how = evaluate_params(how, want_int=True)
-    res = input.transpose(degrees=-how)
-    return res
+    return input.transpose(degrees=-how)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # VELOCITY
