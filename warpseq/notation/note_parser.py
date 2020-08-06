@@ -155,7 +155,7 @@ class NoteParser(object):
         return None
 
     def _tie_strategy(self, sym):
-        return Note(tie=True, name=None, length=self._slot_duration)
+        return Note(tie=True, name=None)
 
     def _scale_note_strategy(self, sym):
         return self._notes[int(sym)-1].copy()
@@ -182,5 +182,5 @@ class NoteParser(object):
             octave = int(octave)
         else:
             octave = 4
-        return Note(name=name, octave=octave) #, length=self._slot_duration)
+        return Note(name=name, octave=octave)
 
