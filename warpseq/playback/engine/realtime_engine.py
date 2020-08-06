@@ -37,11 +37,6 @@ MIDI_NOTE_ON = 0x90
 
 class RealtimeEngine(object):
 
-    from ... model.song import Song
-    from ... model.track import Track
-    from ... model.clip import Clip
-    from ... model.scale import Scale
-
     __slots__ = ['song','track','clip','channel','device','midi_out','instrument','midi_port','mod_expressions','callbacks','on_count','player']
 
     def __init__(self, song=None, track=None, clip=None, player=None):
@@ -138,7 +133,8 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
-            print("ON: %s" % event.note)
+            print("************************* ON: %s" % event.note)
+
             self.on_count = self.on_count + 1
             self.player.inject_off_event(event)
 
@@ -174,7 +170,7 @@ class RealtimeEngine(object):
             if self.track.muted or self.instrument.muted:
                 return
 
-            print("OFF: %s" % event.on_event.note)
+            #print("OFF: %s" % event.on_event.note)
 
             self.on_count = self.on_count - 1
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])

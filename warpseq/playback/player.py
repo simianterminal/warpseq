@@ -16,15 +16,15 @@ from .. notation.time_stream import NOTE_GAP
 
 TIME_INTERVAL = 10
 
-#def event_sorter(evt):
-#
-#
-#    if evt.type == NOTE_OFF:
-#        return evt.time + .000001
-#        #return evt.time - .000001
-#    else:
-#        return evt.time
-#        #return evt.time
+def event_sorter(evt):
+
+
+    #if evt.type == NOTE_OFF:
+    #    return evt.time + .000001
+    #    #return evt.time - .000001
+    #else:
+    return evt.time
+    #return evt.time
 
 class Player(object):
 
@@ -60,7 +60,7 @@ class Player(object):
         event2.type = NOTE_OFF
         event2.off_event = None
         event2.on_event = event
-        print("INJECT OFF EVENT: %s" % (event.time + event.note.length - NOTE_GAP))
+        #print("INJECT OFF EVENT: %s" % (event.time + event.note.length - NOTE_GAP))
         event2.time = event.time + event.note.length - NOTE_GAP
         self.left_to_play.append(event2)
 
@@ -90,13 +90,14 @@ class Player(object):
             due = [ x for x in self.left_to_play if x.time < self.time_index ]
 
             if len(due):
+                #print("----")
 
                 # if there is both an ON and OFF event in the same time slice, this means
                 # that the note was retriggered, and OFF should happen and then ON
 
-                #due = sorted(due, key=event_sorter)
+                due = sorted(due, key=event_sorter)
 
-                print("DUE=%s" % due)
+                #print("DUE=%s" % due)
 
                 for x in due:
                     #if x.type == NOTE_OFF:
@@ -111,7 +112,10 @@ class Player(object):
 
                 self.left_to_play = [ x for x in self.left_to_play if x not in due ]
 
+        #print("TI=%s, CLIP LENGTH=%s, LEN=%s" % (self.time_index, self.clip_length_in_ms, len(self.left_to_play)))
+
         if self.time_index >= self.clip_length_in_ms:
+
 
             # the play-head has advanced beyond the end of the clip
 
@@ -122,11 +126,12 @@ class Player(object):
                 t1 = time.perf_counter()
                 self.events = self.clip.get_events(self.song)
                 t2 = time.perf_counter()
-                print("EVENTS=%s" % (t2-t1))
+                #print("DEBUG: EVENTS=%s" % (t2-t1))
                 self.start()
             else:
                 # the clip isn't due to repeat again, make sure we have played any note off events
                 # before removing it
+                #print("DEBUG: STOP TIME")
 
                 self.stop()
 

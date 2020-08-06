@@ -195,9 +195,6 @@ class Clip(NewReferenceObject):
         there will be taken from the scene, then the pattern, the song.
         """
 
-        from . scale import Scale
-        from . note import Note
-
         if roller:
             return next(roller)
         elif pattern and pattern.scale:
@@ -213,7 +210,9 @@ class Clip(NewReferenceObject):
         The current tempo is the song's tempo after all multipliers and the current tempo shift is applied.
         """
         #print("R=%s,%s,%s,%s,%s" % (song.tempo, self.rate, pattern.rate, self.scene.rate, self._current_tempo_shift))
-        return int(song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)
+        tempo = int(song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)
+        #print("TEMPO=%s" % tempo)
+        return tempo
 
     def sixteenth_note_duration(self, song, pattern):
         """
@@ -230,9 +229,11 @@ class Clip(NewReferenceObject):
         any transforms might be applied?
         """
         snd = self.sixteenth_note_duration(song, pattern)
-        slot_ratio = self.slot_length / (1/16.0)
-        slot_duration = snd * slot_ratio
-        return slot_duration
+        #slot_ratio = self.slot_length / (1/16.0)
+        #slot_duration = snd * slot_ratio
+        #return slot_duration
+        #print("SND=%s" % snd)
+        return snd
 
     #@functools.lru_cache(maxsize=1)
     def get_clip_duration(self, song):
@@ -241,7 +242,11 @@ class Clip(NewReferenceObject):
         """
         total = 0
         for pattern in self.patterns:
-            total = total + self.slot_duration(song, pattern) * len(pattern.slots)
+            ns = self.slot_duration(song, pattern) * len(pattern.slots)
+            #print("CLIP=%s" % ns)
+            total = total+ns
+        #print("TOTAL=%s" % total)
+        #raise Exception("BOOM")
         return total
 
     def _process_pattern(self, song, t_start, pattern):
@@ -267,15 +272,25 @@ class Clip(NewReferenceObject):
         # if this is here we get stuck notes - why does this fix them?
         notes = standardize_notes(notes, scale, slot_duration, t_start)
 
+
+
         if transform:
             if type(transform) != list:
                 transform = [transform]
             i = 0
             for tform in transform:
                 i = i + 1
+                #print("** ONE **")
                 #assert notes[0][0].start_time is not None
                 #assert notes[0][0].end_time is not None
-                notes = tform.process(scale, self.track, notes, t_start)
+                notes_in = notes.copy()
+                notes2 = tform.process(scale, self.track, notes_in, t_start)
+                #print("N>%s" % notes2)
+                notes = notes2
+            #raise Exception("STOP!")
+            #print("NN=%s" % notes)
+
+            #raise Exception("STOP!")
 
         return notes
 
@@ -290,6 +305,12 @@ class Clip(NewReferenceObject):
         results = []
         for pattern in self.patterns:
             results.extend(self._process_pattern(song, t_start, pattern))
+            t_start = t_start + (self.slot_duration(song, pattern) * len(pattern.slots))
+        #print("ALL NOTES=%s" % results)
+        #import sys
+        #sys.stdout.flush()
+        #time.sleep(1)
+        #raise Exception("BOOM???")
         return results
 
     def get_events(self, song):

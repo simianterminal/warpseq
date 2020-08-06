@@ -70,6 +70,8 @@ def standardize_notes(old_list, scale, slot_duration, t_start):
     # or a chord
     # or a list containing ONE chord - which must be broken into notes
 
+    ts = t_start
+
     for slot in old_list:
 
         this_bucket = []
@@ -79,11 +81,11 @@ def standardize_notes(old_list, scale, slot_duration, t_start):
 
             if type(obj) == Chord:
                 for note in obj.notes:
-                    _add_note_to_bucket(this_bucket, note, scale, t_start)
+                    _add_note_to_bucket(this_bucket, note, scale, ts)
 
             elif type(obj) == Note:
                 if not obj.tie:
-                    _add_note_to_bucket(this_bucket, obj, scale, t_start)
+                    _add_note_to_bucket(this_bucket, obj, scale, ts)
                 else:
                     is_tie = True
 
@@ -100,7 +102,7 @@ def standardize_notes(old_list, scale, slot_duration, t_start):
 
         results.append(this_bucket)
 
-        t_start = t_start + slot_duration
+        ts = ts + slot_duration
 
     return results
 

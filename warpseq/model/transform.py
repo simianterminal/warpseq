@@ -75,6 +75,9 @@ class Transform(NewReferenceObject):
 
         start_time = t_start
 
+        #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        #print("TFORM=%s" % self.name)
+
         for notes in note_list:
 
             new_notes = []
@@ -95,7 +98,11 @@ class Transform(NewReferenceObject):
 
             #start_time = notes[0].start_time
 
+            i_ct = 0
+
             for _ in range(0, divide):
+
+                i_ct = i_ct + 1
 
                 # grab a note that is playing from all notes that are playing
                 which_note = next(roll_notes) # .copy()
@@ -108,15 +115,19 @@ class Transform(NewReferenceObject):
 
                 # calculate the new note using the mod expression
 
+                #print("IN=%s which_note (%s)" % (which_note, which_slot))
                 final_note = self._mod.do(which_note, which_slot)
+                #print("OUT=%s" % final_note)
                 if final_note is None:
                     continue
 
                 #print("NEW DELTA=%s" % new_delta)
 
                 final_note.start_time = start_time
-                final_note.end_time = start_time + new_delta
+                final_note.end_time = round(start_time + (i_ct * new_delta))
+                #print("ET=%s" % final_note.end_time)
                 final_note.length = new_delta
+                #print("ND=%s" % new_delta)
 
                 start_time = start_time + new_delta
 
@@ -131,4 +142,5 @@ class Transform(NewReferenceObject):
         #
         # [[n1],[n2],[n3],[n4],[n5]]
 
+        #print("------> NNL=%s" % new_note_list)
         return new_note_list

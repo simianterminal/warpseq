@@ -26,15 +26,15 @@ class DefaultCallback(Class):
         pass
 
     def on_clip_stop(self, clip):
-        #print("> stopping clip: %s (%s)" % (clip.name, clip.obj_id))
+        print("> stopping clip: %s (%s)" % (clip.name, clip.obj_id))
         pass
 
     def on_clip_restart(self, clip):
-        #print("> restarting clip: %s (%s)" % (clip.name, clip.obj_id))
+        print("> restarting clip: %s (%s)" % (clip.name, clip.obj_id))
         pass
 
     def on_pattern_start(self, clip, pattern):
-        #print("> starting pattern: %s (%s)/%s (%s)" % (clip.name, clip.obj_id, pattern.name, pattern.obj_id))
+        print("> starting pattern: %s (%s)/%s (%s)" % (clip.name, clip.obj_id, pattern.name, pattern.obj_id))
         pass
 
     def on_note_on(self, event):
