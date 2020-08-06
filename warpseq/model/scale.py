@@ -58,8 +58,9 @@ class Scale(NewReferenceObject):
         super(Scale, self).__init__()
         self._internal_generate()
 
+
     def get_notes(self):
-        return [x.copy() for x in self._cached]
+        return self._cached
 
     def get_note_numbers(self):
         return [x for x in self._cached_numbers]

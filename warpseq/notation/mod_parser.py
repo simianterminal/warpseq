@@ -133,11 +133,7 @@ def process_expr(parser, input, expr, deferred=False):
         raise InvalidExpression("unknown expr! (%s)" % expr)
 
 def is_deferred_expr(expr):
-    #expr = expr.lower()
-    #for (k,v) in DEFERRED_ASSIGNMENTS.items():
-    #    chk = "%s=" % k
-    #    if expr.startswith(chk):
-    #        return True
-    if expr.startswith("T=")  or '$' in expr:
-        return True
-    return False
+
+    # hard coded to be a bit more efficient
+
+    return expr.startswith("T=") or '$' in expr

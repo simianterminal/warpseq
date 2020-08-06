@@ -116,12 +116,13 @@ class Note(object):
 
         index = None
         for (i,x) in enumerate(note_numbers):
-            if snn >= x:
+            if x >= snn:
                 index = i
+                break
 
-        new_index = index + steps
+        # index of None will crash the program but shouldn't happen
 
-        scale_note = scale_notes[new_index]
+        scale_note = scale_notes[index + steps]
 
         return Note(name=scale_note.name, octave=scale_note.octave, length=self.length, start_time=self.start_time,
                     end_time=self.end_time, tie=self.tie, flags=self.flags, from_scale=scale_obj)
@@ -168,6 +169,7 @@ class Note(object):
         You can combine all of them at the same time if you really want (why?), in which case they are additive.
         """
 
+
         if degrees is not None:
             degrees = str(degrees)
             degree_steps = self._scale_degrees_to_steps(degrees)
@@ -193,23 +195,19 @@ class Note(object):
         """
         What order is this note on the keyboard?
         """
-        if self.name is None:
-            # FIXME: when does this happen? ties maybe? does it still happen?
-            return None
-        nn = NOTES.index(self.name) + (12 * self.octave)
-        return nn
+        return NOTES.index(self.name) + (12 * self.octave)
 
-    def __eq__(self, other):
-        """
-        Are two notes the same?
-        """
-        return self.note_number() == other.note_number()
+    #def __eq__(self, other):
+    #    """
+    #    Are two notes the same?
+    #    """
+    #    return self.note_number() == other.note_number()
 
-    def __lt__(self, other):
-        """
-        Compare note ordering
-        """
-        return self.note_number() < other.note_number()
+    #def __lt__(self, other):
+    #    """
+    #    Compare note ordering
+    #    """
+    #    return self.note_number() < other.note_number()
 
     def __repr__(self):
         return "Note<%s|%s,len=%s,time=%s/%s,cc=%s,tie=%s>" % (self.name, self.octave, self.length, self.start_time, self.end_time, self.flags['cc'], self.tie)

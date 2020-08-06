@@ -34,6 +34,8 @@ MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
 MIDI_NOTE_ON = 0x90
 
+from ...model.chord import Chord
+from ...model.event import Event, NOTE_OFF, NOTE_ON
 
 class RealtimeEngine(object):
 
@@ -44,7 +46,6 @@ class RealtimeEngine(object):
         self.song = song
         self.track = track
         self.clip = clip
-        self.on_count = 0
 
         self.instrument = self.track.instrument
         self.channel = self.instrument.channel
@@ -69,8 +70,7 @@ class RealtimeEngine(object):
 
     def play(self, event):
 
-        from ... model.chord import Chord
-        from ... model.event import Event, NOTE_OFF, NOTE_ON
+
 
         # deferred events happen when there are intra-track events such as replacing the note
         # with the currently playing note from a guide track (see docs). In this case we must
@@ -131,16 +131,10 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
-            print("************************* ON: %s" % event.note)
-
-            self.on_count = self.on_count + 1
+            #print("PLAY: %s" % event.note)
             self.player.inject_off_event(event)
-
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
 
-            # event2 = Event(type=NOTE_OFF, note=note, time=note.end_time, scale=note.from_scale, on_event=event1)
-            # events.append(event2)
-            # event1.off_event = event2
 
 
         elif event.type == NOTE_OFF:
@@ -166,8 +160,5 @@ class RealtimeEngine(object):
             if self.track.muted or self.instrument.muted:
                 return
 
-            #print("OFF: %s" % event.on_event.note)
-
-            self.on_count = self.on_count - 1
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
 

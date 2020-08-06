@@ -27,8 +27,8 @@ api.scales.add(name='F-mixolydian', note='F', octave=0, scale_type='mixolydian')
 api.scales.add(name='magic', note='C', octave=0, slots=[1,4,5])
 
 # setup patterns
-api.patterns.add(name='up', slots=['1', '2', '3', '4', '5', '6', '7' ])
-api.patterns.add(name='down', slots = [ '6', '5', '4', '3', '2', '1' ])
+api.patterns.add(name='up', slots=['1', '2', '3', '', '4', '5', '6', '7', '-' ])
+api.patterns.add(name='down', slots = [ '6', '5', '', '4', '3', '2', '1' ])
 
 # setup scenes
 api.scenes.add(name='scene_1', rate=1, auto_advance=False)
@@ -39,7 +39,7 @@ api.scenes.add(name='scene_2', rate=1, auto_advance=False)
 api.transforms.add(name='stutter', slots=['1', '1', 'x', '1', '1'], divide=3)
 
 # play multiple copies of notes + every fourth repeat has a 2 in 5 chance of jumping up 1 or 2 octaves
-api.transforms.add(name='chance octave jump', slots=['1','1','1','O+0,0,0,1,2'], divide=3)
+api.transforms.add(name='chance octave jump', slots=['1','1','1','O+=0,0,0,1,2'], divide=3)
 
 # notes play at the same speed - every note jumps up an octave
 api.transforms.add(name='octave up', slots=['O+1'], divide=1)

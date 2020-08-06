@@ -20,6 +20,8 @@ from .pattern import Pattern
 from .scale import Scale
 from .transform import Transform
 
+# FAIR WARNING: this code has some larger functions because it is trying to be more efficient
+
 DEFAULT_SCALE = None
 
 def get_default_scale():
@@ -205,31 +207,13 @@ class Clip(NewReferenceObject):
             return song.scale
         return get_default_scale()
 
-    def actual_tempo(self, song, pattern):
-        """
-        The current tempo is the song's tempo after all multipliers and the current tempo shift is applied.
-        """
-        tempo = int(song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)
-        return tempo
-
-    def sixteenth_note_duration(self, song, pattern):
-        """
-        A sixteenth note at 120 bpm is 125 ms. From this, we calculate all slot lengths.
-        Unless "ratio" is set, all slots without ties are considered 1/16th notes.
-        """
-        tempo_ratio = (120 / self.actual_tempo(song, pattern))
-        return tempo_ratio * 125
-
     def slot_duration(self, song, pattern):
         """
         Returns the slot duration in milliseconds - how long is each slot in a pattern before
         any transforms might be applied?
         """
-        # FIXME: remove this function
-        return self.sixteenth_note_duration(song, pattern)
+        return (120 / (song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)) * 125
 
-
-    #@functools.lru_cache(maxsize=1)
     def get_clip_duration(self, song):
         """
         Returns the total length of the clip in milliseconds, which includes all patterns.
@@ -258,48 +242,37 @@ class Clip(NewReferenceObject):
         notation.pattern = pattern
         notation.setup()
 
-        notes = [notation.do(expression, octave_shift) for expression in pattern.slots]
+        notes = []
+        for expression in pattern.slots:
+            notes.append(notation.do(expression, octave_shift))
 
-        # if this is here we get stuck notes - why does this fix them?
         notes = standardize_notes(notes, scale, slot_duration, t_start)
-
 
         if transform:
             if type(transform) != list:
                 transform = [transform]
             for tform in transform:
-                #notes_in = notes.copy()
-                #notes = tform.process(scale, self.track, notes_in, t_start)
                 notes = tform.process(scale, self.track, notes, t_start)
-
-                #notes = notes2
 
         return notes
 
-
-
-
-    def get_notes(self, song):
-        """
-        Evaluates the clip to return a list of notes
-        """
-        t_start = 0
-        results = []
-        for pattern in self.patterns:
-            results.extend(self._process_pattern(song, t_start, pattern))
-            t_start = t_start + (self.slot_duration(song, pattern) * len(pattern.slots))
-        return results
 
     def get_events(self, song):
         """
         Return the list of events for use by the player class.  Events are basically note objects
         but are split by ON and OFF events.
         """
-        c1 = time.time()
-        events = notes_to_events(self, self.get_notes(song))
-        c2 = time.time()
-        print("TIME: %s" % (c2-c1))
-        return events
+
+        t1 = time.perf_counter()
+        t_start = 0
+        results = []
+        for pattern in self.patterns:
+            results.extend(self._process_pattern(song, t_start, pattern))
+            t_start = t_start + (self.slot_duration(song, pattern) * len(pattern.slots))
+        res = notes_to_events(self, results)
+        t2 = time.perf_counter()
+        print("TIME: %s" % (t2-t1))
+        return res
 
     def get_player(self, song, engine_class):
         """

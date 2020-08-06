@@ -19,7 +19,7 @@ import re
 import time
 
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
-#INT_REGEX = re.compile("^[0-9]+$")
+INT_REGEX = re.compile("^[0-9]+$")
 
 CHORD_SYMBOLS = dict(
    I   = [ 1, 'major' ],
@@ -38,8 +38,7 @@ CHORD_SYMBOLS = dict(
    vii = [ 7, 'minor' ],
 )
 
-
-INTEGERS = set([ str(x) for x in range(-40,40) ])
+CHORD_KEYS = CHORD_SYMBOLS.keys()
 
 class ExpressionEvaluationError(Exception):
     pass
@@ -78,6 +77,7 @@ class NoteParser(object):
 
             if sym is None:
                 sym = ""
+
 
             sym = str(sym).strip()
             tokens = sym.split(None)
@@ -120,16 +120,16 @@ class NoteParser(object):
         # FIXME: a rest should be a real note and not NONE because we can affix other
         # mod expressions to it.  We could consider it being a note with velocity 0?
 
-        if sym is None or sym in [ "" , "_", "."]:
+        if INT_REGEX.match(sym):
+            # 1, 4, -2
+            return self._scale_note_strategy
+        elif sym in [ "" , "_", "."]:
             # "x", "_", "", None, etc
             return self._rest_strategy
         elif sym == "-":
             # "-"
             return self._tie_strategy
-        elif sym in INTEGERS: # INT_REGEX.match(sym):
-            # 1, 4, -2
-            return self._scale_note_strategy
-        elif sym in CHORD_SYMBOLS.keys() or ":" in sym:
+        elif sym in CHORD_KEYS or ":" in sym:
             # I, IV, ivv, 3:major
             return self._scale_chord_strategy
         elif NOTE_SHORTCUT_REGEX.match(sym):
@@ -141,6 +141,7 @@ class NoteParser(object):
     def _rest_strategy(self, sym):
         return None
 
+    @functools.lru_cache(maxsize=5)
     def _tie_strategy(self, sym):
         return Note(tie=True, name=None, octave=None, length=int(self._slot_duration))
 

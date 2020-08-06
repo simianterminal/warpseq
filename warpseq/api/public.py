@@ -365,8 +365,8 @@ class Player(object):
     def stop(self):
         self.multi_player.stop()
 
-    def advance(self, milliseconds=2):
-        self.multi_player.advance(milliseconds)
+    def advance(self):
+        self.multi_player.advance()
 
     def loop(self, scene_name, abort=True, stop_if_empty=True):
 
@@ -375,7 +375,7 @@ class Player(object):
 
         try:
             while True:
-                self.advance(1)
+                self.advance()
         except KeyboardInterrupt:
             self.public_api._callbacks.keyboard_interrupt()
             self.stop()

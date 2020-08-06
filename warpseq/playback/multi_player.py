@@ -14,9 +14,10 @@ import time
 from ..api.callbacks import Callbacks
 from ..api.exceptions import AllClipsDone
 from ..model.base import BaseObject
-from .player import TIME_INTERVAL
 import time
 import gc
+
+MILLISECONDS = 2
 
 class MultiPlayer(object):
 
@@ -38,13 +39,12 @@ class MultiPlayer(object):
         # stop all players that are attached
         for (n, p) in self.players.items():
             p.stop()
-            #assert p.queue_size() == 0
 
         # clear the list of things that are playing, in case we start more
         self.clips = []
         self.players = {}
 
-    def advance(self, milliseconds=TIME_INTERVAL):
+    def advance(self):
 
         """
         return all events from now to TIME_INTERVAL and then move the time index up by that amount.
@@ -55,15 +55,12 @@ class MultiPlayer(object):
         my_players = [ p for p in self.players.values() ]
 
         for p in my_players:
-            p.advance(milliseconds=milliseconds)
+            p.advance(MILLISECONDS)
 
         # time.sleep is unreliable - so we burn clock instead, giving us much nicer timing.
-        x = time.perf_counter() + (milliseconds/1000.0)
-        y = 0
+        x = time.perf_counter() + (MILLISECONDS/1000.0)
         while time.perf_counter() < x:
-            y = y + 1
-            if y > 100:
-                y = 0
+            time.sleep(0.00000001)
 
     def play_scene(self, scene):
         """

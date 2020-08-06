@@ -8,23 +8,16 @@
 # into MIDI notes. This class isn't meant to be used directly,
 # use Multiplayer as shown in api/public.py instead.
 
+# FAIR WARNING: this code has some larger functions because it is trying to be more efficient
+
 from ..api.callbacks import Callbacks
 from ..api.exceptions import *
 from ..model.event import NOTE_OFF, NOTE_ON, Event
 import time
 from .. notation.time_stream import NOTE_GAP
 
-TIME_INTERVAL = 10
-
 def event_sorter(evt):
-
-
-    #if evt.type == NOTE_OFF:
-    #    return evt.time + .000001
-    #    #return evt.time - .000001
-    #else:
     return evt.time
-    #return evt.time
 
 class Player(object):
 
@@ -42,28 +35,21 @@ class Player(object):
         self.song = song
         self.engine = engine
         self.time_index = 0
-
         self.left_to_play = None
-
         self.clip_length_in_ms = self.clip.get_clip_duration(self.song)
-
         self.events = self.clip.get_events(self.song)
-
-
         self.repeat_count = self.clip.repeat
         self.callbacks = Callbacks()
         self.start()
 
     def inject_off_event(self, event):
-
-        event2 = Event(
+        self.left_to_play.append(Event(
             type = NOTE_OFF,
             off_event = None,
             on_event = event,
             time = event.time + event.note.length - NOTE_GAP,
             note = event.note.copy()
-        )
-        self.left_to_play.append(event2)
+        ))
 
     def _still_on_this_clip(self):
         """
@@ -77,30 +63,27 @@ class Player(object):
             return False
         return True
 
-    def advance(self, milliseconds=TIME_INTERVAL):
+    def advance(self, milliseconds):
         """
         Advances the playhead a number of milliseconds and plays all the notes
         between those two points.
         """
 
         self.time_index += milliseconds
+        ti = self.time_index
+        ltp = self.left_to_play
 
         # consume any events we need to off the time queue
         if len(self.left_to_play):
 
-            due = [ x for x in self.left_to_play if x.time < self.time_index ]
+            due = [ x for x in ltp if x.time < ti ]
 
             if len(due):
-
                 due = sorted(due, key=event_sorter)
-
                 for x in due:
                     self.engine.play(x)
+                self.left_to_play = [ x for x in ltp if x not in due ]
 
-
-                self.left_to_play = [ x for x in self.left_to_play if x not in due ]
-
-        #print("TI=%s, CLIP LENGTH=%s, LEN=%s" % (self.time_index, self.clip_length_in_ms, len(self.left_to_play)))
 
         if self.time_index >= self.clip_length_in_ms:
 
@@ -111,15 +94,11 @@ class Player(object):
                 # the clip is due to repeat again...
                 self.callbacks.on_clip_restart(self.clip)
                 # recompute events so randomness can change
-                t1 = time.perf_counter()
                 self.events = self.clip.get_events(self.song)
-                t2 = time.perf_counter()
-                #print("DEBUG: EVENTS=%s" % (t2-t1))
                 self.start()
             else:
                 # the clip isn't due to repeat again, make sure we have played any note off events
                 # before removing it
-                #print("DEBUG: STOP TIME")
 
                 self.stop()
 
@@ -139,7 +118,6 @@ class Player(object):
 
                 if self.clip.next_clip is not None:
 
-                    # the clip didn't name a new scene but did name a new clip
                     new_clip = self.song.find_clip_by_name(self.clip.next_clip)
                     self._multiplayer.remove_clip(self.clip, add_pending=True)
                     self._multiplayer.add_clips([new_clip])
