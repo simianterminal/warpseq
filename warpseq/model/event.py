@@ -22,12 +22,6 @@ class Event(object):
 
     from . note import Note
 
-    #type = Field(type=int, required=True, choices=[NOTE_ON, NOTE_OFF])
-    #note = Field(type=Note, required=True, nullable=False)
-    #time = Field(type=float, required=True, nullable=False)
-    #on_event = Field(required=False, default=None, nullable=True)
-    #scale = Field(required=False, default=None)
-
     def __init__(self, type=None, note=None, time=None, on_event=None, off_event=None, scale=None):
         self.type = type
         self.note = note

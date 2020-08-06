@@ -43,7 +43,7 @@ api.scales.add(name='C-major', note='C', octave=0, scale_type='major')
 # (because we have assigned a scale, everything still remains within the scale)
 
 api.patterns.add(name='variables1', slots=[
-    '3 $octaveShift=1:4 $noteShift=1:4 $noteShiftB=1:4 S+=$noteShift',
+    'IV $octaveShift=1:4 $noteShift=1:4 $noteShiftB=1:4 S+=$noteShift',
     '2',
     '4 S+=$noteShiftB',
     '6',
@@ -64,7 +64,7 @@ api.patterns.add(name='variables1', slots=[
 # the random values are recomputed each time the pattern changes
 
 api.patterns.add(name='variables2', slots=[
-    '1 $x=25:100 $y=25:100 cc1=$x',
+    'IV $x=25:100 $y=25:100 cc1=$x',
     '2 cc1=$y',
     '3',
     '4',
@@ -89,7 +89,7 @@ api.patterns.add(name='variables2', slots=[
 # the randomized values change every pattern
 
 api.patterns.add(name='variables3', slots=[
-   '1 v=127 $a=20:40 $b=90:100',
+   'IV v=127 $a=20:40 $b=90:100',
    '2 v=$a',
    '3 v=$b',
    '4 v=$a',
@@ -114,7 +114,7 @@ api.patterns.add(name='variables3', slots=[
 # and the notes in between are random
 
 api.patterns.add(name='velocity_variables_demo2', slots=[
-    '1 $full=127 v=$full $a=20:40 $b=90:100',
+    'IV $full=127 v=$full $a=20:40 $b=90:100',
     '2 v=$a',
     '3 v=90:100',
     '4 v=$a',

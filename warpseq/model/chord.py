@@ -49,11 +49,6 @@ CHORD_TYPE_KEYS = [x for x in CHORD_TYPES.keys()]
 
 class Chord(object):
 
-    #notes = Field(type=list, required=False, nullable=True)
-    #root = Field(type=Note, required=False, nullable=True)
-    #chord_type = Field(type=str, required=False, choices=CHORD_TYPE_KEYS, default=None, nullable=True)
-    #from_scale = Field(default=None)
-
     """
     Constructs a chord, in different ways:
     notes = [ note('C4'), note('E4'), note('G4') ]
@@ -73,20 +68,21 @@ class Chord(object):
         self.chord_type = chord_type
         self.from_scale = from_scale
 
-        if self.notes and self.root:
-            raise InvalidChord("notes and root are mutually exclusive")
-        if self.notes is None and self.root is None:
-            raise InvalidChord("specify either notes or root")
-
-        if self.root and self.chord_type is None:
-            raise InvalidChord("chord_type is required when using root=")
+        # as this can't really happen when using the public API, disabling checks for now
+        #if self.notes and self.root:
+        #    raise InvalidChord("notes and root are mutually exclusive")
+        #if self.notes is None and self.root is None:
+        #    raise InvalidChord("specify either notes or root")
+        #if self.root and self.chord_type is None:
+        #    raise InvalidChord("chord_type is required when using root=")
 
         if isinstance(self.root, str):
             self.root = note(root)
 
         if self.notes is not None:
-            for x in self.notes:
-                assert type(x) == Note
+            pass
+            #for x in self.notes:
+            #    assert type(x) == Note
         else:
             self.notes = self._chordify()
 
@@ -101,25 +97,24 @@ class Chord(object):
         Returns a new chord with exactly the same information. We can throw away the chord type
         as we don't need it, and the chord might not have been constructed with one.
         """
-        notes = [ n.copy() for n in self.notes ]
+
+        # theory: we don't need to do this extra copy of the notes here, because anything changing the chord will copy the notes
+        # in fact, does anything really need this?  We could make it raise an Exception and test it.
+        # notes = [ n.copy() for n in self.notes ]
+
         return Chord(notes=notes, from_scale=self.notes[0].from_scale)
 
     def with_velocity(self, velocity):
         """
         Returns a copy of the chord with every note in the chord having a set velocity
         """
-        c1 = self.copy()
-        for n in c1.notes:
-            n.velocity = velocity
-        return c1
+        return Chord(notes=[x.with_velocity(velocity) for x in self.notes], from_scale=self.from_scale)
 
     def with_cc(self, channel, num):
         """
         Returns a copy of the chord with each note having a certain MIDI CC value filled in
         """
-        ch = self.copy()
-        ch.notes = [ x.with_cc(channel, num) for x in ch.notes ]
-        return ch
+        return Chord(notes = [ x.with_cc(channel, num) for x in self.notes ], from_scale=self.from_scale)
 
     def with_octave(self, octave):
         """
@@ -127,10 +122,7 @@ class Chord(object):
         This is probably musically bad (will break the sound) but is required to support the mod expression O=3 generically
         for both chords and notes. It would be much better to use the mod expression O+1.
         """
-        c1 = self.copy()
-        for n in c1.notes:
-            n.octave = octave
-        return c1
+        return Chord(notes=[ n.with_octave(octave) for n in self.notes ], from_scale=self.from_scale)
 
     def _chordify(self):
         """
@@ -144,11 +136,11 @@ class Chord(object):
             notes.append(self.root.transpose(semitones=offset))
         return notes
 
-    def __eq__(self, other):
-        """
-        Chords are equal if they contain the same notes.
-        """
-        return sorted(self.notes) == sorted(other.notes)
+    #def __eq__(self, other):
+    #    """
+    #    Chords are equal if they contain the same notes.
+    #    """
+    #    return sorted(self.notes) == sorted(other.notes)
 
     def transpose(self, steps=None, semitones=None, octaves=None):
         """
@@ -172,15 +164,3 @@ class Chord(object):
             new_chord.notes[2] = new_chord.notes[2].transpose(octaves=octaves)
         return new_chord
 
-#def chord(input):
-#    """
-#    Shortcut: chord(['C5', 'E5', 'G5') -> Chord object
-#   Shortcut: chord('C5 dim') -> Chord object
-#   """
-#   if type(input) == list:
-#        notes = [ note(n) for n in input ]
-#        return Chord(notes=notes)
-#    else:
-#        tokens = input.split()
-#        assert len(tokens) == 2, "invalid chord expression: %s" % input
-#        return Chord(root=note(tokens[0]), chord_type=tokens[1])
