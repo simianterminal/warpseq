@@ -19,7 +19,6 @@ import re
 import time
 
 NOTE_SHORTCUT_REGEX = re.compile("([A-Za-z#]+)([0-9]*)")
-INT_REGEX = re.compile("^[0-9]+$")
 
 CHORD_SYMBOLS = dict(
    I   = [ 1, 'major' ],
@@ -120,23 +119,26 @@ class NoteParser(object):
         # FIXME: a rest should be a real note and not NONE because we can affix other
         # mod expressions to it.  We could consider it being a note with velocity 0?
 
-        if INT_REGEX.match(sym):
-            # 1, 4, -2
+        if sym.startswith("-"):
+            if sym == "-":
+                return self._tie_strategy
+            elif sym.isdigit():
+                return self._scale_note_strategy
+        elif sym.isdigit():
             return self._scale_note_strategy
-        elif sym in [ "" , "_", "."]:
+        elif sym in [ "" , "_", ".", "x"]:
             # "x", "_", "", None, etc
             return self._rest_strategy
-        elif sym == "-":
-            # "-"
-            return self._tie_strategy
         elif sym in CHORD_KEYS or ":" in sym:
             # I, IV, ivv, 3:major
             return self._scale_chord_strategy
-        elif NOTE_SHORTCUT_REGEX.match(sym):
-            # C4, Eb4, F#
-            return self._literal_note_strategy
+        #elif NOTE_SHORTCUT_REGEX.match(sym):
+        #    # C4, Eb4, F#
 
-        raise InvalidExpression(sym)
+
+        # this is the default so let it crash if it wants
+        # save the regex!
+        return self._literal_note_strategy
 
     def _rest_strategy(self, sym):
         return None
