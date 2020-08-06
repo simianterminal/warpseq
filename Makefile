@@ -1,8 +1,7 @@
 manual:
 	(cd docs; python3 site.py)
-	cp docs/*.png docs/output
-	cp docs/*.jpg docs/output
-	cp docs/*.svg docs/output
+	cp docs/*.svg docs/output/
+	cp docs/*.png docs/output/
 deps:
 	pip3 install -r requirements.txt
 pyflakes:

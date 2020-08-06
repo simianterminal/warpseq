@@ -7,6 +7,7 @@ how to program a bit. Python is an easy language to learn and the API examples u
 This is almost an internal secret requirements document. SPOILERS!
 {{ end_info_block() }}
 
+<hr/>
 <h2>General Concepts</h2>
 
 <ul>
@@ -18,6 +19,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>The server starts up with an empty song.  It only keeps one song in memory at a time.</li>
 </ul>
 
+<hr/>
 <h2>Grid View</h2>
 
 <ul>
@@ -38,6 +40,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>The file will start up with all local MIDI devices populated. If the song has no MIDI devices (because nothing is connected) there should be a warning popup.</li>.
 </ul>
 
+<hr/>
 <h2>Scene Edit Page (Modal)</h2>
 
 <ul>
@@ -48,6 +51,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>The scene advance flag can be toggled</li>
 </ul>
 
+<hr/>
 <h2>Scale Page (Modal)</h2>
 
 <ul>
@@ -57,6 +61,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>User scale and scale type are mutually exclusive</li>
 </ul>
 
+<hr/>
 <h2>Instrument Page (Modal)</h2>
 
 <ul>
@@ -66,6 +71,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>Pick the min/max/base octave</li>
 </ul>
 
+<hr/>
 <h2>Track Page (Modal)</h2>
 
 <ul>
@@ -74,6 +80,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>The instrument can be selected</li>
 </ul>
 
+<hr/>
 <h2>Clip Page (LARGE Modal)</h2>
 
 <ul>
@@ -88,6 +95,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>Destroying a pattern/transform removes it everywhere it is referenced - but that should only happen from a separate patterns list page.</li>
 </ul>
 
+<hr/>
 <h2>Patterns/Tranforms List</h2>
 
 <ul>
@@ -95,6 +103,7 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>This is the page you would go to delete patterns</li>
 </ul>
 
+<hr/>
 <h2>Pattern/Transform Widget (On Clips Page)</h2>
 
 <ul>
@@ -105,7 +114,8 @@ This is almost an internal secret requirements document. SPOILERS!
 <li>If there invalid patterns it should say which are invalid - this may have to wait until they are evaluated during a song</li>
 </ul>
 
-<h2>Status Indicators</h2>
+<hr/>
+s<h2>Status Indicators</h2>
 
 <ul>
 <li>Callbacks light up the currently playing scenes, clips, and when inside a clip, patterns.</li>

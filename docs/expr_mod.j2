@@ -16,6 +16,7 @@ they are applied as the clip is evaluated.
 We will start this chapter with some of the more basic note modifiers, shown in {{ doc('pattern','Pattern') }} examples.
 </p>
 
+<hr/>
 <h3>Octave Shifts</h3>
 
 A basic example shows some octave offsets.  Assuming the scale was C major and the base octave was 4...
@@ -27,6 +28,7 @@ A basic example shows some octave offsets.  Assuming the scale was C major and t
 
 ... the above set of patterns would produce a C5, a C2, and D4.
 
+<hr/>
 <h3>Velocity Controls</h3>
 
 Velocity can be adjusted in one of many ways.
@@ -40,6 +42,7 @@ Velocity takes a value between 0 and 100, and does not always map to  volume - i
 The latter two examples might be interesting in arpeggiator techniques with {{ doc('transform', 'Transforms') }}.
 See the {{ doc('expr_random') }} section for more tricks involving MIDI velocity.
 
+<hr/>
 <h3>MIDI CC Controls</h3>
 
 MIDI CCs can be used to add interesting variations.
@@ -52,6 +55,7 @@ MIDI CCs can be used to add interesting variations.
 In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
 MIDI CCs are sticky. See the {{ doc('expr_random') }} below for more tricks involving MIDI CCs.
 
+<hr/>
 <h3>Degree Shifts</h3>
 
 Making a note go up or down a scale interval works as follows:
@@ -64,6 +68,7 @@ The above example shows moving a note up a perfect fifth and down a flat third. 
 in a basic {{ doc('pattern') }}, but would make more sense in a {{ doc('transform') }}. Fair warning: this can select
 notes outside the current scale.
 
+<hr/>
 <h3>Flats and Sharps</h3>
 
 Accidentals outside the scale are easy to access:
@@ -80,6 +85,7 @@ Accidentals outside the scale are easy to access:
 Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.  These can also be used, like all
 mod expressions, in {{ doc('transform', 'Transforms') }}.
 
+<hr/>
 <h3>Scale Shifts</h3>
 
 Scale shifts can jump a note up or down in the current scale:
@@ -96,6 +102,7 @@ REMINDER: We do not have different docs for mod expressions - the parts that com
 used in Transforms. They are usable everywhere.  Transforms just don't have the preceeding note information.
 {{ end_info_block() }}
 
+<hr/>
 <h3>Probability Events</h3>
 
 A probability event can be assigned so that the next event has only a partial chance of firing.
@@ -106,7 +113,7 @@ A probability event can be assigned so that the next event has only a partial ch
 In the above example, the note will jump an octave only half of the times the pattern plays.  These are a form of randomness, so this
 section is somewhat of a spoiler for the {{ doc('expr_random') }} section.
 
-
+<hr/>
 <h3>Silence Events</h3>
 
 Silences are most useful with probabilities.
@@ -116,6 +123,7 @@ Silences are most useful with probabilities.
 
 In the above example, the event will not play half of the time.  This has some relation to the {{ doc('expr_rests_ties') }} section.
 
+<hr/>
 <h3>Chordification</h3>
 
 While chords can be explicitly entered, chords can also be created from mod expressions in patterns or in arpeggiators.
