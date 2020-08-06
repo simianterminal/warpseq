@@ -116,8 +116,6 @@ class RealtimeEngine(object):
 
         if event.type == NOTE_ON:
 
-            self.callbacks.on_note_on(event)
-
             velocity = event.note.velocity
             if velocity is None:
                 velocity = self.instrument.default_velocity
@@ -156,8 +154,6 @@ class RealtimeEngine(object):
                     evt.on_event = Event(time = event.on_event.time, scale=event.scale, note = x, type=event.on_event.type, on_event=None)
                     self.play(evt)
                 return
-
-            self.callbacks.on_note_off(event)
 
             velocity = event.note.velocity
             if velocity is None:

@@ -209,9 +209,7 @@ class Clip(NewReferenceObject):
         """
         The current tempo is the song's tempo after all multipliers and the current tempo shift is applied.
         """
-        #print("R=%s,%s,%s,%s,%s" % (song.tempo, self.rate, pattern.rate, self.scene.rate, self._current_tempo_shift))
         tempo = int(song.tempo * self.rate * pattern.rate * self.scene.rate + self._current_tempo_shift)
-        #print("TEMPO=%s" % tempo)
         return tempo
 
     def sixteenth_note_duration(self, song, pattern):
@@ -222,18 +220,14 @@ class Clip(NewReferenceObject):
         tempo_ratio = (120 / self.actual_tempo(song, pattern))
         return tempo_ratio * 125
 
-    #@functools.lru_cache(maxsize=128)
     def slot_duration(self, song, pattern):
         """
         Returns the slot duration in milliseconds - how long is each slot in a pattern before
         any transforms might be applied?
         """
-        snd = self.sixteenth_note_duration(song, pattern)
-        #slot_ratio = self.slot_length / (1/16.0)
-        #slot_duration = snd * slot_ratio
-        #return slot_duration
-        #print("SND=%s" % snd)
-        return snd
+        # FIXME: remove this function
+        return self.sixteenth_note_duration(song, pattern)
+
 
     #@functools.lru_cache(maxsize=1)
     def get_clip_duration(self, song):
@@ -243,10 +237,7 @@ class Clip(NewReferenceObject):
         total = 0
         for pattern in self.patterns:
             ns = self.slot_duration(song, pattern) * len(pattern.slots)
-            #print("CLIP=%s" % ns)
             total = total+ns
-        #print("TOTAL=%s" % total)
-        #raise Exception("BOOM")
         return total
 
     def _process_pattern(self, song, t_start, pattern):
@@ -273,24 +264,15 @@ class Clip(NewReferenceObject):
         notes = standardize_notes(notes, scale, slot_duration, t_start)
 
 
-
         if transform:
             if type(transform) != list:
                 transform = [transform]
-            i = 0
             for tform in transform:
-                i = i + 1
-                #print("** ONE **")
-                #assert notes[0][0].start_time is not None
-                #assert notes[0][0].end_time is not None
-                notes_in = notes.copy()
-                notes2 = tform.process(scale, self.track, notes_in, t_start)
-                #print("N>%s" % notes2)
-                notes = notes2
-            #raise Exception("STOP!")
-            #print("NN=%s" % notes)
+                #notes_in = notes.copy()
+                #notes = tform.process(scale, self.track, notes_in, t_start)
+                notes = tform.process(scale, self.track, notes, t_start)
 
-            #raise Exception("STOP!")
+                #notes = notes2
 
         return notes
 
@@ -306,11 +288,6 @@ class Clip(NewReferenceObject):
         for pattern in self.patterns:
             results.extend(self._process_pattern(song, t_start, pattern))
             t_start = t_start + (self.slot_duration(song, pattern) * len(pattern.slots))
-        #print("ALL NOTES=%s" % results)
-        #import sys
-        #sys.stdout.flush()
-        #time.sleep(1)
-        #raise Exception("BOOM???")
         return results
 
     def get_events(self, song):
@@ -318,10 +295,11 @@ class Clip(NewReferenceObject):
         Return the list of events for use by the player class.  Events are basically note objects
         but are split by ON and OFF events.
         """
-        #c1 = time.time()
-        return notes_to_events(self, self.get_notes(song))
-        #c2 = time.time()
-        #print("TIME: %s" % (c2-c1))
+        c1 = time.time()
+        events = notes_to_events(self, self.get_notes(song))
+        c2 = time.time()
+        print("TIME: %s" % (c2-c1))
+        return events
 
     def get_player(self, song, engine_class):
         """

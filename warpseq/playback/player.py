@@ -56,12 +56,13 @@ class Player(object):
 
     def inject_off_event(self, event):
 
-        event2 = event.copy()
-        event2.type = NOTE_OFF
-        event2.off_event = None
-        event2.on_event = event
-        #print("INJECT OFF EVENT: %s" % (event.time + event.note.length - NOTE_GAP))
-        event2.time = event.time + event.note.length - NOTE_GAP
+        event2 = Event(
+            type = NOTE_OFF,
+            off_event = None,
+            on_event = event,
+            time = event.time + event.note.length - NOTE_GAP,
+            note = event.note.copy()
+        )
         self.left_to_play.append(event2)
 
     def _still_on_this_clip(self):
@@ -90,25 +91,12 @@ class Player(object):
             due = [ x for x in self.left_to_play if x.time < self.time_index ]
 
             if len(due):
-                #print("----")
-
-                # if there is both an ON and OFF event in the same time slice, this means
-                # that the note was retriggered, and OFF should happen and then ON
 
                 due = sorted(due, key=event_sorter)
 
-                #print("DUE=%s" % due)
-
                 for x in due:
-                    #if x.type == NOTE_OFF:
                     self.engine.play(x)
-                #for x in due:
-                #    if x.type == NOTE_ON:
-                #        self.engine.play(x)
 
-            #for x in due:
-            #    if x.type == NOTE_ON:
-            #       self.engine.play(x)
 
                 self.left_to_play = [ x for x in self.left_to_play if x not in due ]
 

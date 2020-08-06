@@ -34,42 +34,64 @@ def expr_ignore(parser, input, how, extra_info):
 # OCTAVES
 
 def expr_octave_up(parser, input, how, extra_info):
+    #print("OU:%s/%s" % (input, how))
     how = evaluate_params(how, want_int=True)
     res = input.transpose(octaves=how)
+    #print("=>%s" % res)
     return res
 
 def expr_octave_down(parser, input, how, extra_info):
+    #print("OD:%s/%s" % (input, how))
     how = evaluate_params(how, want_int=True)
-    return input.transpose(octaves=-how)
+    #print("EVAL HOW=%s" % how)
+    res = input.transpose(octaves=-how)
+    #print("=>%s" % res)
+    return res
 
 def expr_octave_set(parser, input, how, extra_info):
+    #print("OS: %s/%s" % (input, how))
     how = evaluate_params(how, want_int=True)
+    #print("EVAL HOW=%s" % how)
+
     res = input.with_octave(how)
+    #print("=>%s" % res)
     return res
 
 # ----------------------------------------------------------------------------------------------------------------------
 # SCALE NOTES
 
 def expr_scale_note_up(parser, input, how, extra_info):
+    #print("SUP! %s/%s" % (input, how))
     how = evaluate_params(how, want_int=True)
-    ns = input.scale_transpose(parser.scale, how)
-    return ns
+    res = input.scale_transpose(parser.scale, how)
+    #print("=>%s" % res)
+    return res
 
 
 def expr_scale_note_down(parser, input, how, extra_info):
+    #print("SUD: %s/%s" % (input, how))
     how = evaluate_params(how, want_int=True)
-    return input.scale_transpose(parser.scale, -how)
+    res = input.scale_transpose(parser.scale, -how)
+    #print("=>%s" % res)
+    return res
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # SCALE DEGREES
 
 def expr_degree_up(parser, input, how, extra_info):
+    #print("DUP")
     how = evaluate_params(how, want_int=True)
-    return input.transpose(degrees=how)
+    res = input.transpose(degrees=how)
+    #print("=>%s" % res)
+    return res
 
 def expr_degree_down(parser, input, how, extra_info):
+    #print("DUD")
     how = evaluate_params(how, want_int=True)
-    return input.transpose(degrees=-how)
+    res = input.transpose(degrees=-how)
+    #print("=>%s" % res)
+    return res
 
 # ----------------------------------------------------------------------------------------------------------------------
 # VELOCITY

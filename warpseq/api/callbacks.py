@@ -37,14 +37,6 @@ class DefaultCallback(Class):
         print("> starting pattern: %s (%s)/%s (%s)" % (clip.name, clip.obj_id, pattern.name, pattern.obj_id))
         pass
 
-    def on_note_on(self, event):
-        #print("> note on: %s" % event)
-        pass
-
-    def on_note_off(self, event):
-        #print("> note off: %s" % event)
-        pass
-
     def all_clips_done(self):
         #print("> all clips done")
         pass
@@ -94,16 +86,6 @@ class Callbacks(object):
     def on_pattern_start(cls, clip, pattern):
         for cb in Callbacks.CALLBACKS:
             cb.on_pattern_start(clip, pattern)
-
-    @classmethod
-    def on_note_on(cls, event):
-        for cb in Callbacks.CALLBACKS:
-            cb.on_note_on(event)
-
-    @classmethod
-    def on_note_off(cls, event):
-        for cb in Callbacks.CALLBACKS:
-            cb.on_note_off(event)
 
     @classmethod
     def all_clips_done(cls):

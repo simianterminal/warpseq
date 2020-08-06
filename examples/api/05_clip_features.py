@@ -39,7 +39,7 @@ api.scenes.add(name='scene_2', rate=1, auto_advance=False)
 api.transforms.add(name='stutter', slots=['1', '1', 'x', '1', '1'], divide=3)
 
 # play multiple copies of notes + every fourth repeat has a 2 in 5 chance of jumping up 1 or 2 octaves
-api.transforms.add(name='chance octave jump', slots=['1','1','1','O=0,0,0,1,2'], divide=3)
+api.transforms.add(name='chance octave jump', slots=['1','1','1','O+0,0,0,1,2'], divide=3)
 
 # notes play at the same speed - every note jumps up an octave
 api.transforms.add(name='octave up', slots=['O+1'], divide=1)
@@ -56,11 +56,11 @@ api.clips.add(name='kitchen sink',
               track='lead',
               # each time we play a new pattern we will walk through using a different scale
               # after the third pattern this loops back around
-              scales=['C-major'],# 'F-mixolydian', 'magic'],
+              scales=['C-major', 'F-mixolydian', 'magic'],
               patterns=['up', 'down'],
               # each time we play a new pattern we will walk through and choose a new set of transforms
               # from this list. After the FOURTH pattern this will loop around
-              transforms=[['octave up', 'stutter'],['octave hop', 'every third note up 5th'], 'chance octave jump'],
+              transforms=[['octave up', 'stutter'], ['octave hop', 'every third note up 5th'], 'chance octave jump'],
               # each pattern goes a little faster than the previous (for a while, anyway, then it cycles)
               #tempo_shifts = [] #0, 5, 10, 15, 20, 25, 30 ],
               # we'll play this same clip for a long time. Each repeat includes playing all of the patterns

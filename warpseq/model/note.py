@@ -39,7 +39,6 @@ SCALE_DEGREES_TO_STEPS = {
    '8'  : 6
 }
 
-
 class Note(object):
 
     __slots__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale' ]
@@ -54,9 +53,6 @@ class Note(object):
          self.flags = flags
          self.velocity = velocity
          self.from_scale = from_scale
-
-         #if self.octave and self.octave > 15:
-         #   raise Exception("WHAT HAPPENED")
 
          self.name =  self._equivalence(self.name)
          if self.flags is None:
@@ -114,30 +110,16 @@ class Note(object):
         Return the note N steps up (or down) within the current scale.
         """
 
-        #assert scale is not None
-        #assert steps is not None
-
         snn = self.note_number()
-
         scale_notes = scale_obj.get_notes()
-        #print("SCALE_NOTES=%s" % scale_notes)
         note_numbers = scale_obj.get_note_numbers()
-        #print("NN=%s" % note_numbers)
-        #print("NN=%s" % note_numbers)
-        #print("SNN=%s" % snn)
 
         index = None
         for (i,x) in enumerate(note_numbers):
             if snn >= x:
                 index = i
 
-        #print("CURRENT INDEX=%s" % index)
-        #print("WHICH IS=%s" % scale_notes[index])
-
         new_index = index + steps
-        #print("NEW INDEX=%s" % index)
-        #print("WHICH IS=%s"%  scale_notes[new_index])
-
 
         scale_note = scale_notes[new_index]
 
