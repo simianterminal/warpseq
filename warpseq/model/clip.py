@@ -37,10 +37,10 @@ class Clip(NewReferenceObject):
     from . scene import Scene
 
     __slots__ = [
-        'name', 'scales', 'patterns', 'transforms', 'rate', 'repeat', 'auto_scene_advance', 'next_clip', 'tempo_shifts'
+        'name', 'scales', 'patterns', 'transforms', 'rate', 'repeat', 'auto_scene_advance', 'next_clip', 'tempo_shifts',
         'obj_id',
         'slot_length',
-        'track','scene','_current_tempo_shift','_tempo_roller','_transform_roller','_notation'
+        'track','scene','_current_tempo_shift','_tempo_roller','_transform_roller','_scale_roller','_notation'
     ]
 
     def __init__(self, name=None, scales=None, patterns=None, transforms=None,  rate=1, repeat=-1, auto_scene_advance=False, next_clip=None, tempo_shifts=None, track=None, scene=None, slot_length=0.0625, obj_id=None):

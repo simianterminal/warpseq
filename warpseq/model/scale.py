@@ -46,7 +46,7 @@ def scale_types():
 
 class Scale(NewReferenceObject):
 
-    __slots__ = ['name', 'root', 'scale_type', 'slots', '_cached', 'obj_id']
+    __slots__ = ['name', 'root', 'scale_type', 'slots', '_cached', '_cached_numbers', 'obj_id']
 
     def __init__(self, name=None, root=None, scale_type=None, slots=None, obj_id=None):
         self.name = name
@@ -62,7 +62,7 @@ class Scale(NewReferenceObject):
         return self._cached
 
     def get_note_numbers(self):
-        return [x for x in self._cached_numbers]
+        return self._cached_numbers
 
     def to_dict(self):
         data = dict(

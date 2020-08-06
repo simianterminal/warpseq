@@ -10,6 +10,8 @@ COUNTER = 0
 
 class BaseObject(object):
 
+    __slots__ = []
+
     def one(self, alist):
         length = len(alist)
         if length == 0:
@@ -18,6 +20,8 @@ class BaseObject(object):
         return alist[0]
 
 class NewReferenceObject(BaseObject):
+
+    __slots__ = [ 'obj_id' ]
 
     def new_object_id(self):
         global COUNTER
