@@ -73,6 +73,11 @@ class NoteParser(object):
 
         all_notes = []
 
+        sd = self._slot_duration
+        scale = self.scale
+        track = self.track
+        mod = self._mod
+
         for sym in items:
 
             if sym is None:
@@ -107,22 +112,19 @@ class NoteParser(object):
 
             for note in notes:
                 if note:
-                    note.length = self._slot_duration
+                    note.length = sd
                     note.octave = note.octave + octave_shift
 
             if mod_expressions:
 
                 new_notes = []
                 for note in notes:
-                    self._mod.scale = self.scale
-                    self._mod.track = self.track
-                    new_note = self._mod.do(note, mod_expressions)
+                    mod.scale = scale
+                    mod.track = track
+                    new_note = mod.do(note, mod_expressions)
                     new_notes.append(new_note)
                 all_notes.extend(new_notes)
-
-
             else:
-
                 all_notes.extend(notes)
 
         return all_notes

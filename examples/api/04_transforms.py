@@ -46,7 +46,7 @@ api.scenes.add(name='scene_7', rate=0.5, auto_advance=True)
 # arpeggiate a triad
 api.transforms.add(name='basic arp', slots=['1'], divide=3)
 # play two copies of the chord, the second one octave up
-api.transforms.add(name='octave arp', slots=['1','1','1','O+1','O+1','O+1'], divide=6)
+api.transforms.add(name='octave arp', slots=['1','1','1','O+1','O+1','O+1'], divide=3)
 # play each note in a triad with diminished velocity (this might not be audible, depending on your synth settings)
 api.transforms.add(name='velocity arp', slots=['1 v=120','1 v=100','1 v=80'], divide=3)
 # play each note in a triad with different MIDI CC values for MIDI CC 1
