@@ -2,11 +2,13 @@
 # Warp API Demo
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
-# this demo shows how to express basic chords using roman
-# numerals and other chord types with mod expressions
 #
-# it also shows how to use ties ("-").
-
+# this demo shows how to express basic chords using roman
+# numerals and other chord types with mod expressions. Chords
+# will pick up the assigned scale.
+#
+# it also shows how to use ties ("-") and how to mix chords
+# and scale notes.
 
 from warpseq.api import demo
 from warpseq.api.public import Api as WarpApi

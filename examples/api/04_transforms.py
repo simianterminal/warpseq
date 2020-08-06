@@ -52,7 +52,7 @@ api.transforms.add(name='velocity arp', slots=['1 v=120','1 v=100','1 v=80'], di
 # play each note in a triad with different MIDI CC values for MIDI CC 1
 api.transforms.add(name='midi cc arp', slots=['1 cc1=80', '1 cc1=100', '1 cc1=20:100'], divide=3)
 # take the base note of a pattern and then play it faster, shifting the scale notes to form a bassline
-api.transforms.add(name='bassline', slots=['1','S+4','S+5','S+2','S+4','S+5','1'], divide=3)
+api.transforms.add(name='bassline', slots=['1','S+4','S+5','S+2','S+4','S+5','1'], divide=5)
 # play the second note of a triad or pattern one note up, the second two notes up
 api.transforms.add(name='octave ramp', slots=['1','O+1','O+2'], divide=1)
 # quickly repeat the notes with alternating silence, the last repeat is only randomly silent
@@ -63,11 +63,12 @@ api.clips.add(name='chord strum', scene='scene_1', track='lead', scales=['C-majo
 api.clips.add(name='chord octaves', scene='scene_2', track='lead', scales=['C-major'], patterns=['chords'], transforms=['octave arp'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='chord velocity', scene='scene_3', track='lead', scales=['C-major'], patterns=['chords'], transforms=['velocity arp'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='chord ccs', scene='scene_4', track='lead', scales=['C-major'], patterns=['chords'], transforms=['midi cc arp'], repeat=1, auto_scene_advance=True)
-api.clips.add(name='melody to bassline', scene='scene_5', track='lead', scales=['C-major'], patterns=['basic'], transforms=['bassline'], repeat=1, auto_scene_advance=True)
+api.clips.add(name='melody to bassline', scene='scene_5', track='lead', scales=['C-major'], patterns=['basic'], transforms=['bassline'], repeat=None, auto_scene_advance=False)
 
 # the transforms can be expressed in a list, the next item in the transform list will be chosen as the patterns advance and repeat
+# if any item in the list IS a list, both of those transforms will be applied in order against the currently playing pattern
 api.clips.add(name='melody octave adjustment, then stutter', scene='scene_6', track='lead', scales=['C-major'], patterns=['basic'], transforms=['octave ramp', 'stutter'], repeat=2, auto_scene_advance=True)
 api.clips.add(name='stacked transforms', scene='scene_7', track='lead', scales=['C-major'], patterns=['basic'], transforms=[['octave ramp','stutter'],'bassline',['octave arp','basic arp']], repeat=3,  auto_scene_advance=True)
 
 # play starting on the first scene - Ctrl+C to exit.
-api.player.loop('scene_1')
+api.player.loop('scene_5')

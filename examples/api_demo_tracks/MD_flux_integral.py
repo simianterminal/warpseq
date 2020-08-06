@@ -4,6 +4,7 @@
 # -------------------------------------------------------------
 #
 # https://soundcloud.com/mpdehaan
+# https://soundcloud.com/mpdehaan/flux-integral
 
 # as recorded, all eurorack:
 # Track1: Verbos Complex Oscillator => Verbos Amp&Tone (no modulation) => Worng Parallax Filter (2nd envelope) => Worng Vertex (limited LFOs)

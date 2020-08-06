@@ -5,7 +5,8 @@
 
 # this demo shows some other clip parameters, including
 # scale changes and puts together some concepts mentioned
-# in earlier demos
+# in earlier demos. since all lists passed into the clip
+# are different lengths, each repetition of the clip is different.
 
 from warpseq.api import demo
 from warpseq.api.public import Api as WarpApi
@@ -36,6 +37,7 @@ api.scenes.add(name='scene_2', rate=1, auto_advance=False)
 
 # setup transforms
 
+# repeat each note quickly but add some gaps
 api.transforms.add(name='stutter', slots=['1', '1', 'x', '1', '1'], divide=3)
 
 # play multiple copies of notes + every fourth repeat has a 2 in 5 chance of jumping up 1 or 2 octaves

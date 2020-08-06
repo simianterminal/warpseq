@@ -3,13 +3,14 @@
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
 #
-# this demo shows how to enter scale notes that change automatically
-# as the scales change.
+# this demo shows how to enter scale notes as degrees that
+# change automatically as the scales change and always
+# sound musically relevant
 #
-# scales can be defined on the song and overridden per scene
+# scales can be set on the song and overridden per scene
 # (for easy mid-song key changes) or even per clip - where they
-# can be expressed in a list, and will rotate as each pattern
-# in the clip advances.
+# can be expressed in a list. If a list is passed to a clip, the scales
+# will rotate as each pattern in the clip advances.
 #
 # try changing the patterns and scales
 

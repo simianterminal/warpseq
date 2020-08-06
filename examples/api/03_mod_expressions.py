@@ -3,10 +3,12 @@
 # (C) Michael DeHaan <michael@michaeldehaan.net>, 2020
 # --------------------------------------------------------------
 #
-# this demo shows the different types of mod expressions,
-# how to jump octaves,  sharps and flats, how to have
-# random events based on probability, and how to change
-# MIDI velocity and CCs
+# this demo shows the different types of mod expressions, which
+# modify the note in any number of ways.  These are symbols that
+# come after the note, and are described in the online docs.
+#
+# in this example, we show how to jump octaves, apply sharps and flats, how to have
+# random events based on probability, and how to change MIDI velocity and CCs
 
 from warpseq.api import demo
 from warpseq.api.public import Api as WarpApi

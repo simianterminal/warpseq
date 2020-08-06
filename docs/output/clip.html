@@ -28,33 +28,6 @@
        <ul class="list-unstyled components">
            
                
-               <li class="active">
-               
-                   <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
-                   <ul class="collapse list-unstyled" id="navMenuConcepts">
-                   
-                        <li><a href="./scene.html">Scene</a></li>
-                   
-                        <li><a href="./transform.html">Transform</a></li>
-                   
-                        <li><a href="./song.html">Song</a></li>
-                   
-                        <li><a href="./scale.html">Scale</a></li>
-                   
-                        <li><a href="./pattern.html">Pattern</a></li>
-                   
-                        <li><a href="./clip.html">Clip</a></li>
-                   
-                        <li><a href="./instrument.html">Instrument</a></li>
-                   
-                        <li><a href="./track.html">Track</a></li>
-                   
-                        <li><a href="./device.html">Device</a></li>
-                   
-                   </ul>
-               </li>
-           
-               
                <li>
                
                    <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
@@ -68,29 +41,43 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
+                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./installation.html">Installation</a></li>
                    
-                        <li><a href="./contributing.html">Contributing</a></li>
+                        <li><a href="./ui.html">Web UI</a></li>
+                   
+                        <li><a href="./api.html">Python API</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                    </ul>
                </li>
            
                
-               <li>
+               <li class="active">
                
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
+                   <a id='navToggleConcepts' href="#navMenuConcepts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
+                   <ul class="collapse list-unstyled" id="navMenuConcepts">
                    
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./song.html">Song</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
+                        <li><a href="./scale.html">Scale</a></li>
                    
-                        <li><a href="./installation.html">Installation</a></li>
+                        <li><a href="./device.html">Device</a></li>
                    
-                        <li><a href="./ui.html">Web UI</a></li>
+                        <li><a href="./instrument.html">Instrument</a></li>
+                   
+                        <li><a href="./pattern.html">Pattern</a></li>
+                   
+                        <li><a href="./transform.html">Transform</a></li>
+                   
+                        <li><a href="./scene.html">Scene</a></li>
+                   
+                        <li><a href="./track.html">Track</a></li>
+                   
+                        <li><a href="./clip.html">Clip</a></li>
                    
                    </ul>
                </li>
@@ -103,21 +90,34 @@
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
-                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
-                   
                         <li><a href="./expr_literal.html">Literal Notes</a></li>
-                   
-                        <li><a href="./expr_track.html">Guide Tracks</a></li>
-                   
-                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
-                   
-                        <li><a href="./expr_random.html">More Randomness</a></li>
                    
                         <li><a href="./expr_scale_notes.html">Scale Notes And Chords</a></li>
                    
+                        <li><a href="./expr_rests_ties.html">Rests & Ties</a></li>
+                   
+                        <li><a href="./expr_mod.html">Mod Expressions</a></li>
+                   
                         <li><a href="./expr_transforms.html">Transforms</a></li>
                    
+                        <li><a href="./expr_random.html">More Randomness</a></li>
+                   
+                        <li><a href="./expr_track.html">Guide Tracks</a></li>
+                   
                         <li><a href="./expr_variables.html">Variables</a></li>
+                   
+                   </ul>
+               </li>
+           
+               
+               <li>
+               
+                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
+                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   
+                        <li><a href="./club.html">Warp Club</a></li>
+                   
+                        <li><a href="./contributing.html">Contributing</a></li>
                    
                    </ul>
                </li>
@@ -155,6 +155,7 @@
 
 
 <h1>Clip</h1>
+<hr/>
 
 Users of popular grid-based DAWs like Ableton or Bitwig may be familiar with clips.  Clips are, simply put, a small piece of something playable that contains MIDI notes.
 A <A HREF="./song.html">Song</a> is what happens when you arrange multiple clips by <A HREF="./scene.html">Scene</a> and <A HREF="./track.html">Track</a> in a grid.
@@ -183,7 +184,10 @@ reconfigures what notes and chords are in groove1, Warp will change in all clips
 </ul>
 
 
-        
+        <hr/>
+
+<A HREF="https://bitbucket.org/laserllama/warpseq/src/master/">BitBucket</A> | <A HREF="https://twitter.com/warpseq">Twitter</A> | <A HREF="https://www.patreon.com/mpdehaan?fan_landing=true">Patreon</A> | &copy; Michael DeHaan, 2020
+
     </div>
 </div>
 

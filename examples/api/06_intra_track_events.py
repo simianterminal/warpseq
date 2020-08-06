@@ -6,7 +6,10 @@
 # this demos hows how instruments can pull notes selectively
 # from a silent guide track, which can be useful to rapidly
 # construct large movements without having to sequence notes
-# for every single instrument
+# for every single instrument. Basically one instrument can
+# "listen" to what is playing on another track, copy the note,
+# and then use it to build chords, transpose up or down, or apply
+# an arpeggiator.
 
 from warpseq.api import demo
 from warpseq.api.public import Api as WarpApi

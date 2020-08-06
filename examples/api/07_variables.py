@@ -4,13 +4,16 @@
 # --------------------------------------------------------------
 #
 # this demo shows how variables work, using them to control
-# octave shifts, MIDI CC and velocity
+# octave shifts, MIDI CC and velocity. Variables cannot
+# have spaces in their names and are case insensitive.
 #
 # remember that variables are global and are accessible to all tracks
-# it can be useful to set them on a muted guide track
+# it can be useful to set them on a muted guide track, and then access
+# those values on different tracks.
 #
 # the first demo is audible, but the next two may not be depending on
-# the configuration of your musical instruments.
+# the configuration of your musical instruments - they would need
+# to respond to MIDI velocity and CC data.
 #
 # to observe MIDI CC behavior, consider recording the MIDI
 # stream and looking at it in your DAW.  Then tweak the

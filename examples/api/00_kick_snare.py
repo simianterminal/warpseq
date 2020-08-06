@@ -4,11 +4,11 @@
 # -------------------------------------------------------------
 #
 # this demo shows a basic 4/4 kick/snare pattern using absolute
-# notes. It will not be adjusted by a scale change, which is
-# important when talking to drum hardware and soft synths.
+# notes. It will not be adjusted by a scale assignment, which is
+# important when talking to drum tracks.
 #
-# after the basic pattern plays, the pattern changes up,
-# showing how to advance a clip.
+# after the first basic pattern plays, the pattern changes up,
+# showing how to advance a clip into a second scene.
 #
 # try changing the patterns and adding a third scene.
 
