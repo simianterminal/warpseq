@@ -50,7 +50,6 @@ class Player(object):
             time = event.time + event.note.length - NOTE_GAP,
             note = event.note.copy()
         ))
-        print("OFF=>%s" % (event.time + event.note.length - NOTE_GAP))
 
     def _still_on_this_clip(self):
         """
