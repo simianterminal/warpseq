@@ -8,7 +8,6 @@
 
 from .exceptions import *
 
-
 class BaseApi(object):
 
     def __init__(self, public_api, song):

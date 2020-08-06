@@ -12,18 +12,17 @@ from classforge import Class, Field
 
 class DefaultCallback(Class):
 
-    __slots__ = []
+    __slots__ = ()
+
 
     def on_init(self):
         pass
 
     def on_scene_start(self, scene):
         print("> starting scene: %s (%s)" % (scene.name, scene.obj_id))
-        pass
 
     def on_clip_start(self, clip):
-        #print("> starting clip: %s (%s)" % (clip.name, clip.obj_id))
-        pass
+        print("> starting clip: %s (%s)" % (clip.name, clip.obj_id))
 
     def on_clip_stop(self, clip):
         #print("> stopping clip: %s (%s)" % (clip.name, clip.obj_id))
@@ -50,7 +49,7 @@ class WebCallback(Class):
 
 class Callbacks(object):
 
-    __slots__ = []
+    __slots__ = ()
 
     CALLBACKS = []
 

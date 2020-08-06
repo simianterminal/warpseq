@@ -5,17 +5,18 @@
 # ------------------------------------------------------------------
 
 # these are functions useful for a demo of the Python API
-# but are less useful for a UI.
+# but are less useful for a UI implementation.
 
 import os
 import sys
 
-
 def suggest_device(api, device):
 
-    # look at all available MIDI devices
-    # if the environment variable "WARP_MIDI_DEVICE" is set and in the list, use that
-    # if not, print available devices and exit the program
+    """"
+    look at all available MIDI devices
+    if the environment variable "WARP_MIDI_DEVICE" is set and in the list, use that
+    if not, print available devices and exit the program
+    """
 
     available = api.devices.list_available()
     if device in available:

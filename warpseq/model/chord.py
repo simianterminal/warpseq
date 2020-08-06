@@ -26,26 +26,26 @@ from .transform import Transform
 # etc
 
 CHORD_TYPES = dict(
-   minor = [ 3, 7 ],
-   major = [ 4, 7 ],
-   dim = [ 3, 6 ],
-   aug = [ 4, 8 ],
-   sus4 = [ 5, 7 ],
-   sus2 = [ 2, 7 ],
-   fourth = [ 5 ],
-   power = [ 7 ],
-   fifth = [ 7 ],
-   M6 = [ 4, 7, 9 ],
-   m6 = [ 3, 7, 9 ],
-   dom7 = [ 4, 7, 10 ],
-   M7 = [ 4, 7, 11 ],
-   m7 = [ 3, 7, 10 ],
-   aug7 = [ 4, 8, 10 ],
-   dim7 = [ 3, 6, 10 ],
-   mM7 = [ 3, 7, 11 ]
+   minor = ( 3, 7 ),
+   major = ( 4, 7 ),
+   dim = ( 3, 6 ),
+   aug = ( 4, 8 ),
+   sus4 = ( 5, 7 ),
+   sus2 = ( 2, 7 ),
+   fourth = ( 5, ),
+   power = ( 7, ),
+   fifth = ( 7, ),
+   M6 = ( 4, 7, 9 ),
+   m6 = ( 3, 7, 9 ),
+   dom7 = ( 4, 7, 10 ),
+   M7 = ( 4, 7, 11 ),
+   m7 = ( 3, 7, 10 ),
+   aug7 = ( 4, 8, 10 ),
+   dim7 = ( 3, 6, 10 ),
+   mM7 = ( 3, 7, 11 )
 )
 
-CHORD_TYPE_KEYS = [x for x in CHORD_TYPES.keys()]
+CHORD_TYPE_KEYS = set([x for x in CHORD_TYPES.keys()])
 
 class Chord(object):
 
@@ -59,7 +59,7 @@ class Chord(object):
     chord = Chord(root='C4', chord_type='major')
     """
 
-    __slots__ = [ "notes", "root", "chord_type", "from_scale" ]
+    __slots__ = ( "notes", "root", "chord_type", "from_scale" )
 
     def __init__(self, notes=None, root=None, chord_type=None, from_scale=None):
 
@@ -68,23 +68,7 @@ class Chord(object):
         self.chord_type = chord_type
         self.from_scale = from_scale
 
-        # as this can't really happen when using the public API, disabling checks for now
-        #if self.notes and self.root:
-        #    raise InvalidChord("notes and root are mutually exclusive")
-        #if self.notes is None and self.root is None:
-        #    raise InvalidChord("specify either notes or root")
-        #if self.root and self.chord_type is None:
-        #    raise InvalidChord("chord_type is required when using root=")
-
-        #if isinstance(self.root, str):
-        # this no longer works
-        #    self.root = note(root)
-
-        if self.notes is not None:
-            pass
-            #for x in self.notes:
-            #    assert type(x) == Note
-        else:
+        if self.notes is None:
             self.notes = self._chordify()
 
     def chordify(self, chord_type):
@@ -98,12 +82,7 @@ class Chord(object):
         Returns a new chord with exactly the same information. We can throw away the chord type
         as we don't need it, and the chord might not have been constructed with one.
         """
-
-        # theory: we don't need to do this extra copy of the notes here, because anything changing the chord will copy the notes
-        # in fact, does anything really need this?  We could make it raise an Exception and test it.
-        # notes = [ n.copy() for n in self.notes ]
-
-        return Chord(notes=notes, from_scale=self.notes[0].from_scale)
+        return Chord(notes=notes, from_scale=self.from_scale)
 
     def with_velocity(self, velocity):
         """
@@ -121,9 +100,13 @@ class Chord(object):
         """
         Returns a copy of the chord with all notes set to a certain octave.
         This is probably musically bad (will break the sound) but is required to support the mod expression O=3 generically
-        for both chords and notes. It would be much better to use the mod expression O+1.
+        for both chords and notes. It would be much better to use the mod expression O+1 or O-1.
         """
-        return Chord(notes=[ n.with_octave(octave) for n in self.notes ], from_scale=self.from_scale)
+        if not self.notes:
+            return self.copy()
+        delta = octave - self.notes[0].octave
+        return Chord(notes=[ n.with_octave(n.octave+delta) for n in self.notes ], from_scale=self.from_scale)
+
 
     def _chordify(self):
         """

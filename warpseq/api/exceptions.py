@@ -44,5 +44,3 @@ class MIDIConfigError(WarpException):
 
 class InvalidUsage(WarpException):
     pass
-
-# TODO: add more here where exceptions are raised throughout - invalid symbols, etc
