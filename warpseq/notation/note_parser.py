@@ -44,7 +44,7 @@ class ExpressionEvaluationError(Exception):
 
 class NoteParser(object):
 
-    __slots__ = [ 'scale', 'song', 'clip', 'track', 'pattern', '_chord_scale', '_literal', '_mod', '_slot_duration']
+    __slots__ = [ 'scale', 'song', 'clip', 'track', 'pattern', '_chord_scale', '_literal', '_mod', '_slot_duration', '_notes']
 
     def __init__(self, scale=None, song=None, clip=None, track=None, pattern=None):
         self.scale = scale
@@ -56,6 +56,7 @@ class NoteParser(object):
     def setup(self):
         self._mod = ModExpression(defer=False)
         self._slot_duration = round(self.clip.slot_duration(self.song, self.pattern))
+        self._notes = self.scale.get_notes()
 
     def do(self, sym, octave_shift):
         """
@@ -134,8 +135,6 @@ class NoteParser(object):
             return self._scale_chord_strategy
         #elif NOTE_SHORTCUT_REGEX.match(sym):
         #    # C4, Eb4, F#
-
-
         # this is the default so let it crash if it wants
         # save the regex!
         return self._literal_note_strategy
@@ -148,7 +147,7 @@ class NoteParser(object):
         return Note(tie=True, name=None, octave=None, length=int(self._slot_duration))
 
     def _scale_note_strategy(self, sym):
-        return self.scale.get_notes()[int(sym)-1].copy()
+        return self._notes[int(sym)-1].copy()
 
     def _scale_chord_strategy(self, sym):
         override_typ = None
@@ -160,9 +159,7 @@ class NoteParser(object):
         (scale_num, typ) = chord_data
         if override_typ is not None:
             typ = override_type
-        pos = int(scale_num) - 1
-        buffer = self.scale.get_notes()
-        return Chord(root=buffer[pos].copy(), chord_type=typ)
+        return Chord(root=self._notes[int(scale_num) - 1].copy(), chord_type=typ)
 
     def _literal_note_strategy(self, sym):
 

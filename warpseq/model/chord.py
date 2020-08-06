@@ -76,8 +76,9 @@ class Chord(object):
         #if self.root and self.chord_type is None:
         #    raise InvalidChord("chord_type is required when using root=")
 
-        if isinstance(self.root, str):
-            self.root = note(root)
+        #if isinstance(self.root, str):
+        # this no longer works
+        #    self.root = note(root)
 
         if self.notes is not None:
             pass
