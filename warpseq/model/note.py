@@ -11,7 +11,7 @@ import re
 
 from ..api.exceptions import *
 from ..utils.utils import roll_left, roll_right
-from . import note_table
+from . note_table import NOTE_TABLE
 from .base import BaseObject
 import functools
 
@@ -101,14 +101,6 @@ class Note(object):
             return NOTES[EQUIVALENCE.index(name)]
         return name
 
-    def _scale_degrees_to_steps(self, input):
-        """
-        A 3rd "3" is 3 steps, but a "b3" (minor third) is 2.5 and a "#3" (augmented third) is 3.5
-        This is used in scale.py to make defining scales easier.
-        See https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes
-        """
-        return SCALE_DEGREES_TO_STEPS[str(input)]
-
 
     def scale_transpose(self, scale_obj, steps):
         """
@@ -157,7 +149,7 @@ class Note(object):
         n1.flags["cc"][str(channel)] = value
         return n1
 
-    def transpose(self, steps=0, semitones=0, degrees=None, octaves=0):
+    def transpose(self, steps=0, semitones=0, degrees=0, octaves=0):
         """
         Returns a note a given number of steps or octaves or (other things) higher.
         steps -- half step as 0.5, whole step as 1, or any combination.  The most basic way to do things.
@@ -167,19 +159,13 @@ class Note(object):
         You can combine all of them at the same time if you really want (why?), in which case they are additive.
         """
 
-
-        if degrees is not None:
-            degrees = str(degrees)
-            degree_steps = self._scale_degrees_to_steps(degrees)
-        else:
-            degree_steps = 0
-
+        degree_steps = SCALE_DEGREES_TO_STEPS[str(degrees)]
         steps = steps + (semitones * 0.5) + degree_steps
 
         result = self.copy()
         if steps:
             # this is in an in-place edit because the note was already copied
-            note_table.offset(result, steps)
+            (result.name, result.octave) = NOTE_TABLE[result.note_number() + int(2 * steps)]
         if octaves:
             result.octave = result.octave + octaves
         return result

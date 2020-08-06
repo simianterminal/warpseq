@@ -111,8 +111,6 @@ def expr_track_grab(parser, input, how, extra_info):
         input = input.copy()
         input.octave = playing.octave
         input.name = playing.name
-        #assert input.start_time is not None
-        #assert input.end_time is not None
     return input
 
 # ----------------------------------------------------------------------------------------------------------------------    
