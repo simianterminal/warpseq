@@ -271,6 +271,7 @@ class Clip(NewReferenceObject):
             t_start = t_start + (self.slot_duration(song, pattern) * len(pattern.slots))
         res = notes_to_events(self, results)
         t2 = time.perf_counter()
+        #print("EVENTS: %s" % res)
         print("TIME: %s" % (t2-t1))
         return res
 

@@ -37,7 +37,7 @@ class Note(object):
 
     __slots__ = [ 'name', 'octave', 'tie', 'length', 'start_time', 'end_time', 'flags', 'velocity', 'from_scale' ]
 
-    def __init__(self, name=None, octave=None, tie=False, length=None, start_time=None, end_time=None, flags=None, velocity=DEFAULT_VELOCITY, from_scale=None):
+    def __init__(self, name=None, octave=0, tie=False, length=None, start_time=None, end_time=None, flags=None, velocity=DEFAULT_VELOCITY, from_scale=None):
 
          self.octave = octave
          self.tie = tie

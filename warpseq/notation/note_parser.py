@@ -89,8 +89,12 @@ class NoteParser(object):
                 sym = ''
                 mod_expressions = ''
 
-            strategy = self._get_strategy(sym)
+            (strategy, extra_mods) = self._get_strategy(sym)
             res = strategy(sym)
+
+            if not mod_expressions:
+                mod_expressions = []
+            mod_expressions.extend(extra_mods)
 
             if not res:
                 all_notes.extend([None])
@@ -104,17 +108,26 @@ class NoteParser(object):
             for note in notes:
                 if note:
                     note.length = self._slot_duration
-                    if not note.tie:
-                        note.octave = note.octave + octave_shift
+                    note.octave = note.octave + octave_shift
 
-            notes = self._process_mod_expressions(notes, mod_expressions)
+            if mod_expressions:
 
-            all_notes.extend(notes)
+                new_notes = []
+                for note in notes:
+                    self._mod.scale = self.scale
+                    self._mod.track = self.track
+                    new_note = self._mod.do(note, mod_expressions)
+                    new_notes.append(new_note)
+                all_notes.extend(new_notes)
+
+
+            else:
+
+                all_notes.extend(notes)
 
         return all_notes
 
 
-    @functools.lru_cache(maxsize=256)
     def _get_strategy(self, sym):
 
         # FIXME: a rest should be a real note and not NONE because we can affix other
@@ -122,29 +135,27 @@ class NoteParser(object):
 
         if sym.startswith("-"):
             if sym == "-":
-                return self._tie_strategy
-            elif sym.isdigit():
-                return self._scale_note_strategy
+                return (self._tie_strategy, [])
+            elif sym[1:].isdigit():
+                return (self._root_strategy, ["S%s" % sym])
+                #return self._scale_note_strategy
         elif sym.isdigit():
-            return self._scale_note_strategy
+            return (self._scale_note_strategy, [])
         elif sym in [ "" , "_", ".", "x"]:
-            # "x", "_", "", None, etc
-            return self._rest_strategy
+            return (self._rest_strategy, [])
         elif sym in CHORD_KEYS or ":" in sym:
             # I, IV, ivv, 3:major
-            return self._scale_chord_strategy
-        #elif NOTE_SHORTCUT_REGEX.match(sym):
-        #    # C4, Eb4, F#
-        # this is the default so let it crash if it wants
-        # save the regex!
-        return self._literal_note_strategy
+            return (self._scale_chord_strategy, [])
+        return (self._literal_note_strategy, [])
+
+    def _root_strategy(self, sym):
+        return self._notes[0].copy()
 
     def _rest_strategy(self, sym):
         return None
 
-    @functools.lru_cache(maxsize=5)
     def _tie_strategy(self, sym):
-        return Note(tie=True, name=None, octave=None, length=int(self._slot_duration))
+        return Note(tie=True, name=None, length=self._slot_duration)
 
     def _scale_note_strategy(self, sym):
         return self._notes[int(sym)-1].copy()
@@ -171,17 +182,5 @@ class NoteParser(object):
             octave = int(octave)
         else:
             octave = 4
-        return Note(name=name, octave=octave, length=None)
+        return Note(name=name, octave=octave) #, length=self._slot_duration)
 
-    def _process_mod_expressions(self, notes, mod_expressions):
-        new_notes = []
-        for note in notes:
-            if mod_expressions is not None:
-                new_note = note.copy()
-                self._mod.scale = self.scale
-                self._mod.track = self.track
-                new_note = self._mod.do(new_note, mod_expressions)
-                new_notes.append(new_note)
-            else:
-                new_notes.append(note)
-        return new_notes

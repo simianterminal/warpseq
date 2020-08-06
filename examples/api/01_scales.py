@@ -22,7 +22,7 @@ api.song.edit(tempo=120)
 
 # setup instruments
 DEVICE = demo.suggest_device(api, 'IAC Driver IAC Bus 1')
-api.instruments.add('lead_inst', device=DEVICE, channel=1, min_octave=0, base_octave=3, max_octave=10)
+api.instruments.add('lead_inst', device=DEVICE, channel=1, min_octave=0, base_octave=5, max_octave=10)
 
 # setup tracks
 api.tracks.add(name='lead', instrument='lead_inst', muted=False)
