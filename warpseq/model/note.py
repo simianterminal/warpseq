@@ -7,21 +7,14 @@
 # modelling of notes, including step math necessary for creating
 # chords and understanding scales.
 
-import re
-
 from ..api.exceptions import *
-from ..utils.utils import roll_left, roll_right
 from . note_table import NOTE_TABLE
-from .base import BaseObject
-import functools
 
 DEFAULT_VELOCITY = 120
 
 NOTES          = [ 'C',  'Db', 'D', 'Eb', 'E',  'F',  'Gb', 'G',  'Ab', 'A', 'Bb', 'B' ]
 EQUIVALENCE    = [ 'C',  'C#', 'D', 'D#', 'E',  'F',  'F#', 'G',  'G#', 'A', 'A#', 'B' ]
 EQUIVALENCE_SET = set(EQUIVALENCE)
-UP_HALF_STEP   = roll_left(NOTES)
-DOWN_HALF_STEP = roll_right(NOTES)
 
 SCALE_DEGREES_TO_STEPS = {
    '0'  : 0, # people may enter this meaning "do nothing", but really it is 1.
@@ -91,16 +84,6 @@ class Note(object):
         """
         from . chord import Chord
         return Chord(root=self, chord_type=chord_type, from_scale=self.from_scale)
-
-    def _equivalence(self, name):
-        """
-        Normalize note names on input, C# -> Db, etc
-        Internally everything uses flats.
-        """
-        if name in EQUIVALENCE:
-            return NOTES[EQUIVALENCE.index(name)]
-        return name
-
 
     def scale_transpose(self, scale_obj, steps):
         """
