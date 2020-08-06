@@ -8,7 +8,7 @@
 # (these could use some cleanup)
 
 # a small gap between notes that ensures the off notes fire before the on notes
-NOTE_GAP = 0 # 0.01
+NOTE_GAP = 0.0001
 
 from ..api.exceptions import *
 from ..model.chord import Chord

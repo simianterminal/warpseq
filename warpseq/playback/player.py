@@ -50,6 +50,7 @@ class Player(object):
             time = event.time + event.note.length - NOTE_GAP,
             note = event.note.copy()
         ))
+        print("OFF=>%s" % (event.time + event.note.length - NOTE_GAP))
 
     def _still_on_this_clip(self):
         """
@@ -80,6 +81,7 @@ class Player(object):
 
             if len(due):
                 due = sorted(due, key=event_sorter)
+                #print("DUE: %s" % due)
                 for x in due:
                     self.engine.play(x)
                 self.left_to_play = [ x for x in ltp if x not in due ]

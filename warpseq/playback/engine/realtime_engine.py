@@ -39,13 +39,14 @@ from ...model.event import Event, NOTE_OFF, NOTE_ON
 
 class RealtimeEngine(object):
 
-    __slots__ = ['song','track','clip','channel','device','midi_out','instrument','midi_port','mod_expressions','callbacks','on_count','player']
+    __slots__ = ['song','track','clip','channel','device','midi_out','instrument','midi_port','mod_expressions','callbacks','on_count','player','on_ct']
 
     def __init__(self, song=None, track=None, clip=None, player=None):
 
         self.song = song
         self.track = track
         self.clip = clip
+        self.on_ct = 0
 
         self.instrument = self.track.instrument
         self.channel = self.instrument.channel
@@ -131,7 +132,8 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
-            print("PLAY: %s" % event.note)
+            #print("ON (%s): %s" % (self.on_ct, event.note))
+            self.on_ct = self.on_ct + 1
             self.player.inject_off_event(event)
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
 
@@ -160,5 +162,7 @@ class RealtimeEngine(object):
             if self.track.muted or self.instrument.muted:
                 return
 
+            #print("OFF (%s): %s" % (self.on_ct, event.on_event.note))
+            self.on_ct = self.on_ct - 1
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
 
