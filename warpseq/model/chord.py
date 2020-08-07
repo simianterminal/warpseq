@@ -82,7 +82,7 @@ class Chord(object):
         Returns a new chord with exactly the same information. We can throw away the chord type
         as we don't need it, and the chord might not have been constructed with one.
         """
-        return Chord(notes=notes, from_scale=self.from_scale)
+        return Chord(notes=self.notes, from_scale=self.from_scale)
 
     def with_velocity(self, velocity):
         """

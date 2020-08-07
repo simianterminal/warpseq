@@ -76,11 +76,10 @@ class Player(object):
         # consume any events we need to off the time queue
         if len(self.left_to_play):
 
-            due = [ x for x in ltp if x.time < ti ]
+            due = [ x for x in ltp if x.time <= ti ]
 
             if len(due):
                 due = sorted(due, key=event_sorter)
-                #print("DUE: %s" % due)
                 for x in due:
                     self.engine.play(x)
                 self.left_to_play = [ x for x in ltp if x not in due ]
@@ -112,6 +111,7 @@ class Player(object):
 
                         new_clips = new_scene.clips(self.song)
                         if (len(new_clips) == 0) and self._multiplayer.stop_if_empty:
+                            self._multiplayer.stop()
                             raise AllClipsDone()
 
                         self._multiplayer.play_scene(new_scene)
@@ -130,7 +130,6 @@ class Player(object):
         """
         Stop this clip/player making sure to send any midi off events
         """
-
         for event in self.left_to_play:
             if event.type == NOTE_OFF:
                 self.engine.play(event)
@@ -146,4 +145,3 @@ class Player(object):
             self.stop()
         self.time_index = 0
         self.left_to_play = [ n for n in self.events ]
-        self.left_to_play.reverse()

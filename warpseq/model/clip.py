@@ -252,8 +252,7 @@ class Clip(NewReferenceObject):
             if type(transform) != list:
                 transform = [transform]
             for tform in transform:
-                notes = tform.process(scale, self.track, notes, t_start)
-
+                notes = tform.process(scale, self.track, notes, t_start, slot_duration)
         return notes
 
 

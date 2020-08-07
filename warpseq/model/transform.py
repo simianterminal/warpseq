@@ -44,7 +44,7 @@ class Transform(NewReferenceObject):
             octave_slots = data['slots']
         )
 
-    def process(self, scale, track, note_list, t_start):
+    def process(self, scale, track, note_list, t_start, slot_duration):
 
         """
         Given a list of notes or chords, apply the transform expressions in *slots* to produce
@@ -75,28 +75,25 @@ class Transform(NewReferenceObject):
 
         start_time = t_start
 
-        #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        #print("TFORM=%s" % self.name)
 
         for notes in note_list:
 
             new_notes = []
 
             if len(notes) == 0:
-                new_note_list.append(new_notes)
+                # we don't attempt to transform rests
+                new_note_list.append([])
+                start_time = start_time + slot_duration
                 continue
 
             # compute the new time information for the divided notes
 
 
-            old_delta = notes[0].end_time - notes[0].start_time
-            new_delta = round(old_delta / divide)
+            new_delta = round(slot_duration / divide)
 
             # roll_notes picks values off the incoming note/chord list, it happens once each time a 'divide'
             # is looped through
             roll_notes = roller(notes)
-
-            #start_time = notes[0].start_time
 
             i_ct = 0
 
@@ -109,25 +106,17 @@ class Transform(NewReferenceObject):
 
                 # apply the new time information
 
-
-                # grab the next mod expression from this transform
                 which_slot = next(self._slot_mods)
 
                 # calculate the new note using the mod expression
 
-                #print("IN=%s which_note (%s)" % (which_note, which_slot))
                 final_note = self._mod.do(which_note, which_slot)
-                #print("OUT=%s" % final_note)
                 if final_note is None:
                     continue
 
-                #print("NEW DELTA=%s" % new_delta)
-
                 final_note.start_time = start_time
                 final_note.end_time = round(start_time + (i_ct * new_delta))
-                #print("ET=%s" % final_note.end_time)
                 final_note.length = new_delta
-                #print("ND=%s" % new_delta)
 
                 start_time = start_time + new_delta
 
