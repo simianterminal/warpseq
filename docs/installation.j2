@@ -13,11 +13,11 @@ command line skills. If you know another programming language, you should find P
 <h2>Requirements</h2>
 
 <p>
-Warp should work on most any computer. First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, you can install these through <A HREF="https://brew.sh/">homebrew</A>:
+Warp should work on most any computer. First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, you can install these through <A HREF="https://brew.sh/">homebrew</A>
+from the Terminal:
 </p>
 
-{{ begin_code(language='bash') }}
-brew install python3
+{{ begin_code(language='bash') }}brew install python3
 brew install git
 {{ end_code() }}
 
@@ -60,7 +60,7 @@ Ableton has already written some great documentation on creating one:
 </p>
 
 <p>
-You can skip step 5 in the above document -- it's Ableton specific.  Further, if you want to just talk to hardware MIDI instruments, and don't need to route MIDI
+You can skip step 5 in the above document if you are not using Ableton. Further, if you want to just talk to hardware MIDI instruments (and not soft synths), and don't need to route MIDI
 through your DAW, you can also choose to not set up a virtual bus.
 </p>
 
@@ -78,15 +78,20 @@ To try out Warpseq from the API, we will use python to run one of the examples:
 </p>
 
 {{ begin_code(language='bash') }}cd examples/api
-python3 tests/00_kick_snare.py
+PYTHONPATH=/path/to/where/you/checked/out/warpseq python3 tests/00_kick_snare.py
 {{ end_code() }}
 
 <p>
-The program may prompt you about selecting a MIDI device name.  If the demo sounds strange, you probably need to choose
+The program may prompt you about selecting a MIDI device name.</p>
+
+<p>
+If the demo sounds strange, you probably need to choose
 some different instruments.  The first example, as you will read in the source code, uses a kick drum on MIDI channel 1
 and a snare drum on MIDI channel 2.  Most other API demos work well with a polyphonic synth with a short decay time on MIDI channel 1 and
 a similar but different sounding patch on MIDI channel 2.
 </p>
+
+<p>To stop any demo, hit Ctrl+C</p>.
 
 <hr/>
 <h2>Next Steps</h2>
@@ -95,8 +100,7 @@ a similar but different sounding patch on MIDI channel 2.
 With everything installed, you are about ready to learn the {{ doc('api','API') }} and try some more of the API examples.
 </p>
 
-<p>We recommend
-you skim through the "Concepts" and "Expression Language" sections (on the left) as well to get a better feel of what
+<p>We recommend you skim through the "Concepts" and "Expression Language" sections (on the left) as well to get a better feel of what
 the examples are teaching. As you work on songs, you can consult back to the documentation for reference.
 </p>
 
