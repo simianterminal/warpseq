@@ -28,29 +28,20 @@
        <ul class="list-unstyled components">
            
                
-               <li>
+               <li class="active">
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li class="active">
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li>
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -299,7 +290,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleSetupAndUsage').click();
+        document.getElementById('navToggleTheBasics').click();
     
 
 });

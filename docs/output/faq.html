@@ -28,29 +28,20 @@
        <ul class="list-unstyled components">
            
                
-               <li>
+               <li class="active">
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li class="active">
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li>
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -158,59 +149,105 @@
 <h1>Frequently Asked Questions</h1>
 <hr/>
 
-<hr/>
-<h3>Is Warp free?</h3>
+<h3>Why Did You Make Warp?</h3>
 
 <p>
-Yes. Warp is free software licensed to you under the Apache2 license.  See <A HREF="./contributing.html">Contributing</a> for details on how to help with development, if you are interested. See <A HREF="./club.html">Warp Club</a> for some awesome user community opportunities
-and information.
+Mostly because I thought my tracks I made in most common DAWs were repetitive, and I wanted greater control over key changes, randomness, and arpeggiators. Tracks I made in hardware tools were limited by not being able to see
+the flow of my compositions. Both were difficult to tweak for live performance for differing reasons. Warp is the answer to the question: what would my personal "best of all worlds" look like and trying to create that?
+Warp also comes from wanting to explore generative music composition, and the <A HREF="./api.html">API</a> is also partly a platform to achieve some of those ends -- but the whole, really, is more about enabling more interesting
+long-form compositions and enabling live performance in the UI.
 </p>
 
 <hr/>
-<h3>Is Warp for any particular genre of music?</h3>
+<h3>Why Is It Called Warp?</h3>
 
 <p>
-Warp can be used from anything from metal to techno to rock, ambient, and experimental generative music.  Warp will however detect attempts to create country music and will immediately shut down after formatting
+I'm probably most known for creating <i>Ansible</i> and I wanted another science-fiction sounding name for my sequencer. Also Warp is all about how you can tweak and modify compositions over time to make
+them sound different - decreasing repetition without a lot of tedious manual data entry - so "Warp" seemed appropriate. We are indifferent if you want to assume Stargate SG-1 style Warp Gates or Star Trek / Star Wars
+style hyperdrive. We do not endorse the retcon of the Kessel Run. Warp 10+ does not enable time travel. We do not believe in mushroom-plane teleportation. Cryogenic travel always ends badly.
+</p>
+
+<hr/>
+<h3>What Is the Status of This Project?</h3>
+
+<p>
+It's great to use now! We've already made quite a few demo tracks of Warp on the homepage.  You can absolutely use it today, but you need to be able to write a bit of Python. You won't need to write any loops or anything complex as
+the program can do that for you, and you don't need to know Python object syntax or anything like that. The Python API is actually fun to use and it is easy
+to tweak and work on songs. As mentioned elsewhere, our UI "release" will be coming this fall.  Really you can update many times to always pick up the latest, so there will likely be lots of smaller updates (announced on <A HREF="https://www.patreon.com/mpdehaan?fan_landing=true">Patreon</A>
+and <A HREF="http://twitter.com/warpseq">twitter</A> throughout while the UI develops.
+</p>
+
+<hr/>
+<h3>Is Warp Free?</h3>
+
+<p>
+Totally 100 free with no commercial plans up our sleeves! Warp is free software licensed to you under the Apache2 license.  See <A HREF="./contributing.html">Contributing</a> for details on how to submit a feature, if you are interested. Also see <A HREF="./club.html">Warp Club</a> for how to get some extra
+insider access (including access to our discord chat channel) while also supporting the project.
+</p>
+
+<hr/>
+<h3>Is Warp For Any Particular Genre Of Music?</h3>
+
+<p>
+Warp can be used from anything from metal to techno to rock, ambient, and experimental generative music.  Warp will however detect attempts to create country music and will <i>immediately</i> shut down after formatting
 your hard drive. Actually we're just kidding on that last one ... for now.
 </p>
 
 <hr/>
-<h3>Does Warp work with hardware or software synths?</h3>
+<h3>Does Warp Work With Hardware or Software Synths?</h3>
 
 <p>Warp works with both. To use software synths, you may need to create a virtual bus.  See "<A HREF="<A HREF="https://help.ableton.com/hc/en-us/articles/209774225-How-to-setup-a-virtual-MIDI-bus">How To Setup A Virtual MIDI Bus [Ableton.com]</A>",
-of which most is generic.
+of which most of the steps are generic and not Ableton-specific.
 
 <p>Warp can talk to multiple MIDI devices at one time, including a mix of hardware synths and software.  A hardware MIDI interface has multiple numbered output channels. While MIDI hardware can normally be daisy chained, we would recommend
 using a MIDI splitter, like a <A HREF="https://kentonuk.com/product/thru-5/">Kenton Thru</A> to reduce latency.</p>
 
 <hr/>
-<h3>Does Warp replace my DAW?</h3>
+<h3>I Want To Try Composing Tracks But Don't Have A Commercial DAW or Any Software Synths</h3>
 
-<p>Generally no, but it could. You might still want to record audio in your DAW, possibly record MIDI from Warp, and use the DAW to host VST and AU format effects.  You may not need a full compositional environment, however, and could choose
+<p>This <A HREF="https://blog.landr.com/the-7-best-free-synth-vst-plugins/">This article</A> has some good free software synth suggestions. Not all software synths run in a standalone mode, but many do. I would
+recommend starting small, but if you want something complex that simulates a modular synth, the <A HREF="https://vcvrack.com/">VCV Rack</A> userbase seems to be exploding lately.  For DAWs, I would suggest the <A HREF="https://www.ableton.com/en/trial/">Ableton Live Demo</A>, but you can
+also technically host VSTs in freeware DAWs as well.</p>
+
+<hr/>
+<h3>Does Warp Replace My DAW?</h3>
+
+<p>Generally no. You might still want to record audio in your DAW, possibly record MIDI from Warp, and use the DAW to host VST and AU format effects.  You may not need a full compositional environment, however, and could choose
 to use more of an audio recording program - or even a tape deck.  This is up to you.
 </p>
 
 <hr/>
-<h3>How do I use my DAW with Warp?</h3>
+<h3>How Do I Use My DAW With Warp?</h3>
 
 <p>You want to set up MIDI tracks for all of your software synths, accepting input on the proper channels (such as an "IAC" or virtual bus) and have them listen on specific channel numbers and not "Omni" channels.
 To receive incoming MIDI, be sure to arm your tracks. You do not need to make MIDI tracks in your DAW for hardware synths if you don't want to, audio only tracks are fine.</p>
 
 <hr/>
-<h3>Does Warp have arpeggiators?</h3>
+<h3>Does Warp Have Arpeggiators?</h3>
 
-<p>Yes, you can build a simple arpeggiator with a transform.  For triads, just set the divide time to 3. This is covered in <A HREF="./expr_transforms.html">Transforms</a>.</p>
+<p>Yes, you can easily build a simple arpeggiator with a <A HREF="./expr_transform.html">Transform</a>.  For triads, just set the divide time to 3. This is covered in <A HREF="./expr_transforms.html">In Transforms</a>. Having more sophisticated
+arps was a major reason for creating Warp</p>
 
 <hr/>
-<h3>Does Warp output MIDI files?</h3>
+<h3>Does Warp Output MIDI Files?</h3>
 
 <p>Right now, Warp outputs realtime (live) MIDI events as it plays, and to create a MIDI file you would need to record the MIDI in an external program. A MIDI Export feature may be added in the future.</p>
 
-<h3>How do I stop Warp from playing?</h3>
+<hr/>
+<h3>How Do I Stop Warp from Playing?</h3>
 
-<p>For the API examples, just hit Ctrl+C and Warp will stop and shut off any playing notes.</p>
+<p>For the API examples, just hit Ctrl+C and Warp will stop and shut off any playing notes.  If Warp has a bug where this happens to not quit playing when you stop it, let us know so we can fix it - but you can
+almost always press "stop" on your DAW", and some hardware MIDI interfaces also have a "MIDI panic" feature.  This should really only be needed if Warp were to crash midstream and we apply a lot of effort
+to make sure that doesn't happen.</p>
 
-<h3>What's coming next?</h3>
+<hr/>
+<h3>Help, I Can't Hear Anything?</h3>
+
+<p>Oh no!  be sure all your MIDI channel and device choices are correct, and that none of the Tracks or Devices are muted in Warp. Also be sure any tracks in your DAW that need to be armed are armed, and that you
+have the "monitor" switches in your DAW set correctly. If you don't know what is correct, we never do either, just try toggling them! What is "Cue"? We have no idea! We just make the bleeps. Is your audio interface
+muted? Anyway, you'll get it figured out!</p>
+
+<h3>What's Coming Next?</h3>
 
 <p>
 Right now Warp is in a developer-beta release mode where only the Python API is available.  We are going to be releasing a web interface in the Fall of 2020, and can talk more about future plans beyond the UI then.
@@ -233,7 +270,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleSetupAndUsage').click();
+        document.getElementById('navToggleTheBasics').click();
     
 
 });

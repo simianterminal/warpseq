@@ -30,27 +30,18 @@
                
                <li>
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li>
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -160,23 +151,19 @@
 <hr/>
 
 <p>
-For Warp to be able to send MIDI notes, it needs a way to send them. A device is any computer operating system visible MIDI Device, such as your USB MIDI interface or a virtual one like an Apple IAC Audio Bus.
+For Warp to be able to send MIDI notes, it needs to know where to send them. A Device object references any computer operating system visible MIDI Device, such as a hardware USB MIDI interface or
+a virtual one like an Apple IAC Audio Bus.
 </p>
 
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
-In OS X, creating an IAC Bus (see <A HREF="./installation.html">Installation</a>) will allow Warpseq to talk to software synths.
+In OS X, creating an IAC Bus (see <A HREF="./installation.html">Installation</a>) is needed to allow Warp to talk to software synths.
 </div>
 
-<p>Warp is targeted just as much at hardware synths as software synths, and can speak to multiple devices and instruments at once - including a mix of hardware and software.
+<p>
+Warp is targeted just as much at hardware synths as software synths, and can speak to multiple devices of both kinds at once.
 </p>
 
-<div class='infoblock'>
-<i class="fas fa-info-circle"></i></i>&nbsp;
-When you start up a new <A HREF="./song.html">Song</a>, all the current MIDI Devices on your computer should be added to the <A HREF="./song.html">Song</a> automatically, so you can use them.  If you open someone else's
-<A HREF="./song.html">Song</a> file, you may need to manually add some new devices and then reconfigure your <A HREF="./instrument.html">Instrument</a> definitions in order to play the song on your software
-and hardware.
-</div>
         
     </div>
 </div>

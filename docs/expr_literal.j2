@@ -3,13 +3,16 @@
 <hr/>
 
 <p>
-Warp can represent scale notes or just specific notes.  For starters, let's learn specific notes that won't be affected by the current
-{{ doc('scale','Scale') }}.  This is something you will need to do when using drum synths, but otherwise, you probably won't use this
-feature very often.
+Warp can represent scale notes or just specific "literal" notes. Literal notes are entered in with note names (letters) followed by an octave number. In contrast, scale notes are entered in as arabic numbers or roman numerals (for chords),
+rather than letters.</p>
+
+ <p>
+For starters, let's learn how to input literal notes that won't be affected by the current
+{{ doc('scale','Scale') }}.  This is something you will need to do when using drum synths, but otherwise, you'll probably be using {{ doc('expr_scale_notes', 'Scale Notes') }} more frequently.
 </p>
 
 <p>
-For a starter example, think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is:
+For a starter example, think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is simply:
 </p>
 
 {{ begin_code() }}C4
@@ -23,18 +26,21 @@ C4
 {{ end_code() }}
 
 <p>
-That, as simple as it is, is a valid pattern in Warpseq.  You can program notes in like that if you want and would just enter them in order. In the UI,
-you would put each on a line by itself. However, as we mentioned, these symbols won't respond to any scale settings in Warp.  They'll just stick to what you input.
+That, as simple as it is, is a valid pattern in Warp!  In the {{ doc('api','API') }}, these are expressed as Python lists. In the UI,
+you would put each on a line by itself.
 </p>
 
 <p>
-To continue, you can access black keys as well, as either sharps or flats, as is your preference:
+Of course, you can access the black keys as well, as either sharps or flats, as is your preference:
 </p>
 
 {{ begin_code() }}
 Eb4
 C#4
 {{ end_code() }}
+
+<h3>Next Steps</h3>
+<hr/>
 
 {{ begin_info_block() }}
 If you want to input notes or chords that instead follow the scale settings -- which is in general what you want to do when writing anything that isn't a percussion track -- see {{ doc('expr_scale_notes') }}.

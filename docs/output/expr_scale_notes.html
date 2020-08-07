@@ -30,27 +30,18 @@
                
                <li>
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li class="active">
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -159,13 +150,25 @@
 <hr/>
 
 <p>
-Warp uses arabic numerals to indicate degrees along a scale, and roman numerals to represent basic chords.
-We'll show you how to make more complex chords as well.
+Now that you know how to input specific <A HREF="./expr_literal.html">Literal Notes</a>, it is time to learn how to input
+notes that will respond to scale/mode changes.</p>
+
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Most DAWs implement scales with "force to scale" semantics, which can
+result in confusion when scales notes in the input scale do not line up cleanly with the output scale, and makes it difficult to
+tell the scale degrees of notes when looking at them. Also, these systems do not allow input of accidental notes (sharps and flats).
+Warp handles this totally differently, solving all of these problems.
+</div>
+
+<p>
+Warp uses lists of <i>Arabic</i> numerals to indicate degrees along a scale, and <i>Roman</i> numerals to represent basic chord types.
+We'll show you how to access more complex chords as well, using <A HREF="./expr_mod.html">Mod Expressions</a>.
 </p>
 
 <h2>A Scale Example</h2>
 
-Here is the same scale mentioned in <A HREF="./expr_literal.html">Literal Notes</a> in a way that will work for any 7-note <A HREF="./scale.html">Scale</a> setting:
+Here is the same scale mentioned in <A HREF="./expr_literal.html">Literal Notes</a>, written in a way that will instantly work for any 7-note <A HREF="./scale.html">Scale</a>:
 
 <div class='codeblock'><pre><code class="language-python">1
 2
@@ -177,22 +180,14 @@ Here is the same scale mentioned in <A HREF="./expr_literal.html">Literal Notes<
 </code></pre></div>
 
 <p>
-This means that we can define a <A HREF="./pattern.html">Pattern</a> and then the pattern can be then used in any clip using any scale we want.
-The <A HREF="./scale.html">Scale</a> value will be taken from the clip, if so provided, or if not, can come from the scene, and if not set there,
-will use the value from the song.  If you don't set a scale anywhere, the system will assume the C major scale.
+That was simple - it's just the scale degrees for each note we want to play.
+The <A HREF="./scale.html">Scale</a> value will be taken from the clip, if so provided, or if not, can come from the <A HREF="./scene.html">Scene</a>, and if not set there,
+will use the value from the <A HREF="./song.html">Song</a>.  If you don't set a scale anywhere, the system will assume the C Major scale.  Users do not even
+need to know what notes are in the scale, because Warp will handle all the music theory for you.
 </p>
 
-<div class='infoblock'>
-<i class="fas fa-info-circle"></i></i>&nbsp;
-Most other sequencer programs and DAWs do not natively understand scales, but instead
-"force" notes to the nearest scale note.  This means multiple note entries might map to the same note, or it may be unclear
-if something rounds up or down.  Of greater concern, in these force-to-scale systems, the ability to use accidentals is lost.
-Another major problem with DAWs is while "force to scale" can often be achieved with a MIDI effect, using multiple scales
-together often requires a separate track for every combination of instrument and scale.  This is not the case in Warp!
-</div>
-
 <p>
-Scale notes may also be listed as negative, which shift down from the root, as shown in this sequence:
+Scale degrees may also be listed as negative, which shift down from the root, as shown in this sequence:
 </p>
 
 <div class='codeblock'><pre><code class="language-python">1
@@ -205,6 +200,8 @@ Scale notes may also be listed as negative, which shift down from the root, as s
 1
 </code></pre></div>
 
+<i>Note: The value 0 is not valid here, because we don't know what it would mean. In that sense, it's like Math before the 12th century.</i>
+
 <hr/>
 <h3>Roman Numeral Chords</h3>
 
@@ -215,34 +212,29 @@ IV
 V
 </code></pre></div>
 
-This notation is commonly used to denote chord progressions.  Like the arabic numerals above, it is nice because it doesn't care what scale you are in.
+<p>
+This notation is already commonly used in music to denote chord progressions.  Like the arabic numerals above, this system is nice because it doesn't care what scale you are in.
+</p>
 
-Lowercase roman numerals represent minor chords:
+Lowercase roman numerals are used to represent minor chords:
 
 <div class='codeblock'><pre><code class="language-python">i
 iv
 v
 </code></pre></div>
 
-More advanced types can be represented using their base notes and chord type:
+More advanced types can still be represented in Warp using their base notes and chord type:
+
+<div class='codeblock'><pre><code class="language-python">1:sus4
+2:major
+4:power
+</code></pre></div>
+
+Or, equivalently using <A HREF="./mod_expr.html">Mod Expressions</a>:
 
 <div class='codeblock'><pre><code class="language-python">1 ch=sus4
 2 ch=major
 4 ch=power
-</code></pre></div>
-
-<p>
-This is a bit of a spoiler as this refers to using <A HREF="./expr_mod.html">Mod Expressions</a>.
-</p>
-
-<p>
-An easier shorthand for accessing the full list of chord types is also available:
-</p>
-
-<div class='codeblock'><pre><code class="language-python">
-I:sus4
-II:major
-IV:power
 </code></pre></div>
 
 For reference the built-in chord types you can use this way are:
@@ -267,10 +259,10 @@ For reference the built-in chord types you can use this way are:
 <li>mM7</li>
 </ul>
 
-<p>
-So we have access to a lot of different chord types, we just don't get to use the roman numeral syntax for anything but major
-and minor chords.
-</p>
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+Chords and notes can be mixed together in the same lists. Chords can also be modified by all <A HREF="./mod_expr.html">Mod Expressions</a> exactly like notes can.
+</div>
         
     </div>
 </div>
@@ -286,7 +278,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleExpressionLanguage').click();
+        document.getElementById('navToggleExpressionGuide').click();
     
 
 });

@@ -28,29 +28,20 @@
        <ul class="list-unstyled components">
            
                
-               <li>
+               <li class="active">
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li class="active">
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li>
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -163,15 +154,15 @@ Thank you for interest in trying out Warp!
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
 Warp is in a API-only beta phase through Fall 2020 as we work to build the performance-oriented user interface.  The instructions below cover
-setting up the API and will include install instructions for the UI once released. For now, we will assume some basic Python development and
-command line skills. If you know another programming language, you should find Python easy to learn, and Warp requires only a small amount of Python knowledge.
+setting up the API and will detail the UI once ready. For now, we will assume some basic Python development and
+command line skills. If you know another programming language, you should find Python easy to learn, as Warp requires only a small amount of Python knowledge.
 </div>
 
 <hr/>
 <h2>Requirements</h2>
 
 <p>
-Warp should work on most any computer. First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, we recommend installing these from <A HREF="https://brew.sh/">homebrew</A>:
+Warp should work on most any computer. First install <i>python3</i> and <i>git</i> if you do not already have them.  On a Mac, you can install these through <A HREF="https://brew.sh/">homebrew</A>:
 </p>
 
 <div class='codeblock'><pre><code class="language-bash">
@@ -180,10 +171,10 @@ brew install git
 </code></pre></div>
 
 <hr/>
-<h2>Checkout</h2>
+<h2>Checkout The Source Code</h2>
 
 <p>
-Now clone the project into a directory:
+Clone the project into any directory you like:
 </p>
 
 <div class='codeblock'><pre><code class="language-bash">cd wherever
@@ -194,7 +185,7 @@ git clone https://laserllama@bitbucket.org/laserllama/warpseq.git
 <h2>Libraries</h2>
 
 <p>
-Now install the dependencies:
+Now install the Python library dependencies:
 </p>
 
 <div class='codeblock'><pre><code class="language-bash">pip3 install -r requirements.txt
@@ -202,15 +193,16 @@ Now install the dependencies:
 
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
-If the pip install fails on a Mac, you may need to install xcode developer tools, run: "xcode-select --install"
+If the pip install fails on a Mac, you may need to install or update XCode developer tools to build a MIDI library we use. Run: "xcode-select --install" and
+then retry the command.
 </div>
 
 <hr/>
-<h2>Creating a Virtual Bus</h2>
+<h2>Creating a Virtual MIDI Bus</h2>
 
 <p>
 If you want to use Warp with software synthesizers, you will need to create a Virtual Bus in your operating system if you do not already have one.
-Ableton has already written some great documentation on creating them:
+Ableton has already written some great documentation on creating one:
 </p>
 
 <p>
@@ -218,22 +210,21 @@ Ableton has already written some great documentation on creating them:
 </p>
 
 <p>
-You can skip step 5 in the above document -- it's Ableton specific.  Further, if you want to just use hardware, and don't need to route MIDI
+You can skip step 5 in the above document -- it's Ableton specific.  Further, if you want to just talk to hardware MIDI instruments, and don't need to route MIDI
 through your DAW, you can also choose to not set up a virtual bus.
 </p>
 
 <div class='warnblock'>
 <i class="fas fa-exclamation-triangle"></i></i></i>&nbsp;
-When writing your tracks later, unless you feel the need to record MIDI notes vs audio, you should NOT route MIDI through the IAC bus
-into your software synthesizers. You will have better performance talking to your MIDI interface hardware directly.  You will also
-have the added bonus of not having to "arm" MIDI tracks to test your compositions.
+When writing your tracks, unless you feel the need to record MIDI notes vs audio, you should possibly consider not routing MIDI through the IAC bus
+into your hardware synthesizers. You will have better performance talking to your MIDI interface hardware directly.
 </div>
 
 <hr/>
 <h2>Ready?</h2>
 
 <p>
-We are ready to go.  At this point of the Warp beta, only the python API is available.  The UI is coming soon in the Fall of 2020.
+We are ready to go.  At this point of the Warp beta, only the <A HREF="./api.html">Python API</a> is available.  The UI is coming soon in the Fall of 2020.
 To try out Warpseq from the API, we will use python to run one of the examples:
 </p>
 
@@ -243,33 +234,33 @@ python3 tests/00_kick_snare.py
 
 <p>
 The program may prompt you about selecting a MIDI device name.  If the demo sounds strange, you probably need to choose
-some different instruments.
-</p>
-
-<p>
-When the UI is available, there will just be a few more install steps for Web UI dependencies.
+some different instruments.  The first example, as you will read in the source code, uses a kick drum on MIDI channel 1
+and a snare drum on MIDI channel 2.  Most other API demos work well with a polyphonic synth with a short decay time on MIDI channel 1 and
+a similar but different sounding patch on MIDI channel 2.
 </p>
 
 <hr/>
 <h2>Next Steps</h2>
 
 <p>
-With everything installed, you are ready to try some more of the <A HREF="./api.html">Python API</a> examples.  However we also recommend
-you read through the "Concepts" and "Expression Language" sections (on the left) to get a better feel of what
-the examples are teaching.
+With everything installed, you are about ready to learn the <A HREF="./api.html">API</a> and try some more of the API examples.
+</p>
+
+<p>We recommend
+you skim through the "Concepts" and "Expression Language" sections (on the left) as well to get a better feel of what
+the examples are teaching. As you work on songs, you can consult back to the documentation for reference.
 </p>
 
 <p>
-The API examples are only the start, what you create is up to your imagination and can
-get rather advanced as you start incorporating concepts like "transforms".  Have fun trying out the examples and
-exploring the docs!
+The API examples are only the start, what you create is up to your imagination and can get rather advanced as you start incorporating randomness, key changes, tempo changes, transforms, and variables.
+Have fun trying out the examples and seeing what you can create!
 </p>
 
-<p>
-If you get stuck or have a question, we're trying to refine our
-documentation at this stage so please <A HREF="mailto:michael@michaeldehaan.net">Email Michael</A>.  We'd be
-glad to hear from you!
-</p>
+<div class='infoblock'>
+<i class="fas fa-info-circle"></i></i>&nbsp;
+If you get stuck or have a question, we're always wanting to refine our
+documentation, so please <A HREF="mailto:michael@michaeldehaan.net">Email Michael</A>.  We'd be glad to hear from you!
+</div>
 
         
     </div>
@@ -286,7 +277,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleSetupAndUsage').click();
+        document.getElementById('navToggleTheBasics').click();
     
 
 });

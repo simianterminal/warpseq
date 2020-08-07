@@ -30,27 +30,18 @@
                
                <li>
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li class="active">
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -160,22 +151,22 @@
 
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
-Right now, Warp is in a developer-only beta mode, where there's a great Python API, but no user interface available yet. Once the UI is available, this section
-will morph into a user guide and will also include screenshots.
+Right now, Warp is in a developer-specific beta release mode, where there is a great Python API, but no user interface available yet. Once the UI is available, this section
+will morph into a user guide and will also include screenshots, making it more clear how to enter expressions into the program. For now, see the <A HREF="./api.html">API</a> examples
+in git and this will help put examples in context.
 </div>
 
 <p>
-In Warpseq, notes and chords are written in text. When we define notes or chords in a <A HREF="./pattern.html">Pattern</a>, we can simply type in symbols for the notes and chords.
+In Warp, notes and chords are written in text, rather than in a piano roll format. When we define notes or chords in a <A HREF="./pattern.html">Pattern</a>, we can simply type in symbols for the notes and chords.
 </p>
 
 <hr/>
 <h2>Notes and Chords Are Only The Start</h2>
 
 <p>
-The goal of Warp is for any user to easily express high-level compositional intent, and that includes random or evolving variations. These variations many include such as subtle note
+Warp wants all users to be able to easily express high-level compositional intent, and that includes random or evolving variations. These variations include subtle note
 or MIDI CC changes on certain steps as commonly found in acid or minimal techno OR insane arpeggiated chord sequences that only a robotic Mozart could pull off.
-To achieve this, we need tools -- a language -- for expressing this. Warp expressions are that language -- designed to be rapidly entered and edited in with a keyboard,
-rather than slowly placed via a piano roll interface.
+To achieve this, we need tools -- a language -- for expressing this. Warp expressions are that language.
 </p>
 
 <hr/>
@@ -184,7 +175,8 @@ rather than slowly placed via a piano roll interface.
 <p>
 Expressions in <A HREF="./patterns.html">Patterns</a> are not only used in describing what notes play, but also in <A HREF="./transform.html">Transforms</a>.  As we have explained
 earlier in the documentation, transforms move across the notes that would be in a <A HREF="./pattern.html">Pattern</a>, and can modify them in a number of ways - which will grow with
-each future release of the Warp program.
+each future release of the Warp program.  Just as a software reverb or a guitar pedal is an audio effect, transforms are MIDI effects.  Examples of transforms include simply transposing
+up an octave, arpeggiating chords, or bumping every fourth note up a fifth.
 </p>
 
 <hr/>
@@ -192,15 +184,16 @@ each future release of the Warp program.
 
 <p>
 Expressions in both <A HREF="./pattern.html">Patterns</a> and <A HREF="./transform.html">Tranforms</a> work in the context of the current <A HREF="./scale.html">Scale</a>, so they always stay musical.
-Yet it is still possible to express sharps and flats outside the scale (aka "blue notes"), something that is usually not possible in classical DAWS with "force to scale" features.
-If you express a "E4", however, that note will always be an E4, meaning you can control drum synths without them being altered by a scale change.
+Of course it is still possible to express sharps and flats outside the scale (aka "blue notes"), something that is usually not possible in classical DAWS with "force to scale" features.
+To do this, in Warp, it's more likely you would input the first note in a scale as "1", rather than "C4". If you write "C4", however, that note will always be an C4, meaning you can control percussion
+tracks without them being altered by a scale change.
 </p>
 
 <hr/>
 <h2>Ready To Get Started Learning Expressions?</h2>
 
 <p>
-We don't want to overwhelm anyone, but there is a lot of power to explore here. If this seems confusing, we recommend looking at some of the example songs that come with Warp (see <A HREF="./api.html">Api</a> for now),
+We don't want to overwhelm anyone, but there is a lot to explore. If this seems confusing, we recommend looking at some of the example songs that come with Warp (see <A HREF="./api.html">API</a> for now),
 and things should make a lot more sense in context.  You can then think of this documentation section more as a reference manual and come back to it as needed, or when you feel like learning more features.
 Explore each chapter and feel free to not use everything at once - eventually, you'll feel like exploring and trying out more features as things become second nature.
 </p>
@@ -228,7 +221,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleExpressionLanguage').click();
+        document.getElementById('navToggleExpressionGuide').click();
     
 
 });

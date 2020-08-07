@@ -21,8 +21,7 @@ played note.
 This allows for powerful harmonization.  Imagine, if you will, a muted track 1 containing melody information as part of a scale.
 </p>
 
-{{ begin_code() }}
-1
+{{ begin_code() }}1
 2
 3
 4
@@ -37,8 +36,7 @@ This allows for powerful harmonization.  Imagine, if you will, a muted track 1 c
 Another track can play harmonized chords - even at a different tempo, that will always line up.  This is as if one player in a band
 was listening to another player:
 
-{{ begin_code() }}
-1 T=melodyTrack ch=major
+{{ begin_code() }}1 T=melodyTrack ch=major
 -
 -
 -
@@ -51,14 +49,12 @@ was listening to another player:
 
 That's a short pattern.  Now we can add a baseline, which takes the melody track and drops down a few octaves.
 
-{{ begin_code() }}
-1 T=melodyTrack
+{{ begin_code() }}1 T=melodyTrack
 {{ end_code() }}
 
 The bass pattern can be zero length, because we want to apply an arp pattern to it, that might look like this:
 
-{{ begin_code() }}
-1 T=melodyTrack O-1
+{{ begin_code() }}1 T=melodyTrack O-1
 1 T=melodyTrack O-1 S+1
 1 T=melodyTrack O-1 S+2
 1 T=melodyTrack O-1 S+3
@@ -79,7 +75,8 @@ As such, we can make an entire song out of considerably LESS clips than in some 
 </p>
 
 {{ begin_warn_block() }}
-NOTE: (BUG) Currently the parser will not work with note grabs if the targetted track names contains spaces.
+NOTE: Currently the parser will not work with note grabs if the targetted track names contains spaces. The UI will probably
+enforce this in track naming conventions.
 {{ end_warn_block() }}
 
 

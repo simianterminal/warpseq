@@ -30,27 +30,18 @@
                
                <li>
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li class="active">
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -160,49 +151,57 @@
 <hr/>
 
 <p>
-Any literal notes or scale notes in a <A HREF="./pattern.html">Pattern</a> may be followed by a space and one or more modifiers, separated by spaces.
+Any <A HREF="./expr_literal.html">Literal Notes</a> or <A HREF="./expr_scale_notes.html">Scale Notes or Chords</a> in a <A HREF="./pattern.html">Pattern</a> may be followed by a space and then one or more modifiers expressions, separated by spaces.
 </p>
 
 <p>
-In basic <A HREF="./pattern.html">Patterns</a>, these modify the notes in the pattern. In <A HREF="./transform.html">Transforms</a>, however,
-these expressions do not include a preceeding note or chord symbol, and modify the currently playing part of the pattern on which
-they are applied as the clip is evaluated.
+In basic <A HREF="./pattern.html">Patterns</a>, these modify the notes in the pattern in different ways, depending on the expression used. In <A HREF="./transform.html">Transforms</a>, however,
+these expressions do not include a preceeding note or chord symbol, and modify the currently playing part of the pattern on which they are applied as the clip is evaluated.  Read up
+on Mod Expressions before learning Transforms, and this should be fairly straightforward.
 </p>
 
 <p>
-We will start this chapter with some of the more basic note modifiers, shown in <A HREF="./pattern.html">Pattern</a> examples.
+We will start this chapter with some examples of the more basic note modifiers, a few of which were alluded to in the <A HREF="./pattern.html">Pattern</a> chapter.
 </p>
 
 <hr/>
 <h3>Octave Shifts</h3>
 
-A basic example shows some octave offsets.  Assuming the scale was C major and the base octave was 4...
+A basic example of a Mod Expression shows some octave shifts applied to some notes.  Assuming the scale was C major and the base octave was 4...
 
 <div class='codeblock'><pre><code class="language-python">1 O+1
 1 O-2
-2 O=4
+2 O=6
+3
+4
+5
 </code></pre></div>
 
-... the above set of patterns would produce a C5, a C2, and D4.
+... the above set of patterns would produce a C5, a C2, and D6, followed by an unmodified E4, F4, and G4.
 
 <hr/>
 <h3>Velocity Controls</h3>
 
-Velocity can be adjusted in one of many ways.
+MIDI velocity can be overriden on individual notes.  As a reminder, the default MIDI velocity is set on the <A HREF="./device.html">Device</a>.
 
-<div class='codeblock'><pre><code class="language-python">1 v=100
-2 v+10
-3 v-10
+<div class='codeblock'><pre><code class="language-python">
+1 v=100
+2 v=50
+3 v=120
 </code></pre></div>
 
 Velocity takes a value between 0 and 100, and does not always map to  volume - it depends on your instrument.
-The latter two examples might be interesting in arpeggiator techniques with <A HREF="./transform.html">Transforms</a>.
-See the <A HREF="./expr_random.html">More Randomness</a> section for more tricks involving MIDI velocity.
+See the <A HREF="./expr_random.html">More Randomness</a> section for more tricks involving MIDI velocity. The maximum velocity value is 127.
 
 <hr/>
 <h3>MIDI CC Controls</h3>
 
-MIDI CCs can be used to add interesting variations.
+<p>
+MIDI CCs (Continous Controller messages) can be used to add interesting variations to instruments that support them.
+Commonly many hardware instruments map MIDI CC1 to the mod wheel, and a variety of other MIDI CCs are usually covered
+in the reference manual. When using software synths, mapping CCs is usually somewhere in the configuration panels or CCs
+are hard coded and mentioned in the manual or help pages.
+</p>
 
 <div class='codeblock'><pre><code class="language-python">1 cc1=20
 4
@@ -210,7 +209,8 @@ MIDI CCs can be used to add interesting variations.
 </code></pre></div>
 
 In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
-MIDI CCs are sticky. See the <A HREF="./expr_random.html">More Randomness</a> below for more tricks involving MIDI CCs.
+MIDI CC values are sticky. See the <A HREF="./expr_random.html">More Randomness</a> below for more tricks involving MIDI CCs.  CCs can range
+in value between 0 and 127.
 
 <hr/>
 <h3>Degree Shifts</h3>
@@ -223,7 +223,7 @@ Making a note go up or down a scale interval works as follows:
 
 The above example shows moving a note up a perfect fifth and down a flat third.  This doesn't make much sense
 in a basic <A HREF="./pattern.html">Pattern</a>, but would make more sense in a <A HREF="./transform.html">Transform</a>. Fair warning: this can select
-notes outside the current scale.
+notes outside the current scale. Use "S+" and "S-" if you would like to stay inside the current scale.
 
 <hr/>
 <h3>Flats and Sharps</h3>
@@ -239,33 +239,28 @@ Accidentals outside the scale are easy to access:
 7
 </code></pre></div>
 
-Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.  These can also be used, like all
+Note that sometimes the applied accidentals will still be inside the scale. It depends on the scale. These can also be used, like all
 mod expressions, in <A HREF="./transform.html">Transforms</a>.
 
 <hr/>
 <h3>Scale Shifts</h3>
 
-Scale shifts can jump a note up or down in the current scale:
+Scale shifts can jump a note up or down within the current scale:
 
 <div class='codeblock'><pre><code class="language-python">1 S+2
 4 S-2
 </code></pre></div>
 
 This may seem pointless, because we could have just said "3" or "2" here, but these can be used in powerful ways inside
-of arpeggiators built with <A HREF="./transform.html">Transforms</a>.
-
-<div class='infoblock'>
-<i class="fas fa-info-circle"></i></i>&nbsp;
-REMINDER: We do not have different docs for mod expressions - the parts that come after the notes in Patterns, and mod expressions as
-used in Transforms. They are usable everywhere.  Transforms just don't have the preceeding note information.
-</div>
+of arpeggiators built with <A HREF="./transform.html">Transforms</a>, or with <A HREF="./expr_variables.html">Variables</a>. See more
+examples on those pages.
 
 <hr/>
 <h3>Probability Events</h3>
 
-A probability event can be assigned so that the next event has only a partial chance of firing.
+A probability event can be assigned so that the very next mod expression has only a partial chance of firing.
 
-<div class='codeblock'><pre><code class="language-python">1 p=0.5;O+2
+<div class='codeblock'><pre><code class="language-python">1 p=0.5 O+2
 </code></pre></div>
 
 In the above example, the note will jump an octave only half of the times the pattern plays.  These are a form of randomness, so this
@@ -276,7 +271,7 @@ section is somewhat of a spoiler for the <A HREF="./expr_random.html">More Rando
 
 Silences are most useful with probabilities.
 
-<div class='codeblock'><pre><code class="language-python">1 p=0.5;x
+<div class='codeblock'><pre><code class="language-python">1 p=0.5 x
 </code></pre></div>
 
 In the above example, the event will not play half of the time.  This has some relation to the <A HREF="./expr_rests_ties.html">Rests & Ties</a> section.
@@ -291,6 +286,21 @@ See the "Randomness" section below for more tricks involving chords.
 4 ch=major
 3 ch=sus4
 </code></pre></div>
+
+<hr/>
+<h3>Combining Mod Expressions</h3>
+
+As shown in a few examples above, multiple mod expressions can be added to the same line:
+
+<div class='codeblock'><pre><code class="language-python">3 b ch=power O+2
+4
+5
+</code></pre></div>
+
+<p>
+This first note takes the 3rd note in the current scale, applies a flat, converts the note into a power chord, and transposes
+the chord up one octave. Most combinations should have the same effect regardless of what order the expressions are applied.
+</p>
         
     </div>
 </div>
@@ -306,7 +316,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleExpressionLanguage').click();
+        document.getElementById('navToggleExpressionGuide').click();
     
 
 });

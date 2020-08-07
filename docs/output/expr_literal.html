@@ -30,27 +30,18 @@
                
                <li>
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li class="active">
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -160,13 +151,16 @@
 <hr/>
 
 <p>
-Warp can represent scale notes or just specific notes.  For starters, let's learn specific notes that won't be affected by the current
-<A HREF="./scale.html">Scale</a>.  This is something you will need to do when using drum synths, but otherwise, you probably won't use this
-feature very often.
+Warp can represent scale notes or just specific "literal" notes. Literal notes are entered in with note names (letters) followed by an octave number. In contrast, scale notes are entered in as arabic numbers or roman numerals (for chords),
+rather than letters.</p>
+
+ <p>
+For starters, let's learn how to input literal notes that won't be affected by the current
+<A HREF="./scale.html">Scale</a>.  This is something you will need to do when using drum synths, but otherwise, you'll probably be using <A HREF="./expr_scale_notes.html">Scale Notes</a> more frequently.
 </p>
 
 <p>
-For a starter example, think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is:
+For a starter example, think about playing a musical scale.  If the scale is "C-major" and we start on the 4th octave: then that scale is simply:
 </p>
 
 <div class='codeblock'><pre><code class="language-python">C4
@@ -180,18 +174,21 @@ C4
 </code></pre></div>
 
 <p>
-That, as simple as it is, is a valid pattern in Warpseq.  You can program notes in like that if you want and would just enter them in order. In the UI,
-you would put each on a line by itself. However, as we mentioned, these symbols won't respond to any scale settings in Warp.  They'll just stick to what you input.
+That, as simple as it is, is a valid pattern in Warp!  In the <A HREF="./api.html">API</a>, these are expressed as Python lists. In the UI,
+you would put each on a line by itself.
 </p>
 
 <p>
-To continue, you can access black keys as well, as either sharps or flats, as is your preference:
+Of course, you can access the black keys as well, as either sharps or flats, as is your preference:
 </p>
 
 <div class='codeblock'><pre><code class="language-python">
 Eb4
 C#4
 </code></pre></div>
+
+<h3>Next Steps</h3>
+<hr/>
 
 <div class='infoblock'>
 <i class="fas fa-info-circle"></i></i>&nbsp;
@@ -213,7 +210,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleExpressionLanguage').click();
+        document.getElementById('navToggleExpressionGuide').click();
     
 
 });

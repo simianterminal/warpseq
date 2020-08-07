@@ -30,27 +30,18 @@
                
                <li>
                
-                   <a id='navToggleAbout' href="#navMenuAbout" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About</a>
-                   <ul class="collapse list-unstyled" id="navMenuAbout">
+                   <a id='navToggleTheBasics' href="#navMenuTheBasics" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">The Basics</a>
+                   <ul class="collapse list-unstyled" id="navMenuTheBasics">
                    
                         <li><a href="./index.html">Home</a></li>
                    
-                   </ul>
-               </li>
-           
-               
-               <li>
-               
-                   <a id='navToggleSetupAndUsage' href="#navMenuSetupAndUsage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Setup And Usage</a>
-                   <ul class="collapse list-unstyled" id="navMenuSetupAndUsage">
-                   
                         <li><a href="./installation.html">Installation</a></li>
+                   
+                        <li><a href="./faq.html">FAQ</a></li>
                    
                         <li><a href="./ui.html">Web UI</a></li>
                    
-                        <li><a href="./api.html">Python API</a></li>
-                   
-                        <li><a href="./faq.html">FAQ</a></li>
+                        <li><a href="./club.html">Warp Club</a></li>
                    
                    </ul>
                </li>
@@ -85,8 +76,8 @@
                
                <li class="active">
                
-                   <a id='navToggleExpressionLanguage' href="#navMenuExpressionLanguage" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Language</a>
-                   <ul class="collapse list-unstyled" id="navMenuExpressionLanguage">
+                   <a id='navToggleExpressionGuide' href="#navMenuExpressionGuide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Expression Guide</a>
+                   <ul class="collapse list-unstyled" id="navMenuExpressionGuide">
                    
                         <li><a href="./expr_intro.html">Intro to Expressions</a></li>
                    
@@ -98,7 +89,7 @@
                    
                         <li><a href="./expr_mod.html">Mod Expressions</a></li>
                    
-                        <li><a href="./expr_transforms.html">Transforms</a></li>
+                        <li><a href="./expr_transforms.html">In Transforms</a></li>
                    
                         <li><a href="./expr_random.html">More Randomness</a></li>
                    
@@ -112,10 +103,10 @@
                
                <li>
                
-                   <a id='navToggleCommunity' href="#navMenuCommunity" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-                   <ul class="collapse list-unstyled" id="navMenuCommunity">
+                   <a id='navToggleDevelopers' href="#navMenuDevelopers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Developers</a>
+                   <ul class="collapse list-unstyled" id="navMenuDevelopers">
                    
-                        <li><a href="./club.html">Warp Club</a></li>
+                        <li><a href="./api.html">Python API</a></li>
                    
                         <li><a href="./contributing.html">Contributing</a></li>
                    
@@ -178,8 +169,7 @@ played note.
 This allows for powerful harmonization.  Imagine, if you will, a muted track 1 containing melody information as part of a scale.
 </p>
 
-<div class='codeblock'><pre><code class="language-python">
-1
+<div class='codeblock'><pre><code class="language-python">1
 2
 3
 4
@@ -194,8 +184,7 @@ This allows for powerful harmonization.  Imagine, if you will, a muted track 1 c
 Another track can play harmonized chords - even at a different tempo, that will always line up.  This is as if one player in a band
 was listening to another player:
 
-<div class='codeblock'><pre><code class="language-python">
-1 T=melodyTrack ch=major
+<div class='codeblock'><pre><code class="language-python">1 T=melodyTrack ch=major
 -
 -
 -
@@ -208,14 +197,12 @@ was listening to another player:
 
 That's a short pattern.  Now we can add a baseline, which takes the melody track and drops down a few octaves.
 
-<div class='codeblock'><pre><code class="language-python">
-1 T=melodyTrack
+<div class='codeblock'><pre><code class="language-python">1 T=melodyTrack
 </code></pre></div>
 
 The bass pattern can be zero length, because we want to apply an arp pattern to it, that might look like this:
 
-<div class='codeblock'><pre><code class="language-python">
-1 T=melodyTrack O-1
+<div class='codeblock'><pre><code class="language-python">1 T=melodyTrack O-1
 1 T=melodyTrack O-1 S+1
 1 T=melodyTrack O-1 S+2
 1 T=melodyTrack O-1 S+3
@@ -237,7 +224,8 @@ As such, we can make an entire song out of considerably LESS clips than in some 
 
 <div class='warnblock'>
 <i class="fas fa-exclamation-triangle"></i></i></i>&nbsp;
-NOTE: (BUG) Currently the parser will not work with note grabs if the targetted track names contains spaces.
+NOTE: Currently the parser will not work with note grabs if the targetted track names contains spaces. The UI will probably
+enforce this in track naming conventions.
 </div>
 
 
@@ -256,7 +244,7 @@ $(document).ready(function () {
     });
 
     
-        document.getElementById('navToggleExpressionLanguage').click();
+        document.getElementById('navToggleExpressionGuide').click();
     
 
 });

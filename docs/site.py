@@ -17,14 +17,12 @@ site = Builder(
 	page_title_template = "Warp MIDI Sequencer {{ version }}: {{ title }}",
 
 	sections = {
-			"About": {
+			"The Basics": {
 				"Home" : "index",
-			},
-			"Setup And Usage": {
 				"Installation": "installation",
+				"FAQ": "faq",
 				"Web UI": "ui",
-				"Python API": "api",
-				"FAQ" : "faq",
+				"Warp Club": "club",
 			},
 			"Concepts" : {
 				"Song" : "song",
@@ -37,19 +35,19 @@ site = Builder(
 				"Track" : "track",
 				"Clip" : "clip"
 			},
-		    "Expression Language": {
+		    "Expression Guide": {
 			    "Intro to Expressions": "expr_intro",
 				"Literal Notes" : "expr_literal",
 				"Scale Notes And Chords" : "expr_scale_notes",
 				"Rests & Ties" : "expr_rests_ties",
 				"Mod Expressions": "expr_mod",
-				"Transforms": "expr_transforms",
+				"In Transforms": "expr_transforms",
 				"More Randomness": "expr_random",
 			    "Guide Tracks": "expr_track",
 		     	"Variables": "expr_variables",
 		    },
-			"Community": {
-				"Warp Club": "club",
+			"Developers": {
+				"Python API": "api",
 				"Contributing": "contributing",
 			}
 	},

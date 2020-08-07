@@ -2,13 +2,24 @@
 <hr/>
 
 <p>
-Warp uses arabic numerals to indicate degrees along a scale, and roman numerals to represent basic chords.
-We'll show you how to make more complex chords as well.
+Now that you know how to input specific {{ doc('expr_literal', 'Literal Notes') }}, it is time to learn how to input
+notes that will respond to scale/mode changes.</p>
+
+{{ begin_info_block() }}
+Most DAWs implement scales with "force to scale" semantics, which can
+result in confusion when scales notes in the input scale do not line up cleanly with the output scale, and makes it difficult to
+tell the scale degrees of notes when looking at them. Also, these systems do not allow input of accidental notes (sharps and flats).
+Warp handles this totally differently, solving all of these problems.
+{{ end_info_block() }}
+
+<p>
+Warp uses lists of <i>Arabic</i> numerals to indicate degrees along a scale, and <i>Roman</i> numerals to represent basic chord types.
+We'll show you how to access more complex chords as well, using {{ doc('expr_mod', 'Mod Expressions') }}.
 </p>
 
 <h2>A Scale Example</h2>
 
-Here is the same scale mentioned in {{ doc('expr_literal') }} in a way that will work for any 7-note {{ doc('scale') }} setting:
+Here is the same scale mentioned in {{ doc('expr_literal') }}, written in a way that will instantly work for any 7-note {{ doc('scale') }}:
 
 {{ begin_code() }}1
 2
@@ -20,21 +31,14 @@ Here is the same scale mentioned in {{ doc('expr_literal') }} in a way that will
 {{ end_code() }}
 
 <p>
-This means that we can define a {{ doc('pattern') }} and then the pattern can be then used in any clip using any scale we want.
-The {{ doc('scale','Scale') }} value will be taken from the clip, if so provided, or if not, can come from the scene, and if not set there,
-will use the value from the song.  If you don't set a scale anywhere, the system will assume the C major scale.
+That was simple - it's just the scale degrees for each note we want to play.
+The {{ doc('scale','Scale') }} value will be taken from the clip, if so provided, or if not, can come from the {{ doc('scene','Scene') }}, and if not set there,
+will use the value from the {{ doc('song','Song') }}.  If you don't set a scale anywhere, the system will assume the C Major scale.  Users do not even
+need to know what notes are in the scale, because Warp will handle all the music theory for you.
 </p>
 
-{{ begin_info_block() }}
-Most other sequencer programs and DAWs do not natively understand scales, but instead
-"force" notes to the nearest scale note.  This means multiple note entries might map to the same note, or it may be unclear
-if something rounds up or down.  Of greater concern, in these force-to-scale systems, the ability to use accidentals is lost.
-Another major problem with DAWs is while "force to scale" can often be achieved with a MIDI effect, using multiple scales
-together often requires a separate track for every combination of instrument and scale.  This is not the case in Warp!
-{{ end_info_block() }}
-
 <p>
-Scale notes may also be listed as negative, which shift down from the root, as shown in this sequence:
+Scale degrees may also be listed as negative, which shift down from the root, as shown in this sequence:
 </p>
 
 {{ begin_code() }}1
@@ -47,6 +51,8 @@ Scale notes may also be listed as negative, which shift down from the root, as s
 1
 {{ end_code() }}
 
+<i>Note: The value 0 is not valid here, because we don't know what it would mean. In that sense, it's like Math before the 12th century.</i>
+
 <hr/>
 <h3>Roman Numeral Chords</h3>
 
@@ -57,34 +63,29 @@ IV
 V
 {{ end_code() }}
 
-This notation is commonly used to denote chord progressions.  Like the arabic numerals above, it is nice because it doesn't care what scale you are in.
+<p>
+This notation is already commonly used in music to denote chord progressions.  Like the arabic numerals above, this system is nice because it doesn't care what scale you are in.
+</p>
 
-Lowercase roman numerals represent minor chords:
+Lowercase roman numerals are used to represent minor chords:
 
 {{ begin_code() }}i
 iv
 v
 {{ end_code() }}
 
-More advanced types can be represented using their base notes and chord type:
+More advanced types can still be represented in Warp using their base notes and chord type:
+
+{{ begin_code() }}1:sus4
+2:major
+4:power
+{{ end_code() }}
+
+Or, equivalently using {{ doc('mod_expr', 'Mod Expressions') }}:
 
 {{ begin_code() }}1 ch=sus4
 2 ch=major
 4 ch=power
-{{ end_code() }}
-
-<p>
-This is a bit of a spoiler as this refers to using {{ doc('expr_mod') }}.
-</p>
-
-<p>
-An easier shorthand for accessing the full list of chord types is also available:
-</p>
-
-{{ begin_code() }}
-I:sus4
-II:major
-IV:power
 {{ end_code() }}
 
 For reference the built-in chord types you can use this way are:
@@ -109,7 +110,6 @@ For reference the built-in chord types you can use this way are:
 <li>mM7</li>
 </ul>
 
-<p>
-So we have access to a lot of different chord types, we just don't get to use the roman numeral syntax for anything but major
-and minor chords.
-</p>
+{{ begin_info_block() }}
+Chords and notes can be mixed together in the same lists. Chords can also be modified by all {{ doc('mod_expr','Mod Expressions') }} exactly like notes can.
+{{ end_info_block() }}

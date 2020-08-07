@@ -3,49 +3,57 @@
 <hr/>
 
 <p>
-Any literal notes or scale notes in a {{ doc('pattern') }} may be followed by a space and one or more modifiers, separated by spaces.
+Any {{ doc('expr_literal','Literal Notes') }} or {{ doc('expr_scale_notes','Scale Notes or Chords') }} in a {{ doc('pattern') }} may be followed by a space and then one or more modifiers expressions, separated by spaces.
 </p>
 
 <p>
-In basic {{ doc('pattern', 'Patterns') }}, these modify the notes in the pattern. In {{ doc('transform', 'Transforms') }}, however,
-these expressions do not include a preceeding note or chord symbol, and modify the currently playing part of the pattern on which
-they are applied as the clip is evaluated.
+In basic {{ doc('pattern', 'Patterns') }}, these modify the notes in the pattern in different ways, depending on the expression used. In {{ doc('transform', 'Transforms') }}, however,
+these expressions do not include a preceeding note or chord symbol, and modify the currently playing part of the pattern on which they are applied as the clip is evaluated.  Read up
+on Mod Expressions before learning Transforms, and this should be fairly straightforward.
 </p>
 
 <p>
-We will start this chapter with some of the more basic note modifiers, shown in {{ doc('pattern','Pattern') }} examples.
+We will start this chapter with some examples of the more basic note modifiers, a few of which were alluded to in the {{ doc('pattern','Pattern') }} chapter.
 </p>
 
 <hr/>
 <h3>Octave Shifts</h3>
 
-A basic example shows some octave offsets.  Assuming the scale was C major and the base octave was 4...
+A basic example of a Mod Expression shows some octave shifts applied to some notes.  Assuming the scale was C major and the base octave was 4...
 
 {{ begin_code() }}1 O+1
 1 O-2
-2 O=4
+2 O=6
+3
+4
+5
 {{ end_code() }}
 
-... the above set of patterns would produce a C5, a C2, and D4.
+... the above set of patterns would produce a C5, a C2, and D6, followed by an unmodified E4, F4, and G4.
 
 <hr/>
 <h3>Velocity Controls</h3>
 
-Velocity can be adjusted in one of many ways.
+MIDI velocity can be overriden on individual notes.  As a reminder, the default MIDI velocity is set on the {{ doc('device', 'Device') }}.
 
-{{ begin_code() }}1 v=100
-2 v+10
-3 v-10
+{{ begin_code() }}
+1 v=100
+2 v=50
+3 v=120
 {{ end_code() }}
 
 Velocity takes a value between 0 and 100, and does not always map to  volume - it depends on your instrument.
-The latter two examples might be interesting in arpeggiator techniques with {{ doc('transform', 'Transforms') }}.
-See the {{ doc('expr_random') }} section for more tricks involving MIDI velocity.
+See the {{ doc('expr_random') }} section for more tricks involving MIDI velocity. The maximum velocity value is 127.
 
 <hr/>
 <h3>MIDI CC Controls</h3>
 
-MIDI CCs can be used to add interesting variations.
+<p>
+MIDI CCs (Continous Controller messages) can be used to add interesting variations to instruments that support them.
+Commonly many hardware instruments map MIDI CC1 to the mod wheel, and a variety of other MIDI CCs are usually covered
+in the reference manual. When using software synths, mapping CCs is usually somewhere in the configuration panels or CCs
+are hard coded and mentioned in the manual or help pages.
+</p>
 
 {{ begin_code() }}1 cc1=20
 4
@@ -53,7 +61,8 @@ MIDI CCs can be used to add interesting variations.
 {{ end_code() }}
 
 In the above example, the MIDI CC value for channel 1 is "20" for the first 2 notes, and 80 for the last note.
-MIDI CCs are sticky. See the {{ doc('expr_random') }} below for more tricks involving MIDI CCs.
+MIDI CC values are sticky. See the {{ doc('expr_random') }} below for more tricks involving MIDI CCs.  CCs can range
+in value between 0 and 127.
 
 <hr/>
 <h3>Degree Shifts</h3>
@@ -66,7 +75,7 @@ Making a note go up or down a scale interval works as follows:
 
 The above example shows moving a note up a perfect fifth and down a flat third.  This doesn't make much sense
 in a basic {{ doc('pattern') }}, but would make more sense in a {{ doc('transform') }}. Fair warning: this can select
-notes outside the current scale.
+notes outside the current scale. Use "S+" and "S-" if you would like to stay inside the current scale.
 
 <hr/>
 <h3>Flats and Sharps</h3>
@@ -82,32 +91,28 @@ Accidentals outside the scale are easy to access:
 7
 {{ end_code() }}
 
-Note that sometimes the accidentals will still be inside the scale.  It depends on the scale.  These can also be used, like all
+Note that sometimes the applied accidentals will still be inside the scale. It depends on the scale. These can also be used, like all
 mod expressions, in {{ doc('transform', 'Transforms') }}.
 
 <hr/>
 <h3>Scale Shifts</h3>
 
-Scale shifts can jump a note up or down in the current scale:
+Scale shifts can jump a note up or down within the current scale:
 
 {{ begin_code() }}1 S+2
 4 S-2
 {{ end_code() }}
 
 This may seem pointless, because we could have just said "3" or "2" here, but these can be used in powerful ways inside
-of arpeggiators built with {{ doc('transform','Transforms') }}.
-
-{{ begin_info_block() }}
-REMINDER: We do not have different docs for mod expressions - the parts that come after the notes in Patterns, and mod expressions as
-used in Transforms. They are usable everywhere.  Transforms just don't have the preceeding note information.
-{{ end_info_block() }}
+of arpeggiators built with {{ doc('transform','Transforms') }}, or with {{ doc('expr_variables','Variables') }}. See more
+examples on those pages.
 
 <hr/>
 <h3>Probability Events</h3>
 
-A probability event can be assigned so that the next event has only a partial chance of firing.
+A probability event can be assigned so that the very next mod expression has only a partial chance of firing.
 
-{{ begin_code() }}1 p=0.5;O+2
+{{ begin_code() }}1 p=0.5 O+2
 {{ end_code() }}
 
 In the above example, the note will jump an octave only half of the times the pattern plays.  These are a form of randomness, so this
@@ -118,7 +123,7 @@ section is somewhat of a spoiler for the {{ doc('expr_random') }} section.
 
 Silences are most useful with probabilities.
 
-{{ begin_code() }}1 p=0.5;x
+{{ begin_code() }}1 p=0.5 x
 {{ end_code() }}
 
 In the above example, the event will not play half of the time.  This has some relation to the {{ doc('expr_rests_ties') }} section.
@@ -133,3 +138,18 @@ See the "Randomness" section below for more tricks involving chords.
 4 ch=major
 3 ch=sus4
 {{ end_code() }}
+
+<hr/>
+<h3>Combining Mod Expressions</h3>
+
+As shown in a few examples above, multiple mod expressions can be added to the same line:
+
+{{ begin_code() }}3 b ch=power O+2
+4
+5
+{{ end_code() }}
+
+<p>
+This first note takes the 3rd note in the current scale, applies a flat, converts the note into a power chord, and transposes
+the chord up one octave. Most combinations should have the same effect regardless of what order the expressions are applied.
+</p>
