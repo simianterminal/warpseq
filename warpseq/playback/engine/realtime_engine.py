@@ -132,7 +132,7 @@ class RealtimeEngine(object):
                 command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
                 self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
 
-            #print("ON (%s): %s" % (self.on_ct, event.note))
+            print("ON (%s): %s" % (self.on_ct, event.note))
             self.on_ct = self.on_ct + 1
             self.player.inject_off_event(event)
             self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
@@ -162,7 +162,7 @@ class RealtimeEngine(object):
             if self.track.muted or self.instrument.muted:
                 return
 
-            #print("OFF (%s): %s" % (self.on_ct, event.on_event.note))
+            print("OFF (%s): %s" % (self.on_ct, event.on_event.note))
             self.on_ct = self.on_ct - 1
             self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
 

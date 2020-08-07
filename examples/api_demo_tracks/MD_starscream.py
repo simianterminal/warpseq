@@ -37,17 +37,18 @@ from warpseq.api.public import Api as WarpApi
 
 # setup API and song
 api = WarpApi()
-api.song.edit(tempo=96)
+api.song.edit(tempo=65)
 
 # setup instruments
 DEVICE = demo.suggest_device(api, 'USB MIDI Interface')
+DEVICE2 = 'IAC Driver Bus 1'
 
-api.instruments.add('lead_inst', device=DEVICE, channel=1, min_octave=0, base_octave=1, max_octave=10, muted=False)
+api.instruments.add('lead_inst', device=DEVICE, channel=1, min_octave=0, base_octave=3, max_octave=10, muted=False)
 api.instruments.add('gate_mod1', device=DEVICE, channel=8, min_octave=0, base_octave=1, max_octave=10, muted=False)
 api.instruments.add('pitch_mod1', device=DEVICE, channel=2, min_octave=0, base_octave=1, max_octave=10, muted=False)
 
 api.instruments.add('setup_inst', device=DEVICE, channel=16, min_octave=0, base_octave=5, max_octave=10, muted=True)
-#api.instruments.add('drum1_inst', device=DEVICE, channel=8, min_octave=0, base_octave=0, max_octave=10, muted=False)
+api.instruments.add('drum1_inst', device=DEVICE2, channel=8, min_octave=0, base_octave=0, max_octave=10, muted=False)
 #api.instruments.add('lead2_inst', device=DEVICE, channel=2, min_octave=0, base_octave=0, max_octave=10, muted=False)
 #api.instruments.add('drum2_inst', device=DEVICE, channel=7, min_octave=0, base_octave=0, max_octave=10, muted=False)
 #api.instruments.add('drum3_inst', device=DEVICE, channel=6, min_octave=0, base_octave=0, max_octave=10, muted=False)
@@ -72,11 +73,9 @@ api.patterns.add(name='vars', slots=[
     '1 $w=100 $x=1 $y=0 $z=1',
 ])
 
-lead_slots = ['2',6,8,4,6,-2,-5,-6,1,1,7,5,2,1]
-
-api.patterns.add(name='L0', slots=lead_slots, rate=1)
-api.patterns.add(name='GM1a', slots=[ 'C4', '', '', '', '',   '', '', '', '',  '',  '', '', '',  '',  '', '' ], rate=1)
-api.patterns.add(name='GM1b', slots=[ 'C4', '', '', '', 'C4', '', '', '', 'C4', '', '', '', 'C4', '', '', '' ], rate=1)
+api.patterns.add(name='L0', slots=[1,6,5,4,2,3,4,'-',5,6,5,4,3,2,3,1,'-','-'], rate=1)
+#api.patterns.add(name='GM1a', slots=[ 'C4', '', '', '', '',   '', '', '', '',  '',  '', '', '',  '',  '', '' ], rate=1)
+#api.patterns.add(name='GM1b', slots=[ 'C4', '', '', '', 'C4', '', '', '', 'C4', '', '', '', 'C4', '', '', '' ], rate=1)
 
 api.patterns.add(name='pitch_mod_off', slots=['C0'], rate=1)
 api.patterns.add(name='pitch_mod_on', slots=['C4'], rate=1)
@@ -92,9 +91,9 @@ api.scenes.add(name='scene_END', scale='intro', auto_advance=True)
 
 # setup clips
 # lead plays in
-api.clips.add(name='1', scene='scene_0', track='setup', patterns=['vars'], repeat=None, rate=0.0625)
+#api.clips.add(name='1', scene='scene_0', track='setup', patterns=['vars'], repeat=None, rate=0.0625)
 api.clips.add(name='2', scene='scene_0', track='lead', patterns=['L0'], transforms=[], repeat=None, auto_scene_advance=True)
-api.clips.add(name='3', scene='scene_0', track='gate_mod1', patterns=['GM1b'], transforms=[], repeat=None)
-api.clips.add(name='4', scene='scene_0', track='pitch_mod1', patterns=['pitch_mod_off'], transforms=[], repeat=None)
+#api.clips.add(name='3', scene='scene_0', track='gate_mod1', patterns=['GM1b'], transforms=[], repeat=None)
+#api.clips.add(name='4', scene='scene_0', track='pitch_mod1', patterns=['pitch_mod_off'], transforms=[], repeat=None)
 
 api.player.loop('scene_0')
