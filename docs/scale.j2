@@ -3,17 +3,16 @@
 
 <p>
 A scale represents a named musical scale, having a scale type (aka "mode"), and starting from a certain note (aka "root").
-In general, Warp suggests defining notes and chords as relative scale intervals versus absolute notes, except for percussion tracks.
-Scales are fundamental to Warp as the program was largely created due to flaws in the "force to scale" paradigm commonly used in other tools.
+In general, Warp suggests defining notes and chords as {{ doc('expr_scale_notes','relative scale intervals and chords') }} versus {{ doc('expr_literal','literal notes') }}, except for percussion tracks.
+Scales are fundamental to Warp as the program was largely created to improve upon the "force to scale" paradigm commonly used in other tools.
 <p>
 
 <p>
 <ul>
 <li>Warp ships with many pre-defined MIDI scale types</li>
 <li>Users can also define their own scales by typing in a list of interval symbols: 1, 2, b3 ("flat third"), 5 ("perfect fifth"), etc.</li>
-<li>Scale names used in patterns are effectively symbolic links to the scale definition, so when you edit the parameters of a named scale, they change the scale everywhere that name is used.</li>
-<li>A given scale type can be used with any root note.</li>
-<li>A scale may be set the {{ doc('song') }}, or overriden on the {{ doc('scene') }} or {{ doc('clip') }}.
+<li>Scale names used in patterns are symbolic links to the scale definition, so when you edit the parameters of a named scale (like "intro1"), they change the scale everywhere that name is used.</li>
+<li>A scale may be set on the {{ doc('song') }}, or overridden on the {{ doc('scene') }} or {{ doc('clip') }}.
 </ul>
 </p>
 

@@ -3,15 +3,21 @@
 <hr/>
 
 <p>A pattern represents an ordered series of {{ doc('expr_intro', 'Expressions') }} that evaluate into notes or chords when used inside a {{ doc('clip') }}.  The basic idea is that when
-describing patterns of notes in Warp, you just type in simple text expressions. Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
-out, just learn to type in notes and chords -- once you get those working, you can try modifier expressions and also read about {{ doc('transform', 'Transforms') }}.</p>
+describing patterns of notes in Warp, you just type in simple text expressions. Warp then evaluates these and they become notes.
+</p>
+
+<p>
+Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
+out, just learn to type in notes and chords -- once you get those working, you can try {{ doc('expr_mod','Modifier Expressions') }} and then {{ doc('transform', 'Transforms') }}, which
+are basically a kind of MIDI effect.</p>
+</p>
 
 <p>
 In addition to the text (notes) in the pattern:
 
 <ul>
 <li>A pattern may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed).</li>
-<li>A pattern may optionally define a Scale to override the scale of the {{ doc('scene') }} or {{ doc('song') }}, if not overriden by a {{ doc('clip') }}.</li>
+<li>A pattern may optionally define a Scale to override the scale of the {{ doc('scene') }} or {{ doc('song') }}, which is used if not overridden by the {{ doc('clip') }}.</li>
 </ul>
 
 <hr/>
@@ -55,10 +61,9 @@ Here is a pattern some ties ("-") and rests (" "):
 
 {{ end_code() }}
 
-As mentioned, we could have also used absolute notes, and ignored the scale:
+As mentioned, we could have also used literal notes names, which ignore the scale settings:
 
-{{ begin_code() }}
-C4
+{{ begin_code() }}C4
 D4
 F6
 Eb5
@@ -67,5 +72,5 @@ F0
 A3
 {{ end_code() }}
 
-Patterns can be MUCH more complex and feature rich. For more, see the {{ doc('expr_into', 'Expressions') }} chapter.
+Patterns can be MUCH more complex and feature rich. For more, see the {{ doc('expr_intro', 'Expressions') }} chapter.
 

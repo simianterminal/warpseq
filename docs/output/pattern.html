@@ -151,15 +151,21 @@
 <hr/>
 
 <p>A pattern represents an ordered series of <A HREF="./expr_intro.html">Expressions</a> that evaluate into notes or chords when used inside a <A HREF="./clip.html">Clip</a>.  The basic idea is that when
-describing patterns of notes in Warp, you just type in simple text expressions. Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
-out, just learn to type in notes and chords -- once you get those working, you can try modifier expressions and also read about <A HREF="./transform.html">Transforms</a>.</p>
+describing patterns of notes in Warp, you just type in simple text expressions. Warp then evaluates these and they become notes.
+</p>
+
+<p>
+Expressions can be very simple lists of notes or chords, or they can also include more complex modifiers.  When starting
+out, just learn to type in notes and chords -- once you get those working, you can try <A HREF="./expr_mod.html">Modifier Expressions</a> and then <A HREF="./transform.html">Transforms</a>, which
+are basically a kind of MIDI effect.</p>
+</p>
 
 <p>
 In addition to the text (notes) in the pattern:
 
 <ul>
 <li>A pattern may also define a tempo multiplier rate such as 0.5 (half speed) or 2 (double speed).</li>
-<li>A pattern may optionally define a Scale to override the scale of the <A HREF="./scene.html">Scene</a> or <A HREF="./song.html">Song</a>, if not overriden by a <A HREF="./clip.html">Clip</a>.</li>
+<li>A pattern may optionally define a Scale to override the scale of the <A HREF="./scene.html">Scene</a> or <A HREF="./song.html">Song</a>, which is used if not overridden by the <A HREF="./clip.html">Clip</a>.</li>
 </ul>
 
 <hr/>
@@ -203,10 +209,9 @@ Here is a pattern some ties ("-") and rests (" "):
 
 </code></pre></div>
 
-As mentioned, we could have also used absolute notes, and ignored the scale:
+As mentioned, we could have also used literal notes names, which ignore the scale settings:
 
-<div class='codeblock'><pre><code class="language-python">
-C4
+<div class='codeblock'><pre><code class="language-python">C4
 D4
 F6
 Eb5
@@ -215,7 +220,7 @@ F0
 A3
 </code></pre></div>
 
-Patterns can be MUCH more complex and feature rich. For more, see the <A HREF="./expr_into.html">Expressions</a> chapter.
+Patterns can be MUCH more complex and feature rich. For more, see the <A HREF="./expr_intro.html">Expressions</a> chapter.
 
         
     </div>
