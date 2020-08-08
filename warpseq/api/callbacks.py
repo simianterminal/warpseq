@@ -8,7 +8,7 @@
 # subclassing
 
 
-class DefaultCallback(Class):
+class DefaultCallback(object):
 
     __slots__ = ()
 
@@ -42,7 +42,7 @@ class DefaultCallback(Class):
         print("> keyboard interrupt")
         pass
 
-class WebCallback(Class):
+class WebCallback(object):
     pass
 
 class Callbacks(object):
