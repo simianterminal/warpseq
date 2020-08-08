@@ -6,6 +6,7 @@ these will move to Trello soon:
 IDEAS/PLANS
 ===========
 
+* maybe multiple notes per line work to slice up the frequency?  they might be notated with "/" between them.
 * mod expression for chord inversions (already implemented functions!)
 * mod expressions for reverse/reshuffle pattern
 * flag on transform to reset when pattern resets (?)
