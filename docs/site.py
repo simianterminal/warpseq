@@ -14,7 +14,7 @@ site = Builder(
 	theme = "rockchisel.themes.rockdoc",
 
 	variables = dict(version = 0.1),
-	page_title_template = "Warp MIDI Sequencer {{ version }}: {{ title }}",
+	page_title_template = "Warp MIDI Sequencer: {{ title }}",
 
 	sections = {
 			"The Basics": {

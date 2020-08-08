@@ -9,7 +9,7 @@ setuptools.setup(
     description="text-based MIDI sequencer",
     long_description="text-based MIDI sequencer",
     long_description_content_type="text/plain",
-    url="https://classforge.io",
+    url="https://warpseq.com,
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

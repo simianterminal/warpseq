@@ -7,8 +7,6 @@
 # allows an application to hook certain events in the code without
 # subclassing
 
-from classforge import Class, Field
-
 
 class DefaultCallback(Class):
 
