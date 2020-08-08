@@ -1,29 +1,15 @@
 NOTES
 =====
 
-RELEASE GATES
-=============
+these will move to Trello soon:
 
-* fix tie code - what is up?
-* verify intra-track example?
-* code cleanup (timestream, mod parser)
-
-* update webpages for demo songs
-* set up website publishing
-* enable patreon page (= discord access)
-* notation symbol parser should take 'x' as well as '.'
-
-FUTURE/IDEAS
-============
+IDEAS/PLANS
+===========
 
 * mod expression for chord inversions (already implemented functions!)
 * mod expressions for reverse/reshuffle pattern
 * flag on transform to reset when pattern resets (?)
-* code cleanup - if rests were note objects they could have mod expressions attached
-
-* web interface
 * REST-ish JSON API with background thread
-* callbacks for when clips start to play, scenes, other events
 * websocket notification callbacks to light up playing clips/patterns
 * transform mode that has an auto length and only applies divide to chords
 * web ui auto generation of interesting patterns in different types
