@@ -9,30 +9,41 @@
 # process deferred mod-expressions caused by late-binding intra-track
 # events.
 
-import rtmidi as rtmidi
+#import rtmidi as rtmidi
 
 from ...api.callbacks import Callbacks
 from ...api.exceptions import *
 from ...model.registers import register_playing_note, unregister_playing_note
 from ...notation.mod import ModExpression
 
-MIDI_NOTE_OFF = 0x80
+
+import mido
+
+#mido.set_backend('mido.backends.portmidi')
+
+
+#MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
-MIDI_NOTE_ON = 0x90
+#MIDI_NOTE_ON = 0x90
 # 1001cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
-MIDI_POLYPHONIC_PRESSURE = AFTERTOUCH = 0xA0
+#MIDI_POLYPHONIC_PRESSURE = AFTERTOUCH = 0xA0
 # 1010cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
-MIDI_CONTROLLER_CHANGE = 0xB0 # see Channel Mode Messages!!!
+#MIDI_CONTROLLER_CHANGE = 0xB0 # see Channel Mode Messages!!!
 # 1011cccc 0ccccccc 0vvvvvvv (channel, controller, value)
-MIDI_PROGRAM_CHANGE = 0xC0
+#MIDI_PROGRAM_CHANGE = 0xC0
 # 1100cccc 0ppppppp (channel, program)
-MIDI_CHANNEL_PRESSURE = 0xD0
+#MIDI_CHANNEL_PRESSURE = 0xD0
 # 1101cccc 0ppppppp (channel, pressure)
-MIDI_PITCH_BEND = 0xE0
+#MIDI_PITCH_BEND = 0xE0
 # 1110cccc 0vvvvvvv 0wwwwwww (channel, value-lo, value-hi)
-MIDI_NOTE_OFF = 0x80
+#MIDI_NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
-MIDI_NOTE_ON = 0x90
+#MIDI_NOTE_ON = 0x90
+
+
+MIDO_CONTROLLER_CHANGE = 'control_change'
+MIDO_NOTE_ON = 'note_on'
+MIDO_NOTE_OFF = 'note_off'
 
 from ...model.chord import Chord
 from ...model.event import Event, NOTE_OFF, NOTE_ON
@@ -52,22 +63,12 @@ class RealtimeEngine(object):
         self.channel = self.instrument.channel
         self.device = self.instrument.device
         self.mod_expressions = ModExpression(defer=True, track=self.track)
-        self.midi_out = rtmidi.MidiOut()
+
         self.player = player
         self.callbacks = Callbacks()
 
-        ports = self.midi_out.get_ports()
-        index = 0
-        for p in ports:
-            if p == self.device.name:
-                self.midi_port = index
-                break
-            index = index + 1
+        self.midi_out = self.device.get_midi_out()
 
-        if self.midi_port is None:
-            raise MIDIConfigError("MIDI device named (%s) not found, available choices: %s" % (self.device.name, ports))
-
-        self.midi_out.open_port(self.midi_port)
 
     def play(self, event):
 
@@ -127,16 +128,29 @@ class RealtimeEngine(object):
             if self.track.muted or self.instrument.muted:
                 return
 
-            for (channel, value) in event.note.flags['cc'].items():
-                channel = int(channel)
-                command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
-                self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
+            if event.note.octave > self.instrument.max_octave or note_number > 127:
+                return
+
+            if event.note.octave < self.instrument.min_octave or note_number < 0:
+                return
+
+            for (control, value) in event.note.flags['cc'].items():
+                control = int(control)
+                #command = (MIDI_CONTROLLER_CHANGE & 0xf0) | (self.channel - 1 & 0xf)
+                #self.midi_out.send_message([command, channel & 0x7f, value & 0x7f])
+                msg = mido.Message(MIDO_CONTROLLER_CHANGE, channel=self.channel-1, control=control, value=value)
+                self.midi_out.send(msg)
+
 
             #print("ON (%s): %s" % (self.on_ct, event.note))
             self.on_ct = self.on_ct + 1
             self.player.inject_off_event(event)
-            self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
 
+
+            #self.midi_out.send_message([ MIDI_NOTE_ON | self.channel - 1, note_number, velocity])
+
+            msg = mido.Message(MIDO_NOTE_ON, note=note_number, velocity=velocity, channel=self.channel-1)
+            self.midi_out.send(msg)
 
 
         elif event.type == NOTE_OFF:
@@ -164,5 +178,7 @@ class RealtimeEngine(object):
 
             #print("OFF (%s): %s" % (self.on_ct, event.on_event.note))
             self.on_ct = self.on_ct - 1
-            self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
+            #self.midi_out.send_message([ MIDI_NOTE_OFF | self.channel - 1, note_number, velocity])
 
+            msg = mido.Message(MIDO_NOTE_OFF, note=note_number, velocity=velocity, channel=self.channel-1)
+            self.midi_out.send(msg)

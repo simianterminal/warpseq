@@ -17,7 +17,7 @@ class Instrument(NewReferenceObject):
 
     def __init__(self, name=None, channel=None, device=None, min_octave=0, base_octave=3, max_octave=10, default_velocity=120, muted=False, obj_id=None):
         self.name = name
-        self.channel = channel
+        self.channel = int(channel)
         self.device = device
         self.min_octave = min_octave
         self.base_octave = base_octave
@@ -51,7 +51,7 @@ class Instrument(NewReferenceObject):
         return Instrument(
             obj_id = data['obj_id'],
             name = data['name'],
-            channel = data['channel'],
+            channel = int(data['channel']),
             device = song.find_device(data['device']),
             min_octave = data['min_octave'],
             base_octave = data['base_octave'],
