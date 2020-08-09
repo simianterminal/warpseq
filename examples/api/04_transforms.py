@@ -63,7 +63,7 @@ api.clips.add(name='chord strum', scene='scene_1', track='lead', scales=['C-majo
 api.clips.add(name='chord octaves', scene='scene_2', track='lead', scales=['C-major'], patterns=['chords'], transforms=['octave arp'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='chord velocity', scene='scene_3', track='lead', scales=['C-major'], patterns=['chords'], transforms=['velocity arp'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='chord ccs', scene='scene_4', track='lead', scales=['C-major'], patterns=['chords'], transforms=['midi cc arp'], repeat=1, auto_scene_advance=True)
-api.clips.add(name='melody to bassline', scene='scene_5', track='lead', scales=['C-major'], patterns=['basic'], transforms=['bassline'], repeat=None, auto_scene_advance=False)
+api.clips.add(name='melody to bassline', scene='scene_5', track='lead', scales=['C-major'], patterns=['basic'], transforms=['bassline'], repeat=1, auto_scene_advance=False)
 
 # the transforms can be expressed in a list, the next item in the transform list will be chosen as the patterns advance and repeat
 # if any item in the list IS a list, both of those transforms will be applied in order against the currently playing pattern
