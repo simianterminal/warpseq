@@ -271,7 +271,7 @@ class Clip(NewReferenceObject):
         res = notes_to_events(self, results)
         t2 = time.perf_counter()
         #print("EVENTS: %s" % res)
-        print("TIME: %s" % (t2-t1))
+        #print("TIME: %s" % (t2-t1))
         return res
 
     def get_player(self, song, engine_class):

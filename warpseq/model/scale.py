@@ -14,6 +14,7 @@ import functools
 SCALE_TYPES = dict(
    major              = [ 1, 2, 3, 4, 5, 6, 7 ],
    pentatonic         = [ 1, 2, 3, 5, 6 ],
+   pentatonic_minor   = [ 1, 3, 4, 5, 7 ],
    natural_minor      = [ 1, 2, 'b3', 4, 5, 'b6', 'b7' ],
    blues              = [ 1, 'b3', 4, 'b5', 5, 'b7' ],
    dorian             = [ 1, 2, 'b3', 4, 5, 6, 'b7' ],
@@ -28,6 +29,7 @@ SCALE_TYPES = dict(
    minor_pentatonic   = [ 1, 'b3', 4, 5, 'b7' ],
    mixolydian         = [ 1, 2, 3, 4, 5, 6, 'b7' ],
    phyrigian          = [ 1, 'b2', 'b3', 4, 5, 'b6', 'b7' ],
+   japanese           = [ 1, 2, 4, 5, 6 ],
    akebono            = [ 1, 2, 'b3', 5, 6 ]
 )
 
