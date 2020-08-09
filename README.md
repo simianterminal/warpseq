@@ -3,9 +3,7 @@ Warp
 
 Warp is an advanced music-theory-aware MIDI sequencer.
 
-Documentation, sample tracks, installation instructions, and community resources are available at:
-
-[http://warpseq.com/][http://warpseq.com]
+Documentation, sample tracks, installation instructions, and community resources are available at: http://warpseq.com/
 
 License
 =======
