@@ -35,7 +35,7 @@ api.patterns.add(name='random octave jumps on certain steps', slots=['1','5 p=0.
 api.patterns.add(name='random flats on certain steps', slots=['1','2','5 p=0.5 x','4' ])
 api.patterns.add(name='random octave jumps using a range', slots=['1','5','3','4 O=0:3'])
 api.patterns.add(name='random octave jumps from a list', slots=[ '1', '2', '4', '4 O=0,1,2,3'])
-api.patterns.add(name='fixed MIDI velocity', slots=['1','5 v=80','3 v=128','4 v=60'])
+api.patterns.add(name='fixed MIDI velocity', slots=['1','5 v=80','3 v=127','4 v=60'])
 api.patterns.add(name='fixed MIDI CC', slots=[ '1 cc0=40 cc1=60', '5', '4 cc1=90,100 cc2=120', '4 cc2=90' ])
 api.patterns.add(name='humanized MIDI velocity', slots=['1','2 v=80:100','4 v=80:100','5 v=80:100'])
 api.patterns.add(name='humanized MIDI CC',slots=['1 cc0=40:100','2','3','4']) # kind of like sample and hold!
