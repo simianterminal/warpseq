@@ -80,4 +80,4 @@ api.clips.add(name='just tweak the notes', scene='scene_9', track='lead', scales
 api.clips.add(name='transform melody to chords then arp', scene='scene_10', track='lead', scales=['C-major'], patterns=['basic'], transforms=[['chordify','basic arp']], repeat=1, auto_scene_advance=True)
 
 # play starting on the first scene - Ctrl+C to exit.
-api.player.loop('scene_10')
+api.player.loop('scene_1')
