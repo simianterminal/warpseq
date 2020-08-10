@@ -69,6 +69,8 @@ class Transform(NewReferenceObject):
         a new list of notes or chords.
         """
 
+        from .note import Note
+
         self._mod.scale = scale
         self._mod.track = track
 
@@ -118,11 +120,11 @@ class Transform(NewReferenceObject):
                     divide = 1
 
 
-            for _ in [1]:
 
-                if chord_skip:
-                    new_note_list.append(actual_notes)
-                    break
+            if chord_skip:
+               new_note_list.append(actual_notes)
+
+            else:
 
                 notes = actual_notes
 
@@ -167,9 +169,18 @@ class Transform(NewReferenceObject):
                         # this handles if the transform was set to skip chords or skip individual notes
                         final_note = which_note.copy()
 
-                    final_note.start_time = start_time
-                    final_note.end_time = round(start_time + (i_ct * new_delta))
-                    final_note.length = new_delta
+                    adjust_notes = [ final_note ]
+
+                    if type(final_note) == Note:
+                        final_note.start_time = start_time
+                        final_note.end_time = round(start_time + (i_ct * new_delta))
+                        final_note.length = new_delta
+                    else:
+                        # the transform *produced* a new chord
+                        for x in final_note.notes:
+                            x.start_time = start_time
+                            x.end_time = round(start_time + (i_ct * new_delta))
+                            x.length = new_delta
 
                     start_time = start_time + new_delta
 
@@ -177,7 +188,10 @@ class Transform(NewReferenceObject):
                     # this could probably use some cleanup for consistency.  The final_note object
                     # can technically be a Chord and not a note.
 
-                    new_note_list.append([final_note])
+                    if type(final_note) == Note:
+                        new_note_list.append([final_note])
+                    else:
+                        new_note_list.append(final_note.notes)
 
         # the new note list is the result of applying the transform. Because of the divides, the new
         # note list can be longer than the incoming note list, but each note in the list has time information.

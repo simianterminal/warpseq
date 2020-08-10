@@ -43,6 +43,7 @@ api.scenes.add(name='scene_6', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_7', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_8', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_9', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_10', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_END', rate=0.5, auto_advance=True)
 
 # setup transforms
@@ -60,6 +61,8 @@ api.transforms.add(name='bassline', slots=['1','S+4','S+5','S+2','S+4','S+5','1'
 api.transforms.add(name='octave ramp', slots=['1','O+1','O+2'], divide=1)
 # quickly repeat the notes with alternating silence, the last repeat is only randomly silent
 api.transforms.add(name='stutter', slots=['1','x','1','x','1','p=0.5 x'], divide=6, applies_to='notes')
+# turn whatever is playing into chords, or change the active chord type
+api.transforms.add(name='chordify', slots=['ch=major', 'ch=minor'])
 
 # setup clips
 api.clips.add(name='chord strum', scene='scene_1', track='lead', scales=['C-major'], patterns=['chords'], transforms=['basic arp'], repeat=1, auto_scene_advance=True)
@@ -74,7 +77,7 @@ api.clips.add(name='melody octave adjustment, then stutter', scene='scene_6', tr
 api.clips.add(name='stacked transforms', scene='scene_7', track='lead', scales=['C-major'], patterns=['basic'], transforms=[['octave ramp','stutter'],'bassline',['octave arp','basic arp']], repeat=3,  auto_scene_advance=True)
 api.clips.add(name='just arp the chords', scene='scene_8', track='lead', scales=['C-major'], patterns=['chords','basic'], transforms=['basic arp'], repeat=1,  auto_scene_advance=True)
 api.clips.add(name='just tweak the notes', scene='scene_9', track='lead', scales=['C-major'], patterns=['chords','basic'], transforms=['stutter'], repeat=1,  auto_scene_advance=True)
-
+api.clips.add(name='transform melody to chords then arp', scene='scene_10', track='lead', scales=['C-major'], patterns=['basic'], transforms=[['chordify','basic arp']], repeat=1, auto_scene_advance=True)
 
 # play starting on the first scene - Ctrl+C to exit.
-api.player.loop('scene_1')
+api.player.loop('scene_10')
