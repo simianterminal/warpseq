@@ -14,8 +14,8 @@ def roller(alist):
     """
     #return itertools.cycle(alist)
 
-    if alist is None or len(alist) == 0:
-        while True:
+    if not alist:
+         while True:
             yield None
     while True:
         for item in alist:

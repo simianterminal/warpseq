@@ -30,7 +30,7 @@ api.scales.add(name='C-minor', note='C', octave=0, scale_type='natural_minor')
 
 # setup patterns
 api.patterns.add(name='basic', slots=['1', '2', '3', '4', '5', '6', '7', '8' ])
-api.patterns.add(name='chords', slots=['I', 'IV', 'VI', 'VI'])
+api.patterns.add(name='chords', slots=['I', 'IV', 'VI', 'VI', 'IV:power', '5 ch=power'])
 
 
 # setup scenes
@@ -41,10 +41,13 @@ api.scenes.add(name='scene_4', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_5', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_6', rate=0.5, auto_advance=True)
 api.scenes.add(name='scene_7', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_8', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_9', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_END', rate=0.5, auto_advance=True)
 
 # setup transforms
-# arpeggiate a triad
-api.transforms.add(name='basic arp', slots=['1'], divide=3)
+# arpeggiate chords only - auto-divide chords regardless of length so each 1/16 note plays each note in the chord. Triads will strum faster than power chords, etc.
+api.transforms.add(name='basic arp', slots=['1'], divide=3, applies_to='chords')
 # play two copies of the chord, the second one octave up
 api.transforms.add(name='octave arp', slots=['1','1','1','O+1','O+1','O+1'], divide=3)
 # play each note in a triad with diminished velocity (this might not be audible, depending on your synth settings)
@@ -56,19 +59,22 @@ api.transforms.add(name='bassline', slots=['1','S+4','S+5','S+2','S+4','S+5','1'
 # play the second note of a triad or pattern one note up, the second two notes up
 api.transforms.add(name='octave ramp', slots=['1','O+1','O+2'], divide=1)
 # quickly repeat the notes with alternating silence, the last repeat is only randomly silent
-api.transforms.add(name='stutter', slots=['1','x','1','x','1','p=0.5 x'], divide=6)
+api.transforms.add(name='stutter', slots=['1','x','1','x','1','p=0.5 x'], divide=6, applies_to='notes')
 
 # setup clips
 api.clips.add(name='chord strum', scene='scene_1', track='lead', scales=['C-major'], patterns=['chords'], transforms=['basic arp'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='chord octaves', scene='scene_2', track='lead', scales=['C-major'], patterns=['chords'], transforms=['octave arp'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='chord velocity', scene='scene_3', track='lead', scales=['C-major'], patterns=['chords'], transforms=['velocity arp'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='chord ccs', scene='scene_4', track='lead', scales=['C-major'], patterns=['chords'], transforms=['midi cc arp'], repeat=1, auto_scene_advance=True)
-api.clips.add(name='melody to bassline', scene='scene_5', track='lead', scales=['C-major'], patterns=['basic'], transforms=['bassline'], repeat=1, auto_scene_advance=False)
+api.clips.add(name='melody to bassline', scene='scene_5', track='lead', scales=['C-major'], patterns=['basic'], transforms=['bassline'], repeat=1, auto_scene_advance=True)
 
 # the transforms can be expressed in a list, the next item in the transform list will be chosen as the patterns advance and repeat
 # if any item in the list IS a list, both of those transforms will be applied in order against the currently playing pattern
 api.clips.add(name='melody octave adjustment, then stutter', scene='scene_6', track='lead', scales=['C-major'], patterns=['basic'], transforms=['octave ramp', 'stutter'], repeat=2, auto_scene_advance=True)
 api.clips.add(name='stacked transforms', scene='scene_7', track='lead', scales=['C-major'], patterns=['basic'], transforms=[['octave ramp','stutter'],'bassline',['octave arp','basic arp']], repeat=3,  auto_scene_advance=True)
+api.clips.add(name='just arp the chords', scene='scene_8', track='lead', scales=['C-major'], patterns=['chords','basic'], transforms=['basic arp'], repeat=1,  auto_scene_advance=True)
+api.clips.add(name='just tweak the notes', scene='scene_9', track='lead', scales=['C-major'], patterns=['chords','basic'], transforms=['stutter'], repeat=1,  auto_scene_advance=True)
+
 
 # play starting on the first scene - Ctrl+C to exit.
-api.player.loop('scene_5')
+api.player.loop('scene_1')

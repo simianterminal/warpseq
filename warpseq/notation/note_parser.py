@@ -171,7 +171,7 @@ class NoteParser(object):
             raise InvalidSymbol("do not know how to parse chord symbol: %s" % sym)
         (scale_num, typ) = chord_data
         if override_typ is not None:
-            typ = override_type
+            typ = override_typ
         return Chord(root=self._notes[int(scale_num) - 1].copy(), chord_type=typ)
 
     def _literal_note_strategy(self, sym):

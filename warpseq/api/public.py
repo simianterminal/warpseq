@@ -178,7 +178,7 @@ class Scales(CollectionApi):
 class Transforms(CollectionApi):
 
     object_class     = Transform
-    public_fields    = [ 'name', 'slots', 'octave_slots', 'divide' ]
+    public_fields    = [ 'name', 'slots', 'octave_slots', 'divide', 'applies_to' ]
     song_collection  = 'transforms'
     add_method       = 'add_transforms'
     add_required     = [ 'slots' ]
@@ -186,11 +186,11 @@ class Transforms(CollectionApi):
     remove_method    = 'remove_transform'
     nullable_edits   = [ ]
 
-    def add(self, name, slots:list=None, octave_slots:list=None, divide:int=1):
+    def add(self, name, slots:list=None, octave_slots:list=None, divide:int=1, applies_to:str=None):
         params = locals()
         return self._generic_add(name, params)
 
-    def edit(self, name, new_name:str=None, slots:list=None, octave_slots:list=None, divide:int=1):
+    def edit(self, name, new_name:str=None, slots:list=None, octave_slots:list=None, divide:int=1, applies_to:str=None):
         params = locals()
         return self._generic_edit(name, params)
 

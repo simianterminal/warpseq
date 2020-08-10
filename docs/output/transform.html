@@ -150,26 +150,48 @@
 <h1>Transforms</h1>
 <hr/>
 
-<p>Transforms are like meta-patterns that serve as MIDI effects.  They process patterns and modify the result before they are turned into MIDI events.
-Transforms take notes listed in <A HREF="./pattern.html">patterns</a> inside a <A HREF="./clip.html">Clip</a> and then do "things" to them - they don't just have to change the notes - for instance,
-they can also change velocity and MIDI CC data. Using just a few transforms can add a lot of sonic variety to repeated patterns.</p>
+<p>Transforms are how we create MIDI effects in Warp. The most basic example would be something like an octave shift or strumming a chord so that chords can be played on monophonic instruments.
+More advanced transforms can introduce probabilistic randomness or humanization, or even reassigning velocity or MIDI CC data.  At the most basic level, transforms process patterns and modify the notes or chords therein before they are turned into MIDI events.
+</p>
 
-<p>
-<ul>
-<li>Classically, <b>arpeggiators</b> are used in computer synthesizers to turn chord patterns into individual notes, played in rapid sequence</li>
-<li>In Warp, transforms CAN be used to create arpeggiators, but that is only the most basic usage of transforms.</li>
-<li>in Warp, transforms can also run against individual notes (not just chords), and even turn those notes *back* into chords.</li>
-<li>Transforms work through applying <A HREF="./expr_intro.html">Mod Expressions</a>.
-<li>Transforms have a <i>divide</i> time that decides how much they slice up notes or chords. For processing triads, usually use will want to set this to a multiple of 3.</li>
-<li>in Warp, a <A HREF="./clip.html">Clip</a> can contain a list of transforms, where one <i>or more</i> transforms is applied in rotation after another.</li>
-</ul>
+<p>In each <A HREF="./clip.html">Clip</a>, you can assign any number of transforms to apply to the current playing pattern in the clip. If there is a list of transforms, they apply in turn as the patterns advance and repeat.
+If that list contains <i>more than one</i> transform in any list element (see examples below), each transform at that step will apply as an effect chain. In short, transforms can be stacked, just like VST audio
+effects can be stacked.  And not only can they stack, they can rotate in and out.  A common problem in many electronic music studios is that while patching, many of us play repeated patterns in loops.  By combining a simple pattern with a list of
+differing transforms, we can give life to that patch and make it evolve. The result is a much more interesting composition.
+</p>
 
+<p>All transforms work through applying <A HREF="./expr_intro.html">Mod Expressions</a> - so read about them to understand what is possible.
+</p>
+
+<p>Classically, <b>arpeggiators</b> are used in synthesizers to turn chord patterns into individual notes, played in rapid sequence. While the most basic arps in hardware synthesizers strum chords, sometimes with an octave shift,
+more advanced onces allow offsetting notes by particular steps, and using each base note of a chord to start a pattern using that individual note as a root.  Having a very powerful and open-ended arp system was a key design goal for Warp, so we went even further.
+</p>
+
+<p>In Warp, you can also decide whether the transform will affect chords, notes, or both.  This is set by setting 'applies_to' parameter to ... yes, <i>'chords'</i>, <i>'notes'</i>, or <i>'both'</i>.  The default is <i>'both'</i>, which is what you would use if applying something like an octave shift, at least
+ most of the time. To implement a classic arp, you should pick <i>'chords'</i>.  If you just want to strum chords, pick <i>'chords'</i>. Picking
+<i>'notes'</i>, would be unusual, but would allow crafting an effect that transposes notes but leaves the chords intact.  This means you can mix in some totally shredding when you are not playing chords, but play chords full length. Or maybe something more creative!</p>
+
+<p>It's important to understand how speed is controlled. Transforms have a <i>divide</i> time that decides how much they slice up notes or chords. For processing chords, leaving this unset will strum the chord completely within the current time slice. Setting <i>divide=6</i> will insert six notes,
+rolling around and using the first notes as chord data as the transform repeats. If a basic "slot" in Warp is thought to be a sixteenth note (it is, unless you adjust the pattern, clip, or scene <i>rate</i> - setting a divide of 2 would mean each
+processed note or chord would turn into 32nd notes. The divide time must presently be an positive integer.</p>
+
+<hr/>
 <h2>Examples</h2>
 
 <p>
-Transform examples are included as part of the <A HREF="./expr_transforms.html">Transform Expression Guide</a>.  The API examples that ship with the program also contain transform examples (see <A HREF="./api.html">API</a>).
-Once the UI is available, the demo songs will also include several transform examples.
+Transform examples are included as part of the <A HREF="./expr_transforms.html">Transform Expression Guide</a>.
 </p>
+
+<hr/>
+<h2>Learning in Context</h2>
+
+<p>
+The <A HREF="./api.html">Python API</a> examples that ship with the program contain both basic and advanced transform examples.
+Once the UI is available, the demo songs will also include several transform examples that will show creative transform usage in demo song context.
+It is easiest to understand chords for now by exploring <A HREF="https://bitbucket.org/laserllama/warpseq/src/master/examples/api/04_transforms.py">this particular API demo file</A>.
+</p>
+
+<p>The best way to learn (after reading the examples and the <A HREF="./expr_intro.html">Mod Expression</a> chapter is experimenting and seeing or hearing what happens. As you experiment with mixing patterns and transforms, you will undoubtedly uncover lots of emergent behavior that can turn very simple lists of expressions into much more diverse and interesting compositions.</p>
         
     </div>
 </div>
