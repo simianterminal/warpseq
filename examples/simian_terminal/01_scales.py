@@ -43,20 +43,26 @@ api.scales.add(name='F-user2', note='F', octave=1, slots = [1, 'b2', 'b3', '5', 
 # setup patterns
 api.patterns.add(name='up', slots=['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'])
 api.patterns.add(name='down', slots=['8','7','6','5','4','3','2','1'])
+api.patterns.add(name='up2', rate=2, slots=['1','-','2','-','3','-','4','-','5','-','6','-','7','-','8','-','9','-','10','-','11','-','12','-','13','-','14','-','15','-','16','-'])
 
 # setup scenes
 api.scenes.add(name='scene_1', rate=0.5, auto_advance=True)
-api.scenes.add(name='scene_2', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_1a', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_2', rate=1, auto_advance=True)
+api.scenes.add(name='scene_2a', rate=1, auto_advance=True)
 api.scenes.add(name='scene_3', rate=0.5, auto_advance=True)
-api.scenes.add(name='scene_4', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_4', rate=2, auto_advance=True)
 api.scenes.add(name='scene_5', rate=0.5, auto_advance=True)
-api.scenes.add(name='scene_6', rate=0.5, auto_advance=True)
+api.scenes.add(name='scene_6', rate=4, auto_advance=True)
 api.scenes.add(name='scene_7', rate=1, auto_advance=True)
-api.scenes.add(name='scene_8', rate=1, auto_advance=True)
+api.scenes.add(name='scene_8', rate=8, auto_advance=True)
 
 # setup clips
 api.clips.add(name='s1c', scene='scene_1', track='lead', scales=['C-major'], patterns=['up'], repeat=1, auto_scene_advance=True)
+api.clips.add(name='s1ca', scene='scene_1a', track='lead', scales=['C-major'], patterns=['up2'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s2c', scene='scene_2', track='lead', scales=['C-minor'], patterns=['up'], repeat=1, auto_scene_advance=True)
+api.clips.add(name='s2ca', scene='scene_2a', track='lead', scales=['C-minor'], patterns=['up2'], repeat=1, auto_scene_advance=True)
+
 api.clips.add(name='s3c', scene='scene_3', track='lead', scales=['G-major'], patterns=['up'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s4c', scene='scene_4', track='lead', scales=['G-minor'], patterns=['up'], repeat=1, auto_scene_advance=True)
 api.clips.add(name='s5c', scene='scene_5', track='lead', scales=['Bb-mixolydian'], patterns=['up'], repeat=1, auto_scene_advance=True)
